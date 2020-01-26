@@ -4,6 +4,7 @@
         "plugins/css/plugins.css",
         "theme/style.css",
         "theme/responsiveness.css",
+        "theme/hover.css",
         "skins/default.css"
     ],
 

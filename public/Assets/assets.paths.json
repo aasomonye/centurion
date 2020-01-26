@@ -48,5 +48,7 @@
     "error.css": "public\/Assets\/Css\/error.css",
     "moorexa.js": "public\/Assets\/Js\/Rexajs\/moorexa.js",
     "smiling2.png": "public\/Assets\/Images\/Sys\/smiling2.png",
-    "theme\/banner.jpg": "public\/Assets\/Images\/theme\/banner.jpg"
+    "theme\/banner.jpg": "public\/Assets\/Images\/theme\/banner.jpg",
+    "theme\/featured-image-13.jpg": "public\/Assets\/Images\/theme\/featured-image-13.jpg",
+    "theme\/hover.css": "public\/Assets\/Css\/theme\/hover.css"
 }

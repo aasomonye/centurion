@@ -1,10 +1,10 @@
 {
     ".\/custom\/header.html": {
-        "hash": "5356d9759a56eae5488bd763590ddd3c",
+        "hash": "5b2ae4ccec93d73498a24cbbede37aae",
         "path": "utility\/Storage\/Caches\/Headers\/cache.d29db69b1a9178a48f1d2ab32f72b35c.App.header.html"
     },
     ".\/pages\/App\/Views\/home.html": {
-        "hash": "8f05bc60d905df14404c885907281e5a",
+        "hash": "e8372f05b5d419f92c379f170187380e",
         "path": "utility\/Storage\/Caches\/Views\/cache.6ca59b1b5498ee214c0f2258b73815c5.App.home.html"
     },
     ".\/custom\/footer.html": {
@@ -70,5 +70,13 @@
     ".\/pages\/App\/Views\/becomeapartner.html": {
         "hash": "963479d008e7f8fbe9bc6cd86a9a2dac",
         "path": "utility\/Storage\/Caches\/Views\/cache.619e9207b4dfddc91d57f1155f56d3de.App.becomeapartner.html"
+    },
+    "public\/Helper\/noheader.php": {
+        "hash": "38e075b8a63d3bb6e140366c66ee712f",
+        "path": "utility\/Storage\/Caches\/Headers\/cache.4f70a72745cebbd1e80114086850d032.Cities.noheader.php"
+    },
+    "public\/Helper\/nofooter.php": {
+        "hash": "b7bb4bedf76dcf7492836f797feb4255",
+        "path": "utility\/Storage\/Caches\/Footers\/cache.e9fcdbf77a5a787d3299f2de1d1695b1.Cities.nofooter.php"
     }
 }

@@ -369,5 +369,31 @@
             "becomeAPartner.js",
             "BecomeAPartner.js"
         ]
+    ],
+    ".\/pages\/Cities\/Static\/:404.css:404.css": [
+        ".\/pages\/Cities\/Static\/",
+        [
+            "404.css",
+            "404.css"
+        ]
+    ],
+    ".\/pages\/Cities\/Static\/:404.js:404.js": [
+        ".\/pages\/Cities\/Static\/",
+        [
+            "404.js",
+            "404.js"
+        ]
+    ],
+    "Component:loops.php": [
+        "Component",
+        "loops.php"
+    ],
+    ".\/lab\/:loops.php": [
+        ".\/lab\/",
+        "loops.php"
+    ],
+    ".\/utility\/Classes\/:loops.php": [
+        ".\/utility\/Classes\/",
+        "loops.php"
     ]
 }
