@@ -11,6 +11,18 @@
         ".\/utility\/Classes\/",
         "Directives.php"
     ],
+    "Database:Query.php": [
+        "Database",
+        "Query.php"
+    ],
+    ".\/utility\/\/Exceptions\/Database:Query.php": [
+        ".\/utility\/\/Exceptions\/Database",
+        "Query.php"
+    ],
+    ".\/utility\/Classes\/:Query.php": [
+        ".\/utility\/Classes\/",
+        "Query.php"
+    ],
     "CmsGlobal:Cms.php": [
         "CmsGlobal",
         "Cms.php"
@@ -23,17 +35,17 @@
         ".\/utility\/Classes\/",
         "Cms.php"
     ],
-    "Database:Query.php": [
-        "Database",
-        "Query.php"
+    ".\/pages\/App\/Static\/:home.css:home.cxx.css:Home.css": [
+        ".\/pages\/App\/Static\/",
+        [
+            "home.css",
+            "home.cxx.css",
+            "Home.css"
+        ]
     ],
-    ".\/utility\/\/Exceptions\/Database:Query.php": [
-        ".\/utility\/\/Exceptions\/Database",
-        "Query.php"
-    ],
-    ".\/utility\/Classes\/:Query.php": [
-        ".\/utility\/Classes\/",
-        "Query.php"
+    "public\/Assets\/Images\/:icons.png": [
+        "public\/Assets\/Images\/",
+        "icons.png"
     ],
     "Installations\/Plugins\/Events:Events.php": [
         "Installations\/Plugins\/Events",
@@ -75,18 +87,6 @@
         ".\/utility\/Classes\/",
         "Container.php"
     ],
-    ".\/pages\/App\/Static\/:home.css:home.cxx.css:Home.css": [
-        ".\/pages\/App\/Static\/",
-        [
-            "home.css",
-            "home.cxx.css",
-            "Home.css"
-        ]
-    ],
-    "public\/Assets\/Images\/:icons.png": [
-        "public\/Assets\/Images\/",
-        "icons.png"
-    ],
     "Hyphe:Compile.php": [
         "Hyphe",
         "Compile.php"
@@ -102,12 +102,28 @@
             "Meta-tags.md"
         ]
     ],
+    "public\/Assets\/Images\/:theme\/logo\/gigaxy-logo.jpg": [
+        "public\/Assets\/Images\/",
+        "theme\/logo\/gigaxy-logo.jpg"
+    ],
     ".\/pages\/App\/Static\/:home.js:Home.js": [
         ".\/pages\/App\/Static\/",
         [
             "home.js",
             "Home.js"
         ]
+    ],
+    "public\/Assets\/Images\/:theme\/logo\/gigaxy-logo-small.jpg": [
+        "public\/Assets\/Images\/",
+        "theme\/logo\/gigaxy-logo-small.jpg"
+    ],
+    "public\/Assets\/Images\/:theme\/icons\/aeroland-button-google-play.jpg": [
+        "public\/Assets\/Images\/",
+        "theme\/icons\/aeroland-button-google-play.jpg"
+    ],
+    "public\/Assets\/Images\/:theme\/icons\/aeroland-button-app-store.jpg": [
+        "public\/Assets\/Images\/",
+        "theme\/icons\/aeroland-button-app-store.jpg"
     ],
     ".\/lab\/Cms\/MVC\/App\/Static\/:home.css:home.cxx.css:Home.css": [
         ".\/lab\/Cms\/MVC\/App\/Static\/",
@@ -154,6 +170,35 @@
             "Login.js"
         ]
     ],
+    ".\/lab\/Cms\/MVC\/App\/Static\/:users.css:users.cxx.css:Users.css": [
+        ".\/lab\/Cms\/MVC\/App\/Static\/",
+        [
+            "users.css",
+            "users.cxx.css",
+            "Users.css"
+        ]
+    ],
+    ".\/lab\/Cms\/MVC\/App\/Static\/:users.js:Users.js": [
+        ".\/lab\/Cms\/MVC\/App\/Static\/",
+        [
+            "users.js",
+            "Users.js"
+        ]
+    ],
+    ".\/lab\/Cms\/MVC\/App\/Static\/:edit.css:Edit.css": [
+        ".\/lab\/Cms\/MVC\/App\/Static\/",
+        [
+            "edit.css",
+            "Edit.css"
+        ]
+    ],
+    ".\/lab\/Cms\/MVC\/App\/Static\/:edit.js:Edit.js": [
+        ".\/lab\/Cms\/MVC\/App\/Static\/",
+        [
+            "edit.js",
+            "Edit.js"
+        ]
+    ],
     ".\/lab\/Cms\/MVC\/App\/Static\/:container.css:container.cxx.css:Container.css": [
         ".\/lab\/Cms\/MVC\/App\/Static\/",
         [
@@ -176,154 +221,6 @@
             "Create.js"
         ]
     ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:edit.css:Edit.css": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
-        [
-            "edit.css",
-            "Edit.css"
-        ]
-    ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:edit.js:Edit.js": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
-        [
-            "edit.js",
-            "Edit.js"
-        ]
-    ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:pages.css:pages.cxx.css:Pages.css": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
-        [
-            "pages.css",
-            "pages.cxx.css",
-            "Pages.css"
-        ]
-    ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:pages.js:Pages.js": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
-        [
-            "pages.js",
-            "Pages.js"
-        ]
-    ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:directives.css:directives.cxx.css:Directives.css": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
-        [
-            "directives.css",
-            "directives.cxx.css",
-            "Directives.css"
-        ]
-    ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:directives.js:Directives.js": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
-        [
-            "directives.js",
-            "Directives.js"
-        ]
-    ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:configuration.css:configuration.cxx.css:Configuration.css": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
-        [
-            "configuration.css",
-            "configuration.cxx.css",
-            "Configuration.css"
-        ]
-    ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:configuration.js:Configuration.js": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
-        [
-            "configuration.js",
-            "Configuration.js"
-        ]
-    ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:users.css:users.cxx.css:Users.css": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
-        [
-            "users.css",
-            "users.cxx.css",
-            "Users.css"
-        ]
-    ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:users.js:Users.js": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
-        [
-            "users.js",
-            "Users.js"
-        ]
-    ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:install.css:install.cxx.css:Install.css": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
-        [
-            "install.css",
-            "install.cxx.css",
-            "Install.css"
-        ]
-    ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:install.js:Install.js": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
-        [
-            "install.js",
-            "Install.js"
-        ]
-    ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:plugins.css:plugins.cxx.css:Plugins.css": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
-        [
-            "plugins.css",
-            "plugins.cxx.css",
-            "Plugins.css"
-        ]
-    ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:plugins.js:Plugins.js": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
-        [
-            "plugins.js",
-            "Plugins.js"
-        ]
-    ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:204.css:204.css": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
-        [
-            "204.css",
-            "204.css"
-        ]
-    ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:204.js:204.js": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
-        [
-            "204.js",
-            "204.js"
-        ]
-    ],
-    "Component:loops.php": [
-        "Component",
-        "loops.php"
-    ],
-    ".\/lab\/:loops.php": [
-        ".\/lab\/",
-        "loops.php"
-    ],
-    ".\/utility\/Classes\/:loops.php": [
-        ".\/utility\/Classes\/",
-        "loops.php"
-    ],
-    "utility\/Components\/:app.php:App.php:APP.php:app.php": [
-        "utility\/Components\/",
-        [
-            "app.php",
-            "App.php",
-            "APP.php",
-            "app.php"
-        ]
-    ],
-    "utility\/Exceptions\/:app.php:App.php:APP.php:app.php": [
-        "utility\/Exceptions\/",
-        [
-            "app.php",
-            "App.php",
-            "APP.php",
-            "app.php"
-        ]
-    ],
     ".\/lab\/Cms\/MVC\/App\/Static\/:tables.css:tables.cxx.css:Tables.css": [
         ".\/lab\/Cms\/MVC\/App\/Static\/",
         [
@@ -338,208 +235,5 @@
             "tables.js",
             "Tables.js"
         ]
-    ],
-    ".\/lab\/:Table.php": [
-        ".\/lab\/",
-        "Table.php"
-    ],
-    ".\/utility\/Classes\/:Table.php": [
-        ".\/utility\/Classes\/",
-        "Table.php"
-    ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:show.css:Show.css": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
-        [
-            "show.css",
-            "Show.css"
-        ]
-    ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:show.js:Show.js": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
-        [
-            "show.js",
-            "Show.js"
-        ]
-    ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:images.css:images.cxx.css:Images.css": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
-        [
-            "images.css",
-            "images.cxx.css",
-            "Images.css"
-        ]
-    ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:images.js:Images.js": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
-        [
-            "images.js",
-            "Images.js"
-        ]
-    ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:upload.css:Upload.css": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
-        [
-            "upload.css",
-            "Upload.css"
-        ]
-    ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:upload.js:Upload.js": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
-        [
-            "upload.js",
-            "Upload.js"
-        ]
-    ],
-    "utility\/Components\/:CmsGlobalCms.php:CmsGlobalCms.php:CMSGLOBALCMS.php:cmsglobalcms.php": [
-        "utility\/Components\/",
-        [
-            "CmsGlobalCms.php",
-            "CmsGlobalCms.php",
-            "CMSGLOBALCMS.php",
-            "cmsglobalcms.php"
-        ]
-    ],
-    "utility\/Exceptions\/:CmsGlobalCms.php:CmsGlobalCms.php:CMSGLOBALCMS.php:cmsglobalcms.php": [
-        "utility\/Exceptions\/",
-        [
-            "CmsGlobalCms.php",
-            "CmsGlobalCms.php",
-            "CMSGLOBALCMS.php",
-            "cmsglobalcms.php"
-        ]
-    ],
-    "Exceptions\/Autoloader:AutoloaderException.php": [
-        "Exceptions\/Autoloader",
-        "AutoloaderException.php"
-    ],
-    ".\/lab\/:AutoloaderException.php": [
-        ".\/lab\/",
-        "AutoloaderException.php"
-    ],
-    ".\/utility\/Classes\/:AutoloaderException.php": [
-        ".\/utility\/Classes\/",
-        "AutoloaderException.php"
-    ],
-    ".\/pages\/About-us\/Static\/:404.css:404.css": [
-        ".\/pages\/About-us\/Static\/",
-        [
-            "404.css",
-            "404.css"
-        ]
-    ],
-    ".\/pages\/About-us\/Static\/:404.js:404.js": [
-        ".\/pages\/About-us\/Static\/",
-        [
-            "404.js",
-            "404.js"
-        ]
-    ],
-    ".\/pages\/App\/Static\/:aboutus.css:Aboutus.css": [
-        ".\/pages\/App\/Static\/",
-        [
-            "aboutus.css",
-            "Aboutus.css"
-        ]
-    ],
-    ".\/pages\/App\/Static\/:aboutus.js:Aboutus.js": [
-        ".\/pages\/App\/Static\/",
-        [
-            "aboutus.js",
-            "Aboutus.js"
-        ]
-    ],
-    ".\/pages\/App\/Static\/:aboutUs.css:aboutUs.cxx.css:AboutUs.css": [
-        ".\/pages\/App\/Static\/",
-        [
-            "aboutUs.css",
-            "aboutUs.cxx.css",
-            "AboutUs.css"
-        ]
-    ],
-    ".\/pages\/App\/Static\/:aboutUs.js:AboutUs.js": [
-        ".\/pages\/App\/Static\/",
-        [
-            "aboutUs.js",
-            "AboutUs.js"
-        ]
-    ],
-    ".\/pages\/App\/Partials\/:contact-us.html:Contact-us.html": [
-        ".\/pages\/App\/Partials\/",
-        [
-            "contact-us.html",
-            "Contact-us.html"
-        ]
-    ],
-    "kernel\/Partials\/:contact-us.html:Contact-us.html": [
-        "kernel\/Partials\/",
-        [
-            "contact-us.html",
-            "Contact-us.html"
-        ]
-    ],
-    "utility\/Components\/:CmsGlobal.php:CmsGlobal.php:CMSGLOBAL.php:cmsglobal.php": [
-        "utility\/Components\/",
-        [
-            "CmsGlobal.php",
-            "CmsGlobal.php",
-            "CMSGLOBAL.php",
-            "cmsglobal.php"
-        ]
-    ],
-    "utility\/Exceptions\/:CmsGlobal.php:CmsGlobal.php:CMSGLOBAL.php:cmsglobal.php": [
-        "utility\/Exceptions\/",
-        [
-            "CmsGlobal.php",
-            "CmsGlobal.php",
-            "CMSGLOBAL.php",
-            "cmsglobal.php"
-        ]
-    ],
-    ".\/pages\/App\/Static\/:contactus.css:Contactus.css": [
-        ".\/pages\/App\/Static\/",
-        [
-            "contactus.css",
-            "Contactus.css"
-        ]
-    ],
-    ".\/pages\/App\/Static\/:contactus.js:Contactus.js": [
-        ".\/pages\/App\/Static\/",
-        [
-            "contactus.js",
-            "Contactus.js"
-        ]
-    ],
-    ".\/pages\/App\/Static\/:contactUs.css:contactUs.cxx.css:ContactUs.css": [
-        ".\/pages\/App\/Static\/",
-        [
-            "contactUs.css",
-            "contactUs.cxx.css",
-            "ContactUs.css"
-        ]
-    ],
-    ".\/pages\/App\/Static\/:contactUs.js:ContactUs.js": [
-        ".\/pages\/App\/Static\/",
-        [
-            "contactUs.js",
-            "ContactUs.js"
-        ]
-    ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:update.css:Update.css": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
-        [
-            "update.css",
-            "Update.css"
-        ]
-    ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:update.js:Update.js": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
-        [
-            "update.js",
-            "Update.js"
-        ]
-    ],
-    "public\/Assets\/Images\/:theme\/bg\/home-infotechno-contact-bg.jpg": [
-        "public\/Assets\/Images\/",
-        "theme\/bg\/home-infotechno-contact-bg.jpg"
     ]
 }

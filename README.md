@@ -1,4 +1,4 @@
-# Gigaxysoft web application
+# Centurion web application
 
 ## All general documentation would appear here.
 
@@ -7,7 +7,7 @@ Introduction.
 ```php
 
     /**
-     * @package Gigaxysoft Web application
+     * @package Centurion Web application
      * @author  Amadi ifeanyi <amadiify.com>
      * This application is developed with the Moorexa open source PHP framework, developed and managed by Fregate Software Lab.
     */
@@ -24,7 +24,38 @@ All static files have been autoloaded in 'kernel/loadStatic.json'. Before produc
 
 ```json
 
+{
+    "stylesheet": [
+        "moorexa.css",
+        "theme/bootstrap.css",
+        "theme/style.css",
+        "theme/responsive.css"
+    ],
 
+    "stylesheet@bundle" : [
+
+    ],
+    
+    "scripts": [
+        "moorexa.min.js",
+        "theme/jquery.js",
+        "theme/popper.min.js",
+        "theme/bootstrap.min.js",
+        "theme/jquery-ui.js",
+        "theme/jquery.fancybox.js",
+        "theme/owl.js",
+        "theme/appear.js",
+        "theme/wow.js",
+        "theme/scrollbar.js",
+        "theme/validate.js",
+        "theme/element-in-view.js",
+        "theme/custom-script.js"
+    ],
+
+    "scripts@bundle" : [
+        
+    ]
+}
 ```
 
 All static files, general assets are cached in 'public/Assets/assets.paths.json' and served at zero seconds.

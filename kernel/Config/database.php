@@ -31,17 +31,17 @@ $kernel->db([
 		],
 	],
 
-	'gigaxy-app' => [
+	'centurion-app' => [
 		'dsn' 		=> '{driver}:host={host};dbname={dbname};charset={charset}',
 		'driver'    => 'mysql',
 		'host' 	    => 'localhost',
 		'user'      => 'root',
 		'password'  => 'root',
-		'dbname'    => 'gigaxy-app',
+		'dbname'    => 'centurion-app',
 		'charset'   => 'utf8mb4',
 		'port'      => '',
 		'handler'   => 'pdo',
-		'prefix'    => 'Gigaxy_',
+		'prefix'    => 'Centurion_',
 		'attributes'=> true,
 		'production'=> [
 			'driver'  	=>   'mysql',
@@ -64,6 +64,6 @@ $kernel->db([
 
 // choose from any of your configuration for a default connection
 ])
-->default(['development' => 'gigaxy-app', 'live' => ''])
-->domain('console.fregatelab.com', ['live' => 'gigaxy-app@testing']);
+->default(['development' => 'centurion-app', 'live' => ''])
+->domain('console.fregatelab.com', ['live' => 'centurion-app@testing']);
 

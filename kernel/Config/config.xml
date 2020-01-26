@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <app id="app.yoursite.com" version="1.0">
-	<title>Welcome to Gigaxysoft Nigeria Limited</title>
+	<title>Welcome to Centurion Apartments</title>
 	<router>
 		<default>
 			<controller>App</controller>

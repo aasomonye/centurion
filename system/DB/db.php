@@ -3757,7 +3757,12 @@ class DB
             if (count(self::$cacheQueryData) == 0)
             {
                 // set data
-                self::$cacheQueryData = include_once($path);
+                $data = include_once($path);
+
+                if (is_array($data))
+                {
+                    self::$cacheQueryData = $data;
+                }
             }
 
             // get data

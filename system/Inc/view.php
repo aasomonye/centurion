@@ -664,7 +664,7 @@ class View extends Bootloader
 				Controller::$dropbox['__js'] = $__js;
 				// get header path
 				$footerFile = !empty($this->external_path) ? $this->external_path . 'pages/'.$controller.'/Custom/footer.html' : env('bootstrap', 'controller.basepath') . '/'.$controller.'/Custom/footer.html';
-				
+
 				// load custom footer if found
 				if (!is_null(self::$customFooterPath))
 				{

@@ -12,216 +12,273 @@
 	<link rel="icon" type="image/png" href="{$package->icon}" sizes="32x32">
 	
 	<!-- css -->
-	{$assets->loadCss($__css)}
+    {$assets->loadCss($__css)}
+    
+    <!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script><![endif]-->
+    <!--[if lt IE 9]><script $src="theme/respond.js"></script><![endif]-->
   
 </head>
 	
 <body>
 
-	<div class="preloader-activate preloader-active open_tm_preloader">
-        <div class="preloader-area-wrap">
-            <div class="spinner d-flex justify-content-center align-items-center h-100">
-                <div class="bounce1"></div>
-                <div class="bounce2"></div>
-                <div class="bounce3"></div>
-            </div>
+	<div class="page-wrapper">
+        <!-- Preloader -->
+        <div class="preloader"><div class="icon"></div></div>
+
+        <!-- Main Header -->
+    <header class="main-header header-style-one">
+        <div class="logo-desktop">
+            <div class="logo"><a $href="/" title="@getcontainer('platform');"><img src="images/logo.png" alt="@getcontainer('platform'); logo" title="@getcontainer('platform');"></a></div>
         </div>
-	</div>
-	
-	<!--====================  header area ====================-->
-    <div class="header-area bg-white header-sticky only-mobile-sticky">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="header position-relative">
-                        <!-- brand logo -->
-                        <div class="header__logo">
-                            <a $href="/">
-                                <img $src="theme/logo/gigaxy-logo.jpg" class="img-fluid" alt="">
-                            </a>
+        <!-- Header Top -->
+        <div class="header-top header-top-one">
+            <div class="outer-container">
+				<div class="inner clearfix">
+                    <div class="top-left clearfix">
+                        <!--Info-->
+                        <div class="info">
+                            <ul class="clearfix">
+                                <li class="phone"><a href="tel:@getcontainer('our-phone');"><span class="icon fa fa-phone-alt"></span> @getcontainer('our-phone');</a></li>
+                                <li class="email"><a href="mailto:@getcontainer('our-email');"><span class="icon fa fa-envelope"></span> @getcontainer('our-email');</a></li>
+                            </ul>
                         </div>
 
-                        <div class="header-right flexible-image-slider-wrap">
-
-                            <div class="header-right-inner" id="hidden-icon-wrapper">
-                                <!-- Header Search Form -->
-                                <div class="header-search-form d-md-none d-block">
-                                    <form action="#" class="search-form-top">
-                                        <input class="search-field" type="text" placeholder="Search…">
-                                        <button class="search-submit">
-                                            <i class="search-btn-icon fa fa-search"></i>
-                                        </button>
-                                    </form>
+                        <div class="top-text"><span class="icon flaticon-surf-1"></span> Water Sports Activities, Experience The Thrill!.</div>
+                    </div>
+    
+                    <div class="top-right clearfix">
+                        <!--Top Search-->
+                        <div class="top-search-form">
+                            <form method="post" action="blog-grid.html">
+                                <div class="form-group clearfix">
+                                    <input type="search" name="email" value="" placeholder="Enter Keyword . . ." required="">
+                                    <button type="submit" class="theme-btn s-btn"><span class="icon flaticon-magnifying-glass"></span></button>
                                 </div>
-
-                                <!-- Header Top Info -->
-                                @container('header-top-info');
-
-                                <!-- Header Social Networks -->
-                                <div class="header-social-networks style-icons">
-                                    <div class="inner">
-                                        <a class=" social-link hint--bounce hint--bottom-left" aria-label="Twitter" href="https://twitter.com" data-hover="Twitter" target="_blank">
-                                            <i class="social-icon fab fa-twitter"></i>
-                                        </a>
-                                        <a class=" social-link hint--bounce hint--bottom-left" aria-label="Facebook" href="https://facebook.com" data-hover="Facebook" target="_blank">
-                                            <i class="social-icon fab fa-facebook-f"></i>
-                                        </a>
-                                        <a class=" social-link hint--bounce hint--bottom-left" aria-label="Instagram" href="https://instagram.com" data-hover="Instagram" target="_blank">
-                                            <i class="social-icon fab fa-instagram"></i>
-                                        </a>
-                                        <a class=" social-link hint--bounce hint--bottom-left" aria-label="Linkedin" href="https://linkedin.com" data-hover="Linkedin" target="_blank">
-                                            <i class="social-icon fab fa-linkedin"></i>
-                                        </a>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <!-- mobile menu -->
-                            <div class="mobile-navigation-icon d-block d-xl-none" id="mobile-menu-trigger">
-                                <i></i>
-                            </div>
-                            <!-- hidden icons menu -->
-                            <div class="hidden-icons-menu d-block d-md-none" id="hidden-icon-trigger">
-                                <a href="javascript:void(0)">
-                                    <i class="far fa-ellipsis-h-alt"></i>
-                                </a>
-                            </div>
+                            </form>
+                        </div>
+                        <div class="my-account">
+                            <ul class="clearfix">
+                                <li><a href="#"><span class="icon flaticon-password"></span> Login</a></li>
+                                <li><a href="#"><span class="icon flaticon-user-2"></span> Signup</a></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="header-bottom-wrap border-top d-md-block d-none header-sticky">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="header-bottom-inner">
-                            <div class="header-bottom-left-wrap">
-                                <!-- navigation menu -->
-                                <div class="header__navigation d-none d-xl-block">
-                                    <nav class="navigation-menu">
-                                        <ul>
-                                            <li>
-                                                <a $href="/"><span>Home</span></a>
-                                            </li>
-                                            <li class="has-children has-children--multilevel-submenu">
-                                                <a href="#"><span>Company</span></a>
-                                                <ul class="submenu">
-                                                    <li class="has-children">
-                                                        <a $href="about-us"><span>About us</span></a>
-                                                        <ul class="submenu">
-                                                            <li><a href="about-us-01.html"><span>About us 01</span></a></li>
-                                                            <li><a href="about-us-02.html"><span>About us 02</span></a></li>
-                                                            <li class="has-children">
-                                                                <a href="#"><span>Submenu Level Two</span></a>
-                                                                <ul class="submenu">
-                                                                    <li><a href="#"><span>Submenu Level Three</span></a></li>
-                                                                    <li><a href="#"><span>Submenu Level Three</span></a></li>
-                                                                    <li><a href="#"><span>Submenu Level Three</span></a></li>
-                                                                </ul>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                    <li><a href="contact-us.html"><span>Contact us</span></a></li>
-                                                    <li><a href="leadership.html"><span>Leadership</span></a></li>
-                                                    <li><a href="why-choose-us.html"><span>Why choose us</span></a></li>
-                                                    <li><a href="our-history.html"><span>Our history</span></a></li>
-                                                    <li><a href="faqs.html"><span>FAQs</span></a></li>
-                                                    <li><a href="careers.html"><span>Careers</span></a></li>
-                                                    <li><a href="pricing-plans.html"><span>Pricing plans</span></a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="has-children has-children--multilevel-submenu">
-                                                <a href="#"><span>IT solutions</span></a>
-                                                <ul class="submenu">
-                                                    <li><a href="it-services.html"><span>IT Services</span></a></li>
-                                                    <li><a href="managed-it-services.html"><span>Managed IT Services</span></a></li>
-                                                    <li><a href="industries.html"><span>Industries</span></a></li>
-                                                    <li><a href="business-solution.html"><span>Business solution</span></a></li>
-                                                    <li><a href="it-services-details.html"><span>IT Services Details</span></a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="has-children">
-                                                <a href="#"><span>Elements</span></a>
-                                                <!-- mega menu -->
-                                                <ul class="megamenu megamenu--mega">
-                                                    <li>
-                                                        <h2 class="page-list-title">ELEMENT GROUP 01</h2>
-                                                        <ul>
-                                                            <li><a href="element-accordion.html"><span>Accordions & Toggles</span></a></li>
-                                                            <li><a href="element-box-icon.html"><span>Box Icon</span></a></li>
-                                                            <li><a href="element-box-image.html"><span>Box Image</span></a></li>
-                                                            <li><a href="element-box-large-image.html"><span>Box Large Image</span></a></li>
-                                                            <li><a href="element-buttons.html"><span>Buttons</span></a></li>
-                                                            <li><a href="element-cta.html"><span>Call to action</span></a></li>
-                                                            <li><a href="element-client-logo.html"><span>Client Logo</span></a></li>
-                                                            <li><a href="element-countdown.html"><span>Countdown</span></a></li>
-                                                        </ul>
-                                                    </li>
-                                                    <li>
-                                                        <h2 class="page-list-title">ELEMENT GROUP 02</h2>
-                                                        <ul>
-                                                            <li><a href="element-counters.html"><span>Counters</span></a></li>
-                                                            <li><a href="element-dividers.html"><span>Dividers</span></a></li>
-                                                            <li><a href="element-flexible-image-slider.html"><span>Flexible image slider</span></a></li>
-                                                            <li><a href="element-google-map.html"><span>Google Map</span></a></li>
-                                                            <li><a href="element-gradation.html"><span>Gradation</span></a></li>
-                                                            <li><a href="element-instagram.html"><span>Instagram</span></a></li>
-                                                            <li><a href="element-lists.html"><span>Lists</span></a></li>
-                                                            <li><a href="element-message-box.html"><span>Message box</span></a></li>
-                                                        </ul>
-                                                    </li>
-                                                    <li>
-                                                        <h2 class="page-list-title">ELEMENT GROUP 03</h2>
-                                                        <ul>
-                                                            <li><a href="element-popup-video.html"><span>Popup Video</span></a></li>
-                                                            <li><a href="element-pricing-box.html"><span>Pricing Box</span></a></li>
-                                                            <li><a href="element-progress-bar.html"><span>Progress Bar</span></a></li>
-                                                            <li><a href="element-progress-circle.html"><span>Progress Circle</span></a></li>
-                                                            <li><a href="element-rows-columns.html"><span>Rows & Columns</span></a></li>
-                                                            <li><a href="element-social-networks.html"><span>Social Networks</span></a></li>
-                                                            <li><a href="element-tabs.html"><span>Tabs</span></a></li>
-                                                            <li><a href="element-team-member.html"><span>Team member</span></a></li>
-                                                        </ul>
-                                                    </li>
-                                                    <li>
-                                                        <h2 class="page-list-title">ELEMENT GROUP 04</h2>
-                                                        <ul>
-                                                            <li><a href="element-testimonials.html"><span>Testimonials</span></a></li>
-                                                            <li><a href="element-timeline.html"><span>Timeline</span></a></li>
-                                                            <li><a href="element-carousel-sliders.html"><span>Carousel Sliders</span></a></li>
-                                                            <li><a href="element-typed-text.html"><span>Typed Text</span></a></li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <a href="our-shop"><span>Shop</span></a>
-                                            </li>
-                                            <li>
-                                                <a href="contact-us"><span>Contact</span></a>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
+        <!-- Header Upper -->
+        <div class="header-upper">
+            <div class="outer-container">
+                <div class="inner clearfix">
+                    <!--Logo-->
+                    <div class="logo-box">
+                        <div class="logo"><a $href="/" title="@getcontainer('platform');"><img src="images/logo-two.png" alt="@getcontainer('platform'); logo" title="@getcontainer('platform');"></a></div>
+                    </div>
+                    <div class="nav-content clearfix">
+                        <div class="nav-outer clearfix">
+                            <!--Mobile Navigation Toggler-->
+                            <div class="mobile-nav-toggler"><span class="icon flaticon-menu-1"></span></div>
 
-                            <div class="header-search-form">
-                                <form action="#" class="search-form-top style-02">
-                                    <input class="search-field" type="text" placeholder="Search…">
-                                    <button class="search-submit">
-                                        <i class="search-btn-icon fa fa-search"></i>
-                                    </button>
-                                </form>
+                            <!-- Main Menu -->
+                            <nav class="main-menu navbar-expand-md navbar-light">
+                                <div class="collapse navbar-collapse show clearfix" id="navbarSupportedContent">
+                                    <ul class="navigation clearfix">
+                                        <li class="current dropdown"><a $href="/">Home</a>
+                                            <ul>
+                                                <li><a href="index.html">Home 01 - Yacht Tour</a></li>
+                                                <li><a href="index-2.html">Home 02 - Yacht Rental</a></li>
+                                                <li><a href="index-3.html">Home 03 - Water Sports</a></li>
+												<li class="dropdown"><a href="index.html">Header Styles</a>
+													<ul>
+														<li><a href="index.html">Header Style 01</a></li>
+														<li><a href="index-2.html">Header Style 02</a></li>
+														<li><a href="index-3.html">Header Style 03</a></li>
+													</ul>
+												</li>
+                                            </ul>
+                                        </li>
+										<li class="dropdown"><a href="yacht-rent-buy.html">Yacht Rent</a>
+                                            <ul>
+												<li><a href="yacht-rent-buy.html">Yacht Rent & Buy</a></li>
+                                                <li><a href="yacht-rent-buy-single.html">Sotavento</a></li>
+												<li><a href="yacht-rent-buy-single.html">West Port z12</a></li>
+												<li><a href="yacht-rent-buy-single.html">Obsesion</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="dropdown"><a href="yacht-tour-1.html">Yacht Tour</a>
+                                            <ul>
+                                                <li><a href="yacht-tour-1.html">Tour Style 01</a></li>
+												<li><a href="yacht-tour-2.html">Tour Style 02</a></li>
+												<li><a href="yacht-tour-3.html">Tour Style 03</a></li>
+												<li><a href="yacht-tour-4.html">Tour Style 04</a></li>
+												<li><a href="yacht-tour-single.html">Single Tour</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="destinations.html">Destinatons</a></li>
+                                        <li class="dropdown"><a href="about.html">Pages</a>
+                                            <ul>
+												<li><a href="about.html">About Us</a></li>
+                                                <li><a href="services.html">Our Services</a></li>
+                                                <li class="dropdown"><a href="gallery-one-col.html">Portfolio</a>
+                                                    <ul>
+                                                        <li><a href="gallery-one-col.html">1 Column</a></li>
+                                                        <li><a href="gallery-two-col.html">2 Columns</a></li>
+                                                        <li><a href="gallery-three-col.html">3 Columns</a></li>
+                                                        <li><a href="gallery-masonry.html">Masonry</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li><a href="contact.html">Contact Us</a></li>
+                                                <li><a href="coming-soon.html">Coming Soon</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="dropdown"><a href="blog-grid.html">Blog</a>
+                                            <ul>
+                                                <li><a href="blog-grid.html">Blog Grid View</a></li>
+                                                <li><a href="blog-list.html">Blog List View</a></li>
+                                                <li><a href="blog-large-image.html">Large Image W/S</a></li>
+                                                <li><a href="blog-single.html">Single Post</a></li>
+                                            </ul>
+                                        </li>
+										<li><a $href="contact">Contact</a></li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+
+                        <div class="other-links clearfix">
+                            <!--Book Btn-->
+                            <div class="book-btn">
+                                <a $href="booking" class="theme-btn btn-style-one"><div class="btn-title">Book Now</div></a>
+                            </div>
+                            <!--Social Links-->
+                            <div class="social-links social-links-one">
+                                <ul class="clearfix">
+                                    <li><a href="#"><span class="fab fa-facebook-f"></span></a></li>
+                                    <li><a href="#"><span class="fab fa-twitter"></span></a></li>
+                                    <li><a href="#"><span class="fab fa-youtube"></span></a></li>
+                                </ul>
+                            </div>
+                            <!--Nav Toggler-->
+                            <div class="max-nav-toggler">
+                                <button class="theme-btn toggle-btn"><span class="flaticon-circled"></span></button>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
         </div>
+        <!--End Header Upper-->
 
+        <!-- Sticky Header  -->
+        <div class="sticky-header">
+            <div class="auto-container clearfix">
+                <!--Logo-->
+                <div class="logo pull-left">
+                    <a href="index.html" title=""><img src="images/sticky-logo.png" alt="" title=""></a>
+                </div>
+                <!--Right Col-->
+                <div class="pull-right clearfix">
+                    <!-- Main Menu -->
+                    <nav class="main-menu clearfix">
+                        <!--Keep This Empty / Menu will come through Javascript-->
+                    </nav><!-- Main Menu End-->
+
+                    <!--Search Btn-->
+                    <div class="search-btn">
+                        <button type="button" class="theme-btn search-toggler"><span class="icon flaticon-magnifying-glass"></span></button>
+                    </div>
+
+                    <!--Book Btn-->
+                    <div class="booking-link">
+                        <a href="yacht-rent-buy-single.html" class="theme-btn btn-style-one"><div class="btn-title">Book Now</div></a>
+                    </div>
+                </div>
+            </div>
+        </div><!-- End Sticky Menu -->
+
+        <!-- Mobile Menu  -->
+        <div class="mobile-menu">
+            <div class="menu-backdrop"></div>
+            <div class="close-btn"><span class="icon flaticon-targeting-cross"></span></div>
+            
+            <nav class="menu-box">
+                <div class="nav-logo"><a href="index.html"><img src="images/nav-logo.png" alt="" title=""></a></div>
+                <div class="menu-outer"><!--Here Menu Will Come Automatically Via Javascript / Same Menu as in Header--></div>
+				<!--Social Links-->
+				<div class="social-links">
+					<ul class="clearfix">
+						<li><a href="#"><span class="fab fa-twitter"></span></a></li>
+						<li><a href="#"><span class="fab fa-facebook-square"></span></a></li>
+						<li><a href="#"><span class="fab fa-pinterest-p"></span></a></li>
+						<li><a href="#"><span class="fab fa-instagram"></span></a></li>
+						<li><a href="#"><span class="fab fa-youtube"></span></a></li>
+					</ul>
+                </div>
+            </nav>
+        </div><!-- End Mobile Menu -->
+    </header>
+    <!-- End Main Header -->
+
+    <!--Search Popup-->
+    <div id="search-popup" class="search-popup">
+        <div class="close-search theme-btn"><span class="flaticon-targeting-cross"></span></div>
+        <div class="popup-inner">
+            <div class="overlay-layer"></div>
+            <div class="search-form">
+                <form method="post" action="index.html">
+                    <div class="form-group">
+                        <fieldset>
+                            <input type="search" class="form-control" name="search-input" value="" placeholder="Search Here" required >
+                            <input type="submit" value="Search Now!" class="theme-btn">
+                        </fieldset>
+                    </div>
+                </form>
+                
+                <br>
+                <h3>Recent Search Keywords</h3>
+                <ul class="recent-searches">
+                    <li><a href="#">Finance</a></li>
+                    <li><a href="#">Idea</a></li>
+                    <li><a href="#">Service</a></li>
+                    <li><a href="#">Growth</a></li>
+                    <li><a href="#">Plan</a></li>
+                </ul>
+            
+            </div>
+            
+        </div>
     </div>
-    <!--====================  End of header area  ====================-->
 
-
+    <!-- Hidden Navigation Bar -->
+    <section class="hidden-bar right-align">
+        
+        <div class="hidden-bar-closer">
+            <button><span class="flaticon-letter-x"></span></button>
+        </div>
+        
+        <!-- Hidden Bar Wrapper -->
+        <div class="hidden-bar-wrapper">
+            
+            <div class="logo">
+                <a href="index.html"><img src="images/logo-two.png" alt="" /></a>
+            </div>
+            <div class="content-box">
+                <h3>About us</h3>
+                <div class="text">@getcontainer('introductory-text');</div>
+                <a $href="booking" class="theme-btn btn-style-two"><div class="btn-title">Make a Reservation</div></a>
+            </div>
+            <div class="contact-info">
+                <h2>Contact Info</h2>
+                <ul class="list-style-two">
+                    <li><span class="icon fa fa-map-marker-alt"></span>@getcontainer('our-address');</li>
+                    <li><span class="icon fa fa-phone-alt"></span><a href="tel:@getcontainer('our-phone');">@getcontainer('our-phone');</a></li>
+                    <li><span class="icon fa fa-envelope-open"></span> <a href="mailto:@getcontainer('our-email');">@getcontainer('our-email');</a></li>
+                    <li><span class="icon fa fa-clock"></span>Week Days: 09.00 to 18.00 Sunday: Closed</li>
+                </ul>
+            </div>
+        </div><!-- / Hidden Bar Wrapper -->
+        
+    </section>
+    <!-- End / Hidden Bar -->
