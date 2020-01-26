@@ -222,7 +222,8 @@ class Assets
 			$cont = isset(BootLoader::$helper['get_controller']) ? ucfirst(BootLoader::$helper['get_controller']) : ucfirst(config('router.default.controller'));
 
 			// get css path
-			$getCss = function($file) use ($filecopy, &$json, $fileNoUpdate, $queryInPath){
+			$getCss = function($file) use ($filecopy, &$json, $fileNoUpdate, $queryInPath)
+			{
 				$dir = $this->css_path;
 				$getPath = $dir . $file;
 				$parse = parse_url($filecopy);
@@ -234,6 +235,10 @@ class Assets
 				elseif (file_exists($getPath))
 				{
 					$scan = $getPath;
+				}
+				elseif (file_exists(PATH_TO_ASSETS . $file))
+				{
+					$scan = PATH_TO_ASSETS . $file;
 				}
 				else
 				{
@@ -340,6 +345,10 @@ class Assets
 				elseif (file_exists($getPath))
 				{
 					$scan = $getPath;
+				}
+				elseif (file_exists(PATH_TO_ASSETS . $file))
+				{
+					$scan = PATH_TO_ASSETS . $file;
 				}
 				else
 				{

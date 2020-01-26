@@ -1,64 +1,99 @@
-<!-- Banner Section -->
-<section class="banner-section banner-one">
+<!-- ================= Slideshow Banner ================== -->
+<section class="main-banner scroll-con-sec hero-section" data-scrollax-parent="true">
+	<div class="slideshow-container">
+		<!-- slideshow-item -->	
+		<div class="slideshow-item">
+			<div class="bg"  data-bg="@getImage('slide1-bg');"></div>
+		</div>
+		<!--  slideshow-item end  -->	
+		<!-- slideshow-item -->	
+		<div class="slideshow-item">
+			<div class="bg"  data-bg="@getImage('slide2-bg');"></div>
+		</div>
+		<!--  slideshow-item end  -->	
+		<!-- slideshow-item -->	
+		<div class="slideshow-item">
+			<div class="bg"  data-bg="@getImage('slide3-bg');"></div>
+		</div>
+		<!--  slideshow-item end  -->	                        
+	</div>
 
-	<div class="banner-carousel owl-theme owl-carousel">
-		<!-- Slide Item -->
-		<div class="slide-item content-right">
-			<div class="image-layer" $background-image="theme/main-slider/1.jpg"></div>
-			<div class="auto-container">
-				<div class="content-box">
+	<div class="overlay"></div>
+	<div class="hero-section-wrap fl-wrap">
+		<div class="container">
+			<div class="intro-item fl-wrap">
+				<div class="caption text-center cl-white">
+					<h2>Find your next hotel</h2>
+					<p>Explore top rated hotels and apartments around the world</p>
+				</div>
+				<form>
+					<fieldset class="home-form-1">
 					
-					<div class="content clearfix">
-						<div class="inner">
-							<h1>Enjoyment of <br>Bording</h1>
-							<div class="text">Foresee the pain and trouble that are bound to ensue and equal fail in their duty through weakness. </div>
-							<div class="links-box clearfix">
-								<a href="yacht-tour-1.html" class="theme-btn btn-style-two"><div class="btn-title">Explore More</div></a>
+						<div class="col-md-3 col-sm-3 padd-0">
+							<input type="text" class="form-control br-1" placeholder="Destination">
+						</div>
+						
+						<div class="col-md-3 col-sm-3 padd-0">
+							<input type="text" name="book-date" class="form-control br-1" value="Check in - out">
+						</div>
+							
+						<div class="col-md-2 col-sm-2 padd-0">
+							<div class="sl-box">
+								<select class="wide form-control br-1">
+									<option data-display="Adults">Adults</option>
+									<option value="1">01</option>
+									<option value="2">02</option>
+									<option value="3">03</option>
+									<option value="4">04</option>
+								</select>
 							</div>
 						</div>
-					</div>
-				</div>  
-			</div>
-		</div>
-
-		<!-- Slide Item -->
-		<div class="slide-item">
-			<div class="image-layer" $background-image="theme/main-slider/2.jpg"></div>
-			<div class="auto-container">
-				<div class="content-box">
-					
-					<div class="content clearfix">
-						<div class="inner">
-							<h1>Freedom of <br>Skiing</h1>
-							<div class="text">Foresee the pain and trouble that are bound to ensue and equal fail in their duty through weakness. </div>
-							<div class="links-box clearfix">
-								<a href="about.html" class="theme-btn btn-style-two"><div class="btn-title">Explore More</div></a>
+							
+						<div class="col-md-2 col-sm-2 padd-0">
+							<div class="sl-box">
+								<select class="wide form-control br-1">
+									<option data-display="Children">Children</option>
+									<option value="1">01</option>
+									<option value="2">02</option>
+									<option value="3">03</option>
+									<option value="4">04</option>
+								</select>
 							</div>
 						</div>
-					</div>
-				</div>  
-			</div>
-		</div>
+						
+							
+						<div class="col-md-2 col-sm-2 padd-0">
+							<button type="submit" class="btn theme-btn cl-white seub-btn">Search</button>
+						</div>
+							
+					</fieldset>
+				</form>
 
-		<!-- Slide Item -->
-		<div class="slide-item">
-			<div class="image-layer" $background-image="theme/main-slider/3.jpg"></div>
-			<div class="auto-container">
-				<div class="content-box">
-					
-					<div class="content clearfix">
-						<div class="inner">
-							<h1>Excitment of <br>Surfing</h1>
-							<div class="text">Foresee the pain and trouble that are bound to ensue and equal fail in their duty through weakness. </div>
-							<div class="links-box clearfix">
-								<a href="yacht-tour-1.html" class="theme-btn btn-style-two"><div class="btn-title">Explore More</div></a>
-							</div>
+				<div class="st-feature-items row">
+					<div class="col col-xs-12 col-sm-4">
+						<div class="item">
+							<h4 class="title">20,000+ properties</h4>
+							<div class="desc">Morbi semper fames lobortis ac</div>
 						</div>
 					</div>
-				</div>  
+					<div class="col col-xs-12 col-sm-4">
+						<div class="item">
+							<h4 class="title">Trust &amp; Safety</h4>
+							<div class="desc">Morbi semper fames lobortis ac</div>
+						</div>
+					</div>
+					<div class="col col-xs-12 col-sm-4">
+						<div class="item">
+							<h4 class="title">Best Price Guarantee</h4>
+							<div class="desc">Morbi semper fames lobortis ac</div>
+						</div>
+					</div>
+				</div>
 			</div>
-		</div>
 
+			
+		</div>
 	</div>
 </section>
-<!--End Banner Section -->
+<div class="clearfix"></div>
+<!-- ================ Slideshow Banner End ================ -->

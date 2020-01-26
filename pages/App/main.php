@@ -25,5 +25,31 @@ class App extends Controller
 		
 		$this->render('home');
 	}
+	/**
+    * App/contact wrapper. 
+    *
+    * See documention https://www.moorexa.com/doc/controller
+    *
+    * @param Any You can catch params sent through the $_GET request
+    * @return void
+    **/
+
+	public function contact()
+	{
+		$this->render('contact');
+	}
+	/**
+    * App/become-a-partner wrapper. 
+    *
+    * See documention https://www.moorexa.com/doc/controller
+    *
+    * @param Any You can catch params sent through the $_GET request
+    * @return void
+    **/
+
+	public function becomeAPartner()
+	{
+		$this->render('becomeapartner');
+	}
 }
 // END class

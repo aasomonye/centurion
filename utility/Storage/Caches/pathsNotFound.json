@@ -235,5 +235,139 @@
             "tables.js",
             "Tables.js"
         ]
+    ],
+    "public\/Assets\/Css\/:skins\/default.css": [
+        "public\/Assets\/Css\/",
+        "skins\/default.css"
+    ],
+    "public\/Assets\/Images\/:theme\/main-slider\/1.jpg": [
+        "public\/Assets\/Images\/",
+        "theme\/main-slider\/1.jpg"
+    ],
+    "public\/Assets\/Images\/:theme\/main-slider\/2.jpg": [
+        "public\/Assets\/Images\/",
+        "theme\/main-slider\/2.jpg"
+    ],
+    "public\/Assets\/Images\/:theme\/main-slider\/3.jpg": [
+        "public\/Assets\/Images\/",
+        "theme\/main-slider\/3.jpg"
+    ],
+    "public\/Assets\/Css\/:plugins\/css\/plugins.css": [
+        "public\/Assets\/Css\/",
+        "plugins\/css\/plugins.css"
+    ],
+    ".\/lab\/Cms\/MVC\/App\/Static\/:images.css:images.cxx.css:Images.css": [
+        ".\/lab\/Cms\/MVC\/App\/Static\/",
+        [
+            "images.css",
+            "images.cxx.css",
+            "Images.css"
+        ]
+    ],
+    ".\/lab\/Cms\/MVC\/App\/Static\/:images.js:Images.js": [
+        ".\/lab\/Cms\/MVC\/App\/Static\/",
+        [
+            "images.js",
+            "Images.js"
+        ]
+    ],
+    ".\/lab\/Cms\/MVC\/App\/Static\/:upload.css:Upload.css": [
+        ".\/lab\/Cms\/MVC\/App\/Static\/",
+        [
+            "upload.css",
+            "Upload.css"
+        ]
+    ],
+    ".\/lab\/Cms\/MVC\/App\/Static\/:upload.js:Upload.js": [
+        ".\/lab\/Cms\/MVC\/App\/Static\/",
+        [
+            "upload.js",
+            "Upload.js"
+        ]
+    ],
+    ".\/lab\/Cms\/MVC\/App\/Static\/:directives.css:directives.cxx.css:Directives.css": [
+        ".\/lab\/Cms\/MVC\/App\/Static\/",
+        [
+            "directives.css",
+            "directives.cxx.css",
+            "Directives.css"
+        ]
+    ],
+    ".\/lab\/Cms\/MVC\/App\/Static\/:directives.js:Directives.js": [
+        ".\/lab\/Cms\/MVC\/App\/Static\/",
+        [
+            "directives.js",
+            "Directives.js"
+        ]
+    ],
+    "utility\/Components\/:app.php:App.php:APP.php:app.php": [
+        "utility\/Components\/",
+        [
+            "app.php",
+            "App.php",
+            "APP.php",
+            "app.php"
+        ]
+    ],
+    "utility\/Exceptions\/:app.php:App.php:APP.php:app.php": [
+        "utility\/Exceptions\/",
+        [
+            "app.php",
+            "App.php",
+            "APP.php",
+            "app.php"
+        ]
+    ],
+    ".\/pages\/App\/Static\/:contact.css:contact.cxx.css:Contact.css": [
+        ".\/pages\/App\/Static\/",
+        [
+            "contact.css",
+            "contact.cxx.css",
+            "Contact.css"
+        ]
+    ],
+    ".\/pages\/App\/Static\/:contact.js:Contact.js": [
+        ".\/pages\/App\/Static\/",
+        [
+            "contact.js",
+            "Contact.js"
+        ]
+    ],
+    "public\/Assets\/Images\/:theme\/img\/banner.jpg": [
+        "public\/Assets\/Images\/",
+        "theme\/img\/banner.jpg"
+    ],
+    "public\/Assets\/Images\/:runDirective(true,": [
+        "public\/Assets\/Images\/",
+        "runDirective(true,"
+    ],
+    ".\/pages\/App\/Static\/:becomeapartner.css:Becomeapartner.css": [
+        ".\/pages\/App\/Static\/",
+        [
+            "becomeapartner.css",
+            "Becomeapartner.css"
+        ]
+    ],
+    ".\/pages\/App\/Static\/:becomeapartner.js:Becomeapartner.js": [
+        ".\/pages\/App\/Static\/",
+        [
+            "becomeapartner.js",
+            "Becomeapartner.js"
+        ]
+    ],
+    ".\/pages\/App\/Static\/:becomeAPartner.css:becomeAPartner.cxx.css:BecomeAPartner.css": [
+        ".\/pages\/App\/Static\/",
+        [
+            "becomeAPartner.css",
+            "becomeAPartner.cxx.css",
+            "BecomeAPartner.css"
+        ]
+    ],
+    ".\/pages\/App\/Static\/:becomeAPartner.js:BecomeAPartner.js": [
+        ".\/pages\/App\/Static\/",
+        [
+            "becomeAPartner.js",
+            "BecomeAPartner.js"
+        ]
     ]
 }

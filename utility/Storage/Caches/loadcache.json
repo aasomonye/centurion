@@ -1,14 +1,14 @@
 {
     ".\/custom\/header.html": {
-        "hash": "b7608cea91d12caff80c1f040c0e26c1",
+        "hash": "5356d9759a56eae5488bd763590ddd3c",
         "path": "utility\/Storage\/Caches\/Headers\/cache.d29db69b1a9178a48f1d2ab32f72b35c.App.header.html"
     },
     ".\/pages\/App\/Views\/home.html": {
-        "hash": "7ed41cca855a8d745c72e401f790d605",
+        "hash": "8f05bc60d905df14404c885907281e5a",
         "path": "utility\/Storage\/Caches\/Views\/cache.6ca59b1b5498ee214c0f2258b73815c5.App.home.html"
     },
     ".\/custom\/footer.html": {
-        "hash": "11afbd9afc89157d01896279f96b3671",
+        "hash": "3a168b4cfa0245d43d7812b65c26193f",
         "path": "utility\/Storage\/Caches\/Footers\/cache.420f043b55cd0ea699bdd46745316f3d.App.footer.html"
     },
     ".\/lab\/Cms\/MVC\/App\/Custom\/header.html": {
@@ -46,5 +46,29 @@
     ".\/lab\/Cms\/MVC\/App\/Views\/tables.html": {
         "hash": "17a9a996e2718d45de51a13ccdd92631",
         "path": "utility\/Storage\/Caches\/Views\/cache.e8618b33883b745b2b8ce7f594f70edf.App.tables.html"
+    },
+    ".\/lab\/Cms\/MVC\/App\/Views\/images.html": {
+        "hash": "c3b496c090af764b528c9679dde7dc56",
+        "path": "utility\/Storage\/Caches\/Views\/cache.2d9757c248d78a8cc4fd04bf5e4c1cc7.App.images.html"
+    },
+    ".\/lab\/Cms\/MVC\/App\/Views\/images\/upload.html": {
+        "hash": "aeba2a43d388d999557bc09e3c164fa3",
+        "path": "utility\/Storage\/Caches\/Views\/cache.e3d1356714182eef67d54cfa0458d013.App.upload.html"
+    },
+    ".\/lab\/Cms\/MVC\/App\/Views\/directives.html": {
+        "hash": "4c121431c28d79c5377ae7ea48ddd301",
+        "path": "utility\/Storage\/Caches\/Views\/cache.9aedecdd0c9d0b2d3cd42246bf4641bf.App.directives.html"
+    },
+    ".\/lab\/Cms\/MVC\/App\/Views\/directives\/create.html": {
+        "hash": "7251eefcc8320260537b58b73290b7ce",
+        "path": "utility\/Storage\/Caches\/Views\/cache.44b25427c6f0b923ef7bc061b24396b2.App.create.html"
+    },
+    ".\/pages\/App\/Views\/contact.html": {
+        "hash": "45fa34fa4c16920d071ea7bfbcfaff20",
+        "path": "utility\/Storage\/Caches\/Views\/cache.d8f5f0e3df043fccca099fc2c5cad17a.App.contact.html"
+    },
+    ".\/pages\/App\/Views\/becomeapartner.html": {
+        "hash": "963479d008e7f8fbe9bc6cd86a9a2dac",
+        "path": "utility\/Storage\/Caches\/Views\/cache.619e9207b4dfddc91d57f1155f56d3de.App.becomeapartner.html"
     }
 }

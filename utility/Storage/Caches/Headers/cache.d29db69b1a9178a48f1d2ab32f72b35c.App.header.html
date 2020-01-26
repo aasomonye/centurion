@@ -13,272 +13,128 @@
 	
 	<!-- css -->
     <?=$assets->loadCss($__css)?>
-    
-    <!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script><![endif]-->
-    <!--[if lt IE 9]><script src="<?=$assets->js("theme/respond.js")?>"></script><![endif]-->
   
 </head>
 	
 <body>
 
-	<div class="page-wrapper">
-        <!-- Preloader -->
-        <div class="preloader"><div class="icon"></div></div>
+	<!-- ======================= Start Navigation ===================== -->
+    <nav class="navbar navbar-default navbar-mobile navbar-fixed white no-background bootsnav">
+        <div class="container">
+        
+            <!-- Start Logo Header Navigation -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+                    <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="<?=url("")?>">
+                    <img src="assets/img/logo-light.png" class="logo logo-display" alt="">
+                    <img src="assets/img/logo.png" class="logo logo-scrolled" alt="">
+                </a>
 
-        <!-- Main Header -->
-    <header class="main-header header-style-one">
-        <div class="logo-desktop">
-            <div class="logo"><a href="<?=url("")?>" title="<?=\Moorexa\Rexa::runDirective(true,'getcontainer','platform')?>"><img src="images/logo.png" alt="<?=\Moorexa\Rexa::runDirective(true,'getcontainer','platform')?> logo" title="<?=\Moorexa\Rexa::runDirective(true,'getcontainer','platform')?>"></a></div>
-        </div>
-        <!-- Header Top -->
-        <div class="header-top header-top-one">
-            <div class="outer-container">
-				<div class="inner clearfix">
-                    <div class="top-left clearfix">
-                        <!--Info-->
-                        <div class="info">
-                            <ul class="clearfix">
-                                <li class="phone"><a href="tel:<?=\Moorexa\Rexa::runDirective(true,'getcontainer','our-phone')?>"><span class="icon fa fa-phone-alt"></span> <?=\Moorexa\Rexa::runDirective(true,'getcontainer','our-phone')?></a></li>
-                                <li class="email"><a href="mailto:<?=\Moorexa\Rexa::runDirective(true,'getcontainer','our-email')?>"><span class="icon fa fa-envelope"></span> <?=\Moorexa\Rexa::runDirective(true,'getcontainer','our-email')?></a></li>
-                            </ul>
-                        </div>
-
-                        <div class="top-text"><span class="icon flaticon-surf-1"></span> Water Sports Activities, Experience The Thrill!.</div>
-                    </div>
-    
-                    <div class="top-right clearfix">
-                        <!--Top Search-->
-                        <div class="top-search-form">
-                            <form method="post" action="blog-grid.html">
-                                <div class="form-group clearfix">
-                                    <input type="search" name="email" value="" placeholder="Enter Keyword . . ." required="">
-                                    <button type="submit" class="theme-btn s-btn"><span class="icon flaticon-magnifying-glass"></span></button>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="my-account">
-                            <ul class="clearfix">
-                                <li><a href="#"><span class="icon flaticon-password"></span> Login</a></li>
-                                <li><a href="#"><span class="icon flaticon-user-2"></span> Signup</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
             </div>
-        </div>
+            <!-- End Logo Header Navigation -->
 
-        <!-- Header Upper -->
-        <div class="header-upper">
-            <div class="outer-container">
-                <div class="inner clearfix">
-                    <!--Logo-->
-                    <div class="logo-box">
-                        <div class="logo"><a href="<?=url("")?>" title="<?=\Moorexa\Rexa::runDirective(true,'getcontainer','platform')?>"><img src="images/logo-two.png" alt="<?=\Moorexa\Rexa::runDirective(true,'getcontainer','platform')?> logo" title="<?=\Moorexa\Rexa::runDirective(true,'getcontainer','platform')?>"></a></div>
-                    </div>
-                    <div class="nav-content clearfix">
-                        <div class="nav-outer clearfix">
-                            <!--Mobile Navigation Toggler-->
-                            <div class="mobile-nav-toggler"><span class="icon flaticon-menu-1"></span></div>
-
-                            <!-- Main Menu -->
-                            <nav class="main-menu navbar-expand-md navbar-light">
-                                <div class="collapse navbar-collapse show clearfix" id="navbarSupportedContent">
-                                    <ul class="navigation clearfix">
-                                        <li class="current dropdown"><a href="<?=url("")?>">Home</a>
-                                            <ul>
-                                                <li><a href="index.html">Home 01 - Yacht Tour</a></li>
-                                                <li><a href="index-2.html">Home 02 - Yacht Rental</a></li>
-                                                <li><a href="index-3.html">Home 03 - Water Sports</a></li>
-												<li class="dropdown"><a href="index.html">Header Styles</a>
-													<ul>
-														<li><a href="index.html">Header Style 01</a></li>
-														<li><a href="index-2.html">Header Style 02</a></li>
-														<li><a href="index-3.html">Header Style 03</a></li>
-													</ul>
-												</li>
-                                            </ul>
-                                        </li>
-										<li class="dropdown"><a href="yacht-rent-buy.html">Yacht Rent</a>
-                                            <ul>
-												<li><a href="yacht-rent-buy.html">Yacht Rent & Buy</a></li>
-                                                <li><a href="yacht-rent-buy-single.html">Sotavento</a></li>
-												<li><a href="yacht-rent-buy-single.html">West Port z12</a></li>
-												<li><a href="yacht-rent-buy-single.html">Obsesion</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="dropdown"><a href="yacht-tour-1.html">Yacht Tour</a>
-                                            <ul>
-                                                <li><a href="yacht-tour-1.html">Tour Style 01</a></li>
-												<li><a href="yacht-tour-2.html">Tour Style 02</a></li>
-												<li><a href="yacht-tour-3.html">Tour Style 03</a></li>
-												<li><a href="yacht-tour-4.html">Tour Style 04</a></li>
-												<li><a href="yacht-tour-single.html">Single Tour</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="destinations.html">Destinatons</a></li>
-                                        <li class="dropdown"><a href="about.html">Pages</a>
-                                            <ul>
-												<li><a href="about.html">About Us</a></li>
-                                                <li><a href="services.html">Our Services</a></li>
-                                                <li class="dropdown"><a href="gallery-one-col.html">Portfolio</a>
-                                                    <ul>
-                                                        <li><a href="gallery-one-col.html">1 Column</a></li>
-                                                        <li><a href="gallery-two-col.html">2 Columns</a></li>
-                                                        <li><a href="gallery-three-col.html">3 Columns</a></li>
-                                                        <li><a href="gallery-masonry.html">Masonry</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li><a href="contact.html">Contact Us</a></li>
-                                                <li><a href="coming-soon.html">Coming Soon</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="dropdown"><a href="blog-grid.html">Blog</a>
-                                            <ul>
-                                                <li><a href="blog-grid.html">Blog Grid View</a></li>
-                                                <li><a href="blog-list.html">Blog List View</a></li>
-                                                <li><a href="blog-large-image.html">Large Image W/S</a></li>
-                                                <li><a href="blog-single.html">Single Post</a></li>
-                                            </ul>
-                                        </li>
-										<li><a href="<?=url("contact")?>">Contact</a></li>
-                                    </ul>
-                                </div>
-                            </nav>
-                        </div>
-
-                        <div class="other-links clearfix">
-                            <!--Book Btn-->
-                            <div class="book-btn">
-                                <a href="<?=url("booking")?>" class="theme-btn btn-style-one"><div class="btn-title">Book Now</div></a>
-                            </div>
-                            <!--Social Links-->
-                            <div class="social-links social-links-one">
-                                <ul class="clearfix">
-                                    <li><a href="#"><span class="fab fa-facebook-f"></span></a></li>
-                                    <li><a href="#"><span class="fab fa-twitter"></span></a></li>
-                                    <li><a href="#"><span class="fab fa-youtube"></span></a></li>
-                                </ul>
-                            </div>
-                            <!--Nav Toggler-->
-                            <div class="max-nav-toggler">
-                                <button class="theme-btn toggle-btn"><span class="flaticon-circled"></span></button>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--End Header Upper-->
-
-        <!-- Sticky Header  -->
-        <div class="sticky-header">
-            <div class="auto-container clearfix">
-                <!--Logo-->
-                <div class="logo pull-left">
-                    <a href="index.html" title=""><img src="images/sticky-logo.png" alt="" title=""></a>
-                </div>
-                <!--Right Col-->
-                <div class="pull-right clearfix">
-                    <!-- Main Menu -->
-                    <nav class="main-menu clearfix">
-                        <!--Keep This Empty / Menu will come through Javascript-->
-                    </nav><!-- Main Menu End-->
-
-                    <!--Search Btn-->
-                    <div class="search-btn">
-                        <button type="button" class="theme-btn search-toggler"><span class="icon flaticon-magnifying-glass"></span></button>
-                    </div>
-
-                    <!--Book Btn-->
-                    <div class="booking-link">
-                        <a href="yacht-rent-buy-single.html" class="theme-btn btn-style-one"><div class="btn-title">Book Now</div></a>
-                    </div>
-                </div>
-            </div>
-        </div><!-- End Sticky Menu -->
-
-        <!-- Mobile Menu  -->
-        <div class="mobile-menu">
-            <div class="menu-backdrop"></div>
-            <div class="close-btn"><span class="icon flaticon-targeting-cross"></span></div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="navbar-menu">
             
-            <nav class="menu-box">
-                <div class="nav-logo"><a href="index.html"><img src="images/nav-logo.png" alt="" title=""></a></div>
-                <div class="menu-outer"><!--Here Menu Will Come Automatically Via Javascript / Same Menu as in Header--></div>
-				<!--Social Links-->
-				<div class="social-links">
-					<ul class="clearfix">
-						<li><a href="#"><span class="fab fa-twitter"></span></a></li>
-						<li><a href="#"><span class="fab fa-facebook-square"></span></a></li>
-						<li><a href="#"><span class="fab fa-pinterest-p"></span></a></li>
-						<li><a href="#"><span class="fab fa-instagram"></span></a></li>
-						<li><a href="#"><span class="fab fa-youtube"></span></a></li>
-					</ul>
-                </div>
-            </nav>
-        </div><!-- End Mobile Menu -->
-    </header>
-    <!-- End Main Header -->
-
-    <!--Search Popup-->
-    <div id="search-popup" class="search-popup">
-        <div class="close-search theme-btn"><span class="flaticon-targeting-cross"></span></div>
-        <div class="popup-inner">
-            <div class="overlay-layer"></div>
-            <div class="search-form">
-                <form method="post" action="index.html">
-                    <div class="form-group">
-                        <fieldset>
-                            <input type="search" class="form-control" name="search-input" value="" placeholder="Search Here" required >
-                            <input type="submit" value="Search Now!" class="theme-btn">
-                        </fieldset>
-                    </div>
-                </form>
+                <ul class="nav navbar-nav navbar-left" data-in="fadeInDown" data-out="fadeOutUp">
                 
-                <br>
-                <h3>Recent Search Keywords</h3>
-                <ul class="recent-searches">
-                    <li><a href="#">Finance</a></li>
-                    <li><a href="#">Idea</a></li>
-                    <li><a href="#">Service</a></li>
-                    <li><a href="#">Growth</a></li>
-                    <li><a href="#">Plan</a></li>
-                </ul>
-            
-            </div>
-            
-        </div>
-    </div>
+                    <li>
+                        <a href="<?=url("")?>">Home</a>
+                    </li>
 
-    <!-- Hidden Navigation Bar -->
-    <section class="hidden-bar right-align">
-        
-        <div class="hidden-bar-closer">
-            <button><span class="flaticon-letter-x"></span></button>
-        </div>
-        
-        <!-- Hidden Bar Wrapper -->
-        <div class="hidden-bar-wrapper">
-            
-            <div class="logo">
-                <a href="index.html"><img src="images/logo-two.png" alt="" /></a>
-            </div>
-            <div class="content-box">
-                <h3>About us</h3>
-                <div class="text"><?=\Moorexa\Rexa::runDirective(true,'getcontainer','introductory-text')?></div>
-                <a href="<?=url("booking")?>" class="theme-btn btn-style-two"><div class="btn-title">Make a Reservation</div></a>
-            </div>
-            <div class="contact-info">
-                <h2>Contact Info</h2>
-                <ul class="list-style-two">
-                    <li><span class="icon fa fa-map-marker-alt"></span><?=\Moorexa\Rexa::runDirective(true,'getcontainer','our-address')?></li>
-                    <li><span class="icon fa fa-phone-alt"></span><a href="tel:<?=\Moorexa\Rexa::runDirective(true,'getcontainer','our-phone')?>"><?=\Moorexa\Rexa::runDirective(true,'getcontainer','our-phone')?></a></li>
-                    <li><span class="icon fa fa-envelope-open"></span> <a href="mailto:<?=\Moorexa\Rexa::runDirective(true,'getcontainer','our-email')?>"><?=\Moorexa\Rexa::runDirective(true,'getcontainer','our-email')?></a></li>
-                    <li><span class="icon fa fa-clock"></span>Week Days: 09.00 to 18.00 Sunday: Closed</li>
+                    <li>
+                        <a href="<?=url("cities")?>">Cities</a>
+                    </li>
+                
+                    <li class="dropdown megamenu-fw"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Property types</a>
+                        <ul class="dropdown-menu megamenu-content" role="menu">
+                            <li>
+                                <div class="row">
+                                    <div class="col-menu col-md-3">
+                                        <h6 class="title">Standard</h6>
+                                        <div class="content">
+                                            <ul class="menu-col">
+                                                <li><a href="<?=url("apartments")?>">All <em class="pull-right">(0)</em></a></li>
+                                                <li><a href="">Demo</a></li>
+                                                <li><a href="">Demo</a></li>
+                                                <li><a href="">Demo</a></li>
+                                                <li><a href="<?=url("apartments")?>"><i class="fa fa-plus"></i> Discover more</a></li>
+                                            </ul>
+                                        </div>
+                                    </div><!-- end col-3 -->
+                                    <div class="col-menu col-md-3">
+                                        <h6 class="title">Basic</h6>
+                                        <div class="content">
+                                            <ul class="menu-col">
+                                                <li><a href="<?=url("apartments")?>">All <em class="pull-right">(0)</em></a></li>
+                                                <li><a href="">Demo</a></li>
+                                                <li><a href="">Demo</a></li>
+                                                <li><a href="">Demo</a></li>
+                                                <li><a href="<?=url("apartments")?>"><i class="fa fa-plus"></i> Discover more</a></li>
+                                            </ul>
+                                        </div>
+                                    </div><!-- end col-3 -->
+                                    <div class="col-menu col-md-3">
+                                        <h6 class="title">Duplex</h6>
+                                        <div class="content">
+                                            <ul class="menu-col">
+                                                <li><a href="<?=url("apartments")?>">All <em class="pull-right">(0)</em></a></li>
+                                                <li><a href="">Demo</a></li>
+                                                <li><a href="">Demo</a></li>
+                                                <li><a href="">Demo</a></li>
+                                                <li><a href="<?=url("apartments")?>"><i class="fa fa-plus"></i> Discover more</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>    
+                                    <div class="col-menu col-md-3">
+                                        <h6 class="title">Serviced</h6>
+                                        <div class="content">
+                                            <ul class="menu-col">
+                                                <li><a href="<?=url("apartments")?>">All <em class="pull-right">(0)</em></a></li>
+                                                <li><a href="">Demo</a></li>
+                                                <li><a href="">Demo</a></li>
+                                                <li><a href="">Demo</a></li>
+                                                <li><a href="<?=url("apartments")?>"><i class="fa fa-plus"></i> Discover more</a></li>
+                                            </ul>
+                                        </div>
+                                    </div><!-- end col-3 -->
+                                </div><!-- end row -->
+                            </li>
+                        </ul>
+                    </li>
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Company</a>
+                        <ul class="dropdown-menu animated fadeOutUp">
+                            <li><a href="<?=url("company/about")?>">About us</a></li>
+                            <li><a href="<?=url("company/blogs")?>">Blogs</a></li>
+                            <li><a href="<?=url("company/testimonials")?>">Testimonials</a></li>
+                            <li><a href="<?=url("company/faq")?>">FAQs</a></li>
+                            <li><a href="<?=url("company/become-a-partner")?>">Become a partner</a></li>
+                            <li><a href="<?=url("company/trust-and-safety")?>">Trust & Safety</a></li>
+                            <li><a href="<?=url("company/best-price")?>">Best Price Gurantee</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li>
+                        <a href="<?=url("contact")?>">Contact</a>
+                    </li>
+
+                    <li>
+                        <a href="<?=url("company/become-a-partner")?>">Become a partner</a>
+                    </li>
+                    
                 </ul>
+                
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="br-right"><a href="javascript:void(0)"  data-toggle="modal" data-target="#signin"><i class="login-icon ti-user"></i>Login</a></li>
+                    <li class="sign-up"><a class="btn-signup red-btn" href="<?=url("sign-up")?>"><span class="ti-briefcase"></span>Sign up</a></li> 
+                </ul>
+                    
             </div>
-        </div><!-- / Hidden Bar Wrapper -->
-        
-    </section>
-    <!-- End / Hidden Bar -->
+            <!-- /.navbar-collapse -->
+        </div>   
+    </nav>
+    <!-- ======================= End Navigation ===================== -->

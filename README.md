@@ -23,13 +23,13 @@ The main controller for public view lives in 'pages/App'. A controller can be ge
 All static files have been autoloaded in 'kernel/loadStatic.json'. Before production, we would bundle all static files and serve them from a CDN. 
 
 ```json
-
 {
     "stylesheet": [
         "moorexa.css",
-        "theme/bootstrap.css",
+        "plugins/css/plugins.css",
         "theme/style.css",
-        "theme/responsive.css"
+        "theme/responsiveness.css",
+        "skins/default.css"
     ],
 
     "stylesheet@bundle" : [
@@ -38,18 +38,24 @@ All static files have been autoloaded in 'kernel/loadStatic.json'. Before produc
     
     "scripts": [
         "moorexa.min.js",
-        "theme/jquery.js",
-        "theme/popper.min.js",
-        "theme/bootstrap.min.js",
-        "theme/jquery-ui.js",
-        "theme/jquery.fancybox.js",
-        "theme/owl.js",
-        "theme/appear.js",
-        "theme/wow.js",
-        "theme/scrollbar.js",
-        "theme/validate.js",
-        "theme/element-in-view.js",
-        "theme/custom-script.js"
+        "plugins/js/jquery.min.js",
+        "plugins/js/bootstrap.min.js",
+        "plugins/js/viewportchecker.js",
+        "plugins/js/bootsnav.js",
+        "plugins/js/slick.min.js",
+        "plugins/js/jquery.nice-select.min.js",
+        "plugins/js/jquery.fancybox.min.js",
+        "plugins/js/jquery.downCount.js",
+        "plugins/js/freshslider.1.0.0.js",
+        "plugins/js/moment.min.js",
+        "plugins/js/daterangepicker.js",
+        "plugins/js/wysihtml5-0.3.0.js",
+        "plugins/js/bootstrap-wysihtml5.js",
+        "plugins/js/jquery.slimscroll.min.js",
+        "plugins/js/jquery.metisMenu.js",
+        "plugins/js/jquery.easing.min.js",
+        "theme/custom.js",
+        "theme/jQuery.style.switcher.js"
     ],
 
     "scripts@bundle" : [

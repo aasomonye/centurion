@@ -21,6 +21,17 @@ return array (
           'directive_method2' => 'gotoDirective',
         ),
       ),
+      '50bfb5d6654e91a8390b713122d3afb9d70b1c05b6d1a5fd6ffc8cc9d6b7bcfcfefd0d9d' => 
+      array (
+        'query' => 'INSERT INTO Zema_directives (directive,directive_class,directive_method,siteid) VALUES (:directive0,:directive_class0,:directive_method0,:siteid0)',
+        'bind' => 
+        array (
+          'directive0' => 'getImage',
+          'directive_class0' => 'CmsGlobalCms',
+          'directive_method0' => 'loadImages',
+          'siteid0' => 'Centurion',
+        ),
+      ),
     ),
     'Zema_navigationtypes' => 
     array (
@@ -167,6 +178,39 @@ return array (
         array (
           'container_name0' => 'platform',
           'container_body0' => 'Centurion Apartments',
+          'siteid0' => 'Centurion',
+        ),
+      ),
+    ),
+    'Zema_images' => 
+    array (
+      '9aea5e176467cc4c7dee6f23ad82e93259a88369199304066bfbb809466e8aa9ccc4876b' => 
+      array (
+        'query' => 'INSERT INTO Zema_images (image_path,image_name,siteid) VALUES (:image_path0,:image_name0,:siteid0)',
+        'bind' => 
+        array (
+          'image_path0' => './lab/Cms/MVC/App/Uploads/5dadb98f9286ae7902395c4d73cee36aOE9UOO0.jpg',
+          'image_name0' => 'slide1-bg',
+          'siteid0' => 'Centurion',
+        ),
+      ),
+      '9aea5e176467cc4c7dee6f23ad82e932aff95177b946e47b1af3a9ceb7a125a1a86c5bf6' => 
+      array (
+        'query' => 'INSERT INTO Zema_images (image_path,image_name,siteid) VALUES (:image_path0,:image_name0,:siteid0)',
+        'bind' => 
+        array (
+          'image_path0' => './lab/Cms/MVC/App/Uploads/d585c3448b63483976403179af9391443804.jpg',
+          'image_name0' => 'slide2-bg',
+          'siteid0' => 'Centurion',
+        ),
+      ),
+      '9aea5e176467cc4c7dee6f23ad82e932a0a56e411ebeb9b1095ce7d94c0975e63a9fe26d' => 
+      array (
+        'query' => 'INSERT INTO Zema_images (image_path,image_name,siteid) VALUES (:image_path0,:image_name0,:siteid0)',
+        'bind' => 
+        array (
+          'image_path0' => './lab/Cms/MVC/App/Uploads/3f300023b4831cc89c4ffad089585ad28972.jpg',
+          'image_name0' => 'slide3-bg',
           'siteid0' => 'Centurion',
         ),
       ),

@@ -13,5 +13,7 @@ return array (
   '184186cdea6111b286b3b83d2f2c653a_table-button.html' => '707e4151c1085022d356e9060f8572ba',
   '867d9b9392c076017a7b03dc46e65e88_update-button.html' => '81a53889cacd4dab3c74175b6b63f5c3',
   '04917863cd9a1597960bd00ecc731dc2_tables.html' => '5d67bd67fcb0cf9a4426bffe2b73e43c',
+  '9a426233d1d3a19ecc8345ac77175504_images.html' => 'f5445ee33f7b7a6b9714597cb636d6c9',
+  '7a4c3e51f2049cc1cd4fd77aa9d86635_directive.html' => 'bc37adfc57472138355dde311869f80e',
 );
 ?>
