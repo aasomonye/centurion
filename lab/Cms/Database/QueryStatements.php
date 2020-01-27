@@ -128,6 +128,15 @@ return array (
           'userid' => '1',
         ),
       ),
+      '248f71412349f00ac171168756aa9b571bd0a6d15fa1223cbe8c5d38537d9049399a64d2' => 
+      array (
+        'query' => 'UPDATE Zema_users SET loggedinToken = :loggedinToken  WHERE userid = :userid ',
+        'bind' => 
+        array (
+          'loggedinToken' => 'b6241a8c60406f8c395dd7371b66c314',
+          'userid' => '1',
+        ),
+      ),
     ),
     'Zema_containers' => 
     array (
@@ -211,6 +220,56 @@ return array (
         array (
           'image_path0' => './lab/Cms/MVC/App/Uploads/3f300023b4831cc89c4ffad089585ad28972.jpg',
           'image_name0' => 'slide3-bg',
+          'siteid0' => 'Centurion',
+        ),
+      ),
+      '9aea5e176467cc4c7dee6f23ad82e9323f268d0fd44eee452082a3ae465cddc6b829e3e8' => 
+      array (
+        'query' => 'INSERT INTO Zema_images (image_path,image_name,siteid) VALUES (:image_path0,:image_name0,:siteid0)',
+        'bind' => 
+        array (
+          'image_path0' => './lab/Cms/MVC/App/Uploads/624100c8051e1f09d18c9bfaf45af94cLagos-Lagoon_View-Hotels.ng_.jpg',
+          'image_name0' => 'lagos-thumb',
+          'siteid0' => 'Centurion',
+        ),
+      ),
+      '9aea5e176467cc4c7dee6f23ad82e9321c215ab4812290f6282f567556a775f8370ee7aa' => 
+      array (
+        'query' => 'INSERT INTO Zema_images (image_path,image_name,siteid) VALUES (:image_path0,:image_name0,:siteid0)',
+        'bind' => 
+        array (
+          'image_path0' => './lab/Cms/MVC/App/Uploads/44c772b3a161dfe3a39f004dac2000c1abuja-view.jpg',
+          'image_name0' => 'abuja-thumb',
+          'siteid0' => 'Centurion',
+        ),
+      ),
+      '9aea5e176467cc4c7dee6f23ad82e9320441163c07921fa4b26490860978b58b78975e06' => 
+      array (
+        'query' => 'INSERT INTO Zema_images (image_path,image_name,siteid) VALUES (:image_path0,:image_name0,:siteid0)',
+        'bind' => 
+        array (
+          'image_path0' => './lab/Cms/MVC/App/Uploads/c379715379085843424ad404bee6c078owerri-center.jpg',
+          'image_name0' => 'owerri-thumb',
+          'siteid0' => 'Centurion',
+        ),
+      ),
+      '9aea5e176467cc4c7dee6f23ad82e9324bb18c05513e456e1dba640c0854465981910421' => 
+      array (
+        'query' => 'INSERT INTO Zema_images (image_path,image_name,siteid) VALUES (:image_path0,:image_name0,:siteid0)',
+        'bind' => 
+        array (
+          'image_path0' => './lab/Cms/MVC/App/Uploads/2a74fc4597ef0795abf196ffb298d364Kajuru-Castle.-Photo-findingae.jpg',
+          'image_name0' => 'kaduna-thumb',
+          'siteid0' => 'Centurion',
+        ),
+      ),
+      '9aea5e176467cc4c7dee6f23ad82e932c63ddd7875ce871bed569441868e4ee8fdb700d5' => 
+      array (
+        'query' => 'INSERT INTO Zema_images (image_path,image_name,siteid) VALUES (:image_path0,:image_name0,:siteid0)',
+        'bind' => 
+        array (
+          'image_path0' => './lab/Cms/MVC/App/Uploads/1abd48b6e3954e27627f09f33700ce7bcalabar-hotel.jpg',
+          'image_name0' => 'calabar-thumb',
           'siteid0' => 'Centurion',
         ),
       ),
