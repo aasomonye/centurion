@@ -82,5 +82,9 @@
     ".\/pages\/PageError\/Views\/error404.html": {
         "hash": "555f1898854a76a876b47003ddfd6e79",
         "path": "utility\/Storage\/Caches\/Views\/cache.47c34552fb502c9007e63d9866af6238.PageError.error404.html"
+    },
+    ".\/lab\/Cms\/MVC\/App\/Views\/images\/update.html": {
+        "hash": "9726f3e40f2dddf7063962d04c415647",
+        "path": "utility\/Storage\/Caches\/Views\/cache.c5fbefa919158061e2be247782157682.App.update.html"
     }
 }

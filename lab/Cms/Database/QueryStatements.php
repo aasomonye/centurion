@@ -273,6 +273,16 @@ return array (
           'siteid0' => 'Centurion',
         ),
       ),
+      'a286f9b576f80783bc57ae12c5289bbc63b07e9f6499fa420aa96b7fecf83f8746f3cbfa' => 
+      array (
+        'query' => 'UPDATE Zema_images SET image_path = :image_path , image_name = :image_name  WHERE imageid=:imageid ',
+        'bind' => 
+        array (
+          'image_path' => './lab/Cms/MVC/App/Uploads/d585c3448b63483976403179af9391443804.jpg',
+          'image_name' => 'slide2-bg',
+          'imageid' => '2',
+        ),
+      ),
     ),
   ),
 );

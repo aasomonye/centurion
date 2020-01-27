@@ -417,5 +417,23 @@
             "error404.js",
             "Error404.js"
         ]
+    ],
+    "public\/Assets\/Images\/:.\/lab\/Cms\/MVC\/App\/Uploads\/d585c3448b63483976403179af9391443804.jpg": [
+        "public\/Assets\/Images\/",
+        ".\/lab\/Cms\/MVC\/App\/Uploads\/d585c3448b63483976403179af9391443804.jpg"
+    ],
+    ".\/lab\/Cms\/MVC\/App\/Static\/:update.css:Update.css": [
+        ".\/lab\/Cms\/MVC\/App\/Static\/",
+        [
+            "update.css",
+            "Update.css"
+        ]
+    ],
+    ".\/lab\/Cms\/MVC\/App\/Static\/:update.js:Update.js": [
+        ".\/lab\/Cms\/MVC\/App\/Static\/",
+        [
+            "update.js",
+            "Update.js"
+        ]
     ]
 }
