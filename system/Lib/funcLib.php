@@ -4251,8 +4251,15 @@ function image($img, $size=null)
 			$assets = new \Moorexa\Assets();
 		}
 
-		$img = !is_null($size) ? $img.'@'.$size : $img;
-		return $assets->image($img);
+		if (env('bootstrap', 'static_url') == '')
+		{
+			// check from file dir
+			$img = !is_null($size) ? $img.'@'.$size : $img;
+			return $assets->image($img);
+		}
+
+		// return image path.
+		return $img;
 	}
 
 	return null;
