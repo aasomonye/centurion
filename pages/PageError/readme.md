@@ -1,4 +1,4 @@
-# App controller notebook.
+# PageError controller notebook.
 This book would explain important lines, folders, files, classes, functions we've added to this Controller.
 
 ## Folder structure
@@ -11,7 +11,7 @@ Contains models for this controller and it's view models.
 Contains extra classes, functions that should be used by this controller. They can extended usability to other controllers outside this scope.
 
 ### Static
-Contains app.css and app.js files and it's only avaliable for App views. This directory allows us define custom styles and scripts for our views that can also be extended by other controllers at run time.
+Contains PageError.css and PageError.js files and it's only avaliable for PageError views. This directory allows us define custom styles and scripts for our views that can also be extended by other controllers at run time.
 
 ### Custom
 Contains this controller header and footer files. This can be activated by including '@setdefault;' anywhere in the header or footer file.

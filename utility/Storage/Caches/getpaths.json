@@ -50,5 +50,8 @@
     ".\/lab\/Cms\/MVC\/App\/Partials\/:images.html:Images.html": ".\/lab\/Cms\/MVC\/App\/Partials\/images.html",
     ".\/lab\/Cms\/MVC\/App\/Models\/:directives.php:Directives.php": ".\/lab\/Cms\/MVC\/App\/Models\/Directives.php",
     ".\/lab\/Cms\/MVC\/App\/Partials\/:directive.html:Directive.html": ".\/lab\/Cms\/MVC\/App\/Partials\/directive.html",
-    ".\/utility\/:loops.php": ".\/utility\/Components\/loops.php"
+    ".\/utility\/:loops.php": ".\/utility\/Components\/loops.php",
+    ".\/pages\/PageError\/Static\/:PageError.css:PageError.cxx.css:PageError.css": ".\/pages\/PageError\/Static\/PageError.css",
+    ".\/pages\/PageError\/Static\/:PageError.js:PageError.js": ".\/pages\/PageError\/Static\/PageError.js",
+    ".\/lab\/:Directives.php": ".\/lab\/Cms\/Installations\/Events\/Directives.php"
 }

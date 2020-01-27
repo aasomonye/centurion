@@ -7,7 +7,7 @@
 			<view>home</view>
 		</default>
 	</router>
-	<error handler="use.default">
+	<error handler="pageError">
 		<error-404>error404</error-404>
 		<error-204>error204</error-204>
 	</error>

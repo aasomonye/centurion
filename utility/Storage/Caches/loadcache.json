@@ -1,15 +1,15 @@
 {
     ".\/custom\/header.html": {
-        "hash": "5b2ae4ccec93d73498a24cbbede37aae",
-        "path": "utility\/Storage\/Caches\/Headers\/cache.d29db69b1a9178a48f1d2ab32f72b35c.App.header.html"
+        "hash": "7b10b622e196ed0ff490fce83e672bd2",
+        "path": "utility\/Storage\/Caches\/Headers\/cache.d29db69b1a9178a48f1d2ab32f72b35c.PageError.header.html"
     },
     ".\/pages\/App\/Views\/home.html": {
-        "hash": "e8372f05b5d419f92c379f170187380e",
+        "hash": "598125b4209e5e8a5a9dcd694166cede",
         "path": "utility\/Storage\/Caches\/Views\/cache.6ca59b1b5498ee214c0f2258b73815c5.App.home.html"
     },
     ".\/custom\/footer.html": {
-        "hash": "3a168b4cfa0245d43d7812b65c26193f",
-        "path": "utility\/Storage\/Caches\/Footers\/cache.420f043b55cd0ea699bdd46745316f3d.App.footer.html"
+        "hash": "6d016d383db0647ba76c858af48b5c17",
+        "path": "utility\/Storage\/Caches\/Footers\/cache.420f043b55cd0ea699bdd46745316f3d.PageError.footer.html"
     },
     ".\/lab\/Cms\/MVC\/App\/Custom\/header.html": {
         "hash": "f96fd396ca07f7265f73225572754062",
@@ -78,5 +78,9 @@
     "public\/Helper\/nofooter.php": {
         "hash": "b7bb4bedf76dcf7492836f797feb4255",
         "path": "utility\/Storage\/Caches\/Footers\/cache.e9fcdbf77a5a787d3299f2de1d1695b1.Cities.nofooter.php"
+    },
+    ".\/pages\/PageError\/Views\/error404.html": {
+        "hash": "555f1898854a76a876b47003ddfd6e79",
+        "path": "utility\/Storage\/Caches\/Views\/cache.47c34552fb502c9007e63d9866af6238.PageError.error404.html"
     }
 }

@@ -937,7 +937,12 @@ class View extends Bootloader
 						}
 
 						// combine data
-						Controller::$dropbox = array_merge(Controller::$dropbox, $vars);
+						array_each(function($val, $key){
+							if (!isset(Controller::$dropbox[$key]))
+							{
+								Controller::$dropbox[$key] = $val;
+							}
+						}, $vars);
 
 						// extract flag
 						if (is_array($flag))
@@ -947,7 +952,7 @@ class View extends Bootloader
 
 						
 						// extract vars from dropbox..
-						extract(Controller::$dropbox);
+						extract(Controller::getDropbox());
 
 
 						// hide header and footer 

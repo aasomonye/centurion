@@ -6,7 +6,7 @@
     "Moorexa\/UrlConfig": "kernel\/Config\/urlConfig.php",
     "Moorexa\/Rexa": "system\/Lib\/rexa.php",
     "Moorexa\/Directive": "system\/Lib\/directives.php",
-    "SmartRow\/Directives": ".\/lab\/SmartRow\/Directives.php",
+    "SmartRow\/Directives": ".\/lab\/Cms\/Installations\/Events\/Directives.php",
     "Moorexa\/Interfaces\/Directive": "system\/Interface\/directives.php",
     "Authenticate": "system\/Inc\/authenticate.php",
     "Moorexa\/Event": "system\/Inc\/events.php",

@@ -289,3 +289,13 @@
 	padding-left: 15px;
 	padding-right: 15px;
 }
+
+.hover-content .title, .caption-box .title{color: #fff;}
+.destination-block-two .hover-content .link-box .theme-btn {
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.destination-block-two .hover-content .link-box::before{
+	border-left: none;
+}

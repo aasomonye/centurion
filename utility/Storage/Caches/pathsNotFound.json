@@ -395,5 +395,27 @@
     ".\/utility\/Classes\/:loops.php": [
         ".\/utility\/Classes\/",
         "loops.php"
+    ],
+    ".\/pages\/PageError\/Static\/:error404.css:error404.cxx.css:Error404.css": [
+        ".\/pages\/PageError\/Static\/",
+        [
+            "error404.css",
+            "error404.cxx.css",
+            "Error404.css"
+        ]
+    ],
+    ".\/pages\/PageError\/Partials\/:meta-tags.md:Meta-tags.md": [
+        ".\/pages\/PageError\/Partials\/",
+        [
+            "meta-tags.md",
+            "Meta-tags.md"
+        ]
+    ],
+    ".\/pages\/PageError\/Static\/:error404.js:Error404.js": [
+        ".\/pages\/PageError\/Static\/",
+        [
+            "error404.js",
+            "Error404.js"
+        ]
     ]
 }

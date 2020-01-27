@@ -72,3 +72,6 @@ You can start the development server by running:
 ```bash
     php assist serve
 ```
+
+# HTTP Errors 
+Error handler for 404, 204 has been registered in 'kernel/Config/config.xml'. This handler exists as a controller called 'PageError'. During initialization, we set the display for the nav to be active in 'pages/PageError/provider.php', so to give the user some extra links of our application to navigate to.
