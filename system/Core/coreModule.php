@@ -276,13 +276,12 @@ class Engine
 			{
 				$get = (isset($_GET['__app_request__']) ? $_GET['__app_request__'] : (isset($_SERVER['REQUEST_QUERY_STRING']) ? $_SERVER['REQUEST_QUERY_STRING'] : null));
 
-				if (is_null($get))
+				if (isset($_GET['command']))
 				{
-					if (isset($_GET['command']))
-					{
-						$get = urldecode($_GET['command']);
-					}
+					$get = urldecode($_GET['command']);
 				}
+
+				var_dump($get);
 
 				if (!is_null($get))
 				{

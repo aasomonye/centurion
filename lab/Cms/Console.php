@@ -66,9 +66,6 @@ class Console extends Assist
         // apply from
         array_push($arg, '-from='.HOME.'lab/Cms/Tables/', '-prefix=Zema_');
 
-        // add save query path
-        Moorexa\DB::$queryCachePath = HOME . 'lab/Cms/Database/QueryStatements.php';
-
         // call migrate method
         parent::migrate($arg);
     }
@@ -127,16 +124,22 @@ class Console extends Assist
                         }
                     }
 
+                    $tables = implode(',', $tables);
+                    if (strlen($tables) > 2)
+                    {
+                        $tables = ' '.$tables;
+                    }
+
                     // build url
                     $urls = [
-                        'zema' => $liveUrl . "?command=".urlencode("Zema:migrate ".implode(',', $tables)),
-                        'global' => $liveUrl . "?command=".urlencode("migrate ".implode(',', $tables))
+                        'zema' => urlencode("Zema:migrate".$tables),
+                        'global' => urlencode("migrate".$tables)
                     ];
 
                     $http = Http::createInstance();
                     
                     // run query
-                    foreach ($urls as $scope => $url)
+                    foreach ($urls as $scope => $command)
                     {
                         $continue = false;
 
@@ -159,18 +162,16 @@ class Console extends Assist
 
                         if ($continue)
                         {
-                            self::sleep($ass->ansii('green').'Staging Execution for '. $ass->ansii('reset').' '.$url);
+                            self::sleep($ass->ansii('green').'Staging Execution for '. $ass->ansii('reset').' '.$liveUrl.'?command='.$command);
                             // execute query
-                            $response = $http->header("assist-cli-token: {$token}")->get($url);
+                            $response = $http->header("assist-cli-token: {$token}")->query(['command' => $command])->get($liveUrl);
                             self::sleep($ass->ansii('green').'Running Migration for '.$scope.'..'. $ass->ansii('reset').' Receiving response from server...');
                             self::sleep('=== Response ===');
                             self::sleep($response->text);
-                            self::out(PHP_EOL);
                         }
                     }
 
-                    self::sleep('Closing Connection.');
-                
+                    self::out(PHP_EOL);
                     
                 }
                 else
