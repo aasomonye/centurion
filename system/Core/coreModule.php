@@ -281,8 +281,6 @@ class Engine
 					$get = urldecode($_GET['command']);
 				}
 
-				var_dump($get);
-
 				if (!is_null($get))
 				{
 					$get = urldecode($get);
