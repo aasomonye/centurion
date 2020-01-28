@@ -4251,15 +4251,8 @@ function image($img, $size=null)
 			$assets = new \Moorexa\Assets();
 		}
 
-		if (env('bootstrap', 'static_url') == '')
-		{
-			// check from file dir
-			$img = !is_null($size) ? $img.'@'.$size : $img;
-			return $assets->image($img);
-		}
-
-		// return image path.
-		return $img;
+		$img = !is_null($size) ? $img.'@'.$size : $img;
+		return $assets->image($img);
 	}
 
 	return null;
@@ -5032,4 +5025,17 @@ function pagepath(string $directory,  $filepath = null)
 		}
 	};
 	
+}
+
+// just another substr_replace
+function xsubstr_replace(string $text, string $replace, int $start)
+{
+	$body = substr($text, 0, $start);
+
+	if (strlen($text) > $start)
+	{
+		$body .= $replace;
+	}
+
+	return $body;
 }

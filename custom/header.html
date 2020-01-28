@@ -37,77 +37,32 @@
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="navbar-menu">
-            
-                <ul class="nav navbar-nav navbar-left" data-in="fadeInDown" data-out="fadeOutUp">
+                
+                <ul class="nav navbar-nav navbar-left">
+                    {$view = uri()->view;}
+                    <li><a $href="/" php-if::class="$view=='home' ? 'active-link' : ''">Accomodation</a></li>
+                    <li><a $href="car-rental" php-if::class="$view=='carRental' ? 'active-link' : ''">Car Rental</a></li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
                 
                     <li>
                         <a $href="/">Home</a>
                     </li>
-
+                    
                     <li>
                         <a $href="cities">Cities</a>
                     </li>
-                
-                    <li class="dropdown megamenu-fw"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Property types</a>
-                        <ul class="dropdown-menu megamenu-content" role="menu">
-                            <li>
-                                <div class="row">
-                                    <div class="col-menu col-md-3">
-                                        <h6 class="title">Apartment</h6>
-                                        <div class="content">
-                                            <ul class="menu-col">
-                                                <li><a $href="apartments">All <em class="pull-right">(0)</em></a></li>
-                                                <li><a href="">Demo</a></li>
-                                                <li><a href="">Demo</a></li>
-                                                <li><a href="">Demo</a></li>
-                                                <li><a $href="apartments"><i class="fa fa-plus"></i> Discover more</a></li>
-                                            </ul>
-                                        </div>
-                                    </div><!-- end col-3 -->
-                                    <div class="col-menu col-md-3">
-                                        <h6 class="title">Condo</h6>
-                                        <div class="content">
-                                            <ul class="menu-col">
-                                                <li><a $href="apartments">All <em class="pull-right">(0)</em></a></li>
-                                                <li><a href="">Demo</a></li>
-                                                <li><a href="">Demo</a></li>
-                                                <li><a href="">Demo</a></li>
-                                                <li><a $href="apartments"><i class="fa fa-plus"></i> Discover more</a></li>
-                                            </ul>
-                                        </div>
-                                    </div><!-- end col-3 -->
-                                    <div class="col-menu col-md-3">
-                                        <h6 class="title">Duplex House</h6>
-                                        <div class="content">
-                                            <ul class="menu-col">
-                                                <li><a $href="apartments">All <em class="pull-right">(0)</em></a></li>
-                                                <li><a href="">Demo</a></li>
-                                                <li><a href="">Demo</a></li>
-                                                <li><a href="">Demo</a></li>
-                                                <li><a $href="apartments"><i class="fa fa-plus"></i> Discover more</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>    
-                                    <div class="col-menu col-md-3">
-                                        <h6 class="title">House</h6>
-                                        <div class="content">
-                                            <ul class="menu-col">
-                                                <li><a $href="apartments">All <em class="pull-right">(0)</em></a></li>
-                                                <li><a href="">Demo</a></li>
-                                                <li><a href="">Demo</a></li>
-                                                <li><a href="">Demo</a></li>
-                                                <li><a $href="apartments"><i class="fa fa-plus"></i> Discover more</a></li>
-                                            </ul>
-                                        </div>
-                                    </div><!-- end col-3 -->
-                                </div><!-- end row -->
-                            </li>
-                        </ul>
-                    </li>
-                
+                   
+                    @if ($view == 'carRental')
+                        @partial('car-rental-dropdown');
+                    @else
+                        @partial('property-dropdown');
+                    @endif
+
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Company</a>
-                        <ul class="dropdown-menu animated fadeOutUp">
+                        <ul class="dropdown-menu animated">
                             <li><a $href="company/about">About us</a></li>
                             <li><a $href="company/blogs">Blogs</a></li>
                             <li><a $href="company/testimonials">Testimonials</a></li>
@@ -117,7 +72,7 @@
                             <li><a $href="company/best-price">Best Price Gurantee</a></li>
                         </ul>
                     </li>
-                    
+
                     <li>
                         <a $href="contact">Contact</a>
                     </li>
@@ -125,13 +80,15 @@
                     <li>
                         <a $href="company/become-a-partner">Become a partner</a>
                     </li>
-                    
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="br-right"><a href="javascript:void(0)"  data-toggle="modal" data-target="#signin"><i class="login-icon ti-user"></i>Login</a></li>
+                        <li class="sign-up"><a class="btn-signup red-btn" $href="sign-up"><span class="ti-briefcase"></span>Sign up</a></li> 
+                    </ul>
+
                 </ul>
                 
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="br-right"><a href="javascript:void(0)"  data-toggle="modal" data-target="#signin"><i class="login-icon ti-user"></i>Login</a></li>
-                    <li class="sign-up"><a class="btn-signup red-btn" $href="sign-up"><span class="ti-briefcase"></span>Sign up</a></li> 
-                </ul>
+                
                     
             </div>
             <!-- /.navbar-collapse -->

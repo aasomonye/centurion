@@ -17,25 +17,25 @@ class Query
     // get assets
     public static function getAssets() : promise
     {
-        return db('assets')->get();
+        return db('Zema_assets')->get();
     }
 
     // get configs
     public static function getConfig() : promise
     {
-        return db('config')->get();
+        return db('Zema_config')->get();
     }
 
     // get navigation by link
     public static function getNavigationByLink(string $link) : promise
     {
-        return db('navigation')->get('page_link=?', $link);
+        return db('Zema_navigation')->get('page_link=?', $link);
     }
 
     // get all parent navigation
     public static function getParentNavigation() : promise
     {
-        return db('navigation')->get('parentid=?')->bind(0);
+        return db('Zema_navigation')->get('parentid=?')->bind(0);
     }
 
     // check if parent nav has children
@@ -55,13 +55,13 @@ class Query
     // get children to a parent navigation
     public static function getParentNavChildren(int $parentid) : promise
     {
-        return db('navigation')->get('parentid=?', $parentid);
+        return db('Zema_navigation')->get('parentid=?', $parentid);
     }
 
     // get all directives
     public static function getAllDirectives()
     {
-        return db('directives')->allowSlashes()->get();
+        return db('Zema_directives')->allowSlashes()->get();
     }
 
     // get all images
@@ -69,7 +69,7 @@ class Query
     {
         $images = [];
 
-        db('images')->get()->obj(function($row) use (&$images){
+        db('Zema_images')->get()->obj(function($row) use (&$images){
             $images[$row->image_name] = image($row->image_path);
         });
 
@@ -79,19 +79,19 @@ class Query
     // get container row for an ID
     public static function getContainer(int $containerid)
     {
-        return db('containers')->get('containerid=?')->bind($containerid);
+        return db('Zema_containers')->get('containerid=?')->bind($containerid);
     }
 
     // get containers
     public static function getContainers()
     {
-        return db('containers')->get()->orderby('containerid', 'desc');
+        return db('Zema_containers')->get()->orderby('containerid', 'desc');
     }
 
     // update container
     public static function updateContainer($data, int $containerid)
     {
-        return db('containers')
+        return db('Zema_containers')
         ->config([
             'allowSlashes' => true,
             'allowHTML' => true
@@ -102,7 +102,7 @@ class Query
     // insert container
     public static function insertContainer(array $container)
     {
-        return db('containers')
+        return db('Zema_containers')
         ->config([
             'allowSlashes' => true,
             'allowHTML' => true
@@ -112,49 +112,49 @@ class Query
     // delete container
     public static function deleteContainer(int $containerid)
     {
-        return db('containers')->delete('containerid=?', $containerid);
+        return db('Zema_containers')->delete('containerid=?', $containerid);
     }
 
     // add image
     public static function addImageToDatabase(array $imageArray)
     {
-        return db('images')->insert($imageArray)->go();
+        return db('Zema_images')->insert($imageArray)->go();
     }
 
     // get a single image
     public static function getSingleImage(int $imageid)
     {
-        return db('images')->get('imageid=?', $imageid);
+        return db('Zema_images')->get('imageid=?', $imageid);
     }
 
     // get a single directive
     public static function getSingleDirective(int $directiveid)
     {
-        return db('directives')->allowSlashes()->get('directiveid=?', $directiveid);
+        return db('Zema_directives')->allowSlashes()->get('directiveid=?', $directiveid);
     }
 
     // update image
     public static function updateImage(array $imageArray, int $imageid)
     {
-        return db('images')->update($imageArray)->where('imageid=?', $imageid)->go();
+        return db('Zema_images')->update($imageArray)->where('imageid=?', $imageid)->go();
     }
 
     // add directive
     public static function addDirective(array $directive)
     {
-        return db('directives')->allowSlashes()->insert($directive)->go();
+        return db('Zema_directives')->allowSlashes()->insert($directive)->go();
     }
 
     // update directive
     public static function updateDirective(array $directive, int $directiveid)
     {
-        return db('directives')->allowSlashes()->update($directive, 'directiveid=?')->bind($directiveid);
+        return db('Zema_directives')->allowSlashes()->update($directive, 'directiveid=?')->bind($directiveid);
     }
 
     // get user
     public static function getUser(int $userid)
     {
-        return db('users')->get('userid=?', $userid);
+        return db('Zema_users')->get('userid=?', $userid);
     }
 
     // get user data from session
@@ -172,7 +172,7 @@ class Query
 
     public function queryApplyPermissonId($query)
     {
-        return $query->from('permission', 'permissionid')->get();
+        return $query->from('Zema_permission', 'permissionid')->get();
     }   
 
     // get user permisson group from session
@@ -207,36 +207,76 @@ class Query
     // get navigation
     public static function getNavigation()
     {
-        return db('navigation')->get()->orderby('navigationid','desc');
+        return db('Zema_navigation')->get()->orderby('navigationid','desc');
     }
 
     // get navigation by id
     public static function getNavigationById(int $navigationid)
     {
-        return db('navigation')->get('navigationid = ?', $navigationid);
+        return db('Zema_navigation')->get('navigationid = ?', $navigationid);
     }
 
     // get all plugins
     public static function getPlugins()
     {
-        return db('installations')->get('installation_type=?', 'Plugins');
+        return db('Zema_installations')->get('installation_type=?', 'Plugins');
     }
 
     // get all tables
     public static function getTables()
     {
-        return db('tables')->get();
+        return db('Zema_tables')->get();
     }
 
     // get table from linker
     public static function getTableByLinker(string $tableName)
     {
-        return db('tables')->get('table_linker = ?', $tableName);
+        return db('Zema_tables')->get('table_linker = ?', $tableName);
     }
 
     // get table row
     public static function getTableRows(string $tableName)
     {
         return db($tableName)->get()->orderbyprimarykey('desc');
+    }
+
+    // get table row by primary key
+    public static function getTableRowByPrimary(string $tableName, int $primaryid)
+    {
+        return db($tableName)->get()->primary($primaryid);
+    }   
+
+    // get table rows from foreign key
+    public static function getRowsFromForeignKey(string $column, array $config) : array
+    {   
+        $rows = [];
+
+        if (isset($config['foreign_keys']))
+        {
+            $foreign_keys = $config['foreign_keys'];
+
+            // check for this column
+            if (isset($foreign_keys[$column]))
+            {
+                // get config
+                $config = $foreign_keys[$column];
+
+                // get table
+                $table = $config['table'];
+
+                // get column
+                $tableColumn = $config['column'];
+
+                // run query
+                $getRows = db($table)->get();
+
+                $getRows->obj(function($row) use (&$rows, $column, $tableColumn)
+                {
+                    $rows[$row->{$column}] = $row->{$tableColumn};
+                });
+            }
+        }
+
+        return $rows;
     }
 }

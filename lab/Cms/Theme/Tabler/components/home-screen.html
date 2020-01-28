@@ -1,11 +1,11 @@
 @php
 
     $report = [];
-    $report[] = db('containers')->get()->rows;
-    $report[] = db('directives')->get()->rows;
-    $report[] = db('images')->get()->rows;
-    $report[] = db('navigation')->get()->rows;
-    $report[] = db('users')->get()->rows;
+    $report[] = db('Zema_containers')->get()->rows;
+    $report[] = db('Zema_directives')->get()->rows;
+    $report[] = db('Zema_images')->get()->rows;
+    $report[] = db('Zema_navigation')->get()->rows;
+    $report[] = db('Zema_users')->get()->rows;
     $report[] = 0;
 
 @endphp

@@ -51,5 +51,18 @@ class App extends Controller
 	{
 		$this->render('becomeapartner');
 	}
+	/**
+    * App/car-rental wrapper. 
+    *
+    * See documention https://www.moorexa.com/doc/controller
+    *
+    * @param Any You can catch params sent through the $_GET request
+    * @return void
+    **/
+
+	public function carRental()
+	{
+		$this->render('carrental');
+	}
 }
 // END class

@@ -1,10 +1,10 @@
 {
     ".\/custom\/header.html": {
-        "hash": "7b10b622e196ed0ff490fce83e672bd2",
-        "path": "utility\/Storage\/Caches\/Headers\/cache.d29db69b1a9178a48f1d2ab32f72b35c.PageError.header.html"
+        "hash": "71cacf45d7dff00ce6835c27b5da5a07",
+        "path": "utility\/Storage\/Caches\/Headers\/cache.d29db69b1a9178a48f1d2ab32f72b35c.App.header.html"
     },
     ".\/pages\/App\/Views\/home.html": {
-        "hash": "745cf42228abe628df690b772a602293",
+        "hash": "50e054e4e0c8c1bd17bd6e12cb000090",
         "path": "utility\/Storage\/Caches\/Views\/cache.6ca59b1b5498ee214c0f2258b73815c5.App.home.html"
     },
     ".\/custom\/footer.html": {
@@ -86,5 +86,9 @@
     ".\/lab\/Cms\/MVC\/App\/Views\/images\/update.html": {
         "hash": "9726f3e40f2dddf7063962d04c415647",
         "path": "utility\/Storage\/Caches\/Views\/cache.c5fbefa919158061e2be247782157682.App.update.html"
+    },
+    ".\/pages\/App\/Views\/carrental.html": {
+        "hash": "5393e22050e553f81f71750b5ec8e54c",
+        "path": "utility\/Storage\/Caches\/Views\/cache.fb8c8d885f42f3a49403335b6f548ec3.App.carrental.html"
     }
 }

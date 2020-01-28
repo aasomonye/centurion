@@ -92,7 +92,7 @@ class Directives extends Model
     // delete directive
     public function deleteDirective($directiveid)
     {
-        if (db('directives')->delete('directiveid = ?', $directiveid)->ok)
+        if (db('Zema_directives')->delete('directiveid = ?', $directiveid)->ok)
         {
             Alert::success('Directive deleted successfully.');
         }

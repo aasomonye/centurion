@@ -1561,8 +1561,11 @@ class Route
 
 		if ($listener === false && is_callable($callback))
 		{
-			// good
-			call_user_func($callback, self::$requestUri);
+			if (!defined('ASSIST_TOKEN'))
+			{
+				// good
+				call_user_func($callback, self::$requestUri);
+			}
 		}
 	}
 

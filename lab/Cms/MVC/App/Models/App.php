@@ -24,7 +24,7 @@ class App extends Model
         'pages' => ['edit-view' => 'post:updateView', 'edit-nav' => 'post:updateNavigation', 
                     'create' => 'post:createNavigation', 'delete' => 'get:deleteNav'],
         'plugins' => ['create' => 'callPluginMethods', 'edit' => 'callPluginMethods', 'delete' => 'callPluginMethods'],
-        'tables' => ['create' => 'post:addTableConfig', 'edit' => 'editTableConfig']
+        'tables' => ['create' => 'post:addTableConfig', 'edit' => 'editTableConfig', '/(getApp)(.*?)(Delete)/' => 'deleteTableRow']
     ];
 
     // argument indexing
@@ -49,7 +49,7 @@ class App extends Model
         }
 
         // update database
-        if (db('config')->update($post->data(), 'configid=?', 1)->ok)
+        if (db('Zema_config')->update($post->data(), 'configid=?', 1)->ok)
         {
             return true;
         }
@@ -72,7 +72,7 @@ class App extends Model
             $post->set('password', Hash::digest($post->password));
 
             // add user
-            if (db('users')->insert($post->data())->go()->ok)
+            if (db('Zema_users')->insert($post->data())->go()->ok)
             {
                 return true;
             }
@@ -102,7 +102,7 @@ class App extends Model
             }
 
             // update account
-            if (db('users')->update($post->data(), 'userid=?', $userid)->go()->ok)
+            if (db('Zema_users')->update($post->data(), 'userid=?', $userid)->go()->ok)
             {
                 return true;
             }
@@ -121,7 +121,7 @@ class App extends Model
     {
         if ($userid != session()->get('zema.user.id'))
         {
-            if (db('users')->delete('userid=?', $userid)->ok)
+            if (db('Zema_users')->delete('userid=?', $userid)->ok)
             {
                 return true;
             }
@@ -134,7 +134,7 @@ class App extends Model
     public function authenticateUser(Post $post)
     {
         // open database connection to table
-        $user = db('users');
+        $user = db('Zema_users');
 
         // check
         if ($post->has('username', $username))
@@ -209,7 +209,7 @@ class App extends Model
     // update navigation
     public function updateNavigation(Post $post, int $navigationid)
     {
-        $this->table = 'navigation';
+        $this->table = 'Zema_navigation';
 
         // update
         if ($this->update($post->data())->where('navigationid = ?', $navigationid)->ok)
@@ -221,7 +221,7 @@ class App extends Model
     // create navigation
     public function createNavigation(Post $post)
     {
-        $this->table = 'navigation';
+        $this->table = 'Zema_navigation';
 
         if ($post->position == '')
         {
@@ -237,7 +237,7 @@ class App extends Model
     // delete navigation
     public function deleteNav(int $navigationid)
     {
-        $this->table = 'navigation';
+        $this->table = 'Zema_navigation';
 
         if ($this->delete('navigationid = ?', $navigationid)->ok)
         {
@@ -327,7 +327,7 @@ class App extends Model
             }
 
             // insert install
-            if (db('installations')->insert($post->data())->ok)
+            if (db('Zema_installations')->insert($post->data())->ok)
             {
                 Alert::success('Installation complete');
                 
@@ -356,7 +356,7 @@ class App extends Model
             ];
 
             // add to table
-            if (db('tables')->insert($insert)->ok)
+            if (db('Zema_tables')->insert($insert)->ok)
             {
                 $success = true;
             }
@@ -374,7 +374,7 @@ class App extends Model
         $model = createModelRule(function($body){ $body->allow_form_input(); });
 
         // get table information
-        $tableInfo = db('tables')->get('tableid = ?', $tableid);
+        $tableInfo = db('Zema_tables')->get('tableid = ?', $tableid);
 
         if ($tableInfo->rows > 0)
         {
@@ -388,5 +388,84 @@ class App extends Model
         }   
 
         dropbox('model', $model);
+    }
+
+    // create table record
+    public function createTableRecord($table, Post $post)
+    {
+        if (!$post->isEmpty())
+        {
+            // get data
+            $data = $post->data();
+
+            $insert = []; // fresh array
+
+            // run loop and extract column data
+            $columnIndex = 0;
+
+            foreach ($data as $column => $array)
+            {
+                foreach ($array as $index => $columnData)
+                {
+                    if ($columnData != '')
+                    {
+                        $insert[$index][$column] = $columnData;
+                    }
+                }
+            }
+
+            if (count($insert) > 0)
+            {
+                $db = db($table)->config([
+                    'allowSlashes' => true,
+                    'allowHTML' => true
+                ]);
+
+                $inserted = 0;
+
+                foreach ($insert as $data)
+                {
+                    if ($db->insert($data)->ok)
+                    {
+                        $inserted++;
+                    }
+                }
+
+                if ($inserted > 0)
+                {
+                    Alert::success('('.$inserted.') row'.(($inserted > 1) ? 's' : ''). ' inserted successfully.');
+                }
+            }
+        }
+    }
+
+    // update table record
+    public function updateTableRecord($table, Post $post, $action, $rowid)
+    {
+        if (!$post->isEmpty())
+        {
+            $db = db($table)->config([
+                'allowSlashes' => true,
+                'allowHTML' => true
+            ]);
+
+            // run update
+            if ($db->update($post->data())->primary($rowid)->ok)
+            {
+                Alert::success('1 Row updated successfully.');
+            }
+        }
+    }
+
+    // delete table row
+    public function deleteTableRow($table, $action, $rowid)
+    {
+        if ($table != null && $action == 'delete')
+        {
+            if (db($table)->delete()->primary($rowid)->ok)
+            {
+                Alert::success('1 Row deleted successfully.');
+            }
+        }
     }
 }

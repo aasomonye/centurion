@@ -135,10 +135,16 @@ class DB
    private $argumentPassed = [];
 
    // get query cache path
-   public static $queryCachePath = null;
+   public $queryCachePath = null;
 
    // cached data array for migration
    private static $cacheQueryData = [];
+
+   // prefixed registered
+   private static $prefixRegistered = [];
+
+   // register all prefix event queries
+   private static $prefixRegistry = [];
   
     // list of allowed chains
     private function getAllowed($val = [null], &$sql = "")
@@ -455,7 +461,20 @@ class DB
 
         if (preg_match("/($quote)/", $table) == false)
         {
-            $table = $prefix . $table;
+            if (count(self::$prefixRegistered) > 0)
+            {
+                foreach (self::$prefixRegistered as $prefixRegistered)
+                {
+                    $quote = preg_quote($prefixRegistered);
+
+                    if (preg_match("/($quote)/", $table))
+                    {
+                        return $table;
+                    }
+                }
+            }
+
+            return $prefix . $table;
         }
 
         return $table;
@@ -2433,6 +2452,9 @@ class DB
                         }
                     }
 
+                    // call Prefix Query method
+                    $this->callPrefixQuery();
+
                     $order = [];
                     $bind = $this->bind;
 
@@ -3678,9 +3700,9 @@ class DB
         $driver = strlen($driver) == 0 ? Handler::$driver : $driver;
 
         // return query cache path
-        if (!is_null(self::$queryCachePath))
+        if (!is_null($this->queryCachePath))
         {
-            return self::$queryCachePath;
+            return $this->queryCachePath;
         }
 
         // create hash
@@ -3808,6 +3830,50 @@ class DB
         }
     }
 
+    // register prefix
+    public static function registerPrefix()
+    {
+        // get prefix passed 
+        $prefixes = func_get_args();
+
+        if (count($prefixes) > 0)
+        {
+            array_map(function($prefix)
+            {
+                self::$prefixRegistered[] = $prefix;
+            }, $prefixes);
+        }
+    }
+
+    // register prefix query
+    public static function prefixQuery(string $prefix, \closure $callback)
+    {
+        self::$prefixRegistry[$prefix][] = $callback;
+    }
+
+    // call prefix callbacks
+    private function callPrefixQuery()
+    {
+        $prefixRegistry = self::$prefixRegistry;
+
+        // get prefix and check in table name
+        foreach ($prefixRegistry as $prefix => $arrayOfClosure)
+        {
+            // quote prefix
+            $quote = preg_quote($prefix);
+
+            if (preg_match("/^($quote)/i", $this->table))
+            {
+                array_map(function($callback)
+                {
+                    call_user_func_array($callback, [&$this, &$this->table, &$this->query]);
+
+                }, $arrayOfClosure);
+
+                break;
+            }
+        }
+    }
 }
 
 // ends here.

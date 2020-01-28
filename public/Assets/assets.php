@@ -45,12 +45,14 @@ class Assets
 
 	public function image($file)
 	{
+		
 		if ($this->getFileIfCache($file, $cache, $json))
 		{
 			return $cache;
 		}
 		else
 		{
+
 			$cache = PATH_TO_PUBLIC . 'Assets/assets.paths.json';
 			$size = null;
 			$filecopy = $file;
@@ -123,6 +125,13 @@ class Assets
 
 						if ($scan == '')
 						{
+							// static url added ?
+							if (env('bootstrap', 'static_url') != '')
+							{
+								// return image path.
+								return  env('bootstrap', 'static_url') . preg_replace('/^(.\/)/', '', $fileNoUpdate);
+							}
+
 							return url(deepScan(PATH_TO_IMAGE, 'no-image-available.png'));
 						}
 						else

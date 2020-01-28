@@ -127,8 +127,8 @@ class DatabaseHandler extends Main
 		$channel = new class($callback)
 		{
 			private $callback; // callback function passed;
-			private $table; // table calling
-			private $method; // method calling
+			public  $table; // table calling
+			public  $method; // method calling
 			public  $canContinue = null;
 			private $query;
 			
@@ -149,6 +149,7 @@ class DatabaseHandler extends Main
 				// call callback method
 				return call_user_func($this->callback, $this);
 			}
+
 
 			// check for method
 			public function has(string $method, $fallthrough = null)

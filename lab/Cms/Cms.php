@@ -164,6 +164,9 @@ class Cms
             // get route url
             $url = Route::getUrl();
 
+            // set prefix for db
+            \Moorexa\DB::$prefix = 'Zema_';
+
             // set base path
             env('bootstrap.controller.basepath', HOME . 'lab/Cms/MVC');
 
@@ -395,7 +398,7 @@ class Cms
         // check 
         if (!$redirect)
         {
-            $user = db('users')->get('userid=?', $userid);
+            $user = db('Zema_users')->get('userid=?', $userid);
 
             $redirect = true;
 

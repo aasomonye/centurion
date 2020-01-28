@@ -151,16 +151,19 @@ class Config
     {
         Boot::called('Moorexa\UrlConfig', function()
         {
-            // add prefix
-            DB::prefix('Zema_');
-
+            // register prefix
+            DB::registerPrefix('Zema_');
+            
             // load queries
             Boot::singleton_as('Query', 'Database\Query');
             Boot::singleton_as('CMS', 'CmsGlobal\Cms')->loadDirectives();
+            
+            // change query cache path 
+            DB::prefixQuery('Zema_', function($instance)
+            {
+                $instance->queryCachePath = CMS_ROOT . 'Database/QueryStatements.php';
+            });
 
-            // add save query path
-            DB::$queryCachePath = CMS_ROOT . 'Database/QueryStatements.php';
-        
             // load cms config
             Boot::singleton_as('Config', 'Cms\Config')->loadStatic();
         

@@ -26,7 +26,7 @@ class Container
     public function __construct()
     {
         // load all containers
-        \Moorexa\DB::table('containers')->get()->obj(function($row){
+        \Moorexa\DB::table('Zema_containers')->get()->obj(function($row){
             $this->containers[$row->container_name] = $row->container_body;
         });
 
