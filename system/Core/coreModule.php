@@ -280,7 +280,7 @@ class Engine
 				{
 					if (isset($_GET['command']))
 					{
-						$get = $_GET['command'];
+						$get = urldecode($_GET['command']);
 					}
 				}
 

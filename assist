@@ -8288,7 +8288,7 @@ class Assist
         {
             foreach ($exclude as $i => $path)
             {
-                $quote = preg_quote($fileOrDir);
+                $quote = preg_quote($fileOrDir, '/');
 
                 if (preg_match("/($quote)/", $path) == true)
                 {

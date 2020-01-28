@@ -467,7 +467,7 @@ class ApiManager
 			self::$handler = ucfirst($handler);
 			
 			// include middlewares
-			include_once HOME . 'kernel/middleware.php';
+			include_once PATH_TO_SERVICES . 'middleware.php';
 
 			// include autoloader
 			include_once HOME . 'api/autoloader.php';

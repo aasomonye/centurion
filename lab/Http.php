@@ -44,6 +44,8 @@ class Http
             self::$client = new \GuzzleHttp\Client(); // set client
             self::setHeader(self::autoHeaders()); // set auto headers
         }
+
+        return self::$instance;
     }
     
     // create request
