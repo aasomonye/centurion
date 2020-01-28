@@ -66,6 +66,12 @@ class Console extends Assist
         // apply from
         array_push($arg, '-from='.HOME.'lab/Cms/Tables/', '-prefix=Zema_');
 
+        // change query cache path 
+        Moorexa\DB::prefixQuery('Zema_', function()
+        {
+            parent::$queryCachePath = HOME . 'lab/Cms/Database/QueryStatements.php';
+        });
+
         // call migrate method
         parent::migrate($arg);
     }

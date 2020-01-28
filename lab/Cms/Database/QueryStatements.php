@@ -65,6 +65,36 @@ return array (
           'siteid0' => 'Centurion',
         ),
       ),
+      '9aea5e176467cc4c7dee6f23ad82e9325d85a3e5a2a47b37d6ca5c8dd0eb9fe4317d63fb' => 
+      array (
+        'query' => 'INSERT INTO Zema_images (image_path,image_name,siteid) VALUES (:image_path0,:image_name0,:siteid0)',
+        'bind' => 
+        array (
+          'image_path0' => './lab/Cms/MVC/App/Uploads/5dadb98f9286ae7902395c4d73cee36a5dadb98f9286ae7902395c4d73cee36a3804.jpg',
+          'image_name0' => 'slide1-bg',
+          'siteid0' => 'Centurion',
+        ),
+      ),
+      '9aea5e176467cc4c7dee6f23ad82e9326041aaf3b27219ec53888e28ef6f2442fe441969' => 
+      array (
+        'query' => 'INSERT INTO Zema_images (image_path,image_name,siteid) VALUES (:image_path0,:image_name0,:siteid0)',
+        'bind' => 
+        array (
+          'image_path0' => './lab/Cms/MVC/App/Uploads/d585c3448b63483976403179af9391443f300023b4831cc89c4ffad089585ad2OE9UOO0.jpg',
+          'image_name0' => 'slide2-bg',
+          'siteid0' => 'Centurion',
+        ),
+      ),
+      '9aea5e176467cc4c7dee6f23ad82e932050c70b9e45e6792e805f262f82c1b48846445ea' => 
+      array (
+        'query' => 'INSERT INTO Zema_images (image_path,image_name,siteid) VALUES (:image_path0,:image_name0,:siteid0)',
+        'bind' => 
+        array (
+          'image_path0' => './lab/Cms/MVC/App/Uploads/3f300023b4831cc89c4ffad089585ad2d585c3448b63483976403179af9391448972.jpg',
+          'image_name0' => 'slide3-bg',
+          'siteid0' => 'Centurion',
+        ),
+      ),
     ),
     'Zema_users' => 
     array (
@@ -267,6 +297,36 @@ return array (
         array (
           'container_name0' => '',
           'container_body0' => '',
+          'siteid0' => 'Centurion',
+        ),
+      ),
+      'caaa57d18bdee9f4ddb1a3337cc32bf3b8acb2c25ed0ad3ff4833cd4a7d31963723a60ed' => 
+      array (
+        'query' => 'INSERT INTO Zema_containers (container_name,container_body,siteid) VALUES (:container_name0,:container_body0,:siteid0)',
+        'bind' => 
+        array (
+          'container_name0' => 'our-address',
+          'container_body0' => 'No 30, Wuse Zone 4, Abuja Ciry, Nigeria',
+          'siteid0' => 'Centurion',
+        ),
+      ),
+      'caaa57d18bdee9f4ddb1a3337cc32bf3087f8bdb5be3411acbcdf448f88038310c0530a3' => 
+      array (
+        'query' => 'INSERT INTO Zema_containers (container_name,container_body,siteid) VALUES (:container_name0,:container_body0,:siteid0)',
+        'bind' => 
+        array (
+          'container_name0' => 'our-phone',
+          'container_body0' => '+2348024745595',
+          'siteid0' => 'Centurion',
+        ),
+      ),
+      'caaa57d18bdee9f4ddb1a3337cc32bf32ed8ae2be8e56d355e0791a53d17dbf82476ce05' => 
+      array (
+        'query' => 'INSERT INTO Zema_containers (container_name,container_body,siteid) VALUES (:container_name0,:container_body0,:siteid0)',
+        'bind' => 
+        array (
+          'container_name0' => 'our-email',
+          'container_body0' => 'booking@centurionhotel.com',
           'siteid0' => 'Centurion',
         ),
       ),

@@ -2452,9 +2452,6 @@ class DB
                         }
                     }
 
-                    // call Prefix Query method
-                    $this->callPrefixQuery();
-
                     $order = [];
                     $bind = $this->bind;
 
@@ -3249,6 +3246,10 @@ class DB
             // listen for channels opened
             Handler::callChannel($this->method, $this, $canContinue);
 
+            // call Prefix Query method
+            $this->callPrefixQuery($this);
+
+
             if ($canContinue === true || $canContinue === null)
             {
                 // channel passed and new query returned ?
@@ -3852,7 +3853,7 @@ class DB
     }
 
     // call prefix callbacks
-    private function callPrefixQuery()
+    private function callPrefixQuery(&$instance)
     {
         $prefixRegistry = self::$prefixRegistry;
 
@@ -3862,11 +3863,11 @@ class DB
             // quote prefix
             $quote = preg_quote($prefix);
 
-            if (preg_match("/^($quote)/i", $this->table))
+            if (preg_match("/^($quote)/i", $this->table) || preg_match("/(\s+|`)($quote)/", $this->query))
             {
-                array_map(function($callback)
+                array_map(function($callback) use (&$instance)
                 {
-                    call_user_func_array($callback, [&$this, &$this->table, &$this->query]);
+                    call_user_func_array($callback, [&$instance, &$instance->table, &$instance->query]);
 
                 }, $arrayOfClosure);
 

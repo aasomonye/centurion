@@ -312,3 +312,9 @@ fieldset.home-form-1 { background: rgba(255, 255, 255, 0.2); }
 height: 1px;background: #fff; bottom: -1px; display: block; transition: all 0.4s ease-in-out;}
 .light.bootsnav.on, .white.bootsnav.on .active-link::after{background: #000;}
 .white.bootsnav.on.no-background .active-link::after{background: #fff;}
+.bg::before{opacity: 0.3;}
+@media only screen  and (min-width : 768px) {
+	.main-banner {
+		height: 75vh;
+	}
+}

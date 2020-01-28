@@ -674,6 +674,9 @@ class Assist
     public static $optionMapping = [
         '-h' => 'commandHelp'
     ];
+    
+    // database query cache path
+    protected static $queryCachePath = null;
 
     // database instance
     private static $instance = [];
@@ -6257,6 +6260,11 @@ class Assist
         // get handler
         $handler = Moorexa\DatabaseHandler::$connectWith;
 
+        if (!is_null(self::$queryCachePath))
+        {
+            $dbInstance->queryCachePath = self::$queryCachePath;
+        }
+        
         // run query
         $dbInstance->runSaveCacheStatements($table, $driver, $handler);
     }
