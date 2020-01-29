@@ -536,5 +536,19 @@
             "property-dropdown.html",
             "Property-dropdown.html"
         ]
+    ],
+    ".\/pages\/App\/Partials\/:contact-us-intro.html:Contact-us-intro.html": [
+        ".\/pages\/App\/Partials\/",
+        [
+            "contact-us-intro.html",
+            "Contact-us-intro.html"
+        ]
+    ],
+    "kernel\/Partials\/:contact-us-intro.html:Contact-us-intro.html": [
+        "kernel\/Partials\/",
+        [
+            "contact-us-intro.html",
+            "Contact-us-intro.html"
+        ]
     ]
 }

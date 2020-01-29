@@ -17,5 +17,8 @@ return array (
   '7a4c3e51f2049cc1cd4fd77aa9d86635_directive.html' => 'bc37adfc57472138355dde311869f80e',
   'f5b9dc4af3c5638141cc0af4338ef5e3_car-rental-dropdown.html' => 'c1fe46b4dcb85b679ff7549c7cfd29fb',
   '0c3c0bc4ebb8046bdd85c86f8ee141d9_property-dropdown.html' => '8750ee175f26fb97aa4eace4bfee4a6e',
+  '0bcda794e0431be8ebe5e2990071ddbb_topdestination.html' => '81ea1df4e8204a2f5a13fb348bfa0354',
+  'f27e6bd57199cf73881fbaf35f86d104_testimonials.html' => '16f92680f695ec40b3809f891ee0a03e',
+  '68d6df6804922912bf993e22057de1b4_contact-us-intro.html' => '1d4d21cb70937c3f43705af667413cab',
 );
 ?>

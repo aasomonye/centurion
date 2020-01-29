@@ -95,6 +95,56 @@ return array (
           'siteid0' => 'Centurion',
         ),
       ),
+      'a286f9b576f80783bc57ae12c5289bbc28d648ea386b21b410ae59e3326cf0bde7251ecd' => 
+      array (
+        'query' => 'UPDATE Zema_images SET image_path = :image_path , image_name = :image_name  WHERE imageid=:imageid ',
+        'bind' => 
+        array (
+          'image_path' => './lab/Cms/MVC/App/Uploads/624100c8051e1f09d18c9bfaf45af94cLagos-Lagoon_View-Hotels.ng_.jpg',
+          'image_name' => 'lagos-thumb',
+          'imageid' => '4',
+        ),
+      ),
+      'a286f9b576f80783bc57ae12c5289bbccee47f262b0bce9aad320d1acffcff085869a141' => 
+      array (
+        'query' => 'UPDATE Zema_images SET image_path = :image_path , image_name = :image_name  WHERE imageid=:imageid ',
+        'bind' => 
+        array (
+          'image_path' => './lab/Cms/MVC/App/Uploads/44c772b3a161dfe3a39f004dac2000c1abuja-view.jpg',
+          'image_name' => 'abuja-thumb',
+          'imageid' => '5',
+        ),
+      ),
+      'a286f9b576f80783bc57ae12c5289bbcb2541efea9a07062d2ebd8a3e2cd601e5610640f' => 
+      array (
+        'query' => 'UPDATE Zema_images SET image_path = :image_path , image_name = :image_name  WHERE imageid=:imageid ',
+        'bind' => 
+        array (
+          'image_path' => './lab/Cms/MVC/App/Uploads/c379715379085843424ad404bee6c078owerri-center.jpg',
+          'image_name' => 'owerri-thumb',
+          'imageid' => '6',
+        ),
+      ),
+      'a286f9b576f80783bc57ae12c5289bbc96c92fb19beff4c63956cb73e3f4c9f291c78bde' => 
+      array (
+        'query' => 'UPDATE Zema_images SET image_path = :image_path , image_name = :image_name  WHERE imageid=:imageid ',
+        'bind' => 
+        array (
+          'image_path' => './lab/Cms/MVC/App/Uploads/2a74fc4597ef0795abf196ffb298d364Kajuru-Castle.-Photo-findingae.jpg',
+          'image_name' => 'kaduna-thumb',
+          'imageid' => '7',
+        ),
+      ),
+      'a286f9b576f80783bc57ae12c5289bbcf70ff734d41090b0ea5fec4adc7ae5eb081c67a3' => 
+      array (
+        'query' => 'UPDATE Zema_images SET image_path = :image_path , image_name = :image_name  WHERE imageid=:imageid ',
+        'bind' => 
+        array (
+          'image_path' => './lab/Cms/MVC/App/Uploads/1abd48b6e3954e27627f09f33700ce7bcalabar-hotel.jpg',
+          'image_name' => 'calabar-thumb',
+          'imageid' => '8',
+        ),
+      ),
     ),
     'Zema_users' => 
     array (
