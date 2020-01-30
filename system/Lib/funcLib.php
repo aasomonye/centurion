@@ -1,5 +1,12 @@
 <?php
 
+// ver dump alias
+function vd()
+{
+	$args = func_get_args();
+	call_user_func_array('var_dump', $args);
+}
+
 // resize image
 function resizeImage( $image, $width, $height, $quality = 65, $dir = PATH_TO_IMAGE)
 {

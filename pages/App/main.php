@@ -64,5 +64,21 @@ class App extends Controller
 	{
 		$this->render('carrental');
 	}
+	/**
+    * App/login wrapper. 
+    *
+    * See documention https://www.moorexa.com/doc/controller
+    *
+    * @param Any You can catch params sent through the $_GET request
+    * @return void
+    **/
+
+	public function login(InputData\Account $account)
+	{
+        $model = $account->useRule('LoginRule');
+        var_dump($model->exists());
+        
+		$this->render('login');
+	}
 }
 // END class

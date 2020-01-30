@@ -642,7 +642,23 @@ class Bootloader extends DatabaseHandler
 					{
 						$class = $ref->getClass();
 
-						if ($class !== null)
+						if (is_object($class))
+						{
+							$isAnonymous = strpos($class->name, 'class@anonymous') !== false ? true : false;
+
+							if ($isAnonymous)
+							{
+								// check for inputdata.php
+								$path = PATH_TO_INC . 'inputdata.php';
+								
+								if (strpos($class->name, $path) !== false)
+								{
+									$class = null;
+								}
+							}
+						}
+
+						if ($class !== null && $class->name != 'Moorexa\InputData\Rule')
 						{
 							if ($class->isInstantiable())
 							{

@@ -90,5 +90,9 @@
     ".\/pages\/App\/Views\/carrental.html": {
         "hash": "b1b164ded1552c3690cddd31542bc828",
         "path": "utility\/Storage\/Caches\/Views\/cache.fb8c8d885f42f3a49403335b6f548ec3.App.carrental.html"
+    },
+    ".\/pages\/App\/Views\/login.html": {
+        "hash": "d41d8cd98f00b204e9800998ecf8427e",
+        "path": "utility\/Storage\/Caches\/Views\/cache.dd76cb64fc774b4c1343b18b656b5b83.App.login.html"
     }
 }

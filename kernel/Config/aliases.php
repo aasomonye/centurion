@@ -51,7 +51,8 @@ $alias = [
 	'Moorexa\DB\Table' 		=> ['path' => PATH_TO_DB . 'tables.php'],
 	'Moorexa\Directive' 	=> ['path' => PATH_TO_LIB . 'directives.php'],
 	'Moorexa\Interfaces\Directive' => ['path' => PATH_TO_INTERFACE . 'directives.php'],
-	'Cms\Config' 			=> ['path' => HOME . 'lab/Cms/Config.php']
+	'Moorexa\InputData' 	=> ['path' => PATH_TO_INC . 'inputdata.php'],
+	'Cms\Config' 			=> ['path' => HOME . 'lab/Cms/Config.php'],
 ];
 
 /*
