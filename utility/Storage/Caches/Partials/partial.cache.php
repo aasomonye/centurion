@@ -20,5 +20,6 @@ return array (
   '0bcda794e0431be8ebe5e2990071ddbb_topdestination.html' => '81ea1df4e8204a2f5a13fb348bfa0354',
   'f27e6bd57199cf73881fbaf35f86d104_testimonials.html' => '16f92680f695ec40b3809f891ee0a03e',
   '68d6df6804922912bf993e22057de1b4_contact-us-intro.html' => '1d4d21cb70937c3f43705af667413cab',
+  '15245cb722e720ba189a392b6308dae6_topratedplaces.html' => '65882237f7ee7909a4b0a11d92b34027',
 );
 ?>

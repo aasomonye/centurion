@@ -57,5 +57,6 @@
     ".\/pages\/App\/Partials\/:topdestination.html:Topdestination.html": ".\/pages\/App\/Partials\/topdestination.html",
     ".\/pages\/App\/Partials\/:testimonials.html:Testimonials.html": ".\/pages\/App\/Partials\/testimonials.html",
     "InputData:Account.php:Account.php:ACCOUNT.php:account.php": "InputData\/Account.php",
-    ".\/utility\/\/Exceptions\/Autoloader:AutoloaderException.php": ".\/utility\/Exceptions\/Autoloader\/AutoloaderException.php"
+    ".\/utility\/\/Exceptions\/Autoloader:AutoloaderException.php": ".\/utility\/Exceptions\/Autoloader\/AutoloaderException.php",
+    ".\/pages\/App\/Partials\/:topratedplaces.html:Topratedplaces.html": ".\/pages\/App\/Partials\/topratedplaces.html"
 }

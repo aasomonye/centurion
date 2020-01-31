@@ -145,6 +145,26 @@ return array (
           'imageid' => '8',
         ),
       ),
+      '9aea5e176467cc4c7dee6f23ad82e9324873feb91b038176d65b15dee0b67aac04c38a30' => 
+      array (
+        'query' => 'INSERT INTO Zema_images (image_path,image_name,siteid) VALUES (:image_path0,:image_name0,:siteid0)',
+        'bind' => 
+        array (
+          'image_path0' => './lab/Cms/MVC/App/Uploads/973dcdb88943325831412af8f4201ebc7076.jpg',
+          'image_name0' => 'slide7-bg',
+          'siteid0' => 'Centurion',
+        ),
+      ),
+      '9aea5e176467cc4c7dee6f23ad82e93286d51b9460657807646efe02a7175cebb20f1484' => 
+      array (
+        'query' => 'INSERT INTO Zema_images (image_path,image_name,siteid) VALUES (:image_path0,:image_name0,:siteid0)',
+        'bind' => 
+        array (
+          'image_path0' => './lab/Cms/MVC/App/Uploads/41261dc2da5ca7477016c4a017ef8bea1822.jpg',
+          'image_name0' => 'slide8-bg',
+          'siteid0' => 'Centurion',
+        ),
+      ),
     ),
     'Zema_users' => 
     array (
@@ -154,6 +174,15 @@ return array (
         'bind' => 
         array (
           'loggedinToken' => 'e4e53978ea53c9b21fb862ba520d26e6',
+          'userid' => '1',
+        ),
+      ),
+      '248f71412349f00ac171168756aa9b570728db0186da2228f0caa30ed28e15a2f957add9' => 
+      array (
+        'query' => 'UPDATE Zema_users SET loggedinToken = :loggedinToken  WHERE userid = :userid ',
+        'bind' => 
+        array (
+          'loggedinToken' => '336431dfa7a66205c03196183ec8a274',
           'userid' => '1',
         ),
       ),
