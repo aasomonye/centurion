@@ -339,7 +339,7 @@ return array (
         'bind' => 
         array (
           'directive0' => 'getImage',
-          'directive_class0' => 'CmsGlobalCms',
+          'directive_class0' => 'CmsGlobal\Cms',
           'directive_method0' => 'loadImages',
           'siteid0' => 'Centurion',
         ),
