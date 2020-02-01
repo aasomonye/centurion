@@ -53,5 +53,9 @@
     ".\/utility\/:loops.php": ".\/utility\/Components\/loops.php",
     ".\/pages\/PageError\/Static\/:PageError.css:PageError.cxx.css:PageError.css": ".\/pages\/PageError\/Static\/PageError.css",
     ".\/pages\/PageError\/Static\/:PageError.js:PageError.js": ".\/pages\/PageError\/Static\/PageError.js",
-    ".\/lab\/:Directives.php": ".\/lab\/Cms\/Installations\/Events\/Directives.php"
+    ".\/lab\/:Directives.php": ".\/lab\/Cms\/Installations\/Events\/Directives.php",
+    ".\/pages\/App\/Partials\/:topdestination.html:Topdestination.html": ".\/pages\/App\/Partials\/topdestination.html",
+    ".\/pages\/App\/Partials\/:testimonials.html:Testimonials.html": ".\/pages\/App\/Partials\/testimonials.html",
+    "InputData:Account.php:Account.php:ACCOUNT.php:account.php": "InputData\/Account.php",
+    ".\/utility\/\/Exceptions\/Autoloader:AutoloaderException.php": ".\/utility\/Exceptions\/Autoloader\/AutoloaderException.php"
 }

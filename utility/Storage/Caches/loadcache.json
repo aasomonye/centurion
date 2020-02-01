@@ -4,12 +4,12 @@
         "path": "utility\/Storage\/Caches\/Headers\/cache.d29db69b1a9178a48f1d2ab32f72b35c.App.header.html"
     },
     ".\/pages\/App\/Views\/home.html": {
-        "hash": "50e054e4e0c8c1bd17bd6e12cb000090",
+        "hash": "8b27efc09bf7e1bb67b0248648221c66",
         "path": "utility\/Storage\/Caches\/Views\/cache.6ca59b1b5498ee214c0f2258b73815c5.App.home.html"
     },
     ".\/custom\/footer.html": {
-        "hash": "6d016d383db0647ba76c858af48b5c17",
-        "path": "utility\/Storage\/Caches\/Footers\/cache.420f043b55cd0ea699bdd46745316f3d.PageError.footer.html"
+        "hash": "9003239ca65f42e4fe058d32277fd251",
+        "path": "utility\/Storage\/Caches\/Footers\/cache.420f043b55cd0ea699bdd46745316f3d.App.footer.html"
     },
     ".\/lab\/Cms\/MVC\/App\/Custom\/header.html": {
         "hash": "f96fd396ca07f7265f73225572754062",
@@ -88,7 +88,11 @@
         "path": "utility\/Storage\/Caches\/Views\/cache.c5fbefa919158061e2be247782157682.App.update.html"
     },
     ".\/pages\/App\/Views\/carrental.html": {
-        "hash": "102ad73902161a45fe8b1f1829e91e55",
+        "hash": "b1b164ded1552c3690cddd31542bc828",
         "path": "utility\/Storage\/Caches\/Views\/cache.fb8c8d885f42f3a49403335b6f548ec3.App.carrental.html"
+    },
+    ".\/pages\/App\/Views\/login.html": {
+        "hash": "d41d8cd98f00b204e9800998ecf8427e",
+        "path": "utility\/Storage\/Caches\/Views\/cache.dd76cb64fc774b4c1343b18b656b5b83.App.login.html"
     }
 }

@@ -44,5 +44,8 @@
     "Bootstrap\/Alert": ".\/utility\/Classes\/Bootstrap\/Alert.php",
     "Moorexa\/DB\/FetchRow": "system\/DB\/fetch_db.php",
     "Moorexa\/HttpGet": "system\/Lib\/Http\/httpGet.php",
-    "Component\/loops": ".\/utility\/Components\/loops.php"
+    "Component\/loops": ".\/utility\/Components\/loops.php",
+    "Moorexa\/InputData": "system\/Inc\/inputdata.php",
+    "InputData\/Account": "InputData\/Account.php",
+    "Exceptions\/Autoloader\/AutoloaderException": ".\/utility\/Exceptions\/Autoloader\/AutoloaderException.php"
 }
