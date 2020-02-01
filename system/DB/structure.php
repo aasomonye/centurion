@@ -11,6 +11,7 @@ namespace Moorexa;
 class Structure
 {
 	public $tableName = "";
+	public $table = null;
 	public $buildQuery = [];
 	public $seeded = 0;
 	public $lastsuccess = "";
@@ -574,6 +575,48 @@ class Structure
 			$sql = rtrim($sql, ';');
 			$this->sqlString = $sql;
 		}
+	}
+
+	public function createStatement($statement)
+	{
+		$this->runCommandStatement('CREATE TABLE IF NOT EXISTS', $statement);
+	}
+
+	public function alterStatement($statement)
+	{
+		$this->runCommandStatement('ALTER TABLE', $statement);
+	}
+
+	public function insertStatement($statement)
+	{
+		$this->runCommandStatement('INSERT INTO', $statement);
+	}
+
+	public function updateStatement($statement)
+	{
+		$this->runCommandStatement('UPDATE', $statement);
+	}
+
+	public function deleteStatement($statement)
+	{
+		$this->runCommandStatement('DELETE FROM', $statement);
+	}
+
+	private function runCommandStatement($command, $statement)
+	{
+		// get table
+		$table = $this->getTableName();
+		$statement = stripos($command, 'create') !== false ? "($statement)" : $statement;
+		$statement = "$command `{$table}` $statement;";
+		// add to job
+		$this->sqljob[] = $statement;
+	}
+
+	// return table name
+	public function getTableName() : string
+	{
+		$table = $this->table == null ? $this->tableName : $this->table;
+		return DB::getTableName($table);
 	}
 
 	private function ___appendf($data, $in)

@@ -2846,6 +2846,8 @@ class Assist
                     $exp = explode(',', $arg[1]);
 
                     $other = array_splice($arg, 1);
+                    $schema = null;
+                    $force = false;
 
                     if (count($other) > 0)
                     {
@@ -2853,9 +2855,28 @@ class Assist
                         {
                             if (substr($option, 0, 1) == '-')
                             {
-                                $p = self::$assistPath . substr($option, 1);
+                                $option = substr($option, 1);
+                                $p = self::$assistPath . $option;
 
-                                if (is_dir($p))
+                                if (isset($exp[0]) && $exp[0] == '-' . $option)
+                                {
+                                    unset($exp[0]);
+                                }
+
+                                if ($option == 'f')
+                                {
+                                    $force = true;
+                                }
+
+                                if (is_file($option))
+                                {
+                                    $schema = $option;
+                                }
+                                elseif (is_file($p))
+                                {
+                                    $schema = $p;
+                                }
+                                elseif (is_dir($p))
                                 {
                                     $dir = $p;
                                 }
@@ -2863,46 +2884,224 @@ class Assist
                         }
                     }
 
-                    foreach ($exp as $i => $table)
+                    if ($schema == null)
                     {
-                        $name = preg_replace('/[^a-zA-Z_]/', ' ', $table);
-                        $name = ucwords($name);
-                        $name = preg_replace('/[\s]/', '', $name);
-
-                        $template = decryptAssist('czoxMjgwOiI7InM6MTI2MDoiPTBqalVybUZYV0lJcjlrcFFraEprWjFVYUd1MXV6Zm1nUFR5TmRRZ2x2bWpxRmR1SlR5SHlPT1I5ZEt3ZDk0RVY4YXZHemVCS1JyS04rQVdxdXliMUNZODM3RW8xVWZFV0QwZkdlbldid0FmZUV3cksxNnMyREM2Mm5hMldWTU5YT2FEYWs5KzgySVg4NUg5YUZxaTRlVU51VjhYMkc2cjloYU1uNWcyM3gzQS94L3I1S1ZyK3h0dXpPT2ZFdkR5QnhEWDJ2Uk5TbmlqbUcwSkJwVDFWbk1WTldOMWp1UlY5NDd2aEFzcmtPekhVdHRYSks1RmV2TE5mcFlCbmp3dXpWM3JkbER4U2diRE0zc2hmSmNKc3NRVDNqWDducEVRbE01OE1ZZUlYR2wwWXo0VXVEdkhibEYyWkJHcTJadkRtQlVPcGhHR1FoQ3BrMWJZeldTSGVHaFc3eDJSZXZXdGM0YXBNRmRYbHY5ZWxkcm9LREpJQ0JobWRNanpSMjBLKytMb2I2UkljSVhkZlEyeWNRcytzUlR4VFNYZ3RwWS8rTTV5eWhmTDVaV0NKQVcyS3gwOTAvV3g2dXNrVVZEVFJ2N3RKQlpEUFNBSDBZZzJwdkhzZXc4c0RldmNSU2lteGxuVjBjVmZ0a3VOaEZYUVZaclB6MmNCSmh3VWVXTkhsSEoxUEh5NGxodlZMTmlsam5lSUc1Q1orSEZZQjErT2ZCZU1NaWl6MGdrK1cyRlBQTkpjcml2SVE4Znp3dmFhckJqVGM5TGtuK01scmo1TEp3N3lXNU5kRThadHZOL0xrQzlROTR5bXNUbVFFSDV6dnovQnNYZ21GdWNKTmxQSGJtVE9JOGY3RHhCelNvTEt1dGsyQkVYTGpkTTZXbDJPQTRLN1g1Yk5uamEyWU8wR3V5M3JFZjJyQ3J4L2V2R2hlMDVkcXRvbzNqWVFoRzVIUm8zbHZ6dXlkTjlvWUp0aEswNVNOeHczalp4T2x3dFNkSno4eGdId1V1eHlraWY3TmNVdlpaQ2RNWkkvbDRpRmN5cDVtaWJpSVkxYnZZNVNKaDZGOE9VVml3OGhZaWNSMkxzRHVFWHQxOTJYVGIxOFZmd0FXaWZkKzd3dHViM2tXKzJrR1lKVUluaHZTdDE0WWJtQWEyaU9EelF2OHBXeStyV054OUEzL2VQUW5DSjJiL05tTEhrNFJnbnVyRzVRQ1B5UEhCRTVJSDhVRUpFTHl6b0lqM0ZuNzBnQmhZT3h1LzhzdmxZUVp3SXpuWnNrTllGOHBoRWRCMFIwWE8ybElrWW9ya1dXWi9OWjd6RU8yVFR2SDFEbjc4ZHhtTllUd1d0S0t1cXBaLzErSDJvWjAwUlJVUjV1cm80UlNONXJaZHZaUG9jQ2M5WDYwNXJXcDZaTGlOZmVPeVVLK212MVQrbXdUTGlXQy95YzlhZVNOeFhkdkxxekdwSVRyc2Z3aDc5YytqdmFJc21hdUh2OFhhTjcraUQ3UitpaStqRml2NkVuMnpMRWFVZjB0STg4eFBkdy93UkRNRVZSV1ljNDlUa3o4SnE0bmh5bXRVSlpVZ1hxV1RwcGx6SzZvNkJuanhJVWFKWC96MHVnK0dZMndtK2NzRE5GMGpWbkplVTUxYlVZR2ZVMGpMRXRSY2x3b2t0aENQR3VGdnBWIjsiOjA3MjE6cyI7');
-                        $template = str_replace('@table', $name, $template);
-                        $template = str_replace($name.'id', lcfirst($name) . 'id', $template);
-                        $template = str_replace("'$name'", "'".lcfirst($name)."'", $template);
-
-                        $name = lcfirst($name);
-
-                        $file = $dir .'/'. $name . '.php';
-                        $continue = true;
-
-                        if (file_exists($file))
+                        foreach ($exp as $i => $table)
                         {
-                            fwrite(STDOUT, "Table '$name' exists, should we overwrite? (y/n)");
-                            $ans = strtolower(trim(fgets(STDIN)));
+                            $file = $dir .'/'. $table . '.php';
 
-                            if ($ans == 'y')
+                            $name = preg_replace('/[^a-zA-Z_]/', ' ', $table);
+                            $name = ucwords($name);
+                            $name = preg_replace('/[\s]/', '', $name);
+
+                            $template = decryptAssist('czoxMjgwOiI7InM6MTI2MDoiPTBqalVybUZYV0lJcjlrcFFraEprWjFVYUd1MXV6Zm1nUFR5TmRRZ2x2bWpxRmR1SlR5SHlPT1I5ZEt3ZDk0RVY4YXZHemVCS1JyS04rQVdxdXliMUNZODM3RW8xVWZFV0QwZkdlbldid0FmZUV3cksxNnMyREM2Mm5hMldWTU5YT2FEYWs5KzgySVg4NUg5YUZxaTRlVU51VjhYMkc2cjloYU1uNWcyM3gzQS94L3I1S1ZyK3h0dXpPT2ZFdkR5QnhEWDJ2Uk5TbmlqbUcwSkJwVDFWbk1WTldOMWp1UlY5NDd2aEFzcmtPekhVdHRYSks1RmV2TE5mcFlCbmp3dXpWM3JkbER4U2diRE0zc2hmSmNKc3NRVDNqWDducEVRbE01OE1ZZUlYR2wwWXo0VXVEdkhibEYyWkJHcTJadkRtQlVPcGhHR1FoQ3BrMWJZeldTSGVHaFc3eDJSZXZXdGM0YXBNRmRYbHY5ZWxkcm9LREpJQ0JobWRNanpSMjBLKytMb2I2UkljSVhkZlEyeWNRcytzUlR4VFNYZ3RwWS8rTTV5eWhmTDVaV0NKQVcyS3gwOTAvV3g2dXNrVVZEVFJ2N3RKQlpEUFNBSDBZZzJwdkhzZXc4c0RldmNSU2lteGxuVjBjVmZ0a3VOaEZYUVZaclB6MmNCSmh3VWVXTkhsSEoxUEh5NGxodlZMTmlsam5lSUc1Q1orSEZZQjErT2ZCZU1NaWl6MGdrK1cyRlBQTkpjcml2SVE4Znp3dmFhckJqVGM5TGtuK01scmo1TEp3N3lXNU5kRThadHZOL0xrQzlROTR5bXNUbVFFSDV6dnovQnNYZ21GdWNKTmxQSGJtVE9JOGY3RHhCelNvTEt1dGsyQkVYTGpkTTZXbDJPQTRLN1g1Yk5uamEyWU8wR3V5M3JFZjJyQ3J4L2V2R2hlMDVkcXRvbzNqWVFoRzVIUm8zbHZ6dXlkTjlvWUp0aEswNVNOeHczalp4T2x3dFNkSno4eGdId1V1eHlraWY3TmNVdlpaQ2RNWkkvbDRpRmN5cDVtaWJpSVkxYnZZNVNKaDZGOE9VVml3OGhZaWNSMkxzRHVFWHQxOTJYVGIxOFZmd0FXaWZkKzd3dHViM2tXKzJrR1lKVUluaHZTdDE0WWJtQWEyaU9EelF2OHBXeStyV054OUEzL2VQUW5DSjJiL05tTEhrNFJnbnVyRzVRQ1B5UEhCRTVJSDhVRUpFTHl6b0lqM0ZuNzBnQmhZT3h1LzhzdmxZUVp3SXpuWnNrTllGOHBoRWRCMFIwWE8ybElrWW9ya1dXWi9OWjd6RU8yVFR2SDFEbjc4ZHhtTllUd1d0S0t1cXBaLzErSDJvWjAwUlJVUjV1cm80UlNONXJaZHZaUG9jQ2M5WDYwNXJXcDZaTGlOZmVPeVVLK212MVQrbXdUTGlXQy95YzlhZVNOeFhkdkxxekdwSVRyc2Z3aDc5YytqdmFJc21hdUh2OFhhTjcraUQ3UitpaStqRml2NkVuMnpMRWFVZjB0STg4eFBkdy93UkRNRVZSV1ljNDlUa3o4SnE0bmh5bXRVSlpVZ1hxV1RwcGx6SzZvNkJuanhJVWFKWC96MHVnK0dZMndtK2NzRE5GMGpWbkplVTUxYlVZR2ZVMGpMRXRSY2x3b2t0aENQR3VGdnBWIjsiOjA3MjE6cyI7');
+                            $template = str_replace('@table', $name, $template);
+                            $template = str_replace($name.'id', lcfirst($name) . 'id', $template);
+                            $template = str_replace("'$name'", "'".lcfirst($name)."'", $template);
+
+                            
+                            $continue = true;
+
+                            if (file_exists($file) && !$force)
                             {
-                                $continue = true;
+                                fwrite(STDOUT, "Table '$table' exists, should we overwrite? (y/n)");
+                                $ans = strtolower(trim(fgets(STDIN)));
+
+                                if ($ans == 'y')
+                                {
+                                    $continue = true;
+                                }
+                                else
+                                {
+                                    $continue = false;
+                                }
+                            }
+
+                            if ($continue)
+                            {
+                                @file_put_contents($file, $template);
+                                self::out("Table '$table' generated in '$dir' ".$ass->ansii('green')."successfully!\n");
                             }
                             else
                             {
-                                $continue = false;
+                                self::out($ass->ansii('red')."Operation Canceled\n");
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // get schema from sql file
+                        $schemaContent = file_get_contents($schema);
+                        // empty var 
+                        $tables = [];
+                        $tableQueries = [];
+
+                        if (count($exp) > 0)
+                        {
+                            // extract table data from schema
+                            foreach ($exp as $table)
+                            {
+                                preg_match_all("/(CREATE TABLE ([^\s|\(]+)?)([\s]*)[\(]([\s\S]+?)([\)];)/i", $schemaContent, $matches);
+                                
+                                if (count($matches[0]) > 0)
+                                {
+                                    foreach ($matches[2] as $index => $tableName)
+                                    {
+                                        $tableName = preg_replace('/([^a-zA-Z0-9\-\_])/', '', $tableName);
+                                        if ($tableName == $table)
+                                        {
+                                            $tables[] = $table;
+                                            $tableQueries[] = $matches[4][$index];
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }    
+                        else 
+                        {
+                            
+                            // find all create table queries
+                            preg_match_all('/(CREATE TABLE ([^\s|\(]+)?)([\s]*)[\(]([\s\S]+?)([\)];)/i', $schemaContent, $matches);
+                            
+                            if (count($matches[0]) > 0)
+                            {
+                                foreach ($matches[2] as $index => $table)
+                                {
+                                    // remove quotes and more
+                                    $table = preg_replace('/([^a-zA-Z0-9\-\_])/', '', $table);
+
+                                    // get create query body for this table
+                                    $createQuery = $matches[4][$index];
+
+                                    $tables[] = $table;
+                                    $tableQueries[] = $createQuery;
+                                }
                             }
                         }
 
-                        if ($continue)
+                        if (count($tables) > 0)
                         {
-                            @file_put_contents($file, $template);
-                            self::out("Table '$name' generated in '$dir' ".$ass->ansii('green')."successfully!\n");
+                            $template = 'czoxMzY0OiI7InM6MTM0NDoiUVR0SFJ2S1k1SjlXYlJwa2s2R2FTQnN6WGRUQ0hTKytBbm5oUWg3UzZhc1V1M0dTZ01qTTU0dUNFYnp4bkFLMWJaZ2dMSWhQbGlETGh4eTVCejl5Vkdzb0xFV2FpQjgzaFNoZkZRQVlTUEdsd1kyQTBJUHMvT2FmT3ViWlM3QnRXL3RBZmNyRnBqQlFJS1hKY01kRlBnbUI1c1hKUmZGQktESGdrQ1dZSGpVUjNsSUIrbmtkQ2UxMk1MN29SMWNuQ1dqS3ZWSXRKd3BWb1FTRFU1UGFxWWtuYjNpM0llZ1FWQTJOVmQ0RHpxT1pVTmFhSUp5dkVXYzJSeHJwSTBNelFwaWtOZk1WTVZtMGRGL2o5UkpndFM2SnJXQ3lhWlM5NU0xZjZ2QjR3VDVsWFJncDkxb2VMOUtCcEs4cHdqakVaVWs0TWdaei9wdXNtMlNva2hBT0VYREk2ZzBtbEszcVVCZHBybFNHeUJBNUpSS3Bua2xQMkprbkxWTVh6Y2R6UVpXeEdOTkZ0ZHFLSDNjSXB6N3N2UVZ0UndmbEtNZHFLQ1RjWG9Yby9PcEZaTGpPYnpUWEVFWVdiS1lmb0k3ZnNLOENrekR4clZGbGtJUlRKRkxzYWh1NXp6V25SY1pjazNzUnFsYkxpTW1UMkI3UWFJZnc5MVJ3VGoydGhWaVZhK1Q0SkZETnJlQWZlaXBENG9jNlZUcm1ESTNhcmp1VUVOL0s4MXlvKzFFRWdMdmxVYkR3Wmsyb2Y5ZG51d1dVa0k3cFZRNHhVeHNiby9VT2FGK1pKNHl0WTh6WnlvbWN1TmxOLzExZksvMHFFM3RlZHJ4Vk1tUTI5aEVXWWFYRjZvcDhlcTZqUU0vZ1VtZnAwVXNOZzVmQ1liU1hmeGlIN2JOd3FBYkk4T1Z3L0J4akhtYnpFRkRFTTdLNVVja0JXWnd6UmIwcFIzekJ6SUJyUWpIMGJYdlRBczlwSWpYWHBRd0k0ZHBieGFmVGUwVXhKaFExUC9CNS94NjdRVGpacHNNVDFEMHdEVFNZaEg0elpVa1RySk5xM2xQa0Fib1hYc3pXaHdsZExNV3U4ekRyclEyOXFQQWxoN2N3bGcwYTRiaTJ5ZEx1MTZyM3Uzcnl0ZndpS0xCZjNTL3BIc1c1dUwzR1J2TDhyTWh1YzRLcGt0TG9RZHJBTG5UV0cvYzEvSDRCbEdzNjEwRzFBc1h6d1BVYVN1d1RUZnJqcGY0VFgvRldlS1JFYkw2djF1ZzBLOENLTWorUUlEWU1VMjl0c213d21Tdk0vMkNZNndOVmlpOENIS1FwYU1Cd0xtLzZkOXlnVERuN29JdkdoT1FLU0p1cFBlb1BSNFMyMXlVL0RJc0l2YnJhOWNBWUxGMkdvd1pySjB0c3pJbW9LQXk3TExGSEZscEIrZlZXWi9OWjd6RU8yVFR2SDFEbjc4ZHhtTllUd1d0S0t1cXBaLzErSDJvWjAwUlJVUjV1cm80UlNONXJaZHZaUG9jQ2M5WDYwNXJXcDZaTGlOZmVPeVVLK212MVQrbXdUTGlXQy95YzlhZVNOeFhkdkxxekdwSVRyc2Z3aDc5YytqdmFJc21hdUh2OFhhTjcraUQ3UitpaStqRml2NkVuMnpMRWFVZjB0STg4eFBkdy93UkRNRVZSV1ljNDlUa3o4SnE0bmh5bXRVSlpVZ1hxV1RwcGx6SzZvNkJuanhJVWFKWC96MHVnK0dZMndtK2NzRE5GMGpWbkplVTUxYlVZR2ZVMGpMRXRSY2x3b2t0aENQR3VGdnBWIjsiOjQ1MzE6cyI7';
+
+                            foreach ($tables as $index => $table)
+                            {
+                                // save path
+                                $tablePath = $dir . '/' . $table . '.php';
+
+                                // class name
+                                $name = preg_replace('/[^a-zA-Z_]/', ' ', $table);
+                                $name = ucwords($name);
+                                $name = preg_replace('/[\s]/', '', $name);
+
+                                $class = decryptAssist($template);
+                                $query = trim($tableQueries[$index]);
+                                $queries = explode(',', $query);
+                                foreach($queries as $index => $q)
+                                {
+                                    $q = trim($q);
+                                    $q = preg_replace('/["]/',"'",$q);
+                                    $queries[$index] = "\n\t\t\t" . $q;
+                                }
+                                $query = implode(',', $queries);
+                                $class = str_replace('@tableStatement', '"'.$query."\n\t\t".'"', $class);
+                                $class = str_replace('@tableName', $table, $class);
+                                $class = str_replace('@table', $name, $class);
+                               
+                                // find other queries
+                                $otherQueries = [];
+
+                                $tableQuote = preg_quote($table, '/');
+
+                                // find alter statements
+                                preg_match_all("/(ALTER TABLE)([\s+\`|\s+]($tableQuote)[\`\s+|\s+])(.*?)[;]([\n|])/i", $schemaContent, $alters);
+                                if (count($alters[0]) > 0)
+                                {
+                                    foreach ($alters[4] as $alterStatement)
+                                    {
+                                        $alterStatement = trim($alterStatement);
+                                        $alterStatement = preg_replace('/["]/',"'", $alterStatement);
+
+                                        $otherQueries[] = "\$schema->alterStatement(\"$alterStatement\");";
+                                    }
+                                }
+
+                                // find insert statements
+                                preg_match_all("/(INSERT INTO)([\s+\`|\s+]($tableQuote)[\`\s+|\s+])(.*?)[;]([\n|])/i", $schemaContent, $inserts);
+                                if (count($inserts[0]) > 0)
+                                {
+                                    foreach ($inserts[4] as $insertStatement)
+                                    {
+                                        $insertStatement = trim($insertStatement);
+                                        $insertStatement = preg_replace('/["]/',"'", $insertStatement);
+
+                                        $otherQueries[] = "\$schema->insertStatement(\"$insertStatement\");";
+                                    }
+                                }
+
+                                // find update statements
+                                preg_match_all("/(UPDATE)([\s+\`|\s+]($tableQuote)[\`\s+|\s+])(.*?)[;]([\n|])/i", $schemaContent, $updates);
+                                if (count($updates[0]) > 0)
+                                {
+                                    foreach ($updates[4] as $updateStatement)
+                                    {
+                                        $updateStatement = trim($updateStatement);
+                                        $updateStatement = preg_replace('/["]/',"'", $updateStatement);
+
+                                        $otherQueries[] = "\$schema->updateStatement(\"$updateStatement\");";
+                                    }
+                                }
+
+                                // find delete statements
+                                preg_match_all("/(DELETE FROM)([\s+\`|\s+]($tableQuote)[\`\s+|\s+])(.*?)[;]([\n|])/i", $schemaContent, $deletes);
+                                if (count($deletes[0]) > 0)
+                                {
+                                    foreach ($deletes[4] as $deleteStatement)
+                                    {
+                                        $deleteStatement = trim($deleteStatement);
+                                        $deleteStatement = preg_replace('/["]/',"'", $deleteStatement);
+
+                                        $otherQueries[] = "\$schema->deleteStatement(\"$deleteStatement\");";
+                                    }
+                                }
+
+                                $class = str_replace('@otherQueries', implode("\n\t\t", $otherQueries), $class);
+                                
+                                // check if table exists 
+                                $continue = true;
+
+                                if (file_exists($tablePath) && !$force)
+                                {
+                                    fwrite(STDOUT, "Table '$table' exists, should we overwrite? (y/n)");
+                                    $ans = strtolower(trim(fgets(STDIN)));
+
+                                    if ($ans == 'y')
+                                    {
+                                        $continue = true;
+                                    }
+                                    else
+                                    {
+                                        $continue = false;
+                                    }
+                                }
+
+                                if ($continue)
+                                {
+                                    @file_put_contents($tablePath, $class);
+                                    self::out("Table '$table' generated in '$dir' ".$ass->ansii('green')."successfully!");
+                                }
+                                else
+                                {
+                                    self::out($ass->ansii('red').'Skipped'.$ass->ansii('reset')." '$table'!");    
+                                }
+                            }
+
+                            self::out(PHP_EOL);
                         }
                         else
                         {
-                            self::out($ass->ansii('red')."Operation Canceled\n");
-                            break;
+                            self::out($ass->ansii('red')."Operation Canceled. It's possible that no tables were found in sql file or specified tables wasn't found.\n");
                         }
                     }
                 break;
@@ -5874,6 +6073,8 @@ class Assist
                                 $bl->getParameters($ins, 'up', $const, [$struct]); 
                             
                                 call_user_func_array([$ins, 'up'], $const);
+
+                                $tableName = $struct->table != null ? $struct->table : $tableName;
 
                                 $struct = $const[0];
                                 $struct->tableName = $tableName;
