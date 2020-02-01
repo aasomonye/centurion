@@ -776,8 +776,12 @@
     ".\/lab\/Cms\/Database\/QueryStatements.php": 1580255470,
 =======
     ".\/lab\/Cms\/Database\/Query.php": 1580223128,
+<<<<<<< HEAD
     ".\/lab\/Cms\/Database\/QueryStatements.php": 1580312114,
 >>>>>>> 32ce78cdb65ae15dc92628486d2aedcf8d54d3c4
+=======
+    ".\/lab\/Cms\/Database\/QueryStatements.php": 1580478399,
+>>>>>>> 91ffbaeebd9d3532e9ef867d684d543321848c59
     ".\/lab\/Cms\/Database\/query.sql": 1580035505,
     ".\/lab\/Cms\/Installations\/.DS_Store": 1579764772,
     ".\/lab\/Cms\/Installations\/Events\/Directives.php": 1579764772,
@@ -1129,12 +1133,12 @@
     ".\/pages\/App\/Custom\/header.html": 1580038291,
     ".\/pages\/App\/Partials\/.re": 1580035957,
     ".\/pages\/App\/Providers\/homeProvider.php": 1580035956,
-    ".\/pages\/App\/Static\/App.css": 1580314249,
+    ".\/pages\/App\/Static\/App.css": 1580478444,
     ".\/pages\/App\/Static\/App.js": 1580063154,
     ".\/pages\/App\/Views\/becomeapartner.html": 1580064978,
     ".\/pages\/App\/Views\/contact.html": 1580064826,
-    ".\/pages\/App\/Views\/home.html": 1580313730,
-    ".\/pages\/App\/main.php": 1580228549,
+    ".\/pages\/App\/Views\/home.html": 1580472730,
+    ".\/pages\/App\/main.php": 1580424229,
     ".\/pages\/App\/provider.php": 1580035957,
     ".\/pages\/App\/readme.md": 1580109701,
     ".\/pages\/PageError\/Custom\/footer.html": 1580101858,
@@ -3260,6 +3264,14 @@
     ".\/pages\/App\/Partials\/testimonials.html": 1580314215,
     ".\/lab\/Cms\/MVC\/App\/Uploads\/3f300023b4831cc89c4ffad089585ad2d585c3448b63483976403179af9391448972.jpg": 1580294256,
     ".\/lab\/Cms\/MVC\/App\/Uploads\/5dadb98f9286ae7902395c4d73cee36a5dadb98f9286ae7902395c4d73cee36a3804.jpg": 1580294256,
+<<<<<<< HEAD
     ".\/lab\/Cms\/MVC\/App\/Uploads\/d585c3448b63483976403179af9391443f300023b4831cc89c4ffad089585ad2OE9UOO0.jpg": 1580294256
 >>>>>>> 32ce78cdb65ae15dc92628486d2aedcf8d54d3c4
+=======
+    ".\/lab\/Cms\/MVC\/App\/Uploads\/d585c3448b63483976403179af9391443f300023b4831cc89c4ffad089585ad2OE9UOO0.jpg": 1580294256,
+    ".\/pages\/App\/Partials\/topratedplaces.html": 1580474130,
+    ".\/pages\/App\/Views\/login.html": 1580417432,
+    ".\/lab\/Cms\/MVC\/App\/Uploads\/41261dc2da5ca7477016c4a017ef8bea1822.jpg": 1580478395,
+    ".\/lab\/Cms\/MVC\/App\/Uploads\/973dcdb88943325831412af8f4201ebc7076.jpg": 1580473904
+>>>>>>> 91ffbaeebd9d3532e9ef867d684d543321848c59
 }

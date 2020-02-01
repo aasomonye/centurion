@@ -310,7 +310,7 @@ fieldset.home-form-1 { background: rgba(255, 255, 255, 0.1); }
 height: 1px;background: #fff; bottom: -1px; display: block; transition: all 0.4s ease-in-out;}
 .light.bootsnav.on, .white.bootsnav.on .active-link::after{background: #ff4e00;}
 .white.bootsnav.on.no-background .active-link::after{background: rgba(255,255,255,0.5);}
-.bg::before{opacity: 0.8;}
+.bg::before{opacity: 0.5;}
 .destination-block-two .inner-box::before{
 	position: absolute;
 	width: 100%;

@@ -73,11 +73,8 @@ class App extends Controller
     * @return void
     **/
 
-	public function login(InputData\Account $account)
-	{
-        $model = $account->useRule('LoginRule');
-        var_dump($model->exists());
-        
+	public function login()
+	{   
 		$this->render('login');
 	}
 }
