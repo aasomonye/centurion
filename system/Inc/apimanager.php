@@ -45,16 +45,16 @@ class ApiManager
 		if (function_exists('getallheaders') && ApiManager::$listener === null)
 		{
 			// include http class
-			include_once 'lab/Http.php';
+			include_once PATH_TO_LAB . 'Http.php';
 
 			$headers = Http::getHeaders();
 
 			if (count($headers) > 0)
 			{
 				// load config
-				if (file_exists(HOME . 'api/config.xml'))
+				if (file_exists(PATH_TO_API_PLATFORM . 'config.xml'))
 				{
-					$config = simplexml_load_file(HOME . 'api/config.xml');
+					$config = simplexml_load_file(PATH_TO_API_PLATFORM . 'config.xml');
 
 					if ($config !== false)
 					{
@@ -173,36 +173,6 @@ class ApiManager
 		}
 	}
 
-	private static function isloggedin()
-	{
-		if (isset($_COOKIE['api_token']))
-		{
-			$header = Http::getHeaders();
-			$token_cookie = $_COOKIE['api_token'];
-			$token_header = isset($header['api_token']) ? $header['api_token'] : false;
-
-
-			if ($token_header)
-			{
-				if ($token_header == $token_cookie)
-				{
-					if (isset($config['authentication-table']))
-					{
-						$table = $config['authentication-table'];
-						$check = DB::table($table)->get('token = ?')->bind($token);
-
-						if ($check->rows > 0)
-						{
-							return true;
-						}
-					}
-				}
-			}
-		}
-
-		return false;
-	}
-
 	public static function requestPermission()
 	{
 		return true;	
@@ -246,7 +216,7 @@ class ApiManager
 		$getUrl = $sys->system->cleanUrl(array_splice($url, 1));
 
 		// get api path
-		$apiPath = HOME .'api/'. ucfirst($handler) . '/main.php';
+		$apiPath = PATH_TO_API_PLATFORM . ucfirst($handler) . '/main.php';
 
 		// set current controller to api handler.
 		BootLoader::$helper['get_controller'] = $handler;
@@ -279,7 +249,7 @@ class ApiManager
 			include_once PATH_TO_SERVICES . 'middleware.php';
 
 			// include autoloader
-			include_once HOME . 'api/autoloader.php';
+			include_once PATH_TO_API_PLATFORM . 'autoloader.php';
 
 			//read api handler
 			$handler = ucfirst($handler);
@@ -494,7 +464,7 @@ class ApiManager
 	{
 		if (self::$pathScanned === false)
 		{
-			$dir = glob(HOME . 'api/*');
+			$dir = glob(PATH_TO_API_PLATFORM . '*');
 
 			if (is_array($dir))
 			{
@@ -524,7 +494,7 @@ class ApiManager
 	public static function loadProviderBoot(&$handler, &$class, &$request, &$instance, $arguments)
 	{
 		// provider path
-		$path = HOME . 'api/'. $handler .'/provider.php';
+		$path = PATH_TO_API_PLATFORM . $handler .'/provider.php';
 
 		// include provider
 		include_once $path;
@@ -561,7 +531,7 @@ class ApiManager
 			}
 
 			// load request provider.
-			$path = HOME . 'api/'. $handler . '/Providers/'. $request . '.php';
+			$path = PATH_TO_API_PLATFORM . $handler . '/Providers/'. $request . '.php';
 
 			// the check.
 			switch (file_exists($path))

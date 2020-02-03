@@ -13,7 +13,6 @@ if (!class_exists('Moorexa\SysPath'))
         // custom paths
         private static $PATH = [
             'app'    => 'pages/',
-            'api'    => 'api/',
             'comp'   => 'utility/Components/',
             'system' => 'system/',
             'public' => 'public/',
@@ -26,7 +25,7 @@ if (!class_exists('Moorexa\SysPath'))
         public static function __callStatic($pathName, $args)
         {
             // get path
-            $getPath = self::$PATH[$pathName];
+            $getPath = isset(self::$PATH[$pathName]) ? self::$PATH[$pathName] : null;
             
             // determine data type
             // ensure array size is greater than zero
@@ -45,7 +44,13 @@ if (!class_exists('Moorexa\SysPath'))
 
                         // define single
                         case 'string':
-                            $path = $getPath . (isset($arg[1]) ? $arg[1] .'/' : '');
+                            $path = $getPath . (isset($args[1]) ? $args[1] .'/' : '');
+                            
+                            if (!isset(self::$PATH[$args[0]]))
+                            {
+                                self::$PATH[$args[0]] = $path;
+                            }
+
                             return self::definePath('PATH_TO_'.strtoupper($args[0]), $path);
                         break;
                     }

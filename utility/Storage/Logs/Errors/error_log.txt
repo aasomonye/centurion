@@ -1,0 +1,1 @@
+[2020-02-02 1:05 pm] [file]: /Users/amadiify/Desktop/workspace/PHP/centurion-app/kernel/Config/config.php, [error]: Use of undefined constant PATH_TO_WEB_PLATFORM - assumed 'PATH_TO_WEB_PLATFORM', [line]: 155

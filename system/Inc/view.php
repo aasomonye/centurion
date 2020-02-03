@@ -901,14 +901,9 @@ class View extends Bootloader
 							call_user_func_array([$thisProvider, 'viewWillLoad'], $___args);
 						}
 
-						// set page title
-						$this->package->title = !empty($this->apptitle) ? $this->apptitle : $this->package->title;
-					
-						
 						// make model available
 						$thisModel = is_object(Bootloader::$currentClass) ? Bootloader::$currentClass->model : $this;
 
-						
 						// check if flag is an array of values
 						Controller::$dropbox = is_array($flag) ? array_merge($flag, Controller::$dropbox) : Controller::$dropbox;
 
@@ -968,6 +963,9 @@ class View extends Bootloader
 						// load config from controller
 						Controller::loadConfig($this->package);
 
+						// set page title
+						$this->package->title = !empty($this->apptitle) ? $this->apptitle : $this->package->title;
+					
 						// get app title.
 						$apptitle = $this->package->title;
 

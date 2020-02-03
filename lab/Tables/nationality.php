@@ -7,7 +7,6 @@ class Nationality
     // connection identifier
     public $connectionIdentifier = '';
 
-
     // create table structure
     public function up(Schema $schema)
     {
@@ -16,8 +15,7 @@ class Nationality
 			nationalityid        int  NOT NULL  AUTO_INCREMENT  PRIMARY KEY,
 			country_name         varchar(100),
 			country_code         char(5)
-		");
-        $schema->alterStatement("ADD CONSTRAINT fk_nationality_users FOREIGN KEY ( nationalityid ) REFERENCES users( nationalityid ) ON DELETE NO ACTION ON UPDATE NO ACTION"); 
+		"); 
     }
 
     // drop table
@@ -37,12 +35,21 @@ class Nationality
     }
 
     // promise during migration
-    public function promise($status)
+    public function promise($status, $table)
     {
-        if ($status == 'waiting' || $status == 'complete')
+        if ($status == 'complete')
         {
             // do some cool stuffs.
             // $this->table => for ORM operations to this table.
+            $records = [
+                ['country_name' => 'Nigerian', 'country_code' => 'NG'],
+                ['country_name' => 'Ghanian',  'country_code' => 'GH'],
+            ];
+
+            foreach ($records as $record)
+            {
+                $table->insert($record);
+            }
         }
     }
 }

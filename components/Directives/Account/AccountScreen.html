@@ -1,0 +1,42 @@
+<hy directive="AccountScreen">
+	
+	<hy func="render">
+
+		<hy lang="html">
+			<div class="container-fluid">
+				<div class="row">
+					{$image = @@getImage('slide7-bg');}
+			
+					<div class="col-md-6 col-xs-12 has-bg-image" style="background-image: url({$image});">
+						<div class="has-bg-content">
+							<h1>{props.title}</h1>
+							<p>{props.caption}</p>
+						</div>
+			
+						<div class="has-bg-footer">
+							<a hy-href="register"><img hy-src="arrow-left.png"> Become a member</a>
+						</div>
+					</div>
+					
+			
+					<div class="col-md-6 col-xs-12 has-bg-form-area">
+						<div class="has-bg-content">
+							<div class="form-container">
+								<form action="" method="POST">
+									@csrf;
+									{props.children}
+									<button type="submit"><span>{props.button}</span> <img hy-src="icons/arrow-right.png"></button>
+								</form>
+							</div>
+						</div>
+			
+						<div class="has-bg-footer">
+							<p>&copy; copyright {date('Y')} Centurion Apartments. All rights reserved.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</hy>
+
+	</hy>
+</hy>

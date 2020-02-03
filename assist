@@ -60,7 +60,7 @@ class Assist
     public static $assistPath = HOME;
 
     // controller base path
-    public static $controllerBasePath = HOME . 'pages';
+    public static $controllerBasePath = PATH_TO_WEB_PLATFORM;
 
     // avaliable options
     public static $options = [
@@ -688,9 +688,9 @@ class Assist
     private static $storage = [];
 
     // set paths
-    protected static $tablePath = 'lab/Tables/'; // table base path
-    protected static $apiPath = 'api/'; // api base path
-    protected static $directivePath = 'directives/'; // directives base path
+    protected static $tablePath = PATH_TO_LAB . 'Tables/'; // table base path
+    protected static $apiPath = PATH_TO_API_PLATFORM; // api base path
+    protected static $directivePath = PATH_TO_DIRECTIVES; // directives base path
 
 
     // ansii codes
@@ -1575,6 +1575,22 @@ class Assist
         // handle errors
         self::invalid($method);
     }
+
+    // return full path
+    protected static function getFullPath(string $path) : string
+    {
+        $path = self::$assistPath . self::removeBasePath($path);
+        return $path;
+    }
+
+    // remove base from path
+    private static function removeBasePath(string $path) : string
+    {
+        // remove base path from path if found
+        $quote = preg_quote(self::$assistPath, '/');
+        $path = preg_replace("/^($quote)/", '', $path);
+        return $path;
+    }
     
     // creates new page, model, packages, headers, footers etc.
     public static function _new($arg)
@@ -1586,6 +1602,8 @@ class Assist
             $command = isset($arg[0]) ? trim(strtolower($arg[0])) : null;
 
             self::out($ass->ansii('bold')."\nnew {$command}\n");
+
+            self::$controllerBasePath = rtrim(self::$controllerBasePath, '/');
 
             switch ($command)
             {
@@ -1720,12 +1738,13 @@ class Assist
 
                                 if ($hasdefault)
                                 {
-                                    $xml = file_get_contents(self::$assistPath . 'config.xml');
+                                    $configPath = self::getFullPath(PATH_TO_CONFIG . 'config.xml');
+                                    $xml = file_get_contents($configPath);
                                     $replace = '<controller>'.ucfirst($page).'</controller>';
                                     $replaceView = '<view>'.$view.'</view>';
                                     $xml = preg_replace("/(<controller>)([^<]+)(<\/controller>)/", $replace, $xml);
                                     $xml = preg_replace("/(<view>)([^<]+)(<\/view>)/", $replaceView, $xml);
-                                    file_put_contents(self::$assistPath . 'config.xml', $xml);
+                                    file_put_contents($configPath, $xml);
                                 }
                             }
                             
@@ -1739,7 +1758,7 @@ class Assist
                 break;
 
                 case 'hy':
-                    $dir = self::$assistPath . self::$directivePath;
+                    $dir = self::getFullPath(self::$directivePath);
 
                     $exp = explode(',', $arg[1]);
 
@@ -1797,13 +1816,13 @@ class Assist
                         
                         if (is_dir($dir))
                         {
-                            if ($dir != self::$assistPath . self::$directivePath)
+                            if ($dir != self::$assistPath . self::removeBasePath(self::$directivePath))
                             {
                                 $dir = trim($dir);
                                 $dir = preg_replace('/(directives\/|directives)$/','', $dir);
                                 if (strpos($dir, 'directives') === false)
                                 {
-                                    $dir = rtrim($dir, '/') . '/' . self::$directivePath;
+                                    $dir = rtrim($dir, '/') . '/' . self::removeBasePath(self::$directivePath);
                                 }
                                 else 
                                 {
@@ -1834,6 +1853,8 @@ class Assist
                                     {
                                         @mkdir($fullpath);
                                     }
+
+                                    $hy = preg_replace('/[\s]/','',$hy);
 
                                     $path = $_dir . '/' . $hy;
                                 }
@@ -2248,7 +2269,7 @@ class Assist
                         $break = explode('/', $path);
                         $handler = $break[0];
 
-                        $main = self::$assistPath . self::$apiPath . ucfirst($handler) . '/main.php';
+                        $main = self::getFullPath(self::$apiPath) . ucfirst($handler) . '/main.php';
 
                         // check if controller exists
                         if (is_file($main))
@@ -2261,7 +2282,7 @@ class Assist
                             {
                                 $providerName = trim(preg_replace("/[^a-zA-Z0-9\s_-]/",'', $providerName));
                                 $providerName = preg_replace('/\s{1,}/','',ucwords(preg_replace('/[-]/',' ', $providerName)));
-                                $providerPath = self::$assistPath . self::$apiPath . ucfirst($handler) . '/Providers/' . lcfirst($providerName) . '.php';
+                                $providerPath = self::getFullPath(self::$apiPath) . ucfirst($handler) . '/Providers/' . lcfirst($providerName) . '.php';
 
                                 $continue = false;
 
@@ -2347,7 +2368,7 @@ class Assist
                         $break = explode('/', $path);
                         $handler = $break[0];
 
-                        $main = self::$assistPath . self::$apiPath . ucfirst($handler) . '/main.php';
+                        $main = self::getFullPath(self::$apiPath) . ucfirst($handler) . '/main.php';
 
                         // check if handler exists
                         if (is_file($main))
@@ -2357,7 +2378,7 @@ class Assist
                             $modelName = $break[1];
                             $modelName = trim(preg_replace("/[^a-zA-Z0-9\s_-]/",'', $modelName));
                             $modelName = preg_replace('/\s{1,}/','',ucwords(preg_replace('/[-]/',' ', $modelName)));
-                            $modelPath = self::$assistPath . self::$apiPath . ucfirst($handler) . '/Models/' . lcfirst($modelName) . '.php';
+                            $modelPath = self::getFullPath(self::$apiPath) . ucfirst($handler) . '/Models/' . lcfirst($modelName) . '.php';
 
                             $continue = false;
 
@@ -2557,7 +2578,7 @@ class Assist
                         $template = decryptAssist('czo0OTA6Ijsiczo0NzI6Ij09QTRNcmhBbWlSYW9RYkhRelJVa1dqYmJnb1lObXNPR08wbCt4NmxkRlQrV1ozYW1QYlhROHRqdHFTdU9ya00wY2graGxTcmJDaDFSZGRCWkFTbld1d0NmTGNSQ0lidlZ2TFlJSWxQRER6YzhRdDN5djdZNFVHTjYzcGdCd2NhSHNGbXNsc0ZvWFRHSTBLV1Nhajk0Vm5KRDNuKzQ0WjRNRExFWm1pSmlmNk02VElsL2g2VU9IbkFNSGZONGdZOFk5akdMWXNvbm1FWm1nK2x6LzlzdUVXY0NDVmR3SEU4UVEyZ0xYZDJ3OXdwUUxLbW5sYnRFQ1JlSllHV04yQkFhTUpOd2lFYTQ2MTZvU2ViWmFuS0VUalZhemVyYUh3c1ZRWHB6cW5GTSt2RzFQM3M0d2hYMG9Eczdza0pHNWlUY2I5Vmduak03YUxnU1pxbGVlQWJQL2tKbk5xeFhnS255a3ZHNU1IYllhT0xGdGRtNzV6UjRLUVF5YUdXWnZtVmJLTDMzVEVZNTJGOUhlbm15OGZIQWtwM0ZjdDhpY2xObG5TeWpMRGxTTURUTUoyeVA3NmVhZkNMR0d4ZXBxLytXT3FTNGd0T2VGSFlzQjJETkovaFVuRlYiOyI6MTg0OnMiOw==');
                         $event = explode('/', $ar);
 
-                        $root = self::$assistPath . PATH_TO_EVENT;
+                        $root = self::getFullPath(PATH_TO_EVENT);
                         $name = end($event);
 
                         $name = preg_replace('/[^a-zA-Z_]/', ' ', $name);
@@ -2574,7 +2595,7 @@ class Assist
 
                             if (!is_dir($dir))
                             {
-                                $namespace = str_replace(self::$assistPath . PATH_TO_UTILITY, '', $dir);
+                                $namespace = str_replace(self::getFullPath(PATH_TO_UTILITY), '', $dir);
                                 $namespace = str_replace("/", ' \ ', $namespace);
                                 $namespace = ucwords($namespace);
                                 $namespace = preg_replace("/\s*/", '', $namespace);
@@ -2647,7 +2668,7 @@ class Assist
                         $request = ucwords($request);
                         $request = preg_replace('/[\s]/','',$request);
 
-                        $dir = self::$assistPath . self::$apiPath . $request;
+                        $dir = self::getFullPath(self::$apiPath) . $request;
 
                         
                         if (!is_dir($dir))
@@ -2770,7 +2791,7 @@ class Assist
                         $template = decryptAssist('czo3MDI6Ijsiczo2ODQ6Ij1NWng3ZjN3VENZTzEyejRMZWdnVkQzY1FKakU1RGYrM1lERzEvaG9YYUF4R2VMTWx3THBKMlNINmZzVjl1aVpYdHJGNk9WRm5vOGxzMUhFd3FucFBaOEVBZVZ2ZFY4bkRlT2tSMkt6cW8yV09LZHg0M2RFcU12eHFZdGVFQjkrUnlmVGgvTzdMOE0zM01udSsxbjVSQzh0NXpWcHZob00yM25kbFAvbllDRXRmcWhRQ2VtbnBsWHZHYUxhNU5SK1ZtekdiMmtQUUVYeDVET0Ywb1NGUjlXR3dacUJ5KzFtQlByMGo0SVhNR1RqQnowek9nN1hQOGt4bUJBc0FjcWdCV2NaM2hTSnkzYkJFNzFCZU9SUiszejM3bk1ubG0rbHJJSG5Sc3pGNUZPMk05c0cwZ3BOU253YUhUM3A1NEt3cmZrRFREUmhWVzZEa2JibUVxWUpZeHl6byt4ZkVVN2w4MERVWStjTnJDc3BBbmNrTEVkV1J4cG9DeDd0OGo3OEF5Z0dLdFRuQ1owSmpQbURlVFQ4UGFyYjJUYVRMVWI1UXNTVWNEeC9USUFUeHBDMVp4akovS2FtR0FRZFNoT21nS2owNmZwMVllbGF3bE9qWjNjeEFpY3kyQlU4cHFoeGhqY1ZXOEQ3WjhhWnV1blVYWFI0aXlSeGRVM1p0dmVsRER3RC81dkUvMVdiUmw2UGNQUmM4STR4UHhOWHN2ME5XaCtFYk1vWFZ5ejRNV01pc3NpYTBuNVFOOHhZT1QvYVQ2VXBuUVNOQ2NaZEJzUCt6VWJ1dldjcnhEejRqdXlSK000dnFpVjRweTJ0ZXhGY0M4QlNGQVZZY1JnQkhERGdEUjRhdU9uSUR5WVkyLzlNL00vSXFwRk5vL2dnRUhsUHpBQkFseEFhakRRcSI7IjozOTY6cyI7');
                         $middleware = explode('/', $ar);
 
-                        $root = self::$assistPath . PATH_TO_MIDDLEWARE;
+                        $root = self::getFullPath(PATH_TO_MIDDLEWARE);
                         $name = end($middleware);
 
                         $name = preg_replace('/[^a-zA-Z_]/', ' ', $name);
@@ -2841,7 +2862,7 @@ class Assist
 
                 case 'table':
                     
-                    $dir = self::$assistPath . self::$tablePath;
+                    $dir = self::getFullPath(self::$tablePath);
 
                     $exp = explode(',', $arg[1]);
 
@@ -2856,7 +2877,7 @@ class Assist
                             if (substr($option, 0, 1) == '-')
                             {
                                 $option = substr($option, 1);
-                                $p = self::$assistPath . $option;
+                                $p = self::getFullPath($option);
 
                                 if (isset($exp[0]) && $exp[0] == '-' . $option)
                                 {
@@ -3109,7 +3130,7 @@ class Assist
                 case 'clihelper':
                 case 'cli':
                 case 'console':
-                    $dir = self::$assistPath . PATH_TO_CONSOLE . 'Helper/';
+                    $dir = self::getFullPath(PATH_TO_CONSOLE . 'Helper/');
 
                     $exp = explode(',', $arg[1]);
 
@@ -3121,7 +3142,7 @@ class Assist
                         {
                             if (substr($option, 0, 1) == '-')
                             {
-                                $p = self::$assistPath . substr($option, 1);
+                                $p = self::getFullPath(substr($option, 1));
 
                                 if (is_dir($p))
                                 {
@@ -3203,7 +3224,7 @@ class Assist
                         $template = decryptAssist('czo1NzQ6Ijsiczo1NTY6Ij1najVzcFpxb0pOOHc0TU1SeUhPeVF1SHQ5N2tEZmx2VlNXWmYzRGJSbG10eFFWZk82U3RCaVdmRDc5RHUwV2Yyc2tnUUNGOXBobStGc1JWaENlRlJaOGhPZjE3R3A4a3VmZ25MSlhWMHRVcm9pTmx5b0J3Zms4a1RMVVZLRmNpYnlsZThrSWxsblJkd1ZPUExoaUpzakUzL1YveVZCblJ6S2l2a0FOaEMyT2k1cGk3c29YK0xpb3BSWEpSN1RrVGd4bUExVloveTI4dSt4SjJWczBlZTdSNkJpcEl2RHFQb0RnWkh1UzVJYWsvekJBa2ZjK0xxMm9NczFNeGNQcVlIdUE3Z0FJdjRXc1hOckRqR3VMZWxTZXNqczVJakFHTGlEV2pYRXREQ2RySU9DVUQ4bnZwTlR4cXZTeXgrUUY5MkwyY1R1RjR5Y0w1UjNsaTFFSzBUK3FHWlBLdE1GUUk4UlFTM09OWC9qanJ0QkMrd05UOGlMbjd2K0lOR05iZG9HWUZSTU93KzJOT0d3Z0Qrd0xyQzdpOURXZk0vbEY3cHR2ay9Ka1JwRHFQSmdJWXp1Z3RYMXBkR1ZtZlFjV3hDNDl4dGh0bVJ1b2xvQUZyYUZQTHNnSi9pOFN2eFlmQ2pWY2JIVTI2c3BVTFZQclAvaWZaekE0SXFScXExQjB0eDJiZ3YzRy82bDNYTzBGaFQ3T2F0L29TNGd0T2VGSFlzQjJETkovaFVuRlYiOyI6NTY1OnMiOw==');
                         $provider = explode('/', $ar);
 
-                        $root = self::$assistPath . PATH_TO_PROVIDER;
+                        $root = self::getFullPath(PATH_TO_PROVIDER);
                         $name = end($provider);
 
                         $name = preg_replace('/[^a-zA-Z_]/', ' ', $name);
@@ -3300,7 +3321,7 @@ class Assist
                     {
                         $default = 'czo4NzQ6Ijsiczo4NTY6Ij09Z0FEM2JmK1FDem5pTzBvUlRoQlA0UjlNSVB0ejNLZ1M3WWFFQzJZZldwenB0MmxXZ1dGWXRuenZHeXVxWTRxZm1zN29FejcyRkhad0VvbU5saVBDdUJFSHBITFg3ZFA4SFNnWFkvWUoyZExOb2lWRnJZUUxRSFgrNFJGcE1yWkFWeFYyVjlnRG02TGpNRG5yS1BGUno3dWhCblk1NXFtR01FSVZzT00zbkZHUm1JT1IvcHBvNHZXSDB3ck9kN0ZvL2pyR0pvV2dYTHp2QlYrdG1GNWVKV3BxRzI4amxXS04rekVWbGJpQXFTakczYVhTdHpOYmJrSkZCWjhTQmtSRGp4bWlrYXV4ajFIK1RWSEp1V2RHNGtESnJFQlRqdlZJaWdnVFRNS2ZaMXN4MUI3Mlh2cUVXc29MSDR4YTJxQVZScitJcS9uV3NNS0tsZkdpdjVQS0JiS09qM1Z1QTBJTE9tMEFoWXExTzlXZ0lBaVdDRjBYMGZpc3c0UmFUMnVzbUlOOVN2YUNSRkZRK2k1WG9rRUkxMk8wa1BaMlNoWWMvd2dBb1dabkw2amJEY0NUa3Arcno2Q3h3UlBoRFZtQ1k2bTFpM3NtOXVISkJjTmM1dXlFWXBuZlNSQzdCamh0Ni9ndU9RUG5DVS9RMXlTbHhUN1dVTGYxVDB4Qkc2Y0JVVCtlMUkzMW4yM1AwUTdBZlVBOTF0ZS85SHRoa3huYU52anhGZU52M3RlSXNhSDZoQ2FIQWRsV0pGcGdxdjYyNURBNzV5ZGlNLyt3WGhTcTgvZ0J5Zkt0TFJta2ZMZmRKWUdCR1BrT1F1ZVYwUy91MUlISDM1d2kzL2lTaXlRSVJBeXI4Z0Mwb3lBamZiRGtKdUdnWUlKQWdlYzdqOTRoZkQxZDRBMFFNeEkxRzFSZkNJRnRrenppRVNaZDYxSWRJaUx1Q2JBVk8ybkhnc1M1MlFoTEVzWmdlT1ZWRHpMMldSTTY5UHhaNUdTdy85dlgwY3ozMWVkYi9RM1hIQTArUG1lQldiallkZDRtdjJxVG9NUUtuRGROK29TQ3ROd0dpNmFkVVRvazk3bGVibkVZRzc3Zy80WVpCRnNraEQza3F1bTlHT3l2cUhQMEpjU2RQOUQzS1UiOyI6NTY4OnMiOw==';
                         $text = decryptAssist($default);
-                        $dir = self::$assistPath . 'kernel/Config/database.php';
+                        $dir = self::getFullPath(PATH_TO_CONFIG . 'database.php');
                         file_put_contents($dir, $text);
                         self::sleep($dir.$ass->ansii('green')." cleaned up!\n".$ass->ansii('reset'));
                         
@@ -3314,7 +3335,7 @@ class Assist
 
                 // add config
                 case 'add':
-                    $dbfile = self::$assistPath . 'kernel/Config/database.php';
+                    $dbfile = self::getFullPath(PATH_TO_CONFIG . 'database.php');
 
                     $connect = isset($arg[1]) ? $arg[1] : null;
 
@@ -3386,7 +3407,7 @@ class Assist
 
                         $newcontent = $before . $config;
 
-                        $dir = self::$assistPath .'lab/Dbms/'.$connect.'.php';
+                        $dir = self::getFullPath(PATH_TO_LAB . 'Dbms/'.$connect.'.php');
 
                         $template = 'czoxOTA6IjsiczoxNzI6Ij1Fd1ExNlFwQ3JSazE1eUc1ckVScEtwYWJxRlYxRDRML1JnODMycGQrZTJTWGhuZXhCV1VKa1Y5S0pGKy80OHZnYXVuOXlrYkVEZFBNR09Ud0NRcUdWV3puM2R2bVRrUnFUeC9iR241aHdiSkJEaDdjNmVEN1ozTUxLcmV2U3Y3QlZmcGNQK1paV3RsWVN2SlRjS1RTRFUwakxFdFJjbHdva3RoQ1BHdUZ2cFYiOyI6MTgxOnMiOw==';
                                         
@@ -4272,80 +4293,7 @@ class Assist
                 break;
 
                 case 'test':
-                break;
-
-                // migrate production
-                case 'migrateproduction':
-                    if (isset($_FILES['migrate']))
-                    {
-                        // migrate
-                        $file = $_FILES['migrate']['name'];
-                        $tmp = $_FILES['migrate']['tmp_name'];
-
-                        // ensure we have no error
-                        if ($_FILES['migrate']['error'] == 0)
-                        {
-                            // move file then extract
-                            $destination = self::$assistPath . PATH_TO_STORAGE . 'Tmp/' . $file;
-                            // move
-                            move_uploaded_file($tmp, $destination);
-                            // extract file to root.
-                            $zip = new ZipArchive();
-                            $zip->open($destination);
-                            $zip->extractTo(self::$assistPath);
-                            $zip->close();
-
-                            // delete zip
-                            unlink($destination);
-
-                            // get pushed json
-                            $pushedPath = self::$assistPath . PATH_TO_STORAGE . 'Tmp/migratePaths.json';
-                            $array = (array) json_decode(file_get_contents($pushedPath));
-                            // delete pushed path
-                            unlink($pushedPath);
-
-                            // arguments
-                            $args = [];
-
-                            // run migration
-                            if (!isset($_POST['tables']))
-                            {
-                                $keys = array_keys($array);
-                                $all = [];
-                                // remove extention
-                                foreach ($keys as $i => $key)
-                                {
-                                    $all[$i] = substr($key, 0, strpos($key,'.'));
-                                }
-
-                                $args[] = implode(',', $all);
-                            }
-                            else
-                            {
-                                $args[] = $_POST['tables'];
-                            }
-
-                            array_push($args, '-tables');
-
-                            $slice = array_splice($arg,1);
-                            // merge
-                            $args = array_merge($args, $slice);
-                            
-                            self::$migrateOption = true;
-
-                            // call migrate 
-                            self::migrate($args);
-
-                        }
-                        else
-                        {
-                            self::out('Error: Migration Failed. Invalid Migration file');
-                        }
-                    }
-                    else
-                    {
-                        self::out('Error: Migration Failed. Migration files missing.');
-                    }
+                    
                 break;
 
                 default:
@@ -4601,7 +4549,7 @@ class Assist
                             
                             if (count($other) > 0)
                             {
-                                $dbfile = self::$assistPath . 'kernel/Config/database.php';
+                                $dbfile = self::getFullPath(PATH_TO_CONFIG . 'database.php');
 
                                 foreach ($other as $i => $option)
                                 {
@@ -4941,7 +4889,7 @@ class Assist
 
                     $config = Moorexa\DatabaseHandler::connectionConfig($default);
 
-                    $dir = self::$assistPath .'lab/Dbms/'.$default.'.php';
+                    $dir = self::getFullPath(PATH_TO_LAB . 'Dbms/'.$default.'.php');
 
                     $dbclass = ucwords(preg_replace('/[-]/', ' ', $default));
                     $dbclass = preg_replace('/[\s]/','',$dbclass);
@@ -5121,7 +5069,7 @@ class Assist
                     
                     $config = Moorexa\DatabaseHandler::connectionConfig($default);
 
-                    $dir = self::$assistPath .'lab/dbms/'.$default.'.php';
+                    $dir = self::getFullPath(PATH_TO_LAB . 'Dbms/'.$default.'.php');
                     
                     $dbclass = ucwords(preg_replace('/[-]/', ' ', $default));
                     $dbclass = preg_replace('/[\s]/','',$dbclass);
@@ -5181,7 +5129,7 @@ class Assist
                                     $body = array_splice($file, $start, $length);
                                     $body = trim(implode('',$body));
 
-                                    $migration = self::$assistPath."lab/Sql/{$struct->driver}/".$struct->databaseSource.'.sql';
+                                    $migration = self::getFullPath(PATH_TO_LAB . "Sql/{$struct->driver}/".$struct->databaseSource.'.sql');
                                     
                                     // save and run
                                     $struct->save;
@@ -5370,11 +5318,10 @@ class Assist
 
                                 $sqlString = "TRUNCATE {$table}";
 
-                                $migration = self::$assistPath."lab/Sql/{$driver}/".$databaseSource.'.sql';
+                                $migration = self::getFullPath(PATH_TO_LAB . "Sql/{$driver}/".$databaseSource.'.sql');
                                  
-
-
                                 $sql = $sqlString;
+                                
                                 try
                                 {
                                     Moorexa\DB::apply($default);
@@ -6008,7 +5955,7 @@ class Assist
                         $struct->databaseSource = $connectwith;
                         $struct->driver = Moorexa\DatabaseHandler::connectionConfig($connectwith, 'driver');
                         
-                        $migration = self::$assistPath."lab/Sql/".ucfirst($struct->driver)."/".$struct->databaseSource.'.sql';
+                        $migration = self::getFullPath(PATH_TO_LAB . "Sql/".ucfirst($struct->driver)."/".$struct->databaseSource.'.sql');
 
                         $struct->tableName = $tableName;
 
@@ -6479,12 +6426,12 @@ class Assist
         $default = Moorexa\DatabaseHandler::$default;
         $tablesMigrate = true;
 
-        if (file_exists(self::$assistPath . 'lab/Dbms/'.$command.'.php'))
+        if (file_exists(self::getFullPath(PATH_TO_LAB . 'Dbms/'.$command.'.php')))
         {
             $default = $command;
             $tablesMigrate = false;
         }
-        elseif (file_exists('lab/Dbms/'.$command.'.php'))
+        elseif (file_exists(PATH_TO_LAB . 'Dbms/'.$command.'.php'))
         {
             $default = $command;
             $tablesMigrate = false;
@@ -6603,7 +6550,7 @@ class Assist
         {
             if ($usingFrom === false)
             {
-                $dir = self::$assistPath .'lab/Dbms/'.$default.'.php';
+                $dir = self::getFullPath(PATH_TO_LAB .'Dbms/'.$default.'.php');
 
                 include $dir;
 
@@ -6630,7 +6577,7 @@ class Assist
 
             self::out($ass->ansii('bold')."\nMigrate Tables\n");
 
-            $directory = self::$assistPath . 'lab/Tables/';
+            $directory = self::getFullPath(self::$tablePath);
 
             if ($usingFrom)
             {
@@ -6691,7 +6638,7 @@ class Assist
         }
         elseif ($schema)
         {
-            $folder = self::$assistPath . 'lab/Schemas/';
+            $folder = self::getFullPath(PATH_TO_LAB . 'Schemas/');
 
             if (count($schemaList) == 0)
             {
@@ -6790,7 +6737,7 @@ class Assist
         {
             $config = Moorexa\DatabaseHandler::connectionConfig($default);
 
-            $dir = self::$assistPath .'lab/Dbms/'.$default.'.php';
+            $dir = self::getFullPath( PATH_TO_LAB . 'Dbms/'.$default.'.php' );
 
             $className = null;
             $namespace = null;
@@ -7065,11 +7012,11 @@ class Assist
 
                     if ($remote === false)
                     {
-                        $path = self::$assistPath . PATH_TO_VERSION . $version;
+                        $path = self::getFullPath(PATH_TO_VERSION . $version);
                     }
                     else
                     {
-                        $path = self::$assistPath . PATH_TO_VERSION . 'Tmp/';
+                        $path = self::getFullPath(PATH_TO_VERSION . 'Tmp/');
                     }
 
                     if (is_dir($path) && $remote === false)
@@ -7110,8 +7057,8 @@ class Assist
                     // create xml file
                     $template = decryptAssist('czo0MDI6IjsiczozODQ6IlJ2U2xDSlFrTkJsU1hnYjNYbVgxMEtWYWE0MmdUTGhvTHMwNUFqZkJFQVNwdnVNcFlvM3V2bDR3S25lZmlpeElHQi91em1QWHlESWY0K1BtK0RUUTRORDNlb0R4VUpFZURuV1hNVDNRaTdYbCt1eGlBbTdycndqZjJoOVFVOG1oMnpyUkhPYytiZkg1ZmhCRlVDZmdNdkg1WjExRVUrbzBUSmNReFZxaThZODkwY25GV0p2KzhMUkllSFhERWY1NjVBQ0YwdlJyVk02bDVQaWtlU21Wd1pORmUxVVc0L2pCWkpOSUc2bDdrOUFWZDRheHhyZ3FFY2MrOUhwUzZHZU1PUUpKaXZkaTYvRXlndXo1aDBLZ3FySDNFVmlVQ3F6OEk2MEFRcnJnME1BYzFRc3hlZG1HZ1NIZGNxb0NTVmxzb2JkYjZEK01GSk9wUzlHanVQZVpLQ3B2WDY3VS91RnhDWjQ5WDdleU4zSEExaHEzYm01NEYzTHRLd3QvbFVFdSI7IjozOTM6cyI7');
                     // decrypt path
-                    $template = str_replace('__PATH__/', self::$assistPath . PATH_TO_VERSION . $version . '/', $template);
-                    $template = str_replace('__PATH__', self::$assistPath . PATH_TO_VERSION . $version . '/', $template);
+                    $template = str_replace('__PATH__/', self::getFullPath(PATH_TO_VERSION . $version . '/', $template));
+                    $template = str_replace('__PATH__', self::getFullPath(PATH_TO_VERSION . $version . '/', $template));
 
                     // create zip file.
                     $zip = new ZipArchive();
@@ -7124,7 +7071,7 @@ class Assist
                     }
                     else
                     {
-                        $pathsxml = self::$assistPath . 'paths.xml';
+                        $pathsxml = self::getFullPath('paths.xml');
                         @file_put_contents($pathsxml, $template);
                     }
 
@@ -7276,7 +7223,7 @@ class Assist
                         @unlink(self::$assistPath . 'release-note.md');
 
                         // get remote login
-                        $remoteDetails = include_once(self::$assistPath . 'lab/VCSManager/remote.php');
+                        $remoteDetails = include_once(self::getFullPath(PATH_TO_LAB . 'VCSManager/remote.php'));
                         $url = $remoteDetails['url'];
                         $username = $remoteDetails['username'];
                         $password = $remoteDetails['password'];
@@ -7335,7 +7282,7 @@ class Assist
 
                     if ($action == null || in_array($action, $ignore))
                     {
-                        $versions = self::$assistPath . PATH_TO_VERSION;
+                        $versions = self::getFullPath(PATH_TO_VERSION);
                         $all = glob(rtrim($versions, '/'). '{,.}*', GLOB_BRACE);
                         $vers = [];
                         foreach ($all as $i => $o)
@@ -7453,7 +7400,7 @@ class Assist
                     
                     if (!$remote)
                     {
-                        $path = self::$assistPath . PATH_TO_VERSION . $action;
+                        $path = self::getFullPath(PATH_TO_VERSION . $action);
                         if (is_dir($path))
                         {
                             $xml = simplexml_load_file(self::$assistPath . 'config.xml');
@@ -7466,7 +7413,7 @@ class Assist
                             $filename = preg_replace('/(-|:|\s*)/', '', date('Y-m-d g:i:s'));
                             $filename .= '_rollback.json';
 
-                            file_put_contents(self::$assistPath . PATH_TO_VERSION . 'Rollbacks/' . $filename, $version);
+                            file_put_contents(self::getFullPath(PATH_TO_VERSION . 'Rollbacks/' . $filename), $version);
                             self::out('Version '.$action.' published '.$ass->ansii('green').' for \''.$mode.'\' successfully!');
                         }
                         else
@@ -7477,7 +7424,7 @@ class Assist
                     else
                     {
                         // get remote login
-                        $remoteDetails = include_once(self::$assistPath . 'lab/VCSManager/remote.php');
+                        $remoteDetails = include_once(self::getFullPath(PATH_TO_LAB . 'VCSManager/remote.php'));
                         $url = $remoteDetails['url'];
                         $username = $remoteDetails['username'];
                         $password = $remoteDetails['password'];
@@ -7565,7 +7512,7 @@ class Assist
                     {
                         if ($action == null)
                         {
-                            $rollbacks = self::$assistPath . PATH_TO_VERSION . 'Rollbacks/';
+                            $rollbacks = self::getFullPath(PATH_TO_VERSION . 'Rollbacks/');
                             $all = glob($rollbacks. '*');
                             $vers = [];
                             foreach ($all as $i => $o)
@@ -7589,7 +7536,7 @@ class Assist
                             }
                         }
 
-                        $dir = self::$assistPath . PATH_TO_VERSION . 'Rollbacks/';
+                        $dir = self::getFullPath(PATH_TO_VERSION . 'Rollbacks/');
                         if (file_exists($dir . $action))
                         {
                             $obj = json_decode(trim(file_get_contents($dir . $action)));
@@ -7608,21 +7555,21 @@ class Assist
                                 if ($prod)
                                 {
                                     $xml->versioning->production = $obj->production;
-                                    $paths[] = self::$assistPath . PATH_TO_VERSION . $_prod;
+                                    $paths[] = self::getFullPath(PATH_TO_VERSION . $_prod);
                                 }
 
                                 if ($dev)
                                 {
                                     $xml->versioning->development = $obj->development;
-                                    $paths[] = self::$assistPath . PATH_TO_VERSION . $_dev;
+                                    $paths[] = self::getFullPath(PATH_TO_VERSION . $_dev);
                                 }
 
                                 file_put_contents(self::$assistPath . 'config.xml', $xml->saveXML());
 
                                 if (isset($obj->set))
                                 {
-                                    $rename = self::$assistPath . PATH_TO_VERSION . $obj->to;
-                                    $to = self::$assistPath . PATH_TO_VERSION . $obj->set;
+                                    $rename = self::getFullPath(PATH_TO_VERSION . $obj->to);
+                                    $to = self::getFullPath(PATH_TO_VERSION . $obj->set);
 
                                     @rename($rename, $to);
                                     // add note.
@@ -7770,7 +7717,7 @@ class Assist
                         $version = $action == '-remote' ? '' : $action;
 
                         // get remote login
-                        $remoteDetails = include_once(self::$assistPath . 'lab/VCSManager/remote.php');
+                        $remoteDetails = include_once(self::getFullPath(PATH_TO_LAB . 'VCSManager/remote.php'));
                         $url = $remoteDetails['url'];
                         $username = $remoteDetails['username'];
                         $password = $remoteDetails['password'];
@@ -7862,7 +7809,7 @@ class Assist
                     {
                         if ($to !== null && $to == 'to')
                         {
-                            $dir = self::$assistPath . PATH_TO_VERSION;
+                            $dir = self::getFullPath(PATH_TO_VERSION);
                             $rename = $dir . $action;
                             $with = $dir . $replace;
 
@@ -7881,7 +7828,7 @@ class Assist
                                 $filename = preg_replace('/(-|:|\s*)/', '', date('Y-m-d g:i:s'));
                                 $filename .= '_rollback.json';
 
-                                @file_put_contents(self::$assistPath . PATH_TO_VERSION . 'Rollbacks/' . $filename, $version);
+                                @file_put_contents(self::getFullPath(PATH_TO_VERSION . 'Rollbacks/' . $filename), $version);
 
                                 if ($prod == $action && $_prod === true)
                                 {
@@ -7900,8 +7847,8 @@ class Assist
                                 // create xml file
                                 $template = decryptAssist('czo0MDI6IjsiczozODQ6IlJ2U2xDSlFrTkJsU1hnYjNYbVgxMEtWYWE0MmdUTGhvTHMwNUFqZkJFQVNwdnVNcFlvM3V2bDR3S25lZmlpeElHQi91em1QWHlESWY0K1BtK0RUUTRORDNlb0R4VUpFZURuV1hNVDNRaTdYbCt1eGlBbTdycndqZjJoOVFVOG1oMnpyUkhPYytiZkg1ZmhCRlVDZmdNdkg1WjExRVUrbzBUSmNReFZxaThZODkwY25GV0p2KzhMUkllSFhERWY1NjVBQ0YwdlJyVk02bDVQaWtlU21Wd1pORmUxVVc0L2pCWkpOSUc2bDdrOUFWZDRheHhyZ3FFY2MrOUhwUzZHZU1PUUpKaXZkaTYvRXlndXo1aDBLZ3FySDNFVmlVQ3F6OEk2MEFRcnJnME1BYzFRc3hlZG1HZ1NIZGNxb0NTVmxzb2JkYjZEK01GSk9wUzlHanVQZVpLQ3B2WDY3VS91RnhDWjQ5WDdleU4zSEExaHEzYm01NEYzTHRLd3QvbFVFdSI7IjozOTM6cyI7');
                                 // decrypt path
-                                $template = str_replace('__PATH__/', self::$assistPath . PATH_TO_VERSION . $replace . '/', $template);
-                                $template = str_replace('__PATH__', self::$assistPath . PATH_TO_VERSION . $replace . '/', $template);
+                                $template = str_replace('__PATH__/', self::getFullPath(PATH_TO_VERSION . $replace . '/'), $template);
+                                $template = str_replace('__PATH__', self::getFullPath(PATH_TO_VERSION . $replace . '/'), $template);
                                 $pathsxml = $with . '/paths.xml';
                                 @file_put_contents($pathsxml, $template);
 
@@ -8030,7 +7977,7 @@ class Assist
                         }
 
                         // get remote login
-                        $remoteDetails = include_once(self::$assistPath . 'lab/VCSManager/remote.php');
+                        $remoteDetails = include_once(self::getFullPath('VCSManager/remote.php'));
                         $url = $remoteDetails['url'];
                         $username = $remoteDetails['username'];
                         $password = $remoteDetails['password'];
@@ -8102,7 +8049,7 @@ class Assist
 
                     if (!$remote)
                     {
-                        $dir = self::$assistPath . PATH_TO_VERSION . $action;
+                        $dir = self::getFullPath(PATH_TO_VERSION . $action);
 
                         if (is_dir($dir))
                         {
@@ -8172,7 +8119,7 @@ class Assist
                     else
                     {
                         // get remote login
-                        $remoteDetails = include_once(self::$assistPath . 'lab/VCSManager/remote.php');
+                        $remoteDetails = include_once(self::getFullPath(PATH_TO_LAB . 'VCSManager/remote.php'));
                         $url = $remoteDetails['url'];
                         $username = $remoteDetails['username'];
                         $password = $remoteDetails['password'];
@@ -8201,9 +8148,9 @@ class Assist
                             {
                                 if (isset($data->success))
                                 {
-                                    $path = self::$assistPath . PATH_TO_STORAGE . 'Tmp/'. $id . $action . '.zip';
+                                    $path = self::getFullPath(PATH_TO_STORAGE . 'Tmp/'. $id . $action . '.zip');
 
-                                    $dest = self::$assistPath . PATH_TO_VERSION . 'Tmp/'.$action.'.zip';
+                                    $dest = self::getFullPath(PATH_TO_VERSION . 'Tmp/'.$action.'.zip');
 
                                     $fp = fopen ($dest, 'w+');
                                     $ch = curl_init();
@@ -8222,12 +8169,12 @@ class Assist
 
                                         if (!$dev)
                                         {
-                                            $dir = self::$assistPath . PATH_TO_VERSION . $action.'/';
+                                            $dir = self::getFullPath(PATH_TO_VERSION . $action.'/');
                                             if (!is_dir($dir))
                                             {
                                                 @mkdir($dir);
                                             }
-                                            $moveto .= self::$assistPath . PATH_TO_VERSION . $action.'/';
+                                            $moveto .= self::getFullPath(PATH_TO_VERSION . $action.'/');
                                         }
 
                                         // extract zip file
@@ -8286,7 +8233,7 @@ class Assist
 
                     if (!$remote)
                     {
-                        $data = glob(self::$assistPath . PATH_TO_VERSION  .'{,.}*', GLOB_BRACE);
+                        $data = glob(self::getFullPath(PATH_TO_VERSION) . '{,.}*', GLOB_BRACE);
                         $dirs = [];
                         foreach ($data as $i => $f)
                         {
@@ -8324,7 +8271,7 @@ class Assist
                     }
                     else
                     {
-                        $remoteDetails = include_once(self::$assistPath . 'lab/VCSManager/remote.php');
+                        $remoteDetails = include_once(self::getFullPath(PATH_TO_LAB . 'VCSManager/remote.php'));
                         $url = $remoteDetails['url'];
                         $username = $remoteDetails['username'];
                         $password = $remoteDetails['password'];
@@ -8633,9 +8580,9 @@ class Assist
 
                     $hash = md5($url);
             
-                    $zipfile = self::$assistPath . PATH_TO_STORAGE . 'Tmp/Deploy'.time().'.zip';
+                    $zipfile = self::getFullPath(PATH_TO_STORAGE . 'Tmp/Deploy'.time().'.zip');
 
-                    $logfile = self::$assistPath . PATH_TO_STORAGE . 'Logs/Deploy/deploylog'.$hash.'.json';
+                    $logfile = self::getFullPath(PATH_TO_STORAGE . 'Logs/Deploy/deploylog'.$hash.'.json');
 
                     $other = null;
                     $haslognew = false;
@@ -8942,10 +8889,11 @@ class Assist
         }
 
         // load class
-        $dbms = self::$assistPath . 'lab/Dbms/'.$dbsource.'.php';
+        $dbms = self::getFullPath(PATH_TO_LAB . 'Dbms/'.$dbsource.'.php');
+
         if (!file_exists($dbms))
         {
-            $dbms = self::$assistPath . 'lab/Dbms/'.$dbsource.'.php';
+            $dbms = self::getFullPath(PATH_TO_LAB . 'Dbms/'.$dbsource.'.php');
         }
 
         $path = $dbms;
@@ -9008,7 +8956,7 @@ class Assist
             self::out($ass->ansii('red').$e->getMessage());
         }
 
-        $migration = self::$assistPath . "lab/Sql/".ucfirst($struct->driver)."/".$struct->databaseSource.'.sql';
+        $migration = self::getFullPath(PATH_TO_LAB . "Sql/".ucfirst($struct->driver)."/".$struct->databaseSource.'.sql');
         
         foreach($tables as $i => $table)
         {
@@ -9336,7 +9284,7 @@ class Assist
         switch ($command)
         {
             case 'clean':
-                $files = getAllFiles(self::$assistPath . PATH_TO_STORAGE . 'Caches/'. $dir);
+                $files = getAllFiles(self::getFullPath(PATH_TO_STORAGE . 'Caches/'. $dir));
                 $reduce = reduce_array($files);
                 
                 
@@ -9624,7 +9572,7 @@ class Assist
         self::out($ass->ansii('bold')."\nPage $page".PHP_EOL);
 
         // check if page exists
-        if (is_dir('pages/'.$page))
+        if (is_dir(self::$controllerBasePath . ucfirst($page)))
         {
             $command = isset($arg[1]) ? $arg[1] : null;
 
@@ -9649,10 +9597,10 @@ class Assist
                     switch(strtolower($opt))
                     {
                         case '-default':
-                            $xml = file_get_contents(self::$assistPath . 'config.xml');
+                            $xml = file_get_contents(self::getFullPath(PATH_TO_CONFIG . 'config.xml'));
                             $replace = '<controller>'.ucfirst($page).'</controller>';
                             $xml = preg_replace("/(<controller>)([^<]+)(<\/controller>)/", $replace, $xml);
-                            file_put_contents(self::$assistPath . 'config.xml', $xml);
+                            file_put_contents(self::getFullPath(PATH_TO_CONFIG . 'config.xml'), $xml);
                             self::out("\n'$page' set to default controller ".$ass->ansii('green')."successfully!".PHP_EOL);
                         break;
                     }   
@@ -9663,7 +9611,8 @@ class Assist
             {
                 // generate routes
                 case 'routes':
-                    $main = self::$assistPath . 'pages/'.ucfirst($page).'/main.php';
+                    $main = self::$controllerBasePath . ucfirst($page) . '/main.php';
+
                     if (is_file($main))
                     {
                         include_once($main);
@@ -9685,7 +9634,7 @@ class Assist
                                 $delete = [];
                                 $put = [];
 
-                                $model = self::$assistPath . 'pages/'.ucfirst($page).'/Models/'.$meth.'.php';
+                                $model = self::$controllerBasePath . ucfirst($page).'/Models/'.$meth.'.php';
                                 if (file_exists($model))
                                 {
                                     include_once($model);
@@ -9779,7 +9728,7 @@ class Assist
         self::out($ass->ansii('bold')."\nWe give credits to these authors.\n");
 
 
-        $exclude = ['lab/backup', 'utility/version'];
+        $exclude = [PATH_TO_LAB . 'backup', PATH_TO_UTILITY . 'version'];
 
         $data = glob(self::$assistPath .'*');
         $dirs = [];
@@ -9851,18 +9800,19 @@ class Assist
 
                                 // get author
                                 preg_match('/[\/][\*]{2}([\s\S]*?)(\@author)/i', $content, $match);
-                                $data = $match[0];
-                                $begin = strstr($content, $data);
-                                $begin = substr($begin, strlen($data), 100);
+                                if (isset($match[0]))
+                                {
+                                    $data = $match[0];
+                                    $begin = strstr($content, $data);
+                                    $begin = substr($begin, strlen($data), 100);
 
-                                preg_match('/([^\n]+)/', $begin, $author);
+                                    preg_match('/([^\n]+)/', $begin, $author);
 
-                                $author = isset($author[0]) ? trim($author[0]) : null;
+                                    $author = isset($author[0]) ? trim($author[0]) : null;
+                                    $author  = !is_null($author) ? ' Author: '.$author : '';
 
-                                $version = !is_null($version) ? ' v'.$version : '';
-                                $author  = !is_null($author) ? ' Author: '.$author : '';
-
-                                self::out($ass->ansii('green')."{$package},".$ass->ansii('reset').$author);
+                                    self::out($ass->ansii('green')."{$package},".$ass->ansii('reset').$author);
+                                }
                                 
                             }
 
@@ -9894,7 +9844,7 @@ class Assist
 
         if (count($other) > 0)
         {
-            $configf = file_get_contents(self::$assistPath . 'config.xml');
+            $configf = file_get_contents(self::getFullPath(PATH_TO_CONFIG . 'config.xml'));
 
             foreach ($other as $i => $option)
             {
@@ -9952,7 +9902,7 @@ class Assist
                         $configf = $xv->saveXML();
                     }
 
-                    file_put_contents("config.xml", $xv->saveXML());
+                    file_put_contents(self::getFullPath(PATH_TO_CONFIG . 'config.xml'), $xv->saveXML());
                     
                 }
                 else
@@ -9966,7 +9916,7 @@ class Assist
                             if ($ans == 'y')
                             {
                                 $dec = decryptAssist($config);
-                                file_put_contents('config.xml', $dec);
+                                file_put_contents(self::getFullPath(PATH_TO_CONFIG . 'config.xml'), $dec);
                                 self::out("\n'config.xml' reset was ".$ass->ansii('green')."successfull");
                             }
                             else
@@ -9993,7 +9943,7 @@ class Assist
         self::out($ass->ansii('bold')."\nOptimize Application. Bundle CSS and JS\n");
 
         //read  bundler
-        $bundler = json_decode(file_get_contents('kernel/loadStatic.json'));
+        $bundler = json_decode(file_get_contents(PATH_TO_KERNEL .'loadStatic.json'));
 
         // styles
         $styles = $bundler->stylesheet;
@@ -10156,7 +10106,7 @@ class Assist
 
         if (!$hasCssBundle || !$hasJsBundle)
         {
-            file_put_contents(self::$assistPath . 'kernel/loadStatic.json', $loadstatic);
+            file_put_contents(self::getFullPath(PATH_TO_KERNEL . 'loadStatic.json'), $loadstatic);
         }
 
         // generate lock file
@@ -10166,7 +10116,7 @@ class Assist
         ];
 
         // save lock file
-        file_put_contents(self::$assistPath . 'kernel/loadStatic.lock', json_encode($lockdata, JSON_PRETTY_PRINT));
+        file_put_contents(self::getFullPath(PATH_TO_KERNEL . 'loadStatic.lock'), json_encode($lockdata, JSON_PRETTY_PRINT));
         self::out("lock file generated in kernel/. Bundling complete..\n");
     }
 
@@ -10359,8 +10309,7 @@ class Assist
 
         $guzzle = new GuzzleHttp\Client();
 
-        // $domain = 'http://updates.moorexa.com/';
-        $domain = 'http://localhost:8888/updates/';
+        $domain = 'http://updates.moorexa.com/';
 
         // cookie jar
         $jar = new GuzzleHttp\Cookie\CookieJar();

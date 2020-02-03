@@ -9,6 +9,11 @@
 }
 
 @font-face{
+    src : url('../Fonts/Poppins-SemiBold.otf');
+    font-family: 'Poppins-Bold';
+}
+
+@font-face{
     src : url('../Fonts/HelveticaNeueBd.ttf');
     font-family: 'Helvetica';
 }

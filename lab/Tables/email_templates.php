@@ -19,8 +19,7 @@ class Email_templates
 			template_body        longtext
 		");
         $schema->alterStatement("COMMENT 'email templates for all lock status'");
-		$schema->alterStatement("MODIFY template_name varchar(100)     COMMENT 'name of this template. so we can have options'");
-		$schema->alterStatement("ADD CONSTRAINT fk_email_templates_lock_status FOREIGN KEY ( lockid ) REFERENCES lock_status( lockid ) ON DELETE NO ACTION ON UPDATE NO ACTION"); 
+		$schema->alterStatement("MODIFY template_name varchar(100)     COMMENT 'name of this template. so we can have options'");   
     }
 
     // drop table

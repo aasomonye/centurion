@@ -38,12 +38,21 @@ class Accounts
     }
 
     // promise during migration
-    public function promise($status)
+    public function promise($status, $table)
     {
-        if ($status == 'waiting' || $status == 'complete')
+        if ($status == 'complete')
         {
-            // do some cool stuffs.
-            // $this->table => for ORM operations to this table.
+            $records = [
+                ['account_name' => 'customer', 'account_base_url' => 'customer/dashboard'],
+                ['account_name' => 'admin', 'account_base_url' => 'admin/dashboard'],
+                ['account_name' => 'partner', 'account_base_url' => 'partner/dashboard'],
+                ['account_name' => 'prenium', 'account_base_url' => 'customer/dashboard'],
+            ];
+
+            foreach ($records as $record)
+            {
+                $table->insert($record);
+            }
         }
     }
 }
