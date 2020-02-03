@@ -35,18 +35,6 @@
         ".\/utility\/Classes\/",
         "Cms.php"
     ],
-    ".\/pages\/App\/Static\/:home.css:home.cxx.css:Home.css": [
-        ".\/pages\/App\/Static\/",
-        [
-            "home.css",
-            "home.cxx.css",
-            "Home.css"
-        ]
-    ],
-    "public\/Assets\/Images\/:icons.png": [
-        "public\/Assets\/Images\/",
-        "icons.png"
-    ],
     "Installations\/Plugins\/Events:Events.php": [
         "Installations\/Plugins\/Events",
         "Events.php"
@@ -58,10 +46,6 @@
     ".\/utility\/Classes\/:Events.php": [
         ".\/utility\/Classes\/",
         "Events.php"
-    ],
-    "Installations\/Plugins\/Events:Directives.php": [
-        "Installations\/Plugins\/Events",
-        "Directives.php"
     ],
     "Installations\/Plugins\/Gallery:Gallery.php": [
         "Installations\/Plugins\/Gallery",
@@ -87,6 +71,22 @@
         ".\/utility\/Classes\/",
         "Container.php"
     ],
+    ".\/platforms\/web\/\/App\/Static\/:home.css:home.cxx.css:Home.css": [
+        ".\/platforms\/web\/\/App\/Static\/",
+        [
+            "home.css",
+            "home.cxx.css",
+            "Home.css"
+        ]
+    ],
+    "public\/Assets\/Css\/:skins\/default.css": [
+        "public\/Assets\/Css\/",
+        "skins\/default.css"
+    ],
+    "public\/Assets\/Images\/:icons.png": [
+        "public\/Assets\/Images\/",
+        "icons.png"
+    ],
     "Hyphe:Compile.php": [
         "Hyphe",
         "Compile.php"
@@ -95,218 +95,130 @@
         ".\/lab\/",
         "Compile.php"
     ],
-    ".\/pages\/App\/Partials\/:meta-tags.md:Meta-tags.md": [
-        ".\/pages\/App\/Partials\/",
+    ".\/platforms\/web\/\/App\/Partials\/:meta-tags.md:Meta-tags.md": [
+        ".\/platforms\/web\/\/App\/Partials\/",
         [
             "meta-tags.md",
             "Meta-tags.md"
         ]
     ],
-    "public\/Assets\/Images\/:theme\/logo\/gigaxy-logo.jpg": [
-        "public\/Assets\/Images\/",
-        "theme\/logo\/gigaxy-logo.jpg"
+    ".\/platforms\/web\/\/App\/Partials\/:property-dropdown.html:Property-dropdown.html": [
+        ".\/platforms\/web\/\/App\/Partials\/",
+        [
+            "property-dropdown.html",
+            "Property-dropdown.html"
+        ]
     ],
-    ".\/pages\/App\/Static\/:home.js:Home.js": [
-        ".\/pages\/App\/Static\/",
+    ".\/platforms\/web\/\/App\/Static\/:home.js:Home.js": [
+        ".\/platforms\/web\/\/App\/Static\/",
         [
             "home.js",
             "Home.js"
         ]
     ],
-    "public\/Assets\/Images\/:theme\/logo\/gigaxy-logo-small.jpg": [
-        "public\/Assets\/Images\/",
-        "theme\/logo\/gigaxy-logo-small.jpg"
-    ],
-    "public\/Assets\/Images\/:theme\/icons\/aeroland-button-google-play.jpg": [
-        "public\/Assets\/Images\/",
-        "theme\/icons\/aeroland-button-google-play.jpg"
-    ],
-    "public\/Assets\/Images\/:theme\/icons\/aeroland-button-app-store.jpg": [
-        "public\/Assets\/Images\/",
-        "theme\/icons\/aeroland-button-app-store.jpg"
-    ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:home.css:home.cxx.css:Home.css": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
+    ".\/platforms\/web\/\/App\/Partials\/:contact-us-intro.html:Contact-us-intro.html": [
+        ".\/platforms\/web\/\/App\/Partials\/",
         [
-            "home.css",
-            "home.cxx.css",
-            "Home.css"
+            "contact-us-intro.html",
+            "Contact-us-intro.html"
         ]
     ],
-    ".\/lab\/Cms\/MVC\/App\/Partials\/:meta-tags.md:Meta-tags.md": [
-        ".\/lab\/Cms\/MVC\/App\/Partials\/",
+    "utility\/Exceptions\/:App.php:App.php:APP.php:app.php": [
+        "utility\/Exceptions\/",
         [
-            "meta-tags.md",
-            "Meta-tags.md"
+            "App.php",
+            "App.php",
+            "APP.php",
+            "app.php"
         ]
     ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:home.js:Home.js": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
+    ".\/platforms\/web\/\/App\/Static\/:login.css:Login.css": [
+        ".\/platforms\/web\/\/App\/Static\/",
         [
-            "home.js",
-            "Home.js"
+            "login.css",
+            "Login.css"
         ]
     ],
-    "Bootstrap:Alert.php": [
-        "Bootstrap",
-        "Alert.php"
+    ".\/platforms\/web\/\/App\/Static\/:login.js:Login.js": [
+        ".\/platforms\/web\/\/App\/Static\/",
+        [
+            "login.js",
+            "Login.js"
+        ]
     ],
-    ".\/lab\/:Alert.php": [
-        ".\/lab\/",
-        "Alert.php"
-    ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:login.css:login.cxx.css:Login.css": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
+    ".\/platforms\/web\/\/App\/Static\/:login.css:login.cxx.css:Login.css": [
+        ".\/platforms\/web\/\/App\/Static\/",
         [
             "login.css",
             "login.cxx.css",
             "Login.css"
         ]
     ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:login.js:Login.js": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
+    ".\/platforms\/web\/\/Register\/Static\/:404.css:404.css": [
+        ".\/platforms\/web\/\/Register\/Static\/",
         [
-            "login.js",
-            "Login.js"
+            "404.css",
+            "404.css"
         ]
     ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:users.css:users.cxx.css:Users.css": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
+    ".\/platforms\/web\/\/Register\/Static\/:404.js:404.js": [
+        ".\/platforms\/web\/\/Register\/Static\/",
         [
-            "users.css",
-            "users.cxx.css",
-            "Users.css"
+            "404.js",
+            "404.js"
         ]
     ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:users.js:Users.js": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
+    ".\/platforms\/web\/\/App\/Static\/:contact.css:contact.cxx.css:Contact.css": [
+        ".\/platforms\/web\/\/App\/Static\/",
         [
-            "users.js",
-            "Users.js"
+            "contact.css",
+            "contact.cxx.css",
+            "Contact.css"
         ]
     ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:edit.css:Edit.css": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
+    ".\/platforms\/web\/\/App\/Static\/:contact.js:Contact.js": [
+        ".\/platforms\/web\/\/App\/Static\/",
         [
-            "edit.css",
-            "Edit.css"
+            "contact.js",
+            "Contact.js"
         ]
     ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:edit.js:Edit.js": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
+    "Hyphe:Engine.php": [
+        "Hyphe",
+        "Engine.php"
+    ],
+    ".\/lab\/:Engine.php": [
+        ".\/lab\/",
+        "Engine.php"
+    ],
+    "Hyphe:DOMDocument.php": [
+        "Hyphe",
+        "DOMDocument.php"
+    ],
+    ".\/lab\/:DOMDocument.php": [
+        ".\/lab\/",
+        "DOMDocument.php"
+    ],
+    ".\/utility\/\/Classes\/Hyphe:DOMDocument.php": [
+        ".\/utility\/\/Classes\/Hyphe",
+        "DOMDocument.php"
+    ],
+    ".\/utility\/Classes\/\/Hyphe:DOMDocument.php": [
+        ".\/utility\/Classes\/\/Hyphe",
+        "DOMDocument.php"
+    ],
+    ".\/platforms\/web\/\/Reset-password\/Static\/:404.css:404.css": [
+        ".\/platforms\/web\/\/Reset-password\/Static\/",
         [
-            "edit.js",
-            "Edit.js"
+            "404.css",
+            "404.css"
         ]
     ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:container.css:container.cxx.css:Container.css": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
+    ".\/platforms\/web\/\/Reset-password\/Static\/:404.js:404.js": [
+        ".\/platforms\/web\/\/Reset-password\/Static\/",
         [
-            "container.css",
-            "container.cxx.css",
-            "Container.css"
-        ]
-    ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:create.css:Create.css": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
-        [
-            "create.css",
-            "Create.css"
-        ]
-    ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:create.js:Create.js": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
-        [
-            "create.js",
-            "Create.js"
-        ]
-    ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:tables.css:tables.cxx.css:Tables.css": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
-        [
-            "tables.css",
-            "tables.cxx.css",
-            "Tables.css"
-        ]
-    ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:tables.js:Tables.js": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
-        [
-            "tables.js",
-            "Tables.js"
-        ]
-    ],
-    "public\/Assets\/Css\/:skins\/default.css": [
-        "public\/Assets\/Css\/",
-        "skins\/default.css"
-    ],
-    "public\/Assets\/Images\/:theme\/main-slider\/1.jpg": [
-        "public\/Assets\/Images\/",
-        "theme\/main-slider\/1.jpg"
-    ],
-    "public\/Assets\/Images\/:theme\/main-slider\/2.jpg": [
-        "public\/Assets\/Images\/",
-        "theme\/main-slider\/2.jpg"
-    ],
-    "public\/Assets\/Images\/:theme\/main-slider\/3.jpg": [
-        "public\/Assets\/Images\/",
-        "theme\/main-slider\/3.jpg"
-    ],
-    "public\/Assets\/Css\/:plugins\/css\/plugins.css": [
-        "public\/Assets\/Css\/",
-        "plugins\/css\/plugins.css"
-    ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:images.css:images.cxx.css:Images.css": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
-        [
-            "images.css",
-            "images.cxx.css",
-            "Images.css"
-        ]
-    ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:images.js:Images.js": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
-        [
-            "images.js",
-            "Images.js"
-        ]
-    ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:upload.css:Upload.css": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
-        [
-            "upload.css",
-            "Upload.css"
-        ]
-    ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:upload.js:Upload.js": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
-        [
-            "upload.js",
-            "Upload.js"
-        ]
-    ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:directives.css:directives.cxx.css:Directives.css": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
-        [
-            "directives.css",
-            "directives.cxx.css",
-            "Directives.css"
-        ]
-    ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:directives.js:Directives.js": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
-        [
-            "directives.js",
-            "Directives.js"
-        ]
-    ],
-    "utility\/Components\/:app.php:App.php:APP.php:app.php": [
-        "utility\/Components\/",
-        [
-            "app.php",
-            "App.php",
-            "APP.php",
-            "app.php"
+            "404.js",
+            "404.js"
         ]
     ],
     "utility\/Exceptions\/:app.php:App.php:APP.php:app.php": [
@@ -318,297 +230,33 @@
             "app.php"
         ]
     ],
-    ".\/pages\/App\/Static\/:contact.css:contact.cxx.css:Contact.css": [
-        ".\/pages\/App\/Static\/",
+    ".\/platforms\/web\/\/App\/Static\/:resetpassword.css:Resetpassword.css": [
+        ".\/platforms\/web\/\/App\/Static\/",
         [
-            "contact.css",
-            "contact.cxx.css",
-            "Contact.css"
+            "resetpassword.css",
+            "Resetpassword.css"
         ]
     ],
-    ".\/pages\/App\/Static\/:contact.js:Contact.js": [
-        ".\/pages\/App\/Static\/",
+    ".\/platforms\/web\/\/App\/Static\/:resetpassword.js:Resetpassword.js": [
+        ".\/platforms\/web\/\/App\/Static\/",
         [
-            "contact.js",
-            "Contact.js"
+            "resetpassword.js",
+            "Resetpassword.js"
         ]
     ],
-    "public\/Assets\/Images\/:theme\/img\/banner.jpg": [
-        "public\/Assets\/Images\/",
-        "theme\/img\/banner.jpg"
-    ],
-    "public\/Assets\/Images\/:runDirective(true,": [
-        "public\/Assets\/Images\/",
-        "runDirective(true,"
-    ],
-    ".\/pages\/App\/Static\/:becomeapartner.css:Becomeapartner.css": [
-        ".\/pages\/App\/Static\/",
+    ".\/platforms\/web\/\/App\/Static\/:resetPassword.css:resetPassword.cxx.css:ResetPassword.css": [
+        ".\/platforms\/web\/\/App\/Static\/",
         [
-            "becomeapartner.css",
-            "Becomeapartner.css"
+            "resetPassword.css",
+            "resetPassword.cxx.css",
+            "ResetPassword.css"
         ]
     ],
-    ".\/pages\/App\/Static\/:becomeapartner.js:Becomeapartner.js": [
-        ".\/pages\/App\/Static\/",
+    ".\/platforms\/web\/\/App\/Static\/:resetPassword.js:ResetPassword.js": [
+        ".\/platforms\/web\/\/App\/Static\/",
         [
-            "becomeapartner.js",
-            "Becomeapartner.js"
+            "resetPassword.js",
+            "ResetPassword.js"
         ]
-    ],
-    ".\/pages\/App\/Static\/:becomeAPartner.css:becomeAPartner.cxx.css:BecomeAPartner.css": [
-        ".\/pages\/App\/Static\/",
-        [
-            "becomeAPartner.css",
-            "becomeAPartner.cxx.css",
-            "BecomeAPartner.css"
-        ]
-    ],
-    ".\/pages\/App\/Static\/:becomeAPartner.js:BecomeAPartner.js": [
-        ".\/pages\/App\/Static\/",
-        [
-            "becomeAPartner.js",
-            "BecomeAPartner.js"
-        ]
-    ],
-    ".\/pages\/Cities\/Static\/:404.css:404.css": [
-        ".\/pages\/Cities\/Static\/",
-        [
-            "404.css",
-            "404.css"
-        ]
-    ],
-    ".\/pages\/Cities\/Static\/:404.js:404.js": [
-        ".\/pages\/Cities\/Static\/",
-        [
-            "404.js",
-            "404.js"
-        ]
-    ],
-    "Component:loops.php": [
-        "Component",
-        "loops.php"
-    ],
-    ".\/lab\/:loops.php": [
-        ".\/lab\/",
-        "loops.php"
-    ],
-    ".\/utility\/Classes\/:loops.php": [
-        ".\/utility\/Classes\/",
-        "loops.php"
-    ],
-    ".\/pages\/PageError\/Static\/:error404.css:error404.cxx.css:Error404.css": [
-        ".\/pages\/PageError\/Static\/",
-        [
-            "error404.css",
-            "error404.cxx.css",
-            "Error404.css"
-        ]
-    ],
-    ".\/pages\/PageError\/Partials\/:meta-tags.md:Meta-tags.md": [
-        ".\/pages\/PageError\/Partials\/",
-        [
-            "meta-tags.md",
-            "Meta-tags.md"
-        ]
-    ],
-    ".\/pages\/PageError\/Static\/:error404.js:Error404.js": [
-        ".\/pages\/PageError\/Static\/",
-        [
-            "error404.js",
-            "Error404.js"
-        ]
-    ],
-    "public\/Assets\/Images\/:.\/lab\/Cms\/MVC\/App\/Uploads\/d585c3448b63483976403179af9391443804.jpg": [
-        "public\/Assets\/Images\/",
-        ".\/lab\/Cms\/MVC\/App\/Uploads\/d585c3448b63483976403179af9391443804.jpg"
-    ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:update.css:Update.css": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
-        [
-            "update.css",
-            "Update.css"
-        ]
-    ],
-    ".\/lab\/Cms\/MVC\/App\/Static\/:update.js:Update.js": [
-        ".\/lab\/Cms\/MVC\/App\/Static\/",
-        [
-            "update.js",
-            "Update.js"
-        ]
-    ],
-    "public\/Assets\/Images\/:.\/lab\/Cms\/MVC\/App\/Uploads\/5dadb98f9286ae7902395c4d73cee36aOE9UOO0.jpg": [
-        "public\/Assets\/Images\/",
-        ".\/lab\/Cms\/MVC\/App\/Uploads\/5dadb98f9286ae7902395c4d73cee36aOE9UOO0.jpg"
-    ],
-    "public\/Assets\/Images\/:.\/lab\/Cms\/MVC\/App\/Uploads\/3f300023b4831cc89c4ffad089585ad28972.jpg": [
-        "public\/Assets\/Images\/",
-        ".\/lab\/Cms\/MVC\/App\/Uploads\/3f300023b4831cc89c4ffad089585ad28972.jpg"
-    ],
-    "public\/Assets\/Images\/:.\/lab\/Cms\/MVC\/App\/Uploads\/624100c8051e1f09d18c9bfaf45af94cLagos-Lagoon_View-Hotels.ng_.jpg": [
-        "public\/Assets\/Images\/",
-        ".\/lab\/Cms\/MVC\/App\/Uploads\/624100c8051e1f09d18c9bfaf45af94cLagos-Lagoon_View-Hotels.ng_.jpg"
-    ],
-    "public\/Assets\/Images\/:.\/lab\/Cms\/MVC\/App\/Uploads\/44c772b3a161dfe3a39f004dac2000c1abuja-view.jpg": [
-        "public\/Assets\/Images\/",
-        ".\/lab\/Cms\/MVC\/App\/Uploads\/44c772b3a161dfe3a39f004dac2000c1abuja-view.jpg"
-    ],
-    "public\/Assets\/Images\/:.\/lab\/Cms\/MVC\/App\/Uploads\/c379715379085843424ad404bee6c078owerri-center.jpg": [
-        "public\/Assets\/Images\/",
-        ".\/lab\/Cms\/MVC\/App\/Uploads\/c379715379085843424ad404bee6c078owerri-center.jpg"
-    ],
-    "public\/Assets\/Images\/:.\/lab\/Cms\/MVC\/App\/Uploads\/2a74fc4597ef0795abf196ffb298d364Kajuru-Castle.-Photo-findingae.jpg": [
-        "public\/Assets\/Images\/",
-        ".\/lab\/Cms\/MVC\/App\/Uploads\/2a74fc4597ef0795abf196ffb298d364Kajuru-Castle.-Photo-findingae.jpg"
-    ],
-    "public\/Assets\/Images\/:.\/lab\/Cms\/MVC\/App\/Uploads\/1abd48b6e3954e27627f09f33700ce7bcalabar-hotel.jpg": [
-        "public\/Assets\/Images\/",
-        ".\/lab\/Cms\/MVC\/App\/Uploads\/1abd48b6e3954e27627f09f33700ce7bcalabar-hotel.jpg"
-    ],
-    "CmsGlobal:DB.php": [
-        "CmsGlobal",
-        "DB.php"
-    ],
-    ".\/lab\/:DB.php": [
-        ".\/lab\/",
-        "DB.php"
-    ],
-    ".\/utility\/:DB.php": [
-        ".\/utility\/",
-        "DB.php"
-    ],
-    ".\/utility\/Classes\/:DB.php": [
-        ".\/utility\/Classes\/",
-        "DB.php"
-    ],
-    ".\/pages\/App\/Static\/:carrental.css:Carrental.css": [
-        ".\/pages\/App\/Static\/",
-        [
-            "carrental.css",
-            "Carrental.css"
-        ]
-    ],
-    ".\/pages\/App\/Static\/:carrental.js:Carrental.js": [
-        ".\/pages\/App\/Static\/",
-        [
-            "carrental.js",
-            "Carrental.js"
-        ]
-    ],
-    ".\/pages\/App\/Static\/:carRental.css:carRental.cxx.css:CarRental.css": [
-        ".\/pages\/App\/Static\/",
-        [
-            "carRental.css",
-            "carRental.cxx.css",
-            "CarRental.css"
-        ]
-    ],
-    ".\/pages\/App\/Static\/:carRental.js:CarRental.js": [
-        ".\/pages\/App\/Static\/",
-        [
-            "carRental.js",
-            "CarRental.js"
-        ]
-    ],
-    ".\/pages\/App\/Partials\/:car-rental-dropdown.html:Car-rental-dropdown.html": [
-        ".\/pages\/App\/Partials\/",
-        [
-            "car-rental-dropdown.html",
-            "Car-rental-dropdown.html"
-        ]
-    ],
-    "kernel\/Partials\/:car-rental-dropdown.html:Car-rental-dropdown.html": [
-        "kernel\/Partials\/",
-        [
-            "car-rental-dropdown.html",
-            "Car-rental-dropdown.html"
-        ]
-    ],
-    ".\/pages\/App\/Partials\/:property-dropdown.html:Property-dropdown.html": [
-        ".\/pages\/App\/Partials\/",
-        [
-            "property-dropdown.html",
-            "Property-dropdown.html"
-        ]
-    ],
-    "kernel\/Partials\/:property-dropdown.html:Property-dropdown.html": [
-        "kernel\/Partials\/",
-        [
-            "property-dropdown.html",
-            "Property-dropdown.html"
-        ]
-    ],
-    ".\/pages\/App\/Partials\/:contact-us-intro.html:Contact-us-intro.html": [
-        ".\/pages\/App\/Partials\/",
-        [
-            "contact-us-intro.html",
-            "Contact-us-intro.html"
-        ]
-    ],
-    "kernel\/Partials\/:contact-us-intro.html:Contact-us-intro.html": [
-        "kernel\/Partials\/",
-        [
-            "contact-us-intro.html",
-            "Contact-us-intro.html"
-        ]
-    ],
-    ".\/pages\/App\/Static\/:login.css:login.cxx.css:Login.css": [
-        ".\/pages\/App\/Static\/",
-        [
-            "login.css",
-            "login.cxx.css",
-            "Login.css"
-        ]
-    ],
-    ".\/pages\/App\/Static\/:login.js:Login.js": [
-        ".\/pages\/App\/Static\/",
-        [
-            "login.js",
-            "Login.js"
-        ]
-    ],
-    ".\/lab\/:ReflectionClass.php": [
-        ".\/lab\/",
-        "ReflectionClass.php"
-    ],
-    ".\/utility\/:ReflectionClass.php": [
-        ".\/utility\/",
-        "ReflectionClass.php"
-    ],
-    ".\/utility\/Classes\/:ReflectionClass.php": [
-        ".\/utility\/Classes\/",
-        "ReflectionClass.php"
-    ],
-    "InputData:Rule.php:Rule.php:RULE.php:rule.php": [
-        "InputData",
-        [
-            "Rule.php",
-            "Rule.php",
-            "RULE.php",
-            "rule.php"
-        ]
-    ],
-    "Exceptions\/Autoloader:AutoloaderException.php": [
-        "Exceptions\/Autoloader",
-        "AutoloaderException.php"
-    ],
-    ".\/lab\/:AutoloaderException.php": [
-        ".\/lab\/",
-        "AutoloaderException.php"
-    ],
-    ".\/utility\/Classes\/:AutoloaderException.php": [
-        ".\/utility\/Classes\/",
-        "AutoloaderException.php"
-    ],
-    "public\/Assets\/Css\/:\/public\/Assets\/Css\/moorexa.css": [
-        "public\/Assets\/Css\/",
-        "\/public\/Assets\/Css\/moorexa.css"
-    ],
-    "public\/Assets\/Css\/:\/public\/Assets\/Css\/wrapper.css": [
-        "public\/Assets\/Css\/",
-        "\/public\/Assets\/Css\/wrapper.css"
-    ],
-    "public\/Assets\/Css\/:\/public\/Assets\/Css\/error.css": [
-        "public\/Assets\/Css\/",
-        "\/public\/Assets\/Css\/error.css"
     ]
 }

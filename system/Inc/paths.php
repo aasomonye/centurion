@@ -14,20 +14,27 @@ SysPath::init('HOME', 'root');
 
 // establish path
 SysPath::app('controller');
-SysPath::comp('components');
 SysPath::root('lab', 'lab');
+SysPath::root('components', 'components');
+SysPath::root('platform', 'platforms');
+SysPath::components([
+	'partial' => 'Partials',
+	'directives' => 'Directives'
+]);
+SysPath::platform([
+	'web_platform' => 'web',
+	'api_platform' => 'api'
+]);
 SysPath::kernel();
 SysPath::kernel([
 	'servicemanager' => 'Service-Manager',
 	'config' => 'Config',
 	'extra' => 'Extra',
-	'partial' => 'Partials',
 	'services' => 'Services',
 	'konsole' => 'Console'
 ]);
 SysPath::public();
 SysPath::utility();
-SysPath::api(); // set api path
 SysPath::public([
 	'helper' => 'Helper',
 	'errors' => 'Errors',
@@ -52,7 +59,6 @@ SysPath::utility([
 	'middleware' => 'Middlewares',
 	'console' => 'Console',
 	'authentication' => 'Authentication',
-	'components' => 'Components',
 	'storage' => 'Storage',
 	'event' => 'Events'
 ]);

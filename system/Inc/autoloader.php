@@ -398,23 +398,6 @@ spl_autoload_register(function($class) use ($alias, $tables){
 					// excaped class ?
 					$autoload = (object)[
 
-					// check components folder
-					'components' => function($class)
-					{
-						// match for 
-						// check for possible file naming
-						// must be an array
-						$match = [$class . '.php', ucfirst($class).'.php', strtoupper($class).'.php', strtolower($class).'.php'];
-
-						$path = deepScan(PATH_TO_COMPONENTS, $match);
-
-						if ($path !== "")
-						{
-							return $path;
-						}
-
-						return false;
-					},
 					// check exceptions folder
 					'exceptions' => function($class)
 					{

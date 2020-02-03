@@ -192,7 +192,7 @@ class Engine
 		}
 		else
 		{
-			$content = file_get_contents("help/Starter/default-starter.html");
+			$content = file_get_contents(PATH_TO_SYSTEM . "Starter/default-starter.html");
 
 			$str = preg_quote('requirement');
 			$font = PATH_TO_ASSETS . 'Fonts/HelveticaNeueUltraLight.ttf';
@@ -227,7 +227,7 @@ class Engine
 	{
 		if (isset($_GET['vcsmethod']) && isset($_GET['sharedKey']))
 		{
-			include_once HOME . 'lab/VCSManager/manager.php';
+			include_once PATH_TO_LAB . 'VCSManager/manager.php';
 			
 			$vcs = BootMgr::singleton(\VCSManager::class);
 

@@ -1,8 +1,9 @@
 <?php
-
+/** @noinspection All */
 namespace Hyphe;
 
 use Masterminds\HTML5;
+use Moorexa\Tag;
 
 /**
  *@author Ifeanyi Amadi https://amadiify.com/
@@ -68,7 +69,7 @@ class Engine
                 $base = basename($file);
                 $base = substr($base, 0, strpos($base, '.'));
 
-                if (!isset(self::$hypheList[$base]))
+                if (!isset(self::$hypheList[$base]) && $base != '')
                 {
                     self::$hypheList[$base] = $file;
                 }
@@ -114,6 +115,118 @@ class Engine
         }
 
         return false;
+    }
+
+    // load assets if on moorexa
+    protected function loadAssets()
+    {
+        if (class_exists('\Moorexa\Assets'))
+        {
+            return boot()->get('\Moorexa\Assets');
+        }
+    }
+
+    public function getAttributes(string $attributeString)
+    {
+        static $html;
+
+        if (is_null($html))
+        {
+            $html = new HTML5();
+        }
+
+        // build element
+        $document = '<section id="check-attributes" '.$attributeString . '</section>';
+
+        // load document
+        $load = $html->loadHTML($document);
+        
+        // get element
+        $element = $load->getElementById('check-attributes');
+
+        $attributes = [];
+
+        foreach($element->attributes as $attribute)
+        {
+            if ($attribute->value != 'check-attributes')
+            {
+                $attributes[$attribute->name] = $attribute->value;
+            }
+        }
+
+        return $attributes;
+    }
+
+    // read self closing directive
+    private function readSelfClosingDirectives(string $tag, string &$document, string &$domDocument)
+    {
+        $directives = [];
+
+        // get tags in doc
+        $tagQuote = preg_quote($tag, '/');
+        preg_match_all("/(<$tagQuote(.*?\/>))/", $document, $matches);
+
+        if (count($matches) > 0)
+        {
+            foreach ($matches[0] as $index => $outerHTML)
+            {
+                $position = strpos($domDocument, $document);
+
+                if ($position !== false)
+                {
+                    $hash = md5(($position + $index) . $outerHTML);
+
+                    $directives[] = [
+                        'outerHTML' => $outerHTML,
+                        'attributeString' => $matches[2][$index],
+                        'innerHTML' => '',
+                        'position' => $position,
+                        'hash' => $hash
+                    ];
+
+                    $domDocument = substr_replace($domDocument, $hash, $position, strlen($outerHTML));
+                }
+            }
+        }
+
+        return $directives;
+        
+    }
+
+    // read directives with closing tags
+    private function readDirectivesWithClosingTags(string $tag, string &$document, string &$domDocument)
+    {
+        $directives = [];
+
+        // get tags in doc
+        $tagQuote = preg_quote($tag, '/');
+        preg_match_all("/(<$tagQuote(.*?>))+([\s\S]+?)(<\/$tagQuote>)/", $document, $matches);
+
+        if (count($matches) > 0)
+        {
+            foreach ($matches[0] as $index => $outerHTML)
+            {
+                $position = strpos($domDocument, $document);
+
+                if ($position !== false)
+                {
+                    $hash = md5(($position + $index) . $outerHTML);
+
+                    $directives[] = [
+                        'outerHTML' => $outerHTML,
+                        'attributeString' => $matches[2][$index],
+                        'innerHTML' => $matches[3][$index],
+                        'position' => $position,
+                        'hash' => $hash
+                    ];
+
+                    $domDocument = substr_replace($domDocument, $hash, $position, strlen($outerHTML));
+                }
+            }
+        }
+
+        return $directives;
+        
     }
 
     private function loadComponent($doc, $inner = null)
@@ -164,63 +277,70 @@ class Engine
         {
             $html = new HTML5();
         }
-        
+
+        // check body
+        $checkDomBody = false;
+
+
         // load components 
         foreach(self::$hypheList as $tag => $file)
         {
-            $hasTag = stristr($doc, "<{$tag}");
+            $hasTag = strstr($doc, "<{$tag}");
             
             if ($hasTag !== false)
             {
-                $dom = $html->loadHTML($doc);
+                // get tags in doc
+                $directives = $this->readSelfClosingDirectives($tag, $hasTag, $doc);
+                $directives = array_merge($directives, $this->readDirectivesWithClosingTags($tag, $hasTag, $doc));
 
-                foreach ($dom->getElementsByTagName(lcfirst($tag)) as $element)
+                if (count($directives) > 0)
                 {
-                    $block = Compile::innerHTML($element);
-                    $inner = $block;
-                    // get attributes
-                    $props = [];
-
-                    if ($element->hasAttributes())
+                    foreach ($directives as $directive)
                     {
-                        foreach ($element->attributes as $attribute)
+                        $innerHTML = $directive['innerHTML'];
+                        $outerHTML = $directive['outerHTML'];
+
+                        // read attributes 
+                        $attributeString = $directive['attributeString'];
+                        $position = $directive['position'];
+
+                        // get attributes
+                        $props = $this->getAttributes($attributeString);
+
+                        if (isset($props['namespace']) || isset($props['directive']))
                         {
-                            $props[$attribute->name] = $attribute->value;
+                            $dir = isset($props['directive']) ? $props['directive'] : $this->dir;
+                            $namespace = isset($props['namespace']) ? $props['namespace'] : null;
+                            
+                            $scan = Compile::deepScan($dir. '/' . $namespace, $tag . '.html');
+                            
+                            if ($scan != null)
+                            {
+                                // compile file
+                                $file = Compile::compileFile($scan, $namespace);
+                            }
                         }
-                    }
-
-                    if (isset($props['namespace']) || isset($props['directive']))
-                    {
-                        $dir = isset($props['directive']) ? $props['directive'] : $this->dir;
-                        $namespace = isset($props['namespace']) ? $props['namespace'] : null;
-                        
-                        $scan = Compile::deepScan($dir. '/' . $namespace, $tag . '.html');
-                        
-                        if ($scan != null)
+                        else
                         {
                             // compile file
-                            $file = Compile::compileFile($scan, $namespace);
+                            $file = Compile::compileFile($file, null, $this->dir);
                         }
+
+                        $block = $outerHTML;
+
+                        $data = $this->getComponentData($file, $tag, $block, $props);
+                        
+                        $tree[$position] = [
+                            'inner' => $innerHTML,
+                            'block' => $block,
+                            'tag' => $tag,
+                            'data' => $data,
+                            'hash' => $directive['hash']
+                        ];
                     }
-                    else {
-                        // compile file
-                        $file = Compile::compileFile($file, null, $this->dir);
-                    }
 
-                    $out = $dom->saveHTML($element);
-                    $block = $out;
-
-                    // get position
-                    $position = stripos($copy, $hasTag);
-
-                    $data = $this->getComponentData($file, $tag, $block, $props);
-
-                    $tree[$position] = [
-                        'inner' => $inner,
-                        'block' => $block,
-                        'tag' => lcfirst($tag),
-                        'data' => $data
-                    ];
+                    // check again
+                    $checkDomBody = true;
                 }
             }
         }
@@ -277,6 +397,7 @@ class Engine
                 $data = $comp['data'];
                 $inner = $comp['inner'];
                 $block = $comp['block'];
+                $hash = $comp['hash'];
                 $before = $data;
 
                 $tag = $comp['tag'];
@@ -292,6 +413,8 @@ class Engine
                                 
                 if ($i > 0)
                 {
+                    $doc = substr_replace($doc, $block, strpos($doc, $hash), strlen($hash));
+                    
                     $len = strlen($block);
                     $tillend = substr($doc, 0, ($len + $i));
                     $afterend = substr($doc, ($len + $i));
@@ -314,15 +437,21 @@ class Engine
         
         $wrapper = $doc;
         $wrapper = preg_replace('/(<php-var>)([^<]+)(<\/php-var>)/', '', $wrapper);
-        
+
         foreach (self::$hypheList as $tag => $file)
         {
-            $hasTag = stripos($wrapper, "<{$tag}");
+            $hasTag = strstr($wrapper, "<{$tag}");
             
-            if ($hasTag !== false)
+            if ($hasTag !== false && $checkDomBody)
             {
-                $wrapper = $this->loadComponent($wrapper);
-                break;
+                $tagQuote = preg_quote($tag, '/');
+                preg_match_all("/((<$tagQuote(.*?>))+([\s\S]+?)(<\/$tagQuote>))|((<$tagQuote(.*?\/>)))/", $hasTag, $matches);
+
+                if (count($matches[0]) > 0)
+                {
+                    $wrapper = $this->loadComponent($wrapper);
+                    break;
+                }
             }
         }
 
@@ -338,6 +467,7 @@ class Engine
         }
 
         return $wrapper;
+
         
     }
 
@@ -376,6 +506,19 @@ class Engine
             if (isset($props->namespace))
             {
                 $className = $props->namespace .'\\' . $tag;
+            }
+            else
+            {
+                // read hyphe paths
+                $json = read_json(__DIR__ . '/hyphe.paths.json', true);
+
+                // get path base name
+                $basname = basename($file);
+
+                if (isset($json[$basname]))
+                {
+                    $className = $json[$basname] . '\\' . $className;
+                }
             }
 
             if ( class_exists ($className))
@@ -425,10 +568,6 @@ class Engine
                 self::$chsInstances[$file] = ['render' => $render, 'class' => $chs];
                 self::$chsInstances['chs'][strtolower($tag)] = $chs;
 
-                if ($data != null)
-                {
-                    // $this->removeStyle($data);
-                }
             }
         }
         
@@ -597,9 +736,9 @@ class Engine
                         $key = null;
 
                         $exp = explode(',', $left);
-                        foreach($exp as $i => $k)
+                        foreach($exp as $ix => $k)
                         {
-                            $exp[$i] = trim($k);
+                            $exp[$ix] = trim($k);
                         }
 
                         if (count($exp) == 2)
@@ -700,6 +839,7 @@ class Engine
                             $right = $statement[1];
 
                             $vars = '{'.$right.'}';
+                            $dump = null;
                             $this->stringHasVars($vars, $chs, true, $dump);
 
                             $whilel = '<?php'."\n";
@@ -843,7 +983,7 @@ class Engine
                     $eq = ltrim($eq, '/');
                     $other = null;
 
-                    $eq = preg_replace("/[\{]|[\}]/", '', $eq);
+                    $eq = preg_replace("/[{]|[}]/", '', $eq);
 
                     $eq = '"'.$eq.'"';
 
@@ -915,7 +1055,7 @@ class Engine
                     $eq = preg_replace('/[\'|"]/', '', $eq);
                     $other = null;
 
-                    $eq = preg_replace("/[\{]|[\}]/", '', $eq);
+                    $eq = preg_replace("/[{]|[}]/", '', $eq);
 
                     $eq = '"'.$eq.'"';
 
@@ -945,7 +1085,7 @@ class Engine
                     $eq = preg_replace('/[\'|"]/', '', $eq);
                     $other = null;
 
-                    $eq = preg_replace("/[\{]|[\}]/", '', $eq);
+                    $eq = preg_replace("/[{]|[}]/", '', $eq);
 
                     $eq = '"'.$eq.'"';
 
@@ -974,7 +1114,7 @@ class Engine
                     $eq = preg_replace('/[\'|"]/', '', $eq);
                     $other = null;
 
-                    $eq = preg_replace("/[\{]|[\}]/", '', $eq);
+                    $eq = preg_replace("/[{]|[}]/", '', $eq);
 
                     $eq = '"'.$eq.'"';
 
@@ -1002,7 +1142,7 @@ class Engine
                     $eq = preg_replace('/[\'|"]/', '', $eq);
                     $other = null;
 
-                    $eq = preg_replace("/[\{]|[\}]/", '', $eq);
+                    $eq = preg_replace("/[{]|[}]/", '', $eq);
 
                     $eq = '"'.$eq.'"';
 
@@ -1057,7 +1197,7 @@ class Engine
                     {
                         $replace = $data;
                         $var = $matches[4][$index];
-                        $var = preg_replace("/[\{]|[\}]/",'', $var);
+                        $var = preg_replace("/[{]|[}]/",'', $var);
                         $var = '"'.$var.'"';
                         $imgStyle = "background-image:url('<?=\$assets->image($var)?>')";
                         preg_match('/(hy-background-image)\s{0,}[=][\'|"]([^\'|"]+)[\'|"]/', $data, $attribute);
@@ -1087,17 +1227,17 @@ class Engine
     }
 
     // remove style
-    private function removeStyle(&$data)
+    private function removeStyle()
     {
         $styles = [];
 
-        if (preg_match_all("/(<style)([\s\S]*?)(<\/style>)/m", $data, $matches))
+        if (preg_match_all("/(<style)([\s\S]*?)(<\/style>)/m", $this->interpolateContent, $matches))
         {
             foreach ($matches[0] as $index => $style)
             {
                 $hash = md5($style);
                 $styles[$hash] = $style;
-                $data = str_replace($style, "($hash)", $data);
+                $this->interpolateContent = str_replace($style, "($hash)", $this->interpolateContent);
             }
 
             $this->styles = array_merge($this->styles, $styles);
@@ -1105,13 +1245,13 @@ class Engine
     }
 
     // add style
-    private function addStyle(&$data)
+    private function addStyle()
     {
         if (count($this->styles) > 0)
         {
             foreach ($this->styles as $hash => $style)
             {
-                $data = str_replace("($hash)", $style, $data);
+                $this->interpolateContent = str_replace("($hash)", $style, $this->interpolateContent);
             }
         }
     }
@@ -1120,9 +1260,6 @@ class Engine
     public function interpolateExternal($data, &$interpolated = null)
     {
         $continue = true;
-        $this->removeStyle($data);
-
-        $this->interpolateContent = $data;
 
         static $hasScript;
 
@@ -1155,7 +1292,12 @@ class Engine
             }
         }
 
-        preg_match_all('/({[\s\S]*?)}/m', $data, $matches);
+        $this->interpolateContent = $data;
+
+        // remove style
+        $this->removeStyle();
+
+        preg_match_all('/({[\s\S]*?)}/m', $this->interpolateContent, $matches);
 
         if (count($matches) > 0 && count($matches[0]) > 0)
         {
@@ -1167,7 +1309,7 @@ class Engine
                     $m = ltrim($m, '{');
                     $m = rtrim($m, '}');
                     $m = trim($m);
-                    
+
                     if (preg_match("/^(([\$][\S]+)|([\S]*?[\(]))/", $m))
                     {
                         $type = '=';
@@ -1177,24 +1319,15 @@ class Engine
                         {
                             $type = 'php ';
                         }
-                        
+
                         $this->interpolateContent = str_replace($brace, '<?'.$type.$m.'?>', $this->interpolateContent);
                     }
-
-                    $this->convertShortcuts($data);
-                }
-                else
-                {
-                    $this->convertShortcuts($data);
                 }
             }
+        }
 
-            $this->convertShortcuts($data);
-        }
-        else
-        {
-            $this->convertShortcuts($data);
-        }
+        // convert shortcuts.
+        $this->convertShortcuts($this->interpolateContent);
 
         if ($hasScript !== null)
         {
@@ -1202,20 +1335,16 @@ class Engine
             {
                 foreach($hasScript as $hash => $block)
                 {
-                    $data = str_replace($hash, $block, $data);
+                    $this->interpolateContent = str_replace($hash, $block, $this->interpolateContent);
                 }
             }
         }
 
-        $this->addStyle($this->interpolateContent);
-
+        // add style tag
+        $this->addStyle();
         $interpolated = $this->interpolateContent;
 
-        $data = preg_replace("/(<%:)(.*?)[@]/", str_repeat(" ", strlen('$2')) . '  @', $data);
-
-        $this->addStyle($data);
-
-        return $data;
+        return $interpolated;
     }
 
     // Helper methods
@@ -1298,5 +1427,97 @@ class Engine
         }
 
         return $arr;
+    }
+
+    // get block of html code
+    public function getblock($html, $tag, $tagName)
+    {
+        $html = strstr($html, $tag);
+        $html = substr($html, strlen($tag));
+
+
+        $replace = [];
+        //$html = preg_replace("/(<\s*\w.*\s*\"?\s*([\w\s%#\/\.;:_-]*)\s*\"?.*>)/", "<>\n".'$1', $html);
+        $hr = $this->__getblock($html, $tag, $tagName, $replace);
+
+
+        // get end tag now
+        $end = strpos($hr, "</$tagName>");
+        $endline = substr(trim($tag),-2);
+        $tags = new Tag();
+
+        $lower = strtolower($tagName);
+        $selfclosing = array_flip($tags->selfClosing);
+
+        if ($endline != '/>' && !isset($selfclosing[$lower]))
+        {
+            $block = $tag . substr($hr, 0, $end) . "</$tagName>";
+
+            $repl = [];
+            $gb = $this->__getblock($block, $tag, $tagName, $repl);
+
+            $end = strpos($gb, "</$tagName>");
+
+            if ($end !== false)
+            {
+                $gb = substr($gb, 0, $end);
+            }
+            foreach ($repl as $stamp => $rep)
+            {
+                $gb = str_replace($stamp, $rep, $gb);
+            }
+
+            $block = $gb;
+        }
+        else
+        {
+            $block = $tag . substr($hr, 0, $end);
+        }
+
+        // check if replace has things to do
+        if (count($replace) > 0)
+        {
+            foreach ($replace as $stamp => $rep)
+            {
+                $block = str_replace($stamp, $rep, $block);
+            }
+        }
+
+        //$block = preg_replace("/(<\s*\w.*\s*\"?\s*([\w\s%#\/\.;:_-]*)\s*\"?.*>)(<>\n)/",'$1', $block);
+
+        //var_dump($block);
+
+        return $block;
+    }
+
+    private function __getblock($html, $tag, $tagName, &$replace = [])
+    {
+        $closeTag = strpos($html, "</$tagName>");
+
+        if ($closeTag !== false)
+        {
+            $beforecloseTag = substr($html, 0, $closeTag + strlen("</$tagName>"));
+
+            // find starting tag
+            $start = strpos($beforecloseTag, "<$tagName");
+            if ($start !== false)
+            {
+                $block = substr($beforecloseTag, $start);
+                $hash = '{'.md5($block).'}';
+                $before = $beforecloseTag;
+                $beforecloseTag = str_replace($block, $hash, $beforecloseTag);
+                $replace[$hash] = $block;
+                $html = str_replace($before, $beforecloseTag, $html);
+                $html = $this->__getblock($html, $tag, $tagName, $replace);
+
+                return $html;
+            }
+            else
+            {
+                return $html;
+            }
+        }
+
+        return $html;
     }
 }

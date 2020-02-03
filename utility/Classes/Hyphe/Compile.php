@@ -1,5 +1,5 @@
 <?php
-
+/** @noinspection All */
 namespace Hyphe;
 
 use Masterminds\HTML5;
@@ -7,14 +7,33 @@ use Masterminds\HTML5;
 class Compile
 {
     // root directory
-    public static $rootDir = 'directives/';
+    public static $rootDir = PATH_TO_DIRECTIVES;
 
     // cache directory
     private static $cacheDir = __DIR__ .'/Caches/';
 
+    // self closing tags
+    private static $selfClosing = [
+        'img',
+        'meta',
+        'link',
+        'hr',
+        'source',
+        'area',
+        'base',
+        'br',
+        'col',
+        'embed',
+        'input',
+        'param',
+        'track',
+        'wbr'
+    ];
+
     // compile file.
     public static function CompileFile(string $filename, $namespace = '', $directive = null)
     {
+
         // check directive
         $directive = is_null($directive) ? self::$rootDir : $directive;
 
@@ -34,6 +53,8 @@ class Compile
                 return self::runCompile($path, $namespace);
             }
         }
+
+        return null;
     }
 
     // run compile and return path
@@ -46,167 +67,184 @@ class Compile
 
             $cachename = md5($path) . '.php';
 
-            // yes we read its content.
-            $content = file_get_contents($path);
-
-            $default = $content;
-
-            $continue = true;
-              
-            if (file_exists(self::$cacheDir . $cachename))
+            if (file_exists($path))
             {
-                $_content = file_get_contents(self::$cacheDir . $cachename);
+                // yes we read its content.
+                $content = file_get_contents($path);
 
-                $start = strstr($_content, 'public static function ___cacheData()');
+                $default = $content;
 
-                preg_match('/(return)\s{1,}["](.*?)["]/', $start, $return);
-
-                if (count($return) > 0)
+                $continue = true;
+                $json = read_json(__DIR__ . '/hyphe.paths.json', true);
+                
+                if (file_exists(self::$cacheDir . $cachename))
                 {
-                    $cached = $return[2];
+                    $_content = file_get_contents(self::$cacheDir . $cachename);
 
-                    if ($cached == md5($default))
+                    $start = strstr($_content, 'public static function ___cacheData()');
+
+                    preg_match('/(return)\s{1,}["](.*?)["]/', $start, $return);
+
+                    if (count($return) > 0)
                     {
-                        $continue = false;
+                        $cached = $return[2];
+
+                        if ($cached == md5($default))
+                        {
+                            $continue = false;
+                        }
                     }
+
+                    // clean up
+                    $_content = null;
+                    $return = null;
                 }
-
-                // clean up
-                $_content = null;
-                $return = null;
-            }
-            
-            if ($continue)
-            {
-                $content = '<!doctype html><html><body>'.$content.'</body></html>';
-    
-                // read dom
-                $html = new HTML5();
-                $dom = $html->loadHTML($content);
-
-                $replaces = [];
-                $engine = new Engine();
-
-                $cachesize = md5($default);
-
-                foreach ($dom->getElementsByTagName('hy') as $hy)
+                
+                if ($continue)
                 {
-                    if ($hy->hasAttribute('directive'))
+                    $content = '<!doctype html><html><body>'.$content.'</body></html>';
+        
+                    // read dom
+                    $html = new HTML5();
+                    $dom = $html->loadHTML($content);
+
+                    $replaces = [];
+                    $engine = new Engine();
+
+                    $cachesize = md5($default);
+
+                    foreach ($dom->getElementsByTagName('hy') as $hy)
                     {
-                        $class = $hy->getAttribute('directive');
-                        // inner content
-                        $body = self::innerHTML($hy);
-
-                        $classMap = [];
-                        $classMap[] = '<?php';
-                        if ($namespace != '')
+                        if ($hy->hasAttribute('directive'))
                         {
-                            $classMap[] = 'namespace '.$namespace.';';
-                        }
-                        else
-                        {
-                            $namespace = rtrim($path, $filename);
-                            $namespace = rtrim($namespace, '/');
-                            $namespace = str_replace('/', '\\', $namespace);
-                            $classMap[] = 'namespace '.$namespace.';';
-                        }
-                        
-                        $classMap[] = 'class '.ucfirst($class). ' extends \Hyphe\Engine {';
-                        $classMap[] = html_entity_decode($body);
-                        $classMap[] = 'public static function ___cacheData()';
-                        $classMap[] = '{';
-                        $classMap[] = '  return "'.$cachesize.'";';
-                        $classMap[] = '}';
-                        $classMap[] = '}';
+                            $class = $hy->getAttribute('directive');
+                            // inner content
+                            $body = self::innerHTML($hy);
 
-                        $replaces[] = [
-                            'replace' => $dom->saveHTML($hy),
-                            'with' => implode("\n\t", $classMap)
-                        ];
-                    }
-                    else
-                    {
-                        $out = $dom->saveHTML($hy);
-                        $inner = self::innerHTML($hy);
-
-                        if ($hy->hasAttribute('func'))
-                        {
-                            $funcName = $hy->getAttribute('func');
-                            $access = $hy->hasAttribute('access') ? $hy->getAttribute('access') : 'public';
-                            $args = $hy->hasAttribute('args') ? $hy->getAttribute('args') : '';
-
-                            $func = [];
-                            $func[] = $access .' function '. $funcName . '('.$args.')';
-                            $func[] = '{';
-                            $func[] = html_entity_decode($inner);
-                            $func[] = '}'; 
+                            $classMap = [];
+                            $classMap[] = '<?php';
+                            if ($namespace != '')
+                            {
+                                $classMap[] = 'namespace '.$namespace.';';
+                            }
+                            else
+                            {
+                                $namespace = rtrim($path, $filename);
+                                $namespace = preg_replace('/^(\.\/)/','',$namespace);
+                                $namespace = rtrim($namespace, '/');
+                                $namespace = str_replace('/', '\\', $namespace);
+                                $classMap[] = 'namespace '.$namespace.';';
+                            }
+                            
+                            $classMap[] = 'class '.ucfirst($class). ' extends \Hyphe\Engine {';
+                            $classMap[] = html_entity_decode($body);
+                            $classMap[] = 'public static function ___cacheData()';
+                            $classMap[] = '{';
+                            $classMap[] = '  return "'.$cachesize.'";';
+                            $classMap[] = '}';
+                            $classMap[] = '}';
 
                             $replaces[] = [
-                                'replace' => html_entity_decode($out),
-                                'with' => implode("\n\t", $func)
+                                'replace' => $dom->saveHTML($hy),
+                                'with' => implode("\n\t", $classMap)
                             ];
                         }
                         else
                         {
-                            if ($hy->hasAttribute('lang'))
+                            $out = $dom->saveHTML($hy);
+                            $inner = self::innerHTML($hy);
+
+                            if ($hy->hasAttribute('func'))
                             {
-                                $lang = $hy->getAttribute('lang');
+                                $funcName = $hy->getAttribute('func');
+                                $access = $hy->hasAttribute('access') ? $hy->getAttribute('access') : 'public';
+                                $args = $hy->hasAttribute('args') ? $hy->getAttribute('args') : '';
 
-                                switch (strtolower($lang))
+                                $func = [];
+                                $func[] = $access .' function '. $funcName . '('.$args.')';
+                                $func[] = '{';
+                                $func[] = html_entity_decode($inner);
+                                $func[] = '}'; 
+
+                                $replaces[] = [
+                                    'replace' => html_entity_decode($out),
+                                    'with' => implode("\n\t", $func)
+                                ];
+                            }
+                            else
+                            {
+                                if ($hy->hasAttribute('lang'))
                                 {
-                                    case 'html':
+                                    $lang = $hy->getAttribute('lang');
 
-                                        // interpolate props and this
-                                        $inner = preg_replace('/(props)[.]([a-zA-Z_]+)/', '$this->props->$2', $inner);
-                                        $inner = preg_replace('/(this)[.]([a-zA-Z_]+)/', '$this->$2', $inner);
+                                    switch (strtolower($lang))
+                                    {
+                                        case 'html':
 
-                                        $inner = html_entity_decode($inner);
+                                            // interpolate props and this
+                                            $inner = preg_replace('/(props)[.]([a-zA-Z_]+)/', '$this->props->$2', $inner);
+                                            $inner = preg_replace('/(this)[.]([a-zA-Z_]+)/', '$this->$2', $inner);
 
-                                        $engine->interpolateExternal($inner, $data);
-                                        $return = [];
-                                        $return[] = '?>';
-                                        $return[] = $data;
-                                        $return[] = '<?php';
+                                            $inner = html_entity_decode($inner);
 
-                                        // add replace
-                                        $replaces[] = [
-                                            'replace' => html_entity_decode($out),
-                                            'with' => implode("\n\t", $return)
-                                        ];
-                                    break;
-                                }
-                            }    
+                                            $engine->interpolateExternal($inner, $data);
+                                            $return = [];
+                                            $return[] = '$assets = $this->loadAssets();';
+                                            $return[] = '?>';
+                                            $return[] = $data;
+                                            $return[] = '<?php';
+
+                                            // add replace
+                                            $replaces[] = [
+                                                'replace' => html_entity_decode($out),
+                                                'with' => implode("\n\t", $return)
+                                            ];
+                                        break;
+                                    }
+                                }    
+                            }
                         }
                     }
-                }
 
-                if (isset($replaces[0]))
-                {
-                    $default = $replaces[0]['replace'];
-
-                    $count = count($replaces);
-
-                    $default = preg_replace('/(\S+)(=\s*)[\'](.*?)[\']/', '$1$2"$3"', $default);
-
-                    for ($x = 0; $x != $count; $x++)
+                    if (isset($replaces[0]))
                     {
-                        $default = str_replace($replaces[$x]['replace'], $replaces[$x]['with'], $default);
+                        $default = $replaces[0]['replace'];
+
+                        $count = count($replaces);
+
+                        $default = preg_replace('/(\S+)(=\s*)[\'](.*?)[\']/', '$1$2"$3"', $default);
+
+                        for ($x = 0; $x != $count; $x++)
+                        {
+                            $default = str_replace($replaces[$x]['replace'], $replaces[$x]['with'], $default);
+                        }
+
+                        // interpolate props and this
+                        $default = preg_replace('/(props)[.]([a-zA-Z_]+)/', '$this->props->$2', $default);
+                        $default = preg_replace('/(this)[.]([a-zA-Z_]+)/', '$this->$2', $default);
+
+                        if (!is_dir(self::$cacheDir))
+                        {
+                            mkdir(self::$cacheDir);
+                        }
+
+                        foreach (self::$selfClosing as $tag)
+                        {
+                            if (strpos($default, '</'.$tag.'>') !== false)
+                            {
+                                $default = str_replace('</'.$tag.'>', '', $default);
+                            }
+                        }
+
+                        // save cache file and return path
+                        file_put_contents(self::$cacheDir . $cachename, $default);
+
+                    // push to json
+                        $json[$cachename] = $namespace;
+                        save_json(__DIR__ . '/hyphe.paths.json', $json);
                     }
-
-                    // interpolate props and this
-                    $default = preg_replace('/(props)[.]([a-zA-Z_]+)/', '$this->props->$2', $default);
-                    $default = preg_replace('/(this)[.]([a-zA-Z_]+)/', '$this->$2', $default);
-
-                    if (!is_dir(self::$cacheDir))
-                    {
-                        mkdir(self::$cacheDir);
-                    }
-
-                    // save cache file and return path
-                    file_put_contents(self::$cacheDir . $cachename, $default);
                 }
             }
-            
             
             return self::$cacheDir . $cachename;
         }
@@ -227,52 +265,93 @@ class Compile
             $hasPhp = true;
         }
 
+
         // read dom
         $html = new HTML5();
         $dom = $html->loadHTML($domcopy);
 
-        foreach ($dom->getElementsByTagName('hy') as $hy)
+        preg_match_all('/(<hy(.*?>))+([\s\S]+?)(<\/hy>)/i', $domcopy, $matches);
+
+        if (count($matches[0]) > 0)
         {
             $directory = self::$rootDir;
 
-            $out = $dom->saveHTML($hy);
-            $inner = self::innerHTML($hy);
-
-            $hash = md5($inner);
-            $hash = preg_replace('/[0-9]/','',$hash);
-            $var = '$'.$hash;
-
-            $inner = html_entity_decode($inner);
-
-            $inner = str_replace('<?=', '{', $inner);
-            $inner = str_replace('?>', '}', $inner);
-
-            $content = $var . '= <<<EOT'. "\n";
-            $content .= $inner . "\n";
-            $content .= 'EOT;';
-
-            if ($hy->hasAttribute('directory'))
+            foreach($matches[3] as $index => $innerHTML)
             {
-                $directory = $hy->getAttribute('directory');
+                $outerHTML = $matches[0][$index];
+
+                // read attributes 
+                $attributeString = $matches[2][$index];
+                // check for attribute directory
+                if (stripos($attributeString, 'directory') !== false)
+                {
+                    $document = '<section id="has-directory" '.$attributeString . '</section>';
+                    // get do
+                    $load = $html->loadHTML($document);
+                    $element = $load->getElementById('has-directory');
+                    $directory = $element->getAttribute('directory');
+                }
+
+                $hash = md5($innerHTML);
+                $hash = preg_replace('/[0-9]/','',$hash);
+                $var = '$'.$hash;
+
+                $innerHTML = html_entity_decode($innerHTML);
+
+                preg_match_all('/([{]|<\?php)(.*?)[}]/', $innerHTML, $phpshorttags);
+
+                $variables = [];
+                
+                if (count($phpshorttags[0]) > 0)
+                {
+                    foreach ($phpshorttags[0] as $index => $shorttag)
+                    {
+                        $hash = md5($shorttag);
+                        $hash = preg_replace('/[0-9]/','',$hash);
+
+                        if (strpos($shorttag, '=') === false)
+                        {
+                            $variables[] = '$'.$hash .' = ' .$phpshorttags[2][$index].';';
+                            $innerHTML = str_replace($shorttag, '$'.$hash, $innerHTML);
+                        }
+                        else {
+                            $variables[] = trim($phpshorttags[2][$index]);
+                            $innerHTML = str_replace($shorttag, '', $innerHTML);
+                        }
+                    }
+                }
+
+                $innerHTML = str_replace('<?=', '{', $innerHTML);
+                $innerHTML = str_replace('?>', '}', $innerHTML);
+
+                $content = '';
+                if (count($variables) > 0)
+                {
+                    $content .= implode("\n\t", $variables);
+                    $content .= "\n";
+                }
+                $content .= $var . '= <<<EOT'. "\n";
+                $content .= $innerHTML . "\n";
+                $content .= 'EOT;';
+
+                $build = [];
+                $build[] = '<?php';
+                $build[] = $content;
+                $build[] = 'echo \Hyphe\Engine::ParseTags('.$var.', \''.$directory.'\');';
+                $build[] = '?>';
+
+                $build = implode("\n\t", $build);
+
+                $outerHTML = html_entity_decode($outerHTML);
+
+                if ($hasPhp)
+                {
+                    $outerHTML = str_replace('{', '<?=', $outerHTML);
+                    $outerHTML = str_replace('}', '?>', $outerHTML);
+                }
+
+                $doc = str_ireplace($outerHTML, $build, $doc);
             }
-
-            $build = [];
-            $build[] = '<?php';
-            $build[] = $content;
-            $build[] = 'echo \Hyphe\Engine::ParseTags('.$var.', \''.$directory.'\');';
-            $build[] = '?>';
-
-            $build = implode("\n\t", $build);
-
-            $out = html_entity_decode($out);
-
-            if ($hasPhp)
-            {
-                $out = str_replace('{', '<?=', $out);
-                $out = str_replace('}', '?>', $out);
-            }
-
-            $doc = str_ireplace($out, $build, $doc);
         }
     }
 

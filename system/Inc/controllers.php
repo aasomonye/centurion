@@ -771,7 +771,7 @@ if (!class_exists('Moorexa\Controller'))
 
 						// create copy of argumenets
 						$copy = $arguments;
-						array_unshift($copy, $instance);
+						array_unshift($copy, $view);
 						array_unshift($copy, $next);
 
 						// get arguments.
@@ -989,7 +989,6 @@ if (!class_exists('Moorexa\Controller'))
 			// set current path
 			self::setCurrentPath($controller, [
 				'path' => '/',
-				'chs' => '/Chs',
 				'custom' => '/Custom',
 				'model' => '/Models',
 				'package' => '/Packages',
@@ -1040,7 +1039,7 @@ if (!class_exists('Moorexa\Controller'))
 						$mode = ($sys->packager['comingSoon']) ? 'comingsoon' : 'onmaintanance';
 
 						// load template for starter
-						$content = file_get_contents("help/Starter/default-starter.html");
+						$content = file_get_contents(PATH_TO_SYSTEM . "Starter/default-starter.html");
 
 						// extract section by mode
 						$str = preg_quote($mode);
@@ -1121,6 +1120,10 @@ if (!class_exists('Moorexa\Controller'))
 										{
 											// no error so far
 											$hasError = null;
+
+											// get original method name for view 
+											$method = $ref->getMethod($view);
+											$view = $method->name;
 
 											// get arguments for views
 											$arguments = array_splice($url,2);

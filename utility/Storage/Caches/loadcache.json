@@ -1,98 +1,38 @@
 {
     ".\/custom\/header.html": {
-        "hash": "71cacf45d7dff00ce6835c27b5da5a07",
+        "hash": "f80a3e9fa5faafb45592ca2c11ccccae",
         "path": "utility\/Storage\/Caches\/Headers\/cache.d29db69b1a9178a48f1d2ab32f72b35c.App.header.html"
     },
-    ".\/pages\/App\/Views\/home.html": {
+    ".\/platforms\/web\/\/App\/Views\/home.html": {
         "hash": "cd9604434c2c9daaf0ef5a3e85762d91",
-        "path": "utility\/Storage\/Caches\/Views\/cache.6ca59b1b5498ee214c0f2258b73815c5.App.home.html"
+        "path": "utility\/Storage\/Caches\/Views\/cache.07a9ed47bc1ae221bd17f6bfa3b4bb59.App.home.html"
     },
     ".\/custom\/footer.html": {
         "hash": "9003239ca65f42e4fe058d32277fd251",
         "path": "utility\/Storage\/Caches\/Footers\/cache.420f043b55cd0ea699bdd46745316f3d.App.footer.html"
     },
-    ".\/lab\/Cms\/MVC\/App\/Custom\/header.html": {
-        "hash": "f96fd396ca07f7265f73225572754062",
-        "path": "utility\/Storage\/Caches\/Headers\/cache.3975ae8afa7bf3e854d08ad740d5da0c.App.header.html"
-    },
-    ".\/lab\/Cms\/MVC\/App\/Views\/home.html": {
-        "hash": "37589857cef1fb0a64bf74d4f013ae20",
-        "path": "utility\/Storage\/Caches\/Views\/cache.f2ab3d983b1fc545a2f20f70faff5269.App.home.html"
-    },
-    ".\/lab\/Cms\/MVC\/App\/Views\/login.html": {
-        "hash": "7ee6e14ed5a0a2c8ed0053ef199987ae",
-        "path": "utility\/Storage\/Caches\/Views\/cache.edb4d7398a6da9d9939912fdcb22565c.App.login.html"
-    },
-    ".\/lab\/Cms\/MVC\/App\/Views\/users.html": {
-        "hash": "b761e71b24881ba55a730d9e658b4c24",
-        "path": "utility\/Storage\/Caches\/Views\/cache.36fdbd151751a963b4df1af74544ecde.App.users.html"
-    },
-    ".\/lab\/Cms\/MVC\/App\/Views\/users\/edit.html": {
-        "hash": "19719661564c6ff527271863179f4792",
-        "path": "utility\/Storage\/Caches\/Views\/cache.31be03e89923a58973170ea69660a390.App.edit.html"
-    },
-    ".\/lab\/Cms\/MVC\/App\/Views\/container.html": {
-        "hash": "1d27df9e0a159af9da8e540a75ea275a",
-        "path": "utility\/Storage\/Caches\/Views\/cache.66bd6557a60839d0dc2e7e9c648b33a6.App.container.html"
-    },
-    ".\/lab\/Cms\/MVC\/App\/Views\/container\/create.html": {
-        "hash": "b91dbb58ceaf719e3002d4b643fa1904",
-        "path": "utility\/Storage\/Caches\/Views\/cache.ecc15ec5723dfd18eac7d72a6f5934cd.App.create.html"
-    },
-    ".\/lab\/Cms\/MVC\/App\/Custom\/footer.html": {
-        "hash": "760b09e3d78803b6782542ecda2fb668",
-        "path": "utility\/Storage\/Caches\/Footers\/cache.df7736cb556dd17350612d6efa35d35d.App.footer.html"
-    },
-    ".\/lab\/Cms\/MVC\/App\/Views\/tables.html": {
-        "hash": "17a9a996e2718d45de51a13ccdd92631",
-        "path": "utility\/Storage\/Caches\/Views\/cache.e8618b33883b745b2b8ce7f594f70edf.App.tables.html"
-    },
-    ".\/lab\/Cms\/MVC\/App\/Views\/images.html": {
-        "hash": "c3b496c090af764b528c9679dde7dc56",
-        "path": "utility\/Storage\/Caches\/Views\/cache.2d9757c248d78a8cc4fd04bf5e4c1cc7.App.images.html"
-    },
-    ".\/lab\/Cms\/MVC\/App\/Views\/images\/upload.html": {
-        "hash": "aeba2a43d388d999557bc09e3c164fa3",
-        "path": "utility\/Storage\/Caches\/Views\/cache.e3d1356714182eef67d54cfa0458d013.App.upload.html"
-    },
-    ".\/lab\/Cms\/MVC\/App\/Views\/directives.html": {
-        "hash": "4c121431c28d79c5377ae7ea48ddd301",
-        "path": "utility\/Storage\/Caches\/Views\/cache.9aedecdd0c9d0b2d3cd42246bf4641bf.App.directives.html"
-    },
-    ".\/lab\/Cms\/MVC\/App\/Views\/directives\/create.html": {
-        "hash": "7251eefcc8320260537b58b73290b7ce",
-        "path": "utility\/Storage\/Caches\/Views\/cache.44b25427c6f0b923ef7bc061b24396b2.App.create.html"
-    },
-    ".\/pages\/App\/Views\/contact.html": {
-        "hash": "45fa34fa4c16920d071ea7bfbcfaff20",
-        "path": "utility\/Storage\/Caches\/Views\/cache.d8f5f0e3df043fccca099fc2c5cad17a.App.contact.html"
-    },
-    ".\/pages\/App\/Views\/becomeapartner.html": {
-        "hash": "963479d008e7f8fbe9bc6cd86a9a2dac",
-        "path": "utility\/Storage\/Caches\/Views\/cache.619e9207b4dfddc91d57f1155f56d3de.App.becomeapartner.html"
-    },
     "public\/Helper\/noheader.php": {
         "hash": "38e075b8a63d3bb6e140366c66ee712f",
-        "path": "utility\/Storage\/Caches\/Headers\/cache.4f70a72745cebbd1e80114086850d032.Cities.noheader.php"
+        "path": "utility\/Storage\/Caches\/Headers\/cache.4f70a72745cebbd1e80114086850d032.App.noheader.php"
+    },
+    ".\/platforms\/web\/\/App\/Views\/account\/login.html": {
+        "hash": "cc46e3dfdf76341a0993ee64c8cd5c98",
+        "path": "utility\/Storage\/Caches\/Views\/cache.cb970f6b0c945cb69df8767dc89ba7eb.App.login.html"
     },
     "public\/Helper\/nofooter.php": {
         "hash": "b7bb4bedf76dcf7492836f797feb4255",
-        "path": "utility\/Storage\/Caches\/Footers\/cache.e9fcdbf77a5a787d3299f2de1d1695b1.Cities.nofooter.php"
+        "path": "utility\/Storage\/Caches\/Footers\/cache.e9fcdbf77a5a787d3299f2de1d1695b1.App.nofooter.php"
     },
-    ".\/pages\/PageError\/Views\/error404.html": {
-        "hash": "555f1898854a76a876b47003ddfd6e79",
-        "path": "utility\/Storage\/Caches\/Views\/cache.47c34552fb502c9007e63d9866af6238.PageError.error404.html"
+    ".\/platforms\/web\/\/App\/Views\/contact.html": {
+        "hash": "45fa34fa4c16920d071ea7bfbcfaff20",
+        "path": "utility\/Storage\/Caches\/Views\/cache.d47c6dcb0f3a956196e3e293da383d58.App.contact.html"
     },
-    ".\/lab\/Cms\/MVC\/App\/Views\/images\/update.html": {
-        "hash": "9726f3e40f2dddf7063962d04c415647",
-        "path": "utility\/Storage\/Caches\/Views\/cache.c5fbefa919158061e2be247782157682.App.update.html"
+    ".\/platforms\/web\/\/App\/Views\/resetpassword.html": {
+        "hash": "d61f0e626c52e3d9eda9780e92810187",
+        "path": "utility\/Storage\/Caches\/Views\/cache.7dafb30fdd28c68129299289a6348aff.App.resetpassword.html"
     },
-    ".\/pages\/App\/Views\/carrental.html": {
-        "hash": "b1b164ded1552c3690cddd31542bc828",
-        "path": "utility\/Storage\/Caches\/Views\/cache.fb8c8d885f42f3a49403335b6f548ec3.App.carrental.html"
-    },
-    ".\/pages\/App\/Views\/login.html": {
-        "hash": "d41d8cd98f00b204e9800998ecf8427e",
-        "path": "utility\/Storage\/Caches\/Views\/cache.dd76cb64fc774b4c1343b18b656b5b83.App.login.html"
+    ".\/platforms\/web\/\/App\/Views\/account\/resetpassword.html": {
+        "hash": "4526791b7c602f869ce0de952592783c",
+        "path": "utility\/Storage\/Caches\/Views\/cache.429874afa7b7df3841e7af9e9e5f6699.App.resetpassword.html"
     }
 }

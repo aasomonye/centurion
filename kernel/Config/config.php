@@ -149,10 +149,10 @@ $kernel->bootstrap ([
 	/*
 	 ***************************
 	 * 
-	 * @config.controller basepath (default = ROOT/pages) 
+	 * @config.controller basepath (default = PATH_TO_WEB_PLATFORM) 
 	 * 
 	*/
-	'controller.basepath' => HOME . 'pages',
+	'controller.basepath' => PATH_TO_WEB_PLATFORM,
 	
 	/*
 	 ***************************
@@ -262,7 +262,6 @@ $kernel->finder([
 	*/
 	'namespacing' => [
 		'Exception\*' => 'utility/Exceptions/',
-		'Component\*' => 'utility/Components/',
 		'Plugin\*'	  => 'utility/Plugins/',
 		'Controller\*' => 'system/Inc/'
 	]
