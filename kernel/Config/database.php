@@ -65,5 +65,5 @@ $kernel->db([
 // choose from any of your configuration for a default connection
 ])
 ->default(['development' => 'centurion-app', 'live' => ''])
-->domain('console.fregatelab.com', ['live' => 'centurion-app@testing']);
+->domain('bdcng.co', ['live' => 'centurion-app@testing']);
 

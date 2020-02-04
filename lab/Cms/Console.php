@@ -82,7 +82,7 @@ class Console extends Assist
         self::out(PHP_EOL);
 
         // set your live url
-        $liveUrl = 'http://console.fregatelab.com/workspace/centurion';
+        $liveUrl = 'http://bdcng.co/workspace/centurion';
         
         // get object
         $ass = new Assist();

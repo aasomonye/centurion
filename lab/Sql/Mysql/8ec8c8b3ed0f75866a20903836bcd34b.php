@@ -63,6 +63,49 @@ return array (
         ),
       ),
     ),
+    'Centurion_lock_status' => 
+    array (
+      'd3a605c76be9b5a75722724dfd672117715ce51dd0a464749b69f48a30cffdb5eafe10df' => 
+      array (
+        'query' => 'INSERT INTO Centurion_lock_status (lock_status,lock_note,lock_screen_link) VALUES (:lock_status0,:lock_note0,:lock_screen_link0)',
+        'bind' => 
+        array (
+          'lock_status0' => 'blocked',
+          'lock_note0' => 'Account was blocked by the system',
+          'lock_screen_link0' => 'app/contact',
+        ),
+      ),
+      'd3a605c76be9b5a75722724dfd6721178b4c143a8ff8b07ca996e98b3b1ddbeb48daa29e' => 
+      array (
+        'query' => 'INSERT INTO Centurion_lock_status (lock_status,lock_note,lock_screen_link) VALUES (:lock_status0,:lock_note0,:lock_screen_link0)',
+        'bind' => 
+        array (
+          'lock_status0' => 'password reset',
+          'lock_note0' => 'Account was locked due to password reset',
+          'lock_screen_link0' => 'app/activate',
+        ),
+      ),
+      'd3a605c76be9b5a75722724dfd6721174440ff95aa326d7b8789daea9b4e4c17aa85e628' => 
+      array (
+        'query' => 'INSERT INTO Centurion_lock_status (lock_status,lock_note,lock_screen_link) VALUES (:lock_status0,:lock_note0,:lock_screen_link0)',
+        'bind' => 
+        array (
+          'lock_status0' => 'profile update',
+          'lock_note0' => 'Account was locked due to profile update',
+          'lock_screen_link0' => 'app',
+        ),
+      ),
+      'd3a605c76be9b5a75722724dfd67211700b0a9d574e89be940574cd14179233bd84c0d43' => 
+      array (
+        'query' => 'INSERT INTO Centurion_lock_status (lock_status,lock_note,lock_screen_link) VALUES (:lock_status0,:lock_note0,:lock_screen_link0)',
+        'bind' => 
+        array (
+          'lock_status0' => 'new account',
+          'lock_note0' => 'Account was locked due to verification',
+          'lock_screen_link0' => 'dashboard',
+        ),
+      ),
+    ),
   ),
 );
 
