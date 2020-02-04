@@ -16,7 +16,7 @@
         "path": "utility\/Storage\/Caches\/Headers\/cache.4f70a72745cebbd1e80114086850d032.App.noheader.php"
     },
     ".\/platforms\/web\/\/App\/Views\/account\/login.html": {
-        "hash": "cc46e3dfdf76341a0993ee64c8cd5c98",
+        "hash": "ac79f4404a701bff130eadf625c42dfa",
         "path": "utility\/Storage\/Caches\/Views\/cache.cb970f6b0c945cb69df8767dc89ba7eb.App.login.html"
     },
     "public\/Helper\/nofooter.php": {
@@ -32,7 +32,11 @@
         "path": "utility\/Storage\/Caches\/Views\/cache.7dafb30fdd28c68129299289a6348aff.App.resetpassword.html"
     },
     ".\/platforms\/web\/\/App\/Views\/account\/resetpassword.html": {
-        "hash": "4526791b7c602f869ce0de952592783c",
+        "hash": "1fb155df9cf2c828acf0a3685c85ba2a",
         "path": "utility\/Storage\/Caches\/Views\/cache.429874afa7b7df3841e7af9e9e5f6699.App.resetpassword.html"
+    },
+    ".\/platforms\/web\/\/App\/Views\/account\/register.html": {
+        "hash": "4e5dbb1c39a18de67fb6da022c4de46c",
+        "path": "utility\/Storage\/Caches\/Views\/cache.b9832070ca1323d039a3c73766249d57.App.register.html"
     }
 }

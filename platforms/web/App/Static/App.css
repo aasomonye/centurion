@@ -342,27 +342,34 @@ grid-template-columns: 1fr; height: 100vh;}
 	content: '';
 	width: 100%;
 	height: 100%;
-	background: rgba(18,35,62,0.9);
+	background: rgba(18,35,62,0.79);
 }
 .has-bg-content{padding-top: 100px;}
 .has-bg-content, .has-bg-footer{position: relative; z-index: 3; flex: 1;}
 .has-bg-content h1{color: #fff; font-weight: 800; font-family: 'Poppins-Bold';
 font-size: 3em;}
-.has-bg-content p{font-size: 16px; width: 60%;}
-.has-bg-footer{align-self: flex-end; padding-bottom: 20px; display: flex; align-items: center;}
+.has-bg-content p{font-size: 16px; width: 80%;}
+.has-bg-footer{
+align-self: self-end;
+padding-bottom: 20px;
+display: grid;
+grid-template-columns: 1fr 1fr;
+}
 .has-bg-footer img{width: 20px;}
-.has-bg-footer a{color: #fff; font-size: 16px; position: relative;}
+.has-bg-footer a{color: #fff; font-size: 16px; position: relative;
+transition: opacity 0.4s ease-in-out;}
 .has-bg-footer a::after{width: 0%; height: 1px; background: #fff;
-content: ''; position: absolute; left: 0;
-bottom: 0; transition: width 0.4s ease-in-out;}
-.has-bg-footer a:hover::after{width: 100%;}
+content: ''; position: absolute; left: 0;}
+.has-bg-footer a:hover{opacity: 0.8;}
 .has-bg-form-area .has-bg-footer{padding-bottom: 10px;}
 .has-bg-form-area .has-bg-footer p{color: #999; text-align: center; width: 100%;
-font-size: 14px;}
-.has-bg-form-area .form-container{background: #F4F4F4;
+font-size: 14px; grid-column: 1/3;}
+.has-bg-form-area .form-container{background: #F5F5F5;
 padding: 40px; border-radius: 35px;}
-.has-bg-form-area .form-container input{width: 100%; margin-bottom: 25px;
+.has-bg-form-area .form-container input, .has-bg-form-area .form-container select{width: 100%; margin-bottom: 25px;
 height: 50px; border: none; border-radius: 35px; padding: 35px; font-size: 16px;}
+.has-bg-form-area .form-container select{color: #000; padding: 20px; height: 70px;
+padding-left: 35px; padding-right: 35px;}
 .has-bg-form-area .form-container input[type="checkbox"]{width: initial; height: initial;
 padding: 0px; margin-bottom: 0px; margin-right: 10px;}
 .has-bg-form-area .form-container input::placeholder{color: #2a3646; opacity: 1;}

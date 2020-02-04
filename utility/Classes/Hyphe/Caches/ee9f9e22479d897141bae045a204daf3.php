@@ -12,7 +12,7 @@
 	
 			<div class="container-fluid">
 				<div class="row">
-					<?php $image = \Moorexa\Rexa::runDirective(true,'getImage','slide7-bg');?>
+					<?php $image = \Moorexa\Rexa::runDirective(true,'getImage',$this->props->image);?>
 			
 					<div class="col-md-6 col-xs-12 has-bg-image" style="background-image: url(<?=$image?>);">
 						<div class="has-bg-content">
@@ -21,7 +21,7 @@
 						</div>
 			
 						<div class="has-bg-footer">
-							<a href="<?=url("register")?>"><img src="<?=$assets->image("arrow-left.png")?>"> Become a member</a>
+							<?=$this->props->nav?>
 						</div>
 					</div>
 					
@@ -51,6 +51,6 @@
 
 	public static function ___cacheData()
 	{
-	  return "f1a5c9866de06f9144904276f52a75b5";
+	  return "64e5918d4259e396f4fbe3cf83837449";
 	}
 	}

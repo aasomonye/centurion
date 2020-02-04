@@ -1,6 +1,7 @@
 {
     "stylesheet": [
         "moorexa.css",
+        "wrapper.css",
         "plugins/css/plugins.css",
         "theme/style.css",
         "theme/responsiveness.css",

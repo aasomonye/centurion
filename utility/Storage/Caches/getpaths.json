@@ -23,5 +23,8 @@
     ".\/components\/Partials\/:contact-us-intro.html:Contact-us-intro.html": ".\/components\/Partials\/contact-us-intro.html",
     "public\/Assets\/Images\/:arrow-left.png": "public\/Assets\/Images\/Icons\/arrow-left.png",
     ".\/utility\/\/Classes\/Hyphe:Engine.php": ".\/utility\/Classes\/Hyphe\/Engine.php",
-    ".\/utility\/Classes\/\/Hyphe:Engine.php": ".\/utility\/Classes\/Hyphe\/Engine.php"
+    ".\/utility\/Classes\/\/Hyphe:Engine.php": ".\/utility\/Classes\/Hyphe\/Engine.php",
+    ".\/utility\/\/Exceptions\/Database:DatabaseException.php": ".\/utility\/Exceptions\/Database\/DatabaseException.php",
+    ".\/utility\/\/Exceptions\/Autoloader:AutoloaderException.php": ".\/utility\/Exceptions\/Autoloader\/AutoloaderException.php",
+    "public\/Assets\/Images\/:arrow-right.png": "public\/Assets\/Images\/Icons\/arrow-right.png"
 }

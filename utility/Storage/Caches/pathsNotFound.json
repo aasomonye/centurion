@@ -258,5 +258,60 @@
             "resetPassword.js",
             "ResetPassword.js"
         ]
+    ],
+    "Exceptions\/Database:DatabaseException.php": [
+        "Exceptions\/Database",
+        "DatabaseException.php"
+    ],
+    ".\/lab\/:DatabaseException.php": [
+        ".\/lab\/",
+        "DatabaseException.php"
+    ],
+    ".\/utility\/Classes\/:DatabaseException.php": [
+        ".\/utility\/Classes\/",
+        "DatabaseException.php"
+    ],
+    ".\/platforms\/web\/\/App\/Static\/:register.css:Register.css": [
+        ".\/platforms\/web\/\/App\/Static\/",
+        [
+            "register.css",
+            "Register.css"
+        ]
+    ],
+    ".\/platforms\/web\/\/App\/Static\/:register.js:Register.js": [
+        ".\/platforms\/web\/\/App\/Static\/",
+        [
+            "register.js",
+            "Register.js"
+        ]
+    ],
+    ".\/platforms\/web\/\/App\/Static\/:register.css:register.cxx.css:Register.css": [
+        ".\/platforms\/web\/\/App\/Static\/",
+        [
+            "register.css",
+            "register.cxx.css",
+            "Register.css"
+        ]
+    ],
+    "components\/Directives\/Account:Input.php:Input.php:INPUT.php:input.php": [
+        "components\/Directives\/Account",
+        [
+            "Input.php",
+            "Input.php",
+            "INPUT.php",
+            "input.php"
+        ]
+    ],
+    "Exceptions\/Autoloader:AutoloaderException.php": [
+        "Exceptions\/Autoloader",
+        "AutoloaderException.php"
+    ],
+    ".\/lab\/:AutoloaderException.php": [
+        ".\/lab\/",
+        "AutoloaderException.php"
+    ],
+    ".\/utility\/Classes\/:AutoloaderException.php": [
+        ".\/utility\/Classes\/",
+        "AutoloaderException.php"
     ]
 }

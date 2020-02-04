@@ -214,32 +214,35 @@ class Compile
 
                         $default = preg_replace('/(\S+)(=\s*)[\'](.*?)[\']/', '$1$2"$3"', $default);
 
+                        $default = self::removeClosingTags($default);
+
                         for ($x = 0; $x != $count; $x++)
                         {
-                            $default = str_replace($replaces[$x]['replace'], $replaces[$x]['with'], $default);
+                            $replace = self::removeClosingTags($replaces[$x]['replace']);
+                            $with = self::removeClosingTags($replaces[$x]['with']);
+
+                            if ($x == 0)
+                            {
+                                $default = $with;
+                            }
+
+                            $default = str_replace($replace, $with, $default);
                         }
 
                         // interpolate props and this
                         $default = preg_replace('/(props)[.]([a-zA-Z_]+)/', '$this->props->$2', $default);
                         $default = preg_replace('/(this)[.]([a-zA-Z_]+)/', '$this->$2', $default);
 
+
                         if (!is_dir(self::$cacheDir))
                         {
                             mkdir(self::$cacheDir);
                         }
 
-                        foreach (self::$selfClosing as $tag)
-                        {
-                            if (strpos($default, '</'.$tag.'>') !== false)
-                            {
-                                $default = str_replace('</'.$tag.'>', '', $default);
-                            }
-                        }
-
                         // save cache file and return path
                         file_put_contents(self::$cacheDir . $cachename, $default);
 
-                    // push to json
+                        // push to json
                         $json[$cachename] = $namespace;
                         save_json(__DIR__ . '/hyphe.paths.json', $json);
                     }
@@ -250,6 +253,20 @@ class Compile
         }
 
         return null;
+    }
+
+    // remove ending tag for self closing tags
+    public static function removeClosingTags(string $text)
+    {
+        foreach (self::$selfClosing as $tag)
+        {
+            if (strpos($text, '</'.$tag.'>') !== false)
+            {
+                $text = str_replace('</'.$tag.'>', '', $text);
+            }
+        }
+
+        return html_entity_decode($text);
     }
 
     // parse doc 
@@ -539,7 +556,8 @@ class Compile
 
         $html = '';
 
-        foreach ($element->childNodes as $node) {
+        foreach ($element->childNodes as $node)
+        {
             $html .= $doc->saveHTML($node);
         }
 

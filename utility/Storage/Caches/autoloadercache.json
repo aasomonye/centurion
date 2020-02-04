@@ -42,5 +42,7 @@
     "Moorexa\/Tag": "system\/Inc\/tags.php",
     "Hyphe\/Compile": ".\/utility\/Classes\/Hyphe\/Compile.php",
     "Moorexa\/File": "system\/Inc\/files.php",
-    "Hyphe\/Engine": ".\/utility\/Classes\/Hyphe\/Engine.php"
+    "Hyphe\/Engine": ".\/utility\/Classes\/Hyphe\/Engine.php",
+    "Exceptions\/Database\/DatabaseException": ".\/utility\/Exceptions\/Database\/DatabaseException.php",
+    "Exceptions\/Autoloader\/AutoloaderException": ".\/utility\/Exceptions\/Autoloader\/AutoloaderException.php"
 }

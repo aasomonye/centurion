@@ -1,8 +1,13 @@
 <?php
 	$ecdababfffeaec = url("reset-password");
-$dfbbebdbfadef= <<<EOT
+	$fdbeeceaccdfdecceeae = url("register");
+	$edeeeddd = $assets->image("arrow-left.png");
+$fffbbbdabdde= <<<EOT
 
-    <AccountScreen button="Proceed" title="Returning Customer." caption="Glad to have you back. Please proceed with your login details.">
+    <AccountScreen button="Proceed" 
+    title="Returning Customer."
+    caption="Glad to have you back. Please proceed with your login details."
+    inject="nav" image="slide7-bg">
 
         <Input name="username">Client ID / Email address</Input>
         <Input type="password" name="password">Password</Input>
@@ -14,8 +19,12 @@ $dfbbebdbfadef= <<<EOT
             <a href="$ecdababfffeaec">Forgot password?</a>
         </div>
 
+        <nav>
+            <a href="$fdbeeceaccdfdecceeae"><img src="$edeeeddd"> Become a member</a>
+        </nav>
+
     </AccountScreen>
 
 EOT;
-	echo \Hyphe\Engine::ParseTags($dfbbebdbfadef, './components/Directives/');
+	echo \Hyphe\Engine::ParseTags($fffbbbdabdde, './components/Directives/');
 	?>

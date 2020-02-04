@@ -17,12 +17,9 @@ class Users
 			firstname            varchar(100),
 			lastname             varchar(100),
 			email_address        varchar(200),
-			nationalityid        int,
-			CONSTRAINT unq_users_nationalityid UNIQUE ( nationalityid )
+			nationalityid        int
 		");
-        $schema->alterStatement("COMMENT 'users basic information provided during registration'");
-		$schema->alterStatement("ADD CONSTRAINT fk_users_authentication FOREIGN KEY ( userid ) REFERENCES authentication( userid ) ON DELETE NO ACTION ON UPDATE NO ACTION");
-		$schema->alterStatement("ADD CONSTRAINT fk_users_mail_logger FOREIGN KEY ( userid ) REFERENCES mail_logger( userid ) ON DELETE NO ACTION ON UPDATE NO ACTION"); 
+        $schema->alterStatement("COMMENT 'users basic information provided during registration'"); 
     }
 
     // drop table

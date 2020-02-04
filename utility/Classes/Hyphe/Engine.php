@@ -164,27 +164,32 @@ class Engine
 
         // get tags in doc
         $tagQuote = preg_quote($tag, '/');
-        preg_match_all("/(<$tagQuote(.*?\/>))/", $document, $matches);
+        preg_match_all("/(<$tagQuote([\s\S]*?>))/", $document, $matches);
 
         if (count($matches) > 0)
         {
             foreach ($matches[0] as $index => $outerHTML)
             {
-                $position = strpos($domDocument, $document);
+                // get ending
+                $ending = trim($outerHTML);
 
-                if ($position !== false)
+                if (substr($ending, -2) == '/>')
                 {
-                    $hash = md5(($position + $index) . $outerHTML);
+                    $position = strpos($domDocument, $outerHTML);
 
-                    $directives[] = [
-                        'outerHTML' => $outerHTML,
-                        'attributeString' => $matches[2][$index],
-                        'innerHTML' => '',
-                        'position' => $position,
-                        'hash' => $hash
-                    ];
+                    if ($position !== false)
+                    {
+                        $hash = md5(($position + $index) . $outerHTML);
 
-                    $domDocument = substr_replace($domDocument, $hash, $position, strlen($outerHTML));
+                        $directives[] = [
+                            'outerHTML' => $outerHTML,
+                            'attributeString' => $matches[2][$index],
+                            'innerHTML' => '',
+                            'hash' => $hash
+                        ];
+
+                        $domDocument = substr_replace($domDocument, $hash, $position, strlen($outerHTML));
+                    }
                 }
             }
         }
@@ -200,13 +205,13 @@ class Engine
 
         // get tags in doc
         $tagQuote = preg_quote($tag, '/');
-        preg_match_all("/(<$tagQuote(.*?>))+([\s\S]+?)(<\/$tagQuote>)/", $document, $matches);
+        preg_match_all("/(<$tagQuote([\s\S]*?>))+([\s\S]+?)(<\/$tagQuote>)/", $document, $matches);
 
         if (count($matches) > 0)
         {
             foreach ($matches[0] as $index => $outerHTML)
             {
-                $position = strpos($domDocument, $document);
+                $position = strpos($domDocument, $outerHTML);
 
                 if ($position !== false)
                 {
@@ -216,7 +221,6 @@ class Engine
                         'outerHTML' => $outerHTML,
                         'attributeString' => $matches[2][$index],
                         'innerHTML' => $matches[3][$index],
-                        'position' => $position,
                         'hash' => $hash
                     ];
 
@@ -227,6 +231,29 @@ class Engine
 
         return $directives;
         
+    }
+
+    // load injector
+    private function loadInjector(array &$props, string &$document)
+    {
+        $injector = $props['inject'];
+        $injectorList = explode(',', $injector);
+
+        foreach ($injectorList as $tagName)
+        {
+            // remove whitespace
+            $tagName = trim($tagName);
+
+            // find tag inside document
+            preg_match("/(<$tagName>)([\s\S]+?)(<\/$tagName>)/", $document, $target);
+
+            if (isset($target[2]))
+            {
+                $props[$tagName] = $target[2];
+                // now remove target from document
+                $document = str_replace($target[0], '', $document);
+            }
+        }
     }
 
     private function loadComponent($doc, $inner = null)
@@ -262,6 +289,7 @@ class Engine
                         $doc = str_replace($block, $hash, $doc);
                     }
                 });
+
                 // clean up
                 $_script = null;
             }
@@ -281,9 +309,8 @@ class Engine
         // check body
         $checkDomBody = false;
 
-
         // load components 
-        foreach(self::$hypheList as $tag => $file)
+        foreach(self::$hypheList as $tag => $fileName)
         {
             $hasTag = strstr($doc, "<{$tag}");
             
@@ -302,7 +329,6 @@ class Engine
 
                         // read attributes 
                         $attributeString = $directive['attributeString'];
-                        $position = $directive['position'];
 
                         // get attributes
                         $props = $this->getAttributes($attributeString);
@@ -323,14 +349,19 @@ class Engine
                         else
                         {
                             // compile file
-                            $file = Compile::compileFile($file, null, $this->dir);
+                            $file = Compile::compileFile($fileName, null, $this->dir);
+                        }
+
+                        if (isset($props['inject']))
+                        {
+                            $this->loadInjector($props, $innerHTML);
                         }
 
                         $block = $outerHTML;
 
                         $data = $this->getComponentData($file, $tag, $block, $props);
-                        
-                        $tree[$position] = [
+                            
+                        $tree[] = [
                             'inner' => $innerHTML,
                             'block' => $block,
                             'tag' => $tag,
@@ -344,96 +375,30 @@ class Engine
                 }
             }
         }
-
-        if (count($tree) > 0)
-        {
-            ksort($tree);
-
-            $len = count($tree) - 1;
-            $keys = array_keys($tree);
-
-            for($x=$len; $x != -1; $x--)
-            {
-                $data = $tree[$keys[$x]]['data'];
-                $block = $tree[$keys[$x]]['block'];
-                $tag = $tree[$keys[$x]]['tag'];
-
-                $data = preg_replace("/[<]($tag)\s*(.*?)>/m", '', $data);
-
-                $prev = $x-1;
-                if ($prev != -1)
-                {
-                    for($y=$prev; $y != -1; $y--)
-                    {
-                        $inner = $tree[$keys[$y]]['inner'];
-
-                        $pos = strpos($inner, $block);
-                        $len = strlen($block);
-
-                        if ($pos !== false)
-                        {
-                            if ($pos === 0)
-                            {
-                                $after = substr($inner, ($pos + $len));
-                                $newinner = $data . $after;
-                            }
-                            else
-                            {
-                                $before = substr($inner, 0, $pos);
-                                $after = substr($inner, ($pos + $len));
-                                $newinner = $before . $data . $after;
-                            }
-
-                            $tree[$keys[$y]]['inner'] = $newinner;
-                            break;
-                        }
-                    }
-                }
-                
-            }
-
-            foreach ($tree as $i => $comp)
-            {
-                $data = $comp['data'];
-                $inner = $comp['inner'];
-                $block = $comp['block'];
-                $hash = $comp['hash'];
-                $before = $data;
-
-                $tag = $comp['tag'];
-
-                $data = preg_replace("/[<]($tag)\s*(.*?)>/m", '', $data);
-
-                if (strpos($data, '(--inner-child-dom--)') !== false)
-                {
-                    // next inner here
-                    $data = str_replace("(--inner-child-dom--)", $inner, $data);
-                }
-
-                                
-                if ($i > 0)
-                {
-                    $doc = substr_replace($doc, $block, strpos($doc, $hash), strlen($hash));
-                    
-                    $len = strlen($block);
-                    $tillend = substr($doc, 0, ($len + $i));
-                    $afterend = substr($doc, ($len + $i));
-
-                    if (stripos($doc, $block) !== false)
-                    {
-                        $tillend = str_ireplace($block, $data, $tillend);
-                        $newblock = $tillend . $afterend;
-                        $doc = $newblock;
-                    }
-                    else
-                    {
-                        $doc = str_ireplace($before, $data, $doc);
-                    }
-                }
-            }
-        }
         
         $doc = trim($doc);
+
+        foreach ($tree as $branch)
+        {
+            // extract data
+            extract($branch);
+
+            // replace props children
+            if (strpos($data, '(--inner-child-dom--)') !== false)
+            {
+                // next inner here
+                $data = str_replace("(--inner-child-dom--)", $inner, $data);
+            }
+
+            if ($data != null)
+            {
+                // replace block with data
+                $block = str_replace($block, $data, $block);
+
+                // replace hash
+                $doc = substr_replace($doc, $block, strpos($doc, $hash), strlen($hash));
+            }
+        }
         
         $wrapper = $doc;
         $wrapper = preg_replace('/(<php-var>)([^<]+)(<\/php-var>)/', '', $wrapper);
@@ -467,7 +432,6 @@ class Engine
         }
 
         return $wrapper;
-
         
     }
 
