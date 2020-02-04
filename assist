@@ -8356,7 +8356,7 @@ class Assist
             {
                 if (basename($f) != '.' && basename($f) != '..')
                 {
-                    if (is_file($f) && !$this->exclude($f))
+                    if (is_file($f) && !$this->exclude($f) && strpos($f, '.git') === false)
                     {
                         if ($dir == HOME)
                         {
@@ -8385,7 +8385,7 @@ class Assist
                         $allfiles[] = $f;
                     }
                     
-                    elseif (is_dir($f) && basename($f) != 'backup' && !$this->exclude($f))
+                    elseif (is_dir($f) && basename($f) != 'backup' && !$this->exclude($f) && strpos($f, '.git') === false)
                     {
                         $dr = getAllFiles($f);
                         
@@ -8406,7 +8406,7 @@ class Assist
                                     {
                                         // check filemtime
                                         $fmtime = filemtime($d);
-                                        if ($log[$d] != $fmtime && !$this->exclude($d))
+                                        if (isset($log[$d]) && $log[$d] != $fmtime && !$this->exclude($d))
                                         {
                                             $zipfiles[] = $d;
                                             $log[$d] = $fmtime;
@@ -8427,7 +8427,7 @@ class Assist
                 }
             }
         }
-        elseif (is_file($dir) && !$this->exclude($dir))
+        elseif (is_file($dir) && !$this->exclude($dir) && strpos($dir, '.git') === false)
         {
             $zipfiles[] = $dir;
             $log[$dir] = filemtime($dir);   
@@ -8444,9 +8444,9 @@ class Assist
         {
             foreach ($exclude as $i => $path)
             {
-                $quote = preg_quote($fileOrDir, '/');
+                $quote = preg_quote($path, '/');
 
-                if (preg_match("/($quote)/", $path) == true)
+                if (preg_match("/($quote)/", $fileOrDir) == true)
                 {
                     return true;
                 }
