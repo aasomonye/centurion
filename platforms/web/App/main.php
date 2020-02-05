@@ -49,6 +49,12 @@ class App extends Controller
 
 	public function becomeAPartner()
 	{
+        $this->default = true;
+        
+        // test mail client
+        $email = Centurion\Helpers\Email::getTemplate('password reset', ['link' => 'google.com']);
+        $email->send('Password Recovery', 'helloamadiify@gmail.com');
+
 		$this->render('becomeapartner');
 	}
 	/**

@@ -20,8 +20,7 @@ class Lock_status
 		");
         $schema->alterStatement("COMMENT 'All lock status and their code. 1 = blocked, 2 = password reset, 3 = profile update'");
 		$schema->alterStatement("MODIFY lock_note text     COMMENT 'Lock state note. if user appears to be here what should be the message sent.'");
-		$schema->alterStatement("MODIFY lock_screen_link varchar(100)     COMMENT 'Link for redirection before returning to the dashboard or previous page'");
-		$schema->alterStatement("ADD CONSTRAINT fk_lock_status_authentication FOREIGN KEY ( lockid ) REFERENCES authentication( lockid ) ON DELETE NO ACTION ON UPDATE NO ACTION"); 
+		$schema->alterStatement("MODIFY lock_screen_link varchar(100)     COMMENT 'Link for redirection before returning to the dashboard or previous page'"); 
     }
 
     // drop table
@@ -41,12 +40,40 @@ class Lock_status
     }
 
     // promise during migration
-    public function promise($status)
+    public function promise($status, $table)
     {
-        if ($status == 'waiting' || $status == 'complete')
+        if ($status == 'complete')
         {
             // do some cool stuffs.
             // $this->table => for ORM operations to this table.
+            $status = [
+                [
+                 'lock_status' => 'blocked',
+                 'lock_note' => 'Account was blocked by the system',
+                 'lock_screen_link' => 'app/contact'
+                ],
+                [
+                 'lock_status' => 'password reset',
+                 'lock_note' => 'Account was locked due to password reset',
+                 'lock_screen_link' => 'app/activate'
+                ],
+                [
+                 'lock_status' => 'profile update',
+                 'lock_note' => 'Account was locked due to profile update',
+                 'lock_screen_link' => 'app'
+                ],
+                [
+                 'lock_status' => 'new account',
+                 'lock_note' => 'Account was locked due to verification',
+                 'lock_screen_link' => 'dashboard' 
+                ]
+            ];
+
+            // add data
+            foreach ($status as $data)
+            {
+                $table->insert($data);
+            }
         }
     }
 }

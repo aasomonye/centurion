@@ -313,5 +313,171 @@
     ".\/utility\/Classes\/:AutoloaderException.php": [
         ".\/utility\/Classes\/",
         "AutoloaderException.php"
+    ],
+    ".\/platforms\/web\/\/Company\/Static\/:404.css:404.css": [
+        ".\/platforms\/web\/\/Company\/Static\/",
+        [
+            "404.css",
+            "404.css"
+        ]
+    ],
+    ".\/platforms\/web\/\/Company\/Static\/:404.js:404.js": [
+        ".\/platforms\/web\/\/Company\/Static\/",
+        [
+            "404.js",
+            "404.js"
+        ]
+    ],
+    ".\/platforms\/web\/\/App\/Static\/:becomeapartner.css:Becomeapartner.css": [
+        ".\/platforms\/web\/\/App\/Static\/",
+        [
+            "becomeapartner.css",
+            "Becomeapartner.css"
+        ]
+    ],
+    ".\/platforms\/web\/\/App\/Static\/:becomeapartner.js:Becomeapartner.js": [
+        ".\/platforms\/web\/\/App\/Static\/",
+        [
+            "becomeapartner.js",
+            "Becomeapartner.js"
+        ]
+    ],
+    ".\/platforms\/web\/\/App\/Static\/:becomeAPartner.css:becomeAPartner.cxx.css:BecomeAPartner.css": [
+        ".\/platforms\/web\/\/App\/Static\/",
+        [
+            "becomeAPartner.css",
+            "becomeAPartner.cxx.css",
+            "BecomeAPartner.css"
+        ]
+    ],
+    ".\/platforms\/web\/\/App\/Static\/:becomeAPartner.js:BecomeAPartner.js": [
+        ".\/platforms\/web\/\/App\/Static\/",
+        [
+            "becomeAPartner.js",
+            "BecomeAPartner.js"
+        ]
+    ],
+    ".\/lab\/Cms\/MVC\/App\/Static\/:home.css:home.cxx.css:Home.css": [
+        ".\/lab\/Cms\/MVC\/App\/Static\/",
+        [
+            "home.css",
+            "home.cxx.css",
+            "Home.css"
+        ]
+    ],
+    ".\/lab\/Cms\/MVC\/App\/Partials\/:meta-tags.md:Meta-tags.md": [
+        ".\/lab\/Cms\/MVC\/App\/Partials\/",
+        [
+            "meta-tags.md",
+            "Meta-tags.md"
+        ]
+    ],
+    ".\/lab\/Cms\/MVC\/App\/Static\/:home.js:Home.js": [
+        ".\/lab\/Cms\/MVC\/App\/Static\/",
+        [
+            "home.js",
+            "Home.js"
+        ]
+    ],
+    ".\/lab\/Cms\/MVC\/App\/Static\/:tables.css:tables.cxx.css:Tables.css": [
+        ".\/lab\/Cms\/MVC\/App\/Static\/",
+        [
+            "tables.css",
+            "tables.cxx.css",
+            "Tables.css"
+        ]
+    ],
+    ".\/lab\/Cms\/MVC\/App\/Static\/:tables.js:Tables.js": [
+        ".\/lab\/Cms\/MVC\/App\/Static\/",
+        [
+            "tables.js",
+            "Tables.js"
+        ]
+    ],
+    ".\/lab\/Cms\/MVC\/App\/Static\/:createTable.css:CreateTable.css": [
+        ".\/lab\/Cms\/MVC\/App\/Static\/",
+        [
+            "createTable.css",
+            "CreateTable.css"
+        ]
+    ],
+    ".\/lab\/Cms\/MVC\/App\/Static\/:createTable.js:CreateTable.js": [
+        ".\/lab\/Cms\/MVC\/App\/Static\/",
+        [
+            "createTable.js",
+            "CreateTable.js"
+        ]
+    ],
+    "Bootstrap:Alert.php": [
+        "Bootstrap",
+        "Alert.php"
+    ],
+    ".\/lab\/:Alert.php": [
+        ".\/lab\/",
+        "Alert.php"
+    ],
+    ".\/lab\/Cms\/MVC\/App\/Static\/:show.css:Show.css": [
+        ".\/lab\/Cms\/MVC\/App\/Static\/",
+        [
+            "show.css",
+            "Show.css"
+        ]
+    ],
+    ".\/lab\/Cms\/MVC\/App\/Static\/:show.js:Show.js": [
+        ".\/lab\/Cms\/MVC\/App\/Static\/",
+        [
+            "show.js",
+            "Show.js"
+        ]
+    ],
+    ".\/lab\/Cms\/MVC\/App\/Static\/:create.css:Create.css": [
+        ".\/lab\/Cms\/MVC\/App\/Static\/",
+        [
+            "create.css",
+            "Create.css"
+        ]
+    ],
+    ".\/lab\/Cms\/MVC\/App\/Static\/:create.js:Create.js": [
+        ".\/lab\/Cms\/MVC\/App\/Static\/",
+        [
+            "create.js",
+            "Create.js"
+        ]
+    ],
+    ".\/lab\/Cms\/MVC\/App\/Static\/:edit.css:Edit.css": [
+        ".\/lab\/Cms\/MVC\/App\/Static\/",
+        [
+            "edit.css",
+            "Edit.css"
+        ]
+    ],
+    ".\/lab\/Cms\/MVC\/App\/Static\/:edit.js:Edit.js": [
+        ".\/lab\/Cms\/MVC\/App\/Static\/",
+        [
+            "edit.js",
+            "Edit.js"
+        ]
+    ],
+    ".\/lab\/Cms\/MVC\/App\/Static\/:editTable.css:EditTable.css": [
+        ".\/lab\/Cms\/MVC\/App\/Static\/",
+        [
+            "editTable.css",
+            "EditTable.css"
+        ]
+    ],
+    ".\/lab\/Cms\/MVC\/App\/Static\/:editTable.js:EditTable.js": [
+        ".\/lab\/Cms\/MVC\/App\/Static\/",
+        [
+            "editTable.js",
+            "EditTable.js"
+        ]
+    ],
+    "Messaging:Mail.php": [
+        "Messaging",
+        "Mail.php"
+    ],
+    ".\/lab\/:Mail.php": [
+        ".\/lab\/",
+        "Mail.php"
     ]
 }

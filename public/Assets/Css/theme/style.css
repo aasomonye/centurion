@@ -24,7 +24,6 @@ body {
 	font-size:14px;
 	color:#70778b;
     line-height:24px;
-    -moz-osx-font-smoothing: grayscale !important;
     
 }
 body.modal-open {

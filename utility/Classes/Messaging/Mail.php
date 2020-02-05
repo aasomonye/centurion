@@ -45,6 +45,12 @@ class Mail
         return $mail;
     }
 
+    // init method
+    public static function init()
+    {
+        return self::config([]);
+    }
+
     // create transport
     public static function createTransport(&$ins = null)
     {

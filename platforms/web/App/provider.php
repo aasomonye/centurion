@@ -17,6 +17,9 @@ class AppProvider extends App
     {
        if (in_array($view, $this->viewsExceptions))
        {
+           // add wrapper.css
+           $this->requirecss('wrapper.css');
+
            // hide header and footer. And set the page title 
            $this->customConfig([
                'default' => true,

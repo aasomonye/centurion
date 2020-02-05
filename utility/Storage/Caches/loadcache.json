@@ -1,6 +1,6 @@
 {
     ".\/custom\/header.html": {
-        "hash": "f80a3e9fa5faafb45592ca2c11ccccae",
+        "hash": "9a5689a69ad0954a33b7afb76ae76c98",
         "path": "utility\/Storage\/Caches\/Headers\/cache.d29db69b1a9178a48f1d2ab32f72b35c.App.header.html"
     },
     ".\/platforms\/web\/\/App\/Views\/home.html": {
@@ -38,5 +38,45 @@
     ".\/platforms\/web\/\/App\/Views\/account\/register.html": {
         "hash": "4e5dbb1c39a18de67fb6da022c4de46c",
         "path": "utility\/Storage\/Caches\/Views\/cache.b9832070ca1323d039a3c73766249d57.App.register.html"
+    },
+    ".\/platforms\/web\/\/App\/Views\/becomeapartner.html": {
+        "hash": "60f99226f24389208c3f22dbdf1fa41e",
+        "path": "utility\/Storage\/Caches\/Views\/cache.2e169a7c691bea96aaea0f7dbbc5e1e5.App.becomeapartner.html"
+    },
+    ".\/lab\/Cms\/MVC\/App\/Custom\/header.html": {
+        "hash": "f96fd396ca07f7265f73225572754062",
+        "path": "utility\/Storage\/Caches\/Headers\/cache.3975ae8afa7bf3e854d08ad740d5da0c.App.header.html"
+    },
+    ".\/lab\/Cms\/MVC\/App\/Views\/home.html": {
+        "hash": "37589857cef1fb0a64bf74d4f013ae20",
+        "path": "utility\/Storage\/Caches\/Views\/cache.f2ab3d983b1fc545a2f20f70faff5269.App.home.html"
+    },
+    ".\/lab\/Cms\/MVC\/App\/Custom\/footer.html": {
+        "hash": "760b09e3d78803b6782542ecda2fb668",
+        "path": "utility\/Storage\/Caches\/Footers\/cache.df7736cb556dd17350612d6efa35d35d.App.footer.html"
+    },
+    ".\/lab\/Cms\/MVC\/App\/Views\/tables.html": {
+        "hash": "2464aa1cf61f6a76d4e121da974f4b13",
+        "path": "utility\/Storage\/Caches\/Views\/cache.e8618b33883b745b2b8ce7f594f70edf.App.tables.html"
+    },
+    ".\/lab\/Cms\/MVC\/App\/Views\/tables\/createTable.html": {
+        "hash": "17a9a996e2718d45de51a13ccdd92631",
+        "path": "utility\/Storage\/Caches\/Views\/cache.302fb40c5b36e4dc40298ee885ea6730.App.createTable.html"
+    },
+    ".\/lab\/Cms\/MVC\/App\/Views\/tables\/show.html": {
+        "hash": "17a79e365f7d6728fcf75e508f81709a",
+        "path": "utility\/Storage\/Caches\/Views\/cache.14bcdb6e5c7d002a219e7f64a858a416.App.show.html"
+    },
+    ".\/lab\/Cms\/MVC\/App\/Views\/tables\/create.html": {
+        "hash": "903dea65ba0817fd433089c3c78e82be",
+        "path": "utility\/Storage\/Caches\/Views\/cache.c78eb8f3b1e2c728ee7949d4c6403b2a.App.create.html"
+    },
+    ".\/lab\/Cms\/MVC\/App\/Views\/tables\/edit.html": {
+        "hash": "ff23d583eb3853f2d80750c91b5b25ce",
+        "path": "utility\/Storage\/Caches\/Views\/cache.bc97b5b3b99fcf749942b2502e27b304.App.edit.html"
+    },
+    ".\/lab\/Cms\/MVC\/App\/Views\/tables\/editTable.html": {
+        "hash": "3d3e6cf0ce22224675bc65474245f0b5",
+        "path": "utility\/Storage\/Caches\/Views\/cache.ebb84118812f6c49b347d0731cfb2cc9.App.editTable.html"
     }
 }
