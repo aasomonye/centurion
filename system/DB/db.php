@@ -2676,6 +2676,7 @@ class DB
                                 case 'delete':
                                     self::$transactionCode = 200;
                                     $this->saveQueryStatement($query, $bind);
+                                    $this->queryCachePath = null;
                                 break;
                             }
                         }
@@ -3750,7 +3751,7 @@ class DB
 
                 // get path
                 $path = $this->getQuerySavePath();
-
+                
                 $line = [];
                 $line[] = '<?php';
                 $line[] = 'return [];';

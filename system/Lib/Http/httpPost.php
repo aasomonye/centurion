@@ -11,7 +11,7 @@ class HttpPost
     public $isEmpty = true;
     public $files = [];
     protected $data = [];
-    private $whitelist = ['CSRF_TOKEN','REQUEST_VIEWMODEL','SET_VIEWMODEL_DEFAULT','REQUEST_METHOD'];
+    private $whitelist = ['CSRF_TOKEN', 'REQUEST_VIEWMODEL', 'SET_VIEWMODEL_DEFAULT', 'REQUEST_METHOD', '__app_request__'];
 
     public function __construct()
     {
@@ -22,11 +22,18 @@ class HttpPost
     // fetch post data
     private function fetchData()
     {
+        if (count($_POST) == 0)
+        {
+            Middleware::System()->c_postData();
+        }
+
         $post = $_POST;
+
         if (count($post) > 0)
         {
             $this->isEmpty = false;
         }
+
         $this->data = $post;
         
         if (count($_FILES) > 0)

@@ -34,14 +34,20 @@ class Http
     public $sameOriginData = [];
     // same origin response
     private $sameOrginResponse = null;
+    // cookie jar
 
     // create instance
     public static function createInstance()
     {
+
+        $jar = new \GuzzleHttp\Cookie\SessionCookieJar('PHPSESSID', true);
+        self::$client = new \GuzzleHttp\Client([
+            'cookies' => $jar
+        ]); // set client
+
         if (is_null(self::$instance))
         {
             self::$instance = new self; // create instance
-            self::$client = new \GuzzleHttp\Client(); // set client
             self::setHeader(self::autoHeaders()); // set auto headers
         }
 
@@ -403,11 +409,17 @@ class Http
         // cookie jar
         $jar = new \GuzzleHttp\Cookie\CookieJar();
 
+        $redirections = [];
+
         // add request body
         $requestBody = [
             'headers' => $headers,
             'debug' => false,
-            'jar' => $jar
+            'jar' => $jar,
+            'on_stats'=>function (\GuzzleHttp\TransferStats $stats) use (&$redirections){
+                $uri = $stats->getEffectiveUri();
+                $redirections[] = $uri->__toString();
+            },
         ];
 
         // merge 
@@ -422,7 +434,7 @@ class Http
             $send = $client->request($method, $path, $requestBody);
 
             // response
-            $response = new class ($send)
+            $response = new class ($send, $redirections)
             {
                 public $guzzle; // guzzle response
                 public $status; // response status
@@ -430,9 +442,10 @@ class Http
                 public $responseHeaders; // response headers
                 public $text; // response body text
                 public $json; // response body json
+                public $redirections = []; // redirections that occured
 
                 // constructor
-                public function __construct($response)
+                public function __construct($response, $redirections)
                 {
                     $this->guzzle = $response;
                     $this->status = $response->getStatusCode();
@@ -449,6 +462,31 @@ class Http
                     {
                         $this->json = $json;
                     }
+
+                    // push redirections
+                    $this->redirections = $redirections;
+                }
+
+                // get headers
+                public function getHeaders()
+                {
+                    return $this->guzzle->getHeaders();
+                }
+
+                // redirection has
+                public function redirectionHas(string $url)
+                {
+                    if (count($this->redirections) > 0)
+                    {
+                        $toKeys = array_flip($this->redirections);
+
+                        if (isset($toKeys[$url]))
+                        {
+                            return true;
+                        }
+                    }
+
+                    return false;
                 }
             };
         }

@@ -189,7 +189,7 @@ class App extends Model
 
                     if ($model->has('remember'))
                     {
-                        $cookieToken = sha1(str_shuffle($sessionToken));
+                        $cookieToken = sha1(time() * mt_rand(10, 100) . str_shuffle($sessionToken));
 
                         // update cookie value
                         $authentication->update(['remember_me_cookie' => $cookieToken]);

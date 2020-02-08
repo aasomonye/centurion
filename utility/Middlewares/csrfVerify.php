@@ -26,8 +26,9 @@ class CsrfVerify
     {
         $header = func_get_args();
         
-        $verify = false;
+        $verify = true;
         $types = [];
+        $headerFound = false;
 
         if (count($header) > 0)
         {
@@ -36,6 +37,7 @@ class CsrfVerify
                   if ($type === CSRF_VERIFY_HEADER)
                   {
                       $types[] = $type;
+                      $verify = false;
 
                       if (is_callable('getallheaders'))
                       {
@@ -48,6 +50,7 @@ class CsrfVerify
 
                             if (isset($headers[$key]))
                             {
+                                $headerFound = true;
                                 $val = $headers[$key];
 
                                 if ($val == $v)
@@ -89,7 +92,12 @@ class CsrfVerify
 
         if (!$passed)
         {
-            self::$error = "CSRF Request Token missing or not valid.";
+            self::$error = "CSRF Public Request Token not valid.";
+
+            if (!$headerFound)
+            {
+                self::$error = "CSRF Public request header missing for this request.";
+            }
         }
         else
         {
