@@ -20,9 +20,7 @@ class Authentication
 			session_token        varchar(100),
 			remember_me_cookie   text,
 			isactivated          int   DEFAULT 0,
-			lockid               int,
-			CONSTRAINT unq_authentication_lockid UNIQUE ( lockid ),
-			CONSTRAINT unq_authentication_userid UNIQUE ( userid )
+			lockid               int
 		");
         $schema->alterStatement("COMMENT 'Authentication table for user'");
 		$schema->alterStatement("MODIFY userid bigint     COMMENT 'user id from users table'");

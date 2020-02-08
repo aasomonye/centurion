@@ -1,7 +1,7 @@
 <?php
 	$cbedefebedfb = url("login");
 	$edeeeddd = $assets->image("arrow-left.png");
-$bedcbcdbc= <<<EOT
+$dcdccaaccbde= <<<EOT
 
     <AccountScreen button="Proceed" title="Become a customer." 
     caption="We are glad you are here, You would be required to provide
@@ -17,8 +17,8 @@ $bedcbcdbc= <<<EOT
 			</div>
 		</div>
         
-		<Input type="email" name="email">Email Address</Input>
-		<Input type="select" get="nationality" name="nationalityid">Your Nationality</Input>
+		<Input type="email" name="email_address">Email Address</Input>
+		<Input type="password" name="password">Password</Input>
 
         <div class="form-footer-tabs" style="grid-template-columns: 1fr;">
             <label for="iagree" style="display: block;">
@@ -32,5 +32,5 @@ $bedcbcdbc= <<<EOT
     </AccountScreen>
 
 EOT;
-	echo \Hyphe\Engine::ParseTags($bedcbcdbc, './components/Directives/');
+	echo \Hyphe\Engine::ParseTags($dcdccaaccbde, './components/Directives/');
 	?>

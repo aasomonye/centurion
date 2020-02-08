@@ -1,8 +1,10 @@
 <?php
+/** @noinspection All */
 
 namespace Moorexa;
 
 // Open PDO for use
+use Exceptions\Database\DatabaseException;
 use PDO;
 use Moorexa\DatabaseHandler as handler;
 use utility\Classes\BootMgr\Manager as BootMgr;
@@ -11,6 +13,12 @@ use utility\Classes\BootMgr\Manager as BootMgr;
  * @package Moorexa Database engine
  * @version 0.0.1
  * @author  Ifeanyi Amadi
+ * @method static table(string $tablename)
+ * @method static serve()
+ * @method static apply($database)
+ * @method static get(string $string)
+ * @method static pdo()
+ * @method static sql(string $string)
  */
 
 class DB
@@ -145,8 +153,11 @@ class DB
 
    // register all prefix event queries
    private static $prefixRegistry = [];
+
+   // allow saving queries
+   private $allowSaveQuery = true;
   
-    // list of allowed chains
+    // list of allowed methods for ORM
     private function getAllowed($val = [null], &$sql = "")
     {
        if (!isset($val[0]))
@@ -1509,14 +1520,14 @@ class DB
             if (is_object($data))
             {
                 // convert to array
-                $data = Client::toArray($data);
+                $data = toArray($data);
             }
 
             // json data?
             if (is_string($data) && trim($data[0]) == '{' )
             {
-                // conver to an object
-                $data = Client::toArray(json_decode($data));
+                // convert to an object
+                $data = toArray(json_decode($data));
                 $a[0] = $data;
             }
 
@@ -1562,14 +1573,14 @@ class DB
                         if (is_object($data))
                         {
                             // convert to array
-                            $data = Client::toArray($data);
+                            $data = toArray($data);
                         }
             
                         // json data?
                         if (is_string($data) && trim($data[0]) == '{' )
                         {
-                            // conver to an object
-                            $data = Client::toArray(json_decode($data));
+                            // convert to an object
+                            $data = toArray(json_decode($data));
                         }
 
                         $continue = true;
@@ -2005,14 +2016,14 @@ class DB
             if (is_object($data))
             {
                 // convert to array
-                $data = Client::toArray($data);
+                $data = toArray($data);
             }
 
             // json data?
             if (is_string($data) && trim($data[0]) == '{' )
             {
-                // conver to an object
-                $data = Client::toArray(json_decode($data));
+                // convert to an object
+                $data = toArray(json_decode($data));
                 $a[0] = $data;
             }
 
@@ -2050,12 +2061,12 @@ class DB
                 {
                     if (is_object($a[0]))
                     {
-                        $a[0] = Client::toArray($a[0]);
+                        $a[0] = toArray($a[0]);
                     }
 
                     if (is_string($a[0]) && $a[0] == '{')
                     {
-                        $a[0] = Client::toArray(json_decode($a[0]));
+                        $a[0] = toArray(json_decode($a[0]));
                     }
 
                     if (is_array($a[0]))
@@ -2236,12 +2247,12 @@ class DB
             {
                 if (is_object($a[0]))
                 {
-                    $a[0] = Client::toArray($a[0]);
+                    $a[0] = toArray($a[0]);
                 }
 
                 if (is_string($a[0]) && $a[0] == '{')
                 {
-                    $a[0] = Client::toArray(json_decode($a[0]));
+                    $a[0] = toArray(json_decode($a[0]));
                 }
 
                 if (is_array($a[0]))
@@ -2349,7 +2360,7 @@ class DB
                 // get assignment
                 if (preg_match('/(=|!=|>|<|>=|<=)/', $data))
                 {
-                    preg_match_all('/\s{1,}([\S]+)\s{0,}(=|!=|>|<|>=|<=)\s{0,}[:|\?|\'|"|0-9]/', $data, $match);
+                    preg_match_all('/\s{1,}([\S]+)\s{0,}(=|!=|>|<|>=|<=)\s{0,}[:|?|\'|"|0-9]/', $data, $match);
 
                     foreach ($match[0] as $i => $ln)
                     {
@@ -2424,6 +2435,10 @@ class DB
     }
 
     // prepare query
+
+    /** @noinspection PhpUnhandledExceptionInspection
+     * @noinspection PhpUndefinedMethodInspection
+     */
     private function ___prepare($query)
     {
         if ($this->pdoInstance == null)
@@ -2439,7 +2454,6 @@ class DB
             {
                 $con = $this->pdoInstance;
                 $usePDO = Handler::usePDO($this->instancedb);
-
 
                 if ($this->pdoInstance != null)
                 {
@@ -2504,7 +2518,7 @@ class DB
 
                             $_query = preg_replace('/([:][\S]*?)([,|\s|)])/','?$2',$_query);
 
-                            $_query = preg_replace('/[\?]([a-zA-Z]*)/','? $1', $_query);
+                            $_query = preg_replace('/[?]([a-zA-Z]*)/','? $1', $_query);
                             $query = $_query;
                         }
                     }
@@ -2597,6 +2611,8 @@ class DB
                 throw new \Exceptions\Database\DatabaseException('Database not serving any connection to this file.');
             }
         }
+
+        return null;
     }
 
     // execute query
@@ -2729,7 +2745,7 @@ class DB
                             $this->pdoInstance->commit();
                         }
                     }
-                    catch(PDOException $e)
+                    catch(\PDOException $e)
                     {
                         if (method_exists($this->pdoInstance, 'rollback'))
                         {
@@ -2829,6 +2845,7 @@ class DB
         }
     }
 
+    /** @noinspection PhpUnhandledExceptionInspection */
     public function __call($method, $data)
     {
         switch (trim($method))
@@ -3138,7 +3155,7 @@ class DB
     // serve database connection  
     private function _serve()
     {
-        $instance = &$this;
+        $instance = new DB;
 
         // get default data-source-name
         $connect = DatabaseHandler::$default;
@@ -3154,15 +3171,25 @@ class DB
         {
             if (isset(self::$openedConnection[$connect]))
             {
-                $instance = self::$openedConnection[$connect];
-                $instance->table = !is_null($this->table) ? $this->table : $instance->table;
-                $instance->query = '';
-                $instance->bind = [];
-                $instance->allowed = $instance->getAllowed(); 
+                $openedInstance = self::$openedConnection[$connect];
+                $openedInstance->table = !is_null($this->table) ? $this->table : $openedInstance->table;
+                $openedInstance->query = '';
+                $openedInstance->bind = [];
+                $openedInstance->allowed = $openedInstance->getAllowed(); 
+                //$openedInstance->pdoInstance = $this->pdoInstance;
 
-                $freshConnect = false;
+                if ($openedInstance->pdoInstance != null)
+                {
+                    $freshConnect = false;
+                    $instance = $openedInstance;
+                }
+                else
+                {
+                    $instance->pdoInstance = $this->pdoInstance;
+                }
             }
         }
+        
 
         if ($instance->pdoInstance == null)
         {
@@ -3198,10 +3225,6 @@ class DB
                             throw new \Exceptions\Database\DatabaseException('Driver you used isn\'t supported on this server. Please see documentation');
                         }
                     }
-                }
-                else
-                {
-                    throw new \Exceptions\Database\DatabaseException('No Database connection to establish. Please check your configuration.');
                 }
             }
 
@@ -3348,9 +3371,6 @@ class DB
     }
 
     // query method
-    /**
-     * @param $method could either be a string or array
-     */
     public function query($loadFrom)
     {
         $classCaller = $this->classUsingLazy;
@@ -3437,27 +3457,41 @@ class DB
         if (class_exists($className))
         {
             // create reflection class
-            $ref = new \ReflectionClass($className);
+            try {
+                $ref = new \ReflectionClass($className);
+                switch (count($arguments) > 0)
+                {
+                    case true:
 
-            switch (count($arguments) > 0)
-            {
-                case true:
+                        list($firstArgs) = $arguments;
 
-                    list($firstArgs) = $arguments;
+                        // build method
+                        $method = $className . '::find' . ucwords($firstArgs);
 
-                    // build method
-                    $method = $className . '::find' . ucwords($firstArgs);
-                    
-                    if ($ref->hasMethod('find' . ucwords($firstArgs)))
-                    {
-                        $arguments = array_splice($arguments, 1);
-                        array_unshift($arguments, $this);
+                        if ($ref->hasMethod('find' . ucwords($firstArgs)))
+                        {
+                            $arguments = array_splice($arguments, 1);
+                            array_unshift($arguments, $this);
 
-                        // call method
-                        call_user_func_array($method, $arguments);
-                    }
-                    else
-                    {
+                            // call method
+                            call_user_func_array($method, $arguments);
+                        }
+                        else
+                        {
+                            $method = $className . '::find';
+
+                            if ($ref->hasMethod('find'))
+                            {
+                                array_unshift($arguments, $this);
+
+                                call_user_func_array($method, $arguments);
+                            }
+                        }
+
+                        break;
+
+                    case false:
+
                         $method = $className . '::find';
 
                         if ($ref->hasMethod('find'))
@@ -3466,28 +3500,17 @@ class DB
 
                             call_user_func_array($method, $arguments);
                         }
-                    }
 
-                break;
+                        break;
+                }
 
-                case false:
-
-                    $method = $className . '::find';
-
-                    if ($ref->hasMethod('find'))
-                    {
-                        array_unshift($arguments, $this);
-
-                        call_user_func_array($method, $arguments);
-                    }
-
-                break;
+                if (!$this->pauseExecution)
+                {
+                    return $this->go();
+                }
+            } catch (\ReflectionException $e) {
             }
 
-            if (!$this->pauseExecution)
-            {
-                return $this->go();
-            }
         }
 
         return $this;
@@ -3527,6 +3550,8 @@ class DB
         {
             return $this->go()->{$name};
         }
+
+        return null;
     }
 
     // config method
@@ -3716,115 +3741,125 @@ class DB
     // save query
     private function saveQueryStatement(string $query, array $bind)
     {
-        if (env('bootstrap', 'enable.db.caching') && $this->cacheQuery)
+        if ($this->allowSaveQuery)
         {
-            // get handler
-            $handler = Handler::$connectWith;
-
-            // get path
-            $path = $this->getQuerySavePath();
-
-            $line = [];
-            $line[] = '<?php';
-            $line[] = 'return [];';
-            $line[] = '?>';
-
-            if (!file_exists($path))
+            if (env('bootstrap', 'enable.db.caching') && $this->cacheQuery)
             {
+                // get handler
+                $handler = Handler::$connectWith;
+
+                // get path
+                $path = $this->getQuerySavePath();
+
+                $line = [];
+                $line[] = '<?php';
+                $line[] = 'return [];';
+                $line[] = '?>';
+
+                if (!file_exists($path))
+                {
+                    file_put_contents($path, implode("\n\n", $line));
+                }
+
+                // get data
+                $data = include($path);
+
+                if (!is_array($data))
+                {
+                    $data = [];
+                }
+
+                // build index 
+                $index = md5($query) . sha1(implode('', $bind));
+
+                // remove slashes
+                foreach ($bind as $key => $value) 
+                {
+                    $bind[$key] = stripslashes($value);
+                }
+
+                // add data
+                $data[$handler][$this->table][$index]['query'] = $query;
+                $data[$handler][$this->table][$index]['bind'] = $bind;
+
+                // export
+                ob_start();
+                var_export($data);
+                $data = ob_get_contents();
+                ob_clean();
+
+                // add to line
+                $line[1] = 'return '.$data.';';
+
+                // save now
                 file_put_contents($path, implode("\n\n", $line));
             }
-
-            // get data
-            $data = include($path);
-
-            if (!is_array($data))
-            {
-                $data = [];
-            }
-
-            // build index 
-            $index = md5($query) . sha1(implode('', $bind));
-
-            // remove slashes
-            foreach ($bind as $key => $value) 
-            {
-                $bind[$key] = stripslashes($value);
-            }
-
-            // add data
-            $data[$handler][$this->table][$index]['query'] = $query;
-            $data[$handler][$this->table][$index]['bind'] = $bind;
-
-            // export
-            ob_start();
-            var_export($data);
-            $data = ob_get_contents();
-            ob_clean();
-
-            // add to line
-            $line[1] = 'return '.$data.';';
-
-            // save now
-            file_put_contents($path, implode("\n\n", $line));
         }
     }
 
     // run migration for cached tables
     public function runSaveCacheStatements(string $tableName, string $driver, string $handler)
     {
-        // get path
-        $path = $this->getQuerySavePath($handler, $driver);
-
-        if (file_exists($path))
+        if (defined('RUN_MIGRATION'))
         {
-            if (count(self::$cacheQueryData) == 0)
+            // get path
+            $path = $this->getQuerySavePath($handler, $driver);
+
+            if (file_exists($path))
             {
-                // set data
-                $data = include_once($path);
-
-                if (is_array($data))
+                if (count(self::$cacheQueryData) == 0)
                 {
-                    self::$cacheQueryData = $data;
-                }
-            }
+                    // set data
+                    $data = include_once($path);
 
-            // get data
-            $data = self::$cacheQueryData;
-
-            if (isset($data[$handler]))
-            {
-                $dataHandler = $data[$handler];
-                
-                // check for table
-                if (isset($dataHandler[$tableName]))
-                {
-                    // get queries
-                    $queries = array_values($dataHandler[$tableName]);
-
-                    // set table
-                    $this->table = $tableName;
-                    $this->cacheQuery = false;
-
-                    // run queries
-                    foreach ($queries as $key => $data)
+                    if (is_array($data))
                     {
-                        $this->query = $data['query'];
-                        $this->bind = $data['bind'];
+                        self::$cacheQueryData = $data;
+                    }
+                }
 
-                        // get query
-                        preg_match('/^(update|insert|delete|select)/i', trim($this->query), $match);
+                // get data
+                $data = self::$cacheQueryData;
 
-                        if (isset($match[0]))
+                if (isset($data[$handler]))
+                {
+                    $dataHandler = $data[$handler];
+                    
+                    // check for table
+                    if (isset($dataHandler[$tableName]))
+                    {
+                        // get queries
+                        $queries = array_values($dataHandler[$tableName]);
+
+                        // set table
+                        $this->table = $tableName;
+                        $this->cacheQuery = false;
+
+                        // run queries
+                        foreach ($queries as $key => $data)
                         {
-                            // add method
-                            $this->method = strtolower($match[0]);
-                        }
+                            $this->query = $data['query'];
+                            $this->bind = $data['bind'];
 
-                        // prepare statement
-                        $smt = $this->___prepare($data['query']);
-                        
-                        // execute query
-                        $execute = $this->___execute($smt);
+                            // get query
+                            preg_match('/^(update|insert|delete|select)/i', trim($this->query), $match);
+
+                            if (isset($match[0]))
+                            {
+                                // add method
+                                $this->method = strtolower($match[0]);
+                            }
+
+                            // prepare statement
+                            try {
+                                $smt = $this->___prepare($data['query']);
+                                // execute query
+                                $execute = $this->___execute($smt);
+                            } catch (DatabaseException $e) {
+                            }
+
+
+                        }
                     }
                 }
             }

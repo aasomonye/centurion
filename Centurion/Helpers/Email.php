@@ -1,13 +1,16 @@
 <?php
 
 namespace Centurion\Helpers;
+
 use Messaging\Mail;
+use Centurion\Helpers\Query;
 
 class Email
 {
     private static $subject = '';
     private static $from = 'noreply@centurion.com.ng';
     private static $mailBody = '';
+    public  static $userid = 0;
 
     // get template abstraction
     public static function getTemplate(string $name, array $config)
@@ -60,6 +63,16 @@ class Email
         }
 
         // send mail
-        return $mail->send();
+        $sendMail = $mail->send();
+ 
+        if ($sendMail && self::$userid != 0)
+        {
+            Query::logMessageToDatabase([
+                'userid' => self::$userid,
+                'message' => $body
+            ]);
+        }
+
+        return $sendMail;
     }
 }

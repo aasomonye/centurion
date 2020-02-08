@@ -1,9 +1,10 @@
 <?php
-
+/** @noinspection All */
 namespace Moorexa;
 
 use Moorexa\Template;
 use utility\Classes\BootMgr\Manager as BootMgr;
+
 /**
  *
  * @package Moorexa App Views
@@ -101,7 +102,6 @@ class View extends Bootloader
 	 *
 	 * @return void
 	 * @author joesphi <www.joesphi.com>
-	 * @param  none
 	 *
 	 **/
 
@@ -131,6 +131,7 @@ class View extends Bootloader
 				self::$jsbinImport = [];
 				return $js;
 			}
+			return null;
 		});
 	}
 
@@ -393,7 +394,7 @@ class View extends Bootloader
 			$body = $this->jsbinImport($matches, $func, $filename, $body);
 
 			$body = preg_replace('/([\S]*?)(->)([\S]+)/', '$1.$3', $body);
-			$body = preg_replace('/([}|\)])(->)/', '$1.', $body);
+			$body = preg_replace('/([}|)])(->)/', '$1.', $body);
 			$body = preg_replace('/([\s|\S]{1})[$]([a-zA-Z_]+)/', '$1$2', $body);
 
 			preg_match_all('/([\S]*?)(->)([^\s|(|{|\[]+)/', $body, $ma);
@@ -427,6 +428,8 @@ class View extends Bootloader
 
 			return $body;
 		}
+
+		return null;
 	}
 
 	// manages jsbin import for direct access.
@@ -477,37 +480,24 @@ class View extends Bootloader
 						$valEnd = strrpos($val, ';');
 						$val = trim(substr($val, 0, $valEnd));
 
-						if (preg_match('/^(\$this->)/', $val))
-						{
-							$string = $chs->loadThis($val, $class);
-						}
-						else
-						{
-							if (is_string($val) && strlen($val) > 0 && $val[0] == '$')
-							{
-								$var = ltrim($val, '$');
 
-								if (isset(Controller::$dropbox[$var]))
-								{
-									$string = Controller::$dropbox[$var];
-								}
-								else
-								{
-									$string = null;
-								}
-							}
-							else
-							{
-								if (preg_match('/([\S]*?)\s{0,}[\(]/', $val))
-								{
-									$string = $chs->loadFunc($val, $class);
-								}
-								else
-								{
-									$string = $val;
-								}
-							}
-						}
+                        if (is_string($val) && strlen($val) > 0 && $val[0] == '$')
+                        {
+                            $var = ltrim($val, '$');
+
+                            if (isset(Controller::$dropbox[$var]))
+                            {
+                                $string = Controller::$dropbox[$var];
+                            }
+                            else
+                            {
+                                $string = null;
+                            }
+                        }
+                        else
+                        {
+                            $string = $val;
+                        }
 
 						$data = null;
 
@@ -585,7 +575,7 @@ class View extends Bootloader
 				{
 					$content = file_get_contents($path);
 					$json = json_decode(trim($content));
-					$this->bundle = $json;
+					$this->bundle = is_null($json) ? (object) ['scripts' => [], 'stylesheet' => []] : $json;
 				}
 			}
 			
@@ -618,7 +608,7 @@ class View extends Bootloader
 				// check if custom/header.php is set to default.
 				if (file_exists($headerFile) && preg_match('/(@)\s{0}(setdefault)/m', file_get_contents($headerFile)) != true)
 				{
-					$headerFile = HOME . 'custom/header.html';
+					$headerFile = PATH_TO_TEMPLATES . 'header.html';
 				}
 
 				// get icon
@@ -638,8 +628,9 @@ class View extends Bootloader
 				{
 					// load css
 					$__css = $this->app_css($this->bundle->stylesheet);
+
 					// set header
-					$headerFile = PATH_TO_HELPER .'noheader.php';
+					$headerFile = PATH_TO_TEMPLATES .'noheader.html';
 				}
 			break;
 		}
@@ -674,7 +665,7 @@ class View extends Bootloader
 				// check if custom/header.php is set to default.
 				if (file_exists($footerFile) && preg_match('/(@)\s{0}(setdefault)/m', file_get_contents($footerFile)) != true)
 				{
-					$footerFile = HOME . 'custom/footer.html';
+					$footerFile = PATH_TO_TEMPLATES . 'footer.html';
 				}
 
 				// load template footer if set
@@ -697,7 +688,7 @@ class View extends Bootloader
 					// make js publicly availiable
 					Controller::$dropbox['__js'] = $__js;
 					// set footer
-					$footerFile = PATH_TO_HELPER .'nofooter.php';
+					$footerFile = PATH_TO_TEMPLATES .'nofooter.html';
 				}
 			break;
 		}
@@ -775,6 +766,7 @@ class View extends Bootloader
 
 		// here we can load subscribers.
 		// #code!
+        $viewpath = rtrim($viewpath, '/');
 
 		// lets check if view doesn't exists in path then create
 		if (!file_exists($viewpath) && is_dir($directory) && strlen($filename) > 1)
@@ -889,6 +881,7 @@ class View extends Bootloader
 						$this->loadBundle();
 
 						// get controller and view
+                        $controller = $view = null;
 						$this->system->system->unpackUrl($controller, $view);
 
 						// make provider avaliable
@@ -1056,7 +1049,7 @@ class View extends Bootloader
 								case true:
 									$error = env('error_codes', $render);
 									// include error file.
-									include_once PATH_TO_ERRORS."http_error.html";
+									include_once PATH_TO_TEMPLATES . "http_error.html";
 									// #clean up
 									$error = null;
 								break;
@@ -1871,10 +1864,7 @@ class View extends Bootloader
 					// create if it doesn't exists
 					if ($nameCopy[0] == '/')
 					{
-						if (!file_exists($nameCopy))
-						{
-							//var_dump($nameCopy);
-						}
+
 					}
 					else
 					{
@@ -1909,6 +1899,8 @@ class View extends Bootloader
 				}
 			}
 		}
+
+		return null;
 	}
 
 	// load partial as a directive
@@ -1978,6 +1970,7 @@ class View extends Bootloader
 			ob_clean();
 
 			File::write($arr, $path);
+
 			File::write($content, $savepath(str_replace('/', '', $name)));
 		};
 
@@ -2219,6 +2212,7 @@ class View extends Bootloader
 					if ($ref->hasMethod('__construct'))
 					{
 						// get arguments
+                        $const = [];
 						Bootloader::$instance->getParameters($class, '__construct', $const);
 						// create instance
 						$handler = $ref->newInstanceArgs($const);
@@ -2232,6 +2226,7 @@ class View extends Bootloader
 					{
 						$this->system->session->set('history.url', \get_query());
 
+						$const = [];
 						Bootloader::$instance->getParameters($handler, $method, $const, $params);
 
 						call_user_func_array([$handler, $method], $const);
@@ -2246,7 +2241,8 @@ class View extends Bootloader
 				else
 				{
 					$this->system->session->set('history.url', \get_query());
-					
+
+					$const = [];
 					Bootloader::$instance->getParameters($class, '__construct', $const, $params);
 
 					$ref = new \ReflectionClass($class);

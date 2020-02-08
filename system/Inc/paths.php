@@ -1,4 +1,6 @@
 <?php
+/** @noinspection ALL */
+
 namespace Moorexa;
 
 ob_start();
@@ -9,23 +11,51 @@ session_start();
 // include system path
 include_once 'sysPath.php';
 
-// Set custom paths
+/**
+ * extablish base path for root directory
+ */
 SysPath::init('HOME', 'root');
 
-// establish path
-SysPath::app('controller');
+/**
+ * extablish base path for lab directory
+ */
 SysPath::root('lab', 'lab');
-SysPath::root('components', 'components');
-SysPath::root('platform', 'platforms');
+
+/**
+ * extablish base path for components directory
+ */
+SysPath::root('components', 'component');
+
+/**
+ * extablish base path for platform directory
+ */
+SysPath::root('platform', 'platform');
+
+/**
+ * add path for folders in the components directory
+ */
 SysPath::components([
 	'partial' => 'Partials',
-	'directives' => 'Directives'
+	'directives' => 'Directives',
+    'templates' => 'Template'
 ]);
+
+/**
+ * add path for folders in the platform directory
+ */
 SysPath::platform([
 	'web_platform' => 'web',
 	'api_platform' => 'api'
 ]);
+
+/**
+ * extablish base path for kernel directory
+ */
 SysPath::kernel();
+
+/**
+ * add path for folders in the kernel directory
+ */
 SysPath::kernel([
 	'servicemanager' => 'Service-Manager',
 	'config' => 'Config',
@@ -33,8 +63,20 @@ SysPath::kernel([
 	'services' => 'Services',
 	'konsole' => 'Console'
 ]);
+
+/**
+ * extablish base path for public directory
+ */
 SysPath::public();
+
+/**
+ * extablish base path for utility directory
+ */
 SysPath::utility();
+
+/**
+ * add path for folders in the public directory
+ */
 SysPath::public([
 	'helper' => 'Helper',
 	'errors' => 'Errors',
@@ -44,6 +86,15 @@ SysPath::public([
 	'media' => 'Assets/Media',
 	'image' => 'Assets/Images'
 ]);
+
+/**
+ * extablish base path for system directory
+ */
+SysPath::system();
+
+/**
+ * add path for folders in the system directory
+ */
 SysPath::system([
 	'db'   => 'DB',
 	'inc'  => 'Inc',
@@ -52,6 +103,10 @@ SysPath::system([
 	'abstract' => 'Abstract',
 	'interface' => 'Interface',
 ]);
+
+/**
+ * add path for folders in the utility directory
+ */
 SysPath::utility([
 	'exceptions' => 'Exceptions',
 	'plugin' => 'Plugins',

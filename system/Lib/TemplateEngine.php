@@ -1,5 +1,5 @@
 <?php
-
+/** @noinspection All */
 namespace Moorexa;
 
 use Moorexa\View;
@@ -169,15 +169,16 @@ class TemplateEngine
                             $right = $statement[1];
 
                             $vars = '{'.$right.'}';
+                            $templateEngine = $this;
                             $this->stringHasVars($vars, $templateEngine, true);
 
                             $val = null;
                             $key = null;
 
                             $exp = explode(',', $left);
-                            foreach($exp as $i => $k)
+                            foreach($exp as $ix => $k)
                             {
-                                $exp[$i] = trim($k);
+                                $exp[$ix] = trim($k);
                             }
 
                             if (count($exp) == 2)
@@ -405,7 +406,7 @@ class TemplateEngine
                 $eq = ltrim($eq, '/');
                 $other = null;
 
-                $eq = preg_replace("/[\{]|[\}]/", '', $eq);
+                $eq = preg_replace("/[{]|[}]/", '', $eq);
 
                 $eq = '"'.$eq.'"';
 
@@ -478,7 +479,7 @@ class TemplateEngine
                 $eq = preg_replace('/[\'|"]/', '', $eq);
                 $other = null;
 
-                $eq = preg_replace("/[\{]|[\}]/", '', $eq);
+                $eq = preg_replace("/[{]|[}]/", '', $eq);
 
                 $eq = '"'.$eq.'"';
 
@@ -505,7 +506,7 @@ class TemplateEngine
                 $eq = preg_replace('/[\'|"]/', '', $eq);
                 $other = null;
 
-                $eq = preg_replace("/[\{]|[\}]/", '', $eq);
+                $eq = preg_replace("/[{]|[}]/", '', $eq);
 
                 $eq = '"'.$eq.'"';
 
@@ -529,7 +530,7 @@ class TemplateEngine
                 $eq = preg_replace('/[\'|"]/', '', $eq);
                 $other = null;
 
-                $eq = preg_replace("/[\{]|[\}]/", '', $eq);
+                $eq = preg_replace("/[{]|[}]/", '', $eq);
 
                 $eq = '"'.$eq.'"';
 
@@ -551,7 +552,7 @@ class TemplateEngine
                 $eq = preg_replace('/[\'|"]/', '', $eq);
                 $other = null;
 
-                $eq = preg_replace("/[\{]|[\}]/", '', $eq);
+                $eq = preg_replace("/[{]|[}]/", '', $eq);
 
                 $eq = '"'.$eq.'"';
 
@@ -598,7 +599,7 @@ class TemplateEngine
                 {
                     $replace = $data;
                     $var = $matches[4][$index];
-                    $var = preg_replace("/[\{]|[\}]/",'', $var);
+                    $var = preg_replace("/[{]|[}]/",'', $var);
                     $var = '"'.$var.'"';
                     $imgStyle = "background-image:url('<?=\$assets->image($var)?>')";
                     preg_match('/(\$background-image)\s{0,}[=][\'|"]([^\'|"]+)[\'|"]/', $data, $attribute);
@@ -665,6 +666,7 @@ class TemplateEngine
 
                         if (preg_match('/^(\$this->)/', $m))
                         {
+                            $_var = null;
                             $string = $this->loadThis($m, $templateEngine, '$this->', $_var);
 
                             if (!method_exists($templateEngine, $_var) && !property_exists($templateEngine, $_var))
@@ -931,10 +933,6 @@ class TemplateEngine
         $html = strstr($html, $tag);
         $html = substr($html, strlen($tag));
 
-        if ($tagName == 'input')
-        {
-            //var_dump($html);
-        }
 
         $replace = [];
         //$html = preg_replace("/(<\s*\w.*\s*\"?\s*([\w\s%#\/\.;:_-]*)\s*\"?.*>)/", "<>\n".'$1', $html);
@@ -1142,7 +1140,7 @@ class TemplateEngine
 
         // add style tag
         $this->addStyle();
-        $this->interpolateContent = str_replace('$this->', '$thisModel->', $this->interpolateContent);
+        $this->interpolateContent = str_replace('$this', '(\Moorexa\Bootloader::$currentClass)', $this->interpolateContent);
         $interpolated = $this->interpolateContent;
 
         return $interpolated;
@@ -1178,7 +1176,7 @@ class TemplateEngine
                     $m = rtrim($m, '}}');
                     $m = trim($m);
                     
-                    if (preg_match("/^(([\$][\S]+)|([\S]*?[\(]))/", $m))
+                    if (preg_match("/^(([\$][\S]+)|([\S]*?[(]))/", $m))
                     {
                         $type = '=';
 
@@ -1193,17 +1191,9 @@ class TemplateEngine
 
                     //$th->convertShortcuts($data, $templateEngine);
                 }
-                else
-                {
-                    //$th->convertShortcuts($data, $templateEngine);
-                }
             }
 
             //$th->convertShortcuts($data, $templateEngine);
-        }
-        else
-        {
-            //$th->convertShortcuts($data);
         }
 
         $data = $th->interpolateContent;

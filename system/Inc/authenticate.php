@@ -19,6 +19,8 @@ class Authenticate
 	private static $allhandlers = [];
 	protected $defaultTimeZone = null;
 	private $disallow = false;
+	private static $configuration = [];
+	private $tableAuthID = 0;
 
 	public function __construct()
 	{
@@ -481,4 +483,57 @@ class Authenticate
 		}
 	}
 	
+	public static function setID(int $tableID)
+	{
+		$instance = boot()->get(Authenticate::class);
+		$instance->tableAuthID = $tableID;
+
+		return $instance;
+	}
+
+	public function setMethod(array $configuration)
+	{
+		self::$configuration[$this->tableAuthID] = $configuration;
+		
+		return $this;
+	}
+
+	public static function __callStatic(string $method, array $argument)
+	{
+		// get configuration
+		$configuration = self::$configuration;
+		
+		if (count($configuration) > 0)
+		{
+			// check for method
+			foreach ($configuration as $tableID => $methods)
+			{
+				// check now
+				if (isset($methods[$method]))
+				{
+					// get return value
+					$returnValue = $methods[$method];
+
+					// check what value contains
+					if (!is_null($returnValue) && is_callable($returnValue))
+					{
+						return call_user_func($returnValue);
+					}
+
+					if (is_string($returnValue))
+					{
+						if ($method == 'id')
+						{
+							return $tableID;
+						}
+
+						// check for other entries
+						$record = db($returnValue)->get()->primary($tableID);
+
+						return $record;
+					}
+				}
+			}
+		}
+	}
 }

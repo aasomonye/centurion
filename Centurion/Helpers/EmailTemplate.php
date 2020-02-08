@@ -8,7 +8,8 @@ class EmailTemplate
         '{name}' => 'Customer full name',
         '{ipaddress}' => 'Customer ip address',
         '{link}' => 'URl for action button',
-        '{date}' => 'full date like "23rd dec 2020"'
+        '{date}' => 'full date like "23rd dec 2020"',
+        '{year}' => 'current year'
     ];
 
     // stylesheet used

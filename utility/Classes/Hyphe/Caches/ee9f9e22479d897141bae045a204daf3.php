@@ -6,7 +6,6 @@
 	public function render()
 	{
 	
-
 		$assets = $this->loadAssets();
 	?>
 	
@@ -27,8 +26,10 @@
 					
 			
 					<div class="col-md-6 col-xs-12 has-bg-form-area">
+				
 						<div class="has-bg-content">
 							<div class="form-container">
+								<?=\Moorexa\Rexa::runDirective(true,'alert')?>
 								<form action="" method="POST">
 									<?=\Moorexa\Rexa::runDirective(true,'csrf')?>
 									<?=$this->props->children?>
@@ -51,6 +52,6 @@
 
 	public static function ___cacheData()
 	{
-	  return "64e5918d4259e396f4fbe3cf83837449";
+	  return "4647e95ecd575db6662b0b45b880bab4";
 	}
 	}

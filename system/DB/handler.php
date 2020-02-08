@@ -1,6 +1,7 @@
 <?php
-
+/** @noinspection All */
 namespace Moorexa;
+use Exceptions\Database\DatabaseException;
 use utility\Classes\BootMgr\Manager as BootMgr;
 /**
  *
@@ -309,7 +310,7 @@ class DatabaseHandler extends Main
 		}
 
 		// create connection or serve existing
-		switch (!isset(self::$connection[$source]) || $continue == true)
+		switch (!isset(self::$connection[$source]))
 		{
 			// create new connection
 			case true:
@@ -354,7 +355,7 @@ class DatabaseHandler extends Main
 						// set current connection
 						self::$connectWith = $source;
 						// manage dsn
-						preg_match_all('/[\{]\s{0}(\w{1,}\s{0})\s{0}[\}]/', $dsn, $matches);
+						preg_match_all('/[{]\s{0}(\w{1,}\s{0})\s{0}[}]/', $dsn, $matches);
 						// walk
 						array_walk($matches[1], function($val) use (&$dsn, &$settings)
 						{
@@ -371,6 +372,16 @@ class DatabaseHandler extends Main
 							{
 								$socks = shell_exec('netstat -ln | grep '.$settings['driver']);
 								$socks = trim(substr($socks, strpos($socks, '/')));
+
+								if (strlen($socks) > 3)
+                                {
+                                    $sockspos = strpos($socks, '.sock');
+                                    if ($sockspos !== false)
+                                    {
+                                        $socks = substr($socks, 0, $sockspos) . '.sock';
+                                    }
+								}
+								
 								if (mb_strlen($socks) > 1)
 								{
 									$dsn .= ';unix_socket='.$socks;
@@ -403,40 +414,50 @@ class DatabaseHandler extends Main
 
 						try
 						{
-							// make connection
-							switch ($handler)
+							if (!isset(self::$connection[$source]))
 							{
-								// pdo
-								case 'pdo':
-									$obj = new \PDO($dsn, $settings['user'], $settings['password']);
-									// set attributes
-									if ($useAttribute)
-									{
-										array_walk($options, function($val, $attr) use (&$obj){
-											$obj->setAttribute($attr, $val);
-										});
-									}
-								break;
+								// make connection
+								switch ($handler)
+								{
+									// pdo
+									case 'pdo':
+										
+										$obj = new \PDO($dsn, $settings['user'], $settings['password']);
 
-								// mysql
-								case 'mysql':
-								case 'mysqli':
-									$obj = new \mysqli($settings['host'], $settings['user'], $settings['password'], $settings['dbname']);
-									// error occured?
-									if ($obj->connect_error)
-									{
-										throw new \Exceptions\Database\DatabaseException("Error Connecting to database.");
-									}
+										// set attributes
+										if ($useAttribute)
+										{
+											array_walk($options, function($val, $attr) use (&$obj){
+												$obj->setAttribute($attr, $val);
+											});
+										}
+										
+									break;
+
+									// mysql
+									case 'mysql':
+									case 'mysqli':
+										$obj = new \mysqli($settings['host'], $settings['user'], $settings['password'], $settings['dbname']);
+										// error occured?
+										if ($obj->connect_error)
+										{
+											throw new \Exceptions\Database\DatabaseException("Error Connecting to database.");
+										}
+										
+										mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+										$obj->set_charset($settings['charset']);
+									break;
+								}
+
+								// save connection and return handle
+								self::$active[$settings['driver']] = $obj;
 									
-									mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-									$obj->set_charset($settings['charset']);
-								break;
+								self::$connection[$source] = $obj;
 							}
-
-							// save connection and return handle
-							self::$active[$settings['driver']] = $obj;
-								
-							self::$connection[$source] = $obj;
+							else
+							{
+								$obj = self::$connection[$source];
+							}
 
 							// connection created. create connection called
 							BootMgr::method(DatabaseHandler::class . '@createConnection', null);
@@ -460,13 +481,15 @@ class DatabaseHandler extends Main
 			case false:
 			    return self::$connection[$source];
 		}
+
+		return null;
 	}
 
 	// return active connection
 	public static function active($con = false)
-	{	
-		return self::createConnection( $con, Bootloader::getProtected('_vars'));
-	}
+	{
+        return self::createConnection($con, Bootloader::getProtected('_vars'));
+    }
 
 	// return configuration settings
 	public static function connectionConfig($source, $return = null)

@@ -62,6 +62,7 @@ class InputData
             array_unshift($url, $createRules);
 
             // get parameters
+            $const = [];
             Bootloader::$instance->getParameters($classObject, $method, $const, $url);
 
             // call method
@@ -235,7 +236,7 @@ class InputData
                         }
 
                         $error = [];
-                        
+
                         $isValid = $validator->validate([$key => $config['rule']], $error);
 
                         // is valid ?
@@ -347,20 +348,17 @@ class InputData
         {
             $this->__rules__[$name]['value'] = $val;
 
-            // revalidate and remove from required
+            // re validate and remove from required
             $this->revalidate($name, $val);
         }
         else
         {
-            if ($this->usingRule)
-            {
-                // set new.
-                $this->__rules__[$name]['value'] = $val;
-                $this->__rules__[$name]['rule'] = null;
+            // set new.
+            $this->__rules__[$name]['value'] = $val;
+            $this->__rules__[$name]['rule'] = null;
 
-                // revalidate and remove from required
-                $this->revalidate($name, $val);
-            }
+            // re validate and remove from required
+            $this->revalidate($name, $val);
         }
     }
 
@@ -369,7 +367,7 @@ class InputData
     {
         if ($meth == 'has')
         {
-            return $this->_has($args[0]);
+            return $this->_has($arg[0]);
         }
         elseif (isset($this->__rules__[$meth]))
         {
@@ -379,10 +377,10 @@ class InputData
             }
             else
             {
-                $this->__rules__[$meth]['value'] = $args[0];
+                $this->__rules__[$meth]['value'] = $arg[0];
 
-                // revalidate and remove from required
-                $this->revalidate($meth, $args[0]);
+                // re validate and remove from required
+                $this->revalidate($meth, $arg[0]);
             }
 
             return $this;
@@ -404,7 +402,7 @@ class InputData
         }
     }
 
-    // revalidate
+    // re validate
     public function revalidate($key, $val)
     {
         // get rule
@@ -479,7 +477,7 @@ class InputData
     {
         $rules = $this->__rules__;
         $data = null;
-        
+
         if (count($rules) > 0)
         {
             if ($key === null)
@@ -716,7 +714,7 @@ class InputData
 
         // create class alias
         class_alias(get_class($createRule), 'Moorexa\InputData\Rule');
-        
+
         return $createRule;
     }
 
@@ -750,7 +748,7 @@ class InputData
             $method = 'set'.$name;
 
             if (method_exists($objNew, $method))
-            { 
+            {
                 $createRules = $this->createRule($objNew);
 
                 $url = \ApiManager::$getUrl;
@@ -950,7 +948,7 @@ class InputData
 
     // set errors
     public function setErrors($data)
-    {   
+    {
         $data = is_object($data) ? toArray($data) : $data;
         $method = $_SERVER['REQUEST_METHOD'];
 
@@ -971,7 +969,7 @@ class InputData
     // is passed
     public function isPassed($var, $flags, &$errors)
     {
-        
+
         if (!is_object($var) && !is_array($var))
         {
             // set data
@@ -1000,14 +998,14 @@ class InputData
 
                         $data = [];
                         $data[] = $var;
-                        $data[] = $post;
+                        $data[] = boot()->get('Moorexa\HttpPost');
                         $data[] = &$value;
 
                         call_user_func_array($this->onSuccessBox[$var], $data);
 
                         if (strlen($value) > 0)
                         {
-                            $this->__rules__[$var]['value'] = $value;   
+                            $this->__rules__[$var]['value'] = $value;
                         }
                     }
                 }
@@ -1025,7 +1023,7 @@ class InputData
     // on success
     public function onSuccess($rules, $callback)
     {
-        $rules = array_keys($rules); 
+        $rules = array_keys($rules);
 
         // get last
         if (count($rules) > 0)
@@ -1091,7 +1089,7 @@ class InputData
             {
                 return $array[$name];
             }
-            
+
             return "Key '$name' not found.";
         }
 

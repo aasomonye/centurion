@@ -149,7 +149,7 @@ class Config
     // load boot
     public static function loadBoot()
     {
-        Boot::called('Moorexa\UrlConfig', function()
+        Boot::called('Moorexa\Bootloader', function()
         {
             // register prefix
             DB::registerPrefix('Zema_');

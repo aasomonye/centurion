@@ -106,6 +106,153 @@ return array (
         ),
       ),
     ),
+    'Centurion_email_templates' => 
+    array (
+      '4cd261cbd026483f1622375c36f176cddb2fd2a49d4ef7672aa2f1f2252e008cd83d177f' => 
+      array (
+        'query' => 'INSERT INTO Centurion_email_templates (lockid,template_name,template_body) VALUES (:lockid0,:template_name0,:template_body0)',
+        'bind' => 
+        array (
+          'lockid0' => '4',
+          'template_name0' => 'onboarding',
+          'template_body0' => '<div class="template-wrapper">
+	<div class="template-body">
+		<h1>Welcome Onboard</h1>
+		<p>Hello <b>{name},</b> we are happy to have you on board and we look forward to your satisfaction and happiness. So what’s next? Your account has a pending confirmation. Click on the button below to confirm your account.</p>
+		<div class="template-button">
+			<a href="{link}" target="_blank">Confirm my account</a>
+		</div>
+
+		<div class="template-footer">
+			<ul>
+				<li><a href="">About us</a></li>
+				<li><a href="">Properties</a></li>
+				<li><a href="">Car rental</a></li>
+				<li><a href="">Become a partner</a></li>
+				<li><a href="">Trust & Safety</a></li>
+				<li><a href="">Best price</a></li>
+			</ul>
+			<span class="template-footer-text">
+				© {year} Centurion Apartments Limited. All Rights Reserved. <br> No 30, Wuse Zone 4, Abuja Ciry, Nigeria 
+			</span>
+
+			<span class="template-footer-small-text">
+				You are receiving this email because you signed up for a Centurion account. If you no longer wish to receive these emails, please <a href="">unsubscribe here</a>
+			</span>
+		</div>
+	</div>
+</div>',
+        ),
+      ),
+      '4cd261cbd026483f1622375c36f176cde709b9aac600eb69af81b78cbedd00eeeedd7341' => 
+      array (
+        'query' => 'INSERT INTO Centurion_email_templates (lockid,template_name,template_body) VALUES (:lockid0,:template_name0,:template_body0)',
+        'bind' => 
+        array (
+          'lockid0' => '4',
+          'template_name0' => 'resend activation',
+          'template_body0' => '<div class="template-wrapper">
+	<div class="template-body">
+		<h1>Account Activation</h1>
+		<p>Hi there, you are just one step away from unlocking all the amazing features for your account. Confirming your account would allow you make bookings,reservations and much more. Why wait?</p>
+		<div class="template-button">
+			<a href="{link}" target="_blank">Confirm my account</a>
+		</div>
+
+		<div class="template-footer">
+			<ul>
+				<li><a href="">About us</a></li>
+				<li><a href="">Properties</a></li>
+				<li><a href="">Car rental</a></li>
+				<li><a href="">Become a partner</a></li>
+				<li><a href="">Trust & Safety</a></li>
+				<li><a href="">Best price</a></li>
+			</ul>
+			<span class="template-footer-text">
+				© {year} Centurion Apartments Limited. All Rights Reserved. <br> No 30, Wuse Zone 4, Abuja Ciry, Nigeria 
+			</span>
+
+			<span class="template-footer-small-text">
+				You are receiving this email because you signed up for a Centurion account. If you no longer wish to receive these emails, please <a href="">unsubscribe here</a>
+			</span>
+		</div>
+	</div>
+</div>',
+        ),
+      ),
+      '4cd261cbd026483f1622375c36f176cd964138b8b76ae445f043e3da71f661afeeb62d0e' => 
+      array (
+        'query' => 'INSERT INTO Centurion_email_templates (lockid,template_name,template_body) VALUES (:lockid0,:template_name0,:template_body0)',
+        'bind' => 
+        array (
+          'lockid0' => '4',
+          'template_name0' => 'confirmation complete',
+          'template_body0' => '<div class="template-wrapper">
+	<div class="template-body">
+		<h1>Confirmation Complete</h1>
+		<p>Hello <b>{name},</b> we are happy you made it! We look forward to your satisfaction and happiness. So what’s next? Explore our top destinations, properties and cars for rentals. Click on the button below to proceed.</p>
+		<div class="template-button">
+			<a href="{link}" target="_blank">My account</a>
+		</div>
+
+		<div class="template-footer">
+			<ul>
+				<li><a href="">About us</a></li>
+				<li><a href="">Properties</a></li>
+				<li><a href="">Car rental</a></li>
+				<li><a href="">Become a partner</a></li>
+				<li><a href="">Trust & Safety</a></li>
+				<li><a href="">Best price</a></li>
+			</ul>
+			<span class="template-footer-text">
+				© {year} Centurion Apartments Limited. All Rights Reserved. <br> No 30, Wuse Zone 4, Abuja Ciry, Nigeria 
+			</span>
+
+			<span class="template-footer-small-text">
+				You are receiving this email because you signed up for a Centurion account. If you no longer wish to receive these emails, please <a href="">unsubscribe here</a>
+			</span>
+		</div>
+	</div>
+</div>',
+        ),
+      ),
+      '4cd261cbd026483f1622375c36f176cd140aed04c90123660d44a57f5066733c18a63648' => 
+      array (
+        'query' => 'INSERT INTO Centurion_email_templates (lockid,template_name,template_body) VALUES (:lockid0,:template_name0,:template_body0)',
+        'bind' => 
+        array (
+          'lockid0' => '2',
+          'template_name0' => 'password reset',
+          'template_body0' => '<div class="template-wrapper">
+	<div class="template-body">
+		<h1>Password Recovery</h1>
+		<p>Hi there, a password reset was initiated on your account on the {date} with this IP address {ipaddress}.  Please ignore this if it wasn’t you, or proceed with this request by clicking on the button below if it was you</p>
+		<div class="template-button">
+			<a href="{link}" target="_blank">Reset my password</a>
+		</div>
+
+		<div class="template-footer">
+			<ul>
+				<li><a href="">About us</a></li>
+				<li><a href="">Properties</a></li>
+				<li><a href="">Car rental</a></li>
+				<li><a href="">Become a partner</a></li>
+				<li><a href="">Trust & Safety</a></li>
+				<li><a href="">Best price</a></li>
+			</ul>
+			<span class="template-footer-text">
+				© {year} Centurion Apartments Limited. All Rights Reserved. <br> No 30, Wuse Zone 4, Abuja Ciry, Nigeria 
+			</span>
+
+			<span class="template-footer-small-text">
+				You are receiving this email because you signed up for a Centurion account. If you no longer wish to receive these emails, please <a href="">unsubscribe here</a>
+			</span>
+		</div>
+	</div>
+</div>',
+        ),
+      ),
+    ),
   ),
 );
 

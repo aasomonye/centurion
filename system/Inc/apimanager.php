@@ -1,9 +1,10 @@
 <?php
-
+/** @noinspection All */
 use Moorexa\Bootloader;
 use Moorexa\DB;
 use Moorexa\Event;
 use WekiWork\Http;
+use Moorexa\Middleware;
 
 /**
  * @package Moorexa API Manager
@@ -194,7 +195,9 @@ class ApiManager
 	}
 
 	// serve api request
-	public static function serve($sys)
+
+    /** @noinspection PhpUndefinedMethodInspection */
+    public static function serve($sys)
 	{
 		// set default content type
 		header('Content-Type: Application/json');
@@ -252,7 +255,7 @@ class ApiManager
 			include_once PATH_TO_API_PLATFORM . 'autoloader.php';
 
 			//read api handler
-			$handler = ucfirst($handler);
+			$className = '\Api\\' . ucfirst($handler);
 
 			// handler not found
 			$handlerNotFound = true;
@@ -261,7 +264,7 @@ class ApiManager
 			if (file_exists($apiPath))
 			{
 				// get bootloader instance
-				$instance = Moorexa\Bootloader::$instance;
+				$instance = boot()->get(Moorexa\Bootloader::class);
 
 				// define path
 				self::definePaths();
@@ -270,7 +273,7 @@ class ApiManager
 				include_once $apiPath;
 
 				// check if class exists with handler name
-				if (class_exists($handler))
+				if (class_exists($className))
 				{
 					// reset handler
 					$handlerNotFound = false;
@@ -279,10 +282,13 @@ class ApiManager
 					$const = [];
 
 					// get constructor params
-					$instance->getParameters($handler, '__construct', $const, $getUrl);
-					$ref = new \ReflectionClass($handler);
-					
-					// create an instance of api handler.
+					$instance->getParameters($className, '__construct', $const, $getUrl);
+                    try {
+                        $ref = new \ReflectionClass($className);
+                    } catch (ReflectionException $e) {
+                    }
+
+                    // create an instance of api handler.
 					$class = $ref->newInstanceArgs($const);
 
 					// build request for view
@@ -388,6 +394,7 @@ class ApiManager
 							{
 								case true:
 									// get params
+                                    $arg = [];
 									$instance->getParameters($class->provider, $meth.'DidEnter', $arg, $const);
 
 									// call method
@@ -500,7 +507,7 @@ class ApiManager
 		include_once $path;
 
 		// get class.
-		$providerClass = $handler.'Provider';
+		$providerClass = '\Api\\' . $handler.'Provider';
 
 		// check if class exists.
 		if (class_exists($providerClass))
@@ -524,6 +531,7 @@ class ApiManager
 				array_unshift($copy, $next);
 
 				// get arguments.
+                $const = [];
 				Bootloader::$instance->getParameters($class->provider, 'boot', $const, $copy);
 				
 				// call boot method
@@ -542,7 +550,7 @@ class ApiManager
 					include_once $path;
 					
 					// call viewWillLoad method if class exists.
-					$providerClass = $handler.ucfirst($request).'Provider';
+					$providerClass = '\Api\\' . $handler.ucfirst($request).'Provider';
 
 					// check if class exists
 					if (class_exists ($providerClass))
@@ -554,6 +562,7 @@ class ApiManager
 						if ($ref->hasMethod('__construct'))
 						{
 							// get instance argument of constructor
+                            $const = [];
 							Bootloader::$instance->getParameters($providerClass, '__construct', $const, $arguments);
 							$class->provider = $ref->newInstanceArgs($const);
 						}
@@ -580,6 +589,7 @@ class ApiManager
 							array_unshift($arguments, $next);
 
 							// get parameters
+                            $const = [];
 							Bootloader::$instance->getParameters($class->provider, $meth.'WillEnter', $const, $arguments);
 							// call method
 							call_user_func_array([$class->provider, $meth.'WillEnter'], $const);
@@ -617,6 +627,7 @@ class ApiManager
 						array_unshift($arguments, $next);
 
 						// get arguments.
+                        $const = [];
 						Bootloader::$instance->getParameters($class->provider, $method, $const, $arguments);
 						
 						// call method
@@ -786,6 +797,8 @@ class ApiManager
 			$copy = self::$tables[$name];
 			return $copy;
 		}
+
+		return null;
 	}
 
 	// get last method chain

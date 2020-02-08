@@ -458,7 +458,7 @@ class Cms
             }
 
             // load init method
-            call_user_func('\Installations\Plugins\\'.$className.'\\'.$className.'::init');
+            //call_user_func('\Installations\Plugins\\'.$className.'\\'.$className.'::init');
         }
     }
 

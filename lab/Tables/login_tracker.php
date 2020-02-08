@@ -22,7 +22,6 @@ class Login_tracker
         $schema->alterStatement("COMMENT 'Login tracker for authenticated users.'");
 		$schema->alterStatement("MODIFY last_login varchar(100)     COMMENT 'The last time this user loggedin'");
 		$schema->alterStatement("MODIFY isloggedin tinyint   DEFAULT 0  COMMENT '1 = yes, 0 = no'");
-		$schema->alterStatement("ADD CONSTRAINT fk_login_tracker FOREIGN KEY ( authenticationid ) REFERENCES authentication( authenticationid ) ON DELETE NO ACTION ON UPDATE NO ACTION"); 
     }
 
     // drop table

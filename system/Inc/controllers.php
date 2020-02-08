@@ -2212,6 +2212,29 @@ if (!class_exists('Moorexa\Controller'))
 			{
 				$return = Model::$http_raw_data[$action];
 
+				if (is_object($return))
+				{
+					$className = get_class($return);
+
+					if (strpos($className, 'class@anonymous') !== false)
+					{
+						// check for model
+						$modelPath = PATH_TO_INC . 'model.php';
+						$modelPath = ltrim($modelPath, HOME);
+
+						if (strpos($className, $modelPath) !== false)
+						{
+							$return = $return->properties;
+						}
+					}
+
+					if ($className == 'Moorexa\Model\Parameters')
+					{
+						// get properties
+						$return = $return->properties;
+					}
+				}
+
 				$args = !is_array($return) ? [$return] : $return;
 
 				if (is_callable($callback))
@@ -2224,6 +2247,7 @@ if (!class_exists('Moorexa\Controller'))
 
 			return false;
 		}
+
 
 		// fix js position
 		protected function fixJsPosition(string $javascript, array $configuration)

@@ -1,5 +1,5 @@
 <?php
-
+/** @noinspection All */
 namespace Moorexa;
 
 use utility\Classes\BootMgr\Manager as BootMgr;
@@ -198,14 +198,14 @@ class Route
 					$args = func_get_args();
 					$args = array_splice($args, 1);
 					// load arguments
+                    $const = [];
 					Bootloader::$instance->getParameters($instance, $method, $const, $args);
 					// load method
 					call_user_func_array([$instance, $method], $const);
 				}
-
-				// return instance
-				return $this;
 		}
+
+		return $this;
 	}
 
 	// prepare middleware for route.
@@ -274,6 +274,7 @@ class Route
 
 					if (BootMgr::$BOOTMODE[$request] == CAN_CONTINUE)
 					{
+					    $const = [];
 						Bootloader::$instance->getParameters($className, 'boot', $const, [Bootloader::$instance]);
 						BootMgr::methodGotCalled($request, call_user_func_array([$clas, 'boot'], $const));
 
@@ -371,6 +372,7 @@ class Route
 			if (BootMgr::$BOOTMODE[$request] == CAN_CONTINUE)
 			{
 				// call method
+                $const = [];
 				Bootloader::$instance->getParameters($handler, $method, $const);
 				BootMgr::methodGotCalled($request, call_user_func_array([$handler, $method], $const));
 			}
@@ -471,7 +473,7 @@ class Route
 					$uriReq = $uri[$index];
 					// replace {} with expression
 					// search for binding
-					if (preg_match_all('/([\{]([\S\s]*?)[\}])/', $req, $matches))
+					if (preg_match_all('/([{]([\S\s]*?)[}])/', $req, $matches))
 					{
 						// get bind
 						foreach ($matches[2] as $i => $bind)
@@ -511,8 +513,8 @@ class Route
 
 
 							// remove /( or /[ so we can make a proper regxp
-							$req = preg_replace('/[\/]\s{0}([\(|\[])/','$1', $req);
-							$req = preg_replace('/([\)|\]])\s{0}[\/]/','$1', $req);
+							$req = preg_replace('/[\/]\s{0}([(|\[])/','$1', $req);
+							$req = preg_replace('/([)|\]])\s{0}[\/]/','$1', $req);
 
 							// quote request
 							$quoteRequest = preg_replace('/(\\\{0}[\/])/','\/',$req);
@@ -565,7 +567,7 @@ class Route
 				$newParams = [];
 
 				// get names
-				array_walk($params, function($param, $index) use (&$newParams, $parameters)
+				array_walk($params, function(\ReflectionProperty $param, $index) use (&$newParams, $parameters)
 				{
 					$name = $param->getName();
 					if (isset($parameters[$name]))
@@ -620,11 +622,6 @@ class Route
 
 		Route::$lastMemory[] = [$path, $callback];
 
-		if (self::$servingThirdparty === false)
-		{
-			//self::thirdpartyLoader($path, $fullpath);
-		}
-
 		return self::$instance;
 
 	}	
@@ -632,7 +629,7 @@ class Route
 	// find binds from complex paths
 	public static function findBindInPath(&$path, &$regxpArray)
 	{
-		if (preg_match_all('/([\{]([a-zA-Z0-9_-]*?)[\}])/', $path, $matches1))
+		if (preg_match_all('/([{]([a-zA-Z0-9_-]*?)[}])/', $path, $matches1))
 		{
 			foreach ($matches1[2] as $index => $bind)
 			{
@@ -668,7 +665,7 @@ class Route
 				}
 
 				// check again and call if match
-				if (preg_match('/([\{]([a-zA-Z0-9_-]*?)[\}])/', $path))
+				if (preg_match('/([{]([a-zA-Z0-9_-]*?)[}])/', $path))
 				{
 					// call
 					self::findBindInPath($path, $regxpArray);
@@ -685,6 +682,7 @@ class Route
 				$arg[0]
 			);
 		}
+		return null;
 	}
 
 	public static function getParameters($arg, &$bind, $other = [])
@@ -844,6 +842,8 @@ class Route
 		array_pop(Route::$lastMemory);
 
 		Route::$caller[$name] = end($last);
+
+		return null;
 	}
 
 	// caller
@@ -873,6 +873,8 @@ class Route
 				return call_user_func_array('\Moorexa\Route::request', $args);
 			}	
 		}
+
+		return null;
 	}
 
 	// Any Request
@@ -949,6 +951,8 @@ class Route
 		{
 			return call_user_func($match);
 		}
+
+		return null;
 	}
 
 	// format arguments
@@ -1493,32 +1497,12 @@ class Route
 								}
 
 							}
-							else
-							{
-								// method not found
-							}
-						}
-						else
-						{
-							// no request sent.
 						}
 						
 						$package = null;
 						$method = null;
 					}
-					else
-					{
-						// class doesn't exists
-					}
 				}
-				else
-				{
-					// index file not found
-				}
-			}
-			else
-			{
-				// dir not found
 			}
 
 		}
@@ -1559,7 +1543,7 @@ class Route
 
 		$listener = \ApiManager::$listener;
 
-		if ($listener === false && is_callable($callback))
+		if (($listener === false || $listener === null) && is_callable($callback))
 		{
 			if (!defined('ASSIST_TOKEN'))
 			{

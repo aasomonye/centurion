@@ -16,8 +16,7 @@ class Mail_logger
 			loggerid             bigint  NOT NULL  AUTO_INCREMENT  PRIMARY KEY,
 			userid               bigint,
 			message              longtext,
-			datesent             datetime   DEFAULT CURRENT_TIMESTAMP,
-			CONSTRAINT unq_mail_logger_userid UNIQUE ( userid )
+			datesent             datetime   DEFAULT CURRENT_TIMESTAMP
 		");
          
     }

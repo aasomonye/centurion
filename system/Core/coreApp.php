@@ -1,5 +1,6 @@
 <?php
 
+/** @noinspection All */
 namespace Moorexa;
 
 use ApiManager;
@@ -9,8 +10,11 @@ use utility\Classes\BootMgr\Manager as BootMgr;
  * Bootloader class
  *
  * @package Moorexa Bootloader Application back-bone.
- * @author  Amadi Ifeanyi <www.wekiwork.com> 
- **/
+ * @author  Amadi Ifeanyi <www.wekiwork.com>
+ *
+ * @method __isonline()
+ * @method setdefaulturl(array $url)
+ */
 
 
 class Bootloader extends DatabaseHandler
@@ -128,6 +132,7 @@ class Bootloader extends DatabaseHandler
 		
 		$apiManager = BootMgr::singleton(\ApiManager::class, $config);
 
+        /** @noinspection PhpUndefinedConstantInspection */
 		if (BootMgr::$BOOTMODE[\ApiManager::class] == CAN_CONTINUE)
 		{
 			return $apiManager;
@@ -255,8 +260,7 @@ class Bootloader extends DatabaseHandler
 				}
 			}
 			else
-			{	
-				Adapter::$_config = $this->config;
+			{
 				$this->db_config = $this->config['db_config'];
 				$this->connect_with = $this->config['connect_with'];	
 			}
@@ -293,7 +297,6 @@ class Bootloader extends DatabaseHandler
 			{
 					$this->db_config = $this->config['db_config'];
 					$this->connect_with = $this->config['connect_with'];
-					Adapter::$_config = $this->config;
 					$this->golive = 1;	
 
 					$this->url = '';
@@ -327,8 +330,9 @@ class Bootloader extends DatabaseHandler
 	 * @method keepAlive
 	 * @return void
 	 * 
-	 * 
-	 */
+	 *
+     * @noinspection PhpUndefinedMethodInspection
+     */
 	final private function c_keepAlive()
 	{
 		Bootloader::$instance = $this; // set instance of bootloader.
@@ -342,7 +346,8 @@ class Bootloader extends DatabaseHandler
 		$this->boot['settings'] = BootMgr::singleton(UrlConfig::class);
 		$this->boot['url'] = null;
 
-		if (BootMgr::$BOOTMODE[UrlConfig::class] == CAN_CONTINUE)
+        /** @noinspection PhpUndefinedConstantInspection */
+        if (BootMgr::$BOOTMODE[UrlConfig::class] == CAN_CONTINUE)
 		{	
 			$this->boot['url'] = UrlConfig::$appurl;
 		}
@@ -494,35 +499,39 @@ class Bootloader extends DatabaseHandler
 	final static function extractVars($class)
 	{
 		// create new reflection class
-		$ref = new \ReflectionClass($class);
+        try {
+            $ref = new \ReflectionClass($class);
 
-		// get class name
-		$className = get_class($class);
+            // get class name
+            $className = get_class($class);
 
-		// get properties
-		$props = $ref->getProperties();
+            // get properties
+            $props = $ref->getProperties();
 
-		// ilterate props
-		array_walk($props, function($obj, $index) use (&$className, &$class){
-			
-			// check if declaring class is current class
-			if ($obj->getDeclaringClass()->getName() == $className)
-			{
-				// check if property is public
-				if ($obj->isPublic() && $obj->isDefault())
-				{
-					$class->loadModelNow = false;
+            // iterate props
+            array_walk($props, function(\ReflectionProperty $obj, $index) use (&$className, &$class){
 
-					// save in dropbox.
-					Controller::$dropbox[$obj->getName()] = $class->{$obj->getName()};
-				}
-			}
-		});
+                // check if declaring class is current class
+                if ($obj->getDeclaringClass()->getName() == $className)
+                {
+                    // check if property is public
+                    if ($obj->isPublic() && $obj->isDefault())
+                    {
+                        $class->loadModelNow = false;
 
-		// #clean up
-		$className = null;
-		$ref = null;
-		$props = null;
+                        // save in drop box.
+                        Controller::$dropbox[$obj->getName()] = $class->{$obj->getName()};
+                    }
+                }
+            });
+
+            // #clean up
+            $className = null;
+            $ref = null;
+            $props = null;
+
+        } catch (\ReflectionException $e) {
+        }
 	}
 
 	// redirected data
@@ -583,7 +592,7 @@ class Bootloader extends DatabaseHandler
 			$req = Bootloader::$pagePath;
 			$destination = explode('/', $session->get('__RedirectDataDestination'));
 
-			if (in_array($destination[0], $req))
+			if (is_array($destination[0]) && in_array($req, $destination[0]))
 			{
 				$session->drop('__RedirectDataDestination', '__RedirectDataSent');
 			}
@@ -591,182 +600,186 @@ class Bootloader extends DatabaseHandler
 	}
 
 	// get class method parameters
-	public function getParameters($object, $method, &$bind=null, $unset = false)
+    public function getParameters($object, $method, &$bind=null, $unset = false)
 	{
-		$ref = new \ReflectionClass($object);
-		
-		if ($ref->hasMethod($method))
-		{
-			$meth = $ref->getMethod($method);
-			$params = $meth->getParameters();
+        try {
+            $ref = new \ReflectionClass($object);
 
-			$all = $this->url;
+            if ($ref->hasMethod($method))
+            {
+                $meth = $ref->getMethod($method);
+                $params = $meth->getParameters();
 
-			if (is_array($all))
-			{
-				$url = array_splice($all, 2);
-			}
-			else
-			{
-				$url = [];
-			}
+                $all = $this->url;
 
-			if ($unset !== false)
-			{
-				if (is_array($unset))
-				{
-					$url = $unset;
-				}
-				else
-				{
-					if (is_array($url) && is_numeric($unset))
-					{
-						unset($url[$unset]);
-					}
-				}
-			}
+                if (is_array($all))
+                {
+                    $url = array_splice($all, 2);
+                }
+                else
+                {
+                    $url = [];
+                }
 
-			$ref = null;
-			$meth = null;
-			$newarr = [];
-		
-			if (count($params) > 0)
-			{
-				foreach ($params as $i => $obj)
-				{
-					$newarr[$i][] = $obj->name;
+                if ($unset !== false)
+                {
+                    if (is_array($unset))
+                    {
+                        $url = $unset;
+                    }
+                    else
+                    {
+                        if (is_array($url) && is_numeric($unset))
+                        {
+                            unset($url[$unset]);
+                        }
+                    }
+                }
 
-					$ref = new \ReflectionParameter([$object, $method], $i);
+                $ref = null;
+                $meth = null;
+                $newarr = [];
 
-					try
-					{
-						$class = $ref->getClass();
+                if (count($params) > 0)
+                {
+                    foreach ($params as $i => $obj)
+                    {
+                        $newarr[$i][] = $obj->name;
 
-						if (is_object($class))
-						{
-							$isAnonymous = strpos($class->name, 'class@anonymous') !== false ? true : false;
+                        $ref = new \ReflectionParameter([$object, $method], $i);
 
-							if ($isAnonymous)
-							{
-								// check for inputdata.php
-								$path = PATH_TO_INC . 'inputdata.php';
-								
-								if (strpos($class->name, $path) !== false)
-								{
-									$class = null;
-								}
-							}
-						}
+                        try
+                        {
+                            $class = $ref->getClass();
 
-						if ($class !== null && $class->name != 'Moorexa\InputData\Rule')
-						{
-							if ($class->isInstantiable())
-							{
-								$getclass = BootMgr::singleton($class->name);
+                            if (is_object($class))
+                            {
+                                $isAnonymous = strpos($class->name, 'class@anonymous') !== false ? true : false;
 
-								if ($class->name == Structure::class)
-								{
-									// reset data
-									$getclass->buildQuery = [];
-									$getclass->queryInfo = [];
-									$getclass->sqlString = '';
-									$getclass->sqljob = [];
-								}
+                                if ($isAnonymous)
+                                {
+                                    // check for inputdata.php
+                                    $path = PATH_TO_INC . 'inputdata.php';
 
-								if (is_subclass_of($getclass, '\Moorexa\ApiModel'))
-								{
-									// get rules
-									ApiModel::getSetRules($getclass);
-								}
+                                    if (strpos($class->name, $path) !== false)
+                                    {
+                                        $class = null;
+                                    }
+                                }
+                            }
 
-								$newarr[$i][] = $getclass;
-							}
-						}
-						else
-						{
-							if ($ref->isDefaultValueAvailable())
-							{
-								$val = $ref->getDefaultValue();
-								$newarr[$i][] = $val;
-							}
-						}
-					}
-					catch(Exception $e)
-					{
-						
-					}
+                            if ($class !== null && $class->name != 'Moorexa\InputData\Rule')
+                            {
+                                if ($class->isInstantiable())
+                                {
+                                    $getclass = BootMgr::singleton($class->name);
 
-					$ref = null; $val = null;
-				}
+                                    if ($class->name == Structure::class)
+                                    {
+                                        // reset data
+                                        $getclass->buildQuery = [];
+                                        $getclass->queryInfo = [];
+                                        $getclass->sqlString = '';
+                                        $getclass->sqljob = [];
+                                    }
 
-				$obj = null;
-			}
-			
-			$params = null;
-			
+                                    if (is_subclass_of($getclass, '\Moorexa\ApiModel'))
+                                    {
+                                        // get rules
+                                        ApiModel::getSetRules($getclass);
+                                    }
 
-			$pushed = [];
+                                    $newarr[$i][] = $getclass;
+                                }
+                            }
+                            else
+                            {
+                                if ($ref->isDefaultValueAvailable())
+                                {
+                                    $val = $ref->getDefaultValue();
+                                    $newarr[$i][] = $val;
+                                }
+                            }
+                        }
+                        catch(\Exception $e)
+                        {
 
-			foreach ($newarr as $i => $x)
-			{
-				if (isset($x[1]))
-				{
-					if (is_object($x[1]))
-					{
-						$pushed[$i] = $x[1];
-						unset($newarr[$i]);
-					}
-					else
-					{
-						$pushed[$i] = null;
-					}
-				}
-				else
-				{
-					$pushed[$i] = null;
-				}
-			}
+                        }
 
-			$values = array_values($newarr);
-			$index = 0;
+                        $ref = null; $val = null;
+                    }
 
-			foreach($pushed as $i => $val)
-			{
-				if ($val == null)
-				{
-					if (isset($values[$index]))
-					{
-						$x = isset($values[$index][1]) ? $values[$index][1] : null;
+                    $obj = null;
+                }
 
-						if (!is_null($x))
-						{
-							if (isset($url[$index]))
-							{
-								$pushed[$i] = $url[$index];
-							}
-							else
-							{
-								$pushed[$i] = $x;
-							}
-						}
-						else
-						{
-							if (isset($url[$index]))
-							{
-								$pushed[$i] = $url[$index];
-							}	
-						}
-					}
+                $params = null;
 
-					$index++;
-				}
-			}
 
-			$bind = $pushed;
-		}
+                $pushed = [];
 
-		$ref = null;
-		$bind = is_null($bind) ? [] : $bind;
+                foreach ($newarr as $i => $x)
+                {
+                    if (isset($x[1]))
+                    {
+                        if (is_object($x[1]))
+                        {
+                            $pushed[$i] = $x[1];
+                            unset($newarr[$i]);
+                        }
+                        else
+                        {
+                            $pushed[$i] = null;
+                        }
+                    }
+                    else
+                    {
+                        $pushed[$i] = null;
+                    }
+                }
+
+                $values = array_values($newarr);
+                $index = 0;
+
+                foreach($pushed as $i => $val)
+                {
+                    if ($val == null)
+                    {
+                        if (isset($values[$index]))
+                        {
+                            $x = isset($values[$index][1]) ? $values[$index][1] : null;
+
+                            if (!is_null($x))
+                            {
+                                if (isset($url[$index]))
+                                {
+                                    $pushed[$i] = $url[$index];
+                                }
+                                else
+                                {
+                                    $pushed[$i] = $x;
+                                }
+                            }
+                            else
+                            {
+                                if (isset($url[$index]))
+                                {
+                                    $pushed[$i] = $url[$index];
+                                }
+                            }
+                        }
+
+                        $index++;
+                    }
+                }
+
+                $bind = $pushed;
+            }
+
+            $ref = null;
+            $bind = is_null($bind) ? [] : $bind;
+
+        } catch (\ReflectionException $e) {
+        }
 		
 	}
 
@@ -797,8 +810,8 @@ class Bootloader extends DatabaseHandler
 	 * @return void
 	 * 
 	 * Satisfies routing request by a user.
-	 * @var $_URL reference var. would contain url path
-	 * @var $sys reference var. contains system class
+	 * @var $_URL . would contain url path
+	 * @var $sys . contains system class
 	 */
 	final private function c_currentPage(&$_URL = [], &$sys)
 	{
@@ -810,8 +823,10 @@ class Bootloader extends DatabaseHandler
 			// remove leading '/'
 			$uri = urldecode(ltrim($uri, '/'));
 
+			// parse our app uri. Get path
 			$parse = parse_url($uri);
 
+			// This would always be available if running development server.
 			if (isset($_SERVER['REQUEST_QUERY_STRING']))
 			{
 				$_GET['__app_request__'] = isset($parse['path']) ? $parse['path'] : '/';
@@ -995,16 +1010,16 @@ class Bootloader extends DatabaseHandler
 	}
 
 
-	/**
-	 * @method checkcontrollers
-	 * 
-	 * checks pages/, scans for available controllers then loads 
-	 * a controller that implements a requested view.
-	 * 
-	 * This method isn't always called. would be called if the default route fails,
-	 * 
-	 * @return url path or an empty string.
-	 */
+    /**
+     * @method checkcontrollers
+     *
+     * checks pages/, scans for available controllers then loads
+     * a controller that implements a requested view.
+     *
+     * This method isn't always called. would be called if the default route fails,
+     *
+     * @param $first
+     */
 	final private function c_checkcontrollers($first, &$refUrl, &$sys)
 	{
 		// vars
@@ -1141,6 +1156,8 @@ class Bootloader extends DatabaseHandler
 
 			return false;
 		}
+
+		return $bootstrapInfo;
 	}
 
 	// registry method
@@ -1163,18 +1180,21 @@ class Bootloader extends DatabaseHandler
 
 					if (class_exists($className))
 					{
-						$ref = new \ReflectionClass($className);
+                        try {
+                            $ref = new \ReflectionClass($className);
+                            if ($ref->hasMethod($meth))
+                            {
+                                $this->getParameters($className, $meth, $const, [&$this]);
 
-						if ($ref->hasMethod($meth))
-						{
-							$this->getParameters($className, $meth, $const, [&$this]);
+                                $clas = BootMgr::assign($className, $ref->newInstanceWithoutConstructor());
 
-							$clas = BootMgr::assign($className, $ref->newInstanceWithoutConstructor());
-							
-							BootMgr::method($className.'@'.$meth, call_user_func_array([$clas, $meth], $const));
+                                BootMgr::method($className.'@'.$meth, call_user_func_array([$clas, $meth], $const));
 
-							$clas = null;
-						}
+                                $clas = null;
+                            }
+                        } catch (\ReflectionException $e) {
+                        }
+
 					}
 				}
 				else
@@ -1188,28 +1208,30 @@ class Bootloader extends DatabaseHandler
 					
 					if (class_exists($className))
 					{
-						$ref = new \ReflectionClass($className);
+                        try {
+                            $ref = new \ReflectionClass($className);
+                            if ($ref->hasMethod('__construct'))
+                            {
+                                $this->getParameters($className, '__construct', $const, [&$this]);
+                                $clas = $ref->newInstanceArgs($const);
 
-						if ($ref->hasMethod('__construct'))
-						{
-							$this->getParameters($className, '__construct', $const, [&$this]);
-							$clas = $ref->newInstanceArgs($const);
+                                BootMgr::assign($className, $clas);
+                            }
+                            else
+                            {
+                                $clas = BootMgr::singleton($className);
+                            }
 
-							BootMgr::assign($className, $clas);
-						}
-						else
-						{
-							$clas = BootMgr::singleton($className);
-						}
+                            if ($ref->hasMethod('boot') && !isset(Route::$loadedProviders[$className]))
+                            {
+                                $this->getParameters($className, 'boot', $const, [&$this]);
 
-						if ($ref->hasMethod('boot') && !isset(Route::$loadedProviders[$className]))
-						{
-							$this->getParameters($className, 'boot', $const, [&$this]);
+                                BootMgr::method($className.'@boot', call_user_func_array([$clas, 'boot'], $const));
 
-							BootMgr::method($className.'@boot', call_user_func_array([$clas, 'boot'], $const));
-
-							$clas = null;
-						}
+                                $clas = null;
+                            }
+                        } catch (\ReflectionException $e) {
+                        }
 					}
 				}
 			}
@@ -1227,7 +1249,8 @@ class Bootloader extends DatabaseHandler
 			$auth = BootMgr::singleton(\Authenticate::class);
 		}
 
-		if (BootMgr::$BOOTMODE[\Authenticate::class] == CAN_CONTINUE)
+        /** @noinspection PhpUndefinedConstantInspection */
+        if (BootMgr::$BOOTMODE[\Authenticate::class] == CAN_CONTINUE)
 		{
 			// listen for load event
 			Event::on('authentication.load', function($routes) use (&$callback, &$auth){
@@ -1254,7 +1277,8 @@ class Bootloader extends DatabaseHandler
 					{
 						$ins = BootMgr::singleton($class, [], false);
 
-						if (BootMgr::$BOOTMODE[$class] == CAN_CONTINUE)
+                        /** @noinspection PhpUndefinedConstantInspection */
+                        if (BootMgr::$BOOTMODE[$class] == CAN_CONTINUE)
 						{
 							if (method_exists($ins, $view))
 							{
@@ -1293,14 +1317,14 @@ class Bootloader extends DatabaseHandler
 		SET::$shortcuts = $config;
 	}
 
-	/**
-	 * @method __call magic method
-	 * 
-	 * opens a gateway to private methods that cannot be directly called
-	 * through an instance or by a sub class.
-	 * 
-	 * @return void
-	 */
+    /**
+     * @method .__call() magic method
+     *
+     * opens a gateway to private methods that cannot be directly called
+     * through an instance or by a sub class.
+     *
+     * @throws \Exception
+     */
 	public function __call( $method, $params)
 	{
 		// @var $method := string
@@ -1415,7 +1439,7 @@ class Bootloader extends DatabaseHandler
 
 				$this->check = (object)[];
 				$this->check->cont = $params[0];
-				$this->c_checkcontrollers();
+				call_user_func_array([$this, 'c_checkcontrollers'], $params);
 
 			break;
 
@@ -1503,8 +1527,9 @@ class Bootloader extends DatabaseHandler
 					{
 						// inject directives
 						if (is_callable($next))
-						{	
-							if (BootMgr::$BOOTMODE[Directive::class] == CAN_CONTINUE)
+						{
+                            /** @noinspection PhpUndefinedConstantInspection */
+                            if (BootMgr::$BOOTMODE[Directive::class] == CAN_CONTINUE)
 							{
 								call_user_func($next, $directive);
 							}
@@ -1519,6 +1544,8 @@ class Bootloader extends DatabaseHandler
 		}
 
 		\env::$config_env[$method] = isset($params[0]) ? $params[0] : null;
+
+		return $this;
 	}
 	
 	// Handle how we set class properties
@@ -1559,5 +1586,7 @@ class Bootloader extends DatabaseHandler
 		{
 			return parent::$_vars;
 		}
+
+		return null;
 	}
 } 

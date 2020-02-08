@@ -1,0 +1,36 @@
+[2020-02-07 1:00 pm] Api Error: Call to a member function shortcuts() on boolean, on line <div>
+					<code>line: 3</code>
+				</div>, in <div>
+					<code>File: /Users/mac/Desktop/workspace/centurion/kernel/Extra/shortcuts.php</code>
+				</div>
+[2020-02-07 1:02 pm] Api Error: Non-static method utility\Classes\BootMgr\Manager::onLoad() should not be called statically, on line 177, in /Users/mac/Desktop/workspace/centurion/lab/Cms/Config.php
+[2020-02-07 1:02 pm] Api Error: Call to a member function shortcuts() on boolean, on line <div>
+					<code>line: 3</code>
+				</div>, in <div>
+					<code>File: /Users/mac/Desktop/workspace/centurion/kernel/Extra/shortcuts.php</code>
+				</div>
+[2020-02-07 1:02 pm] Api Error: Non-static method utility\Classes\BootMgr\Manager::onLoad() should not be called statically, on line 177, in /Users/mac/Desktop/workspace/centurion/lab/Cms/Config.php
+[2020-02-07 1:02 pm] Api Error: Call to a member function shortcuts() on boolean, on line <div>
+					<code>line: 3</code>
+				</div>, in <div>
+					<code>File: /Users/mac/Desktop/workspace/centurion/kernel/Extra/shortcuts.php</code>
+				</div>
+[2020-02-07 1:02 pm] Api Error: Non-static method utility\Classes\BootMgr\Manager::onLoad() should not be called statically, on line 179, in /Users/mac/Desktop/workspace/centurion/lab/Cms/Config.php
+[2020-02-07 1:02 pm] Api Error: Call to a member function shortcuts() on boolean, on line <div>
+					<code>line: 3</code>
+				</div>, in <div>
+					<code>File: /Users/mac/Desktop/workspace/centurion/kernel/Extra/shortcuts.php</code>
+				</div>
+[2020-02-07 1:03 pm] Api Error: Non-static method utility\Classes\BootMgr\Manager::onLoad() should not be called statically, on line 177, in /Users/mac/Desktop/workspace/centurion/lab/Cms/Config.php
+[2020-02-07 1:03 pm] Api Error: Call to a member function shortcuts() on boolean, on line <div>
+					<code>line: 3</code>
+				</div>, in <div>
+					<code>File: /Users/mac/Desktop/workspace/centurion/kernel/Extra/shortcuts.php</code>
+				</div>
+[2020-02-07 1:04 pm] Api Error: Non-static method utility\Classes\BootMgr\Manager::onLoad() should not be called statically, on line 177, in /Users/mac/Desktop/workspace/centurion/lab/Cms/Config.php
+[2020-02-07 1:04 pm] Api Error: Call to a member function shortcuts() on boolean, on line <div>
+					<code>line: 3</code>
+				</div>, in <div>
+					<code>File: /Users/mac/Desktop/workspace/centurion/kernel/Extra/shortcuts.php</code>
+				</div>
+[2020-02-07 1:04 pm] Api Error: Non-static method utility\Classes\BootMgr\Manager::onLoad() should not be called statically, on line 177, in /Users/mac/Desktop/workspace/centurion/lab/Cms/Config.php

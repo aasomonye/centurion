@@ -31,6 +31,7 @@ spl_autoload_register(function($class) use ($alias, $tables){
 		}
 	}
 
+
 	if ($canContinue)
 	{
 		$namespacing =& $alias;
@@ -150,200 +151,216 @@ spl_autoload_register(function($class) use ($alias, $tables){
 
 				$string = str_replace('\\', '/', $string);
 
-				if (class_exists('Moorexa\Bootloader'))
+
+				$shouldContinueChecking = true;
+
+				// add .php
+				$stringWithPhp = $string . '.php';
+
+				if (is_file($stringWithPhp) && file_exists($stringWithPhp))
 				{
-					$controller = isset(Moorexa\Bootloader::$helper['c_controller']) ? Moorexa\Bootloader::$helper['c_controller'] : "";
+					include_once($stringWithPhp);
+					return false;
+				}
 
-					if (strpos($string, 'Pages') == 0 || strpos($string, 'pages') == 0)
+
+				if ($shouldContinueChecking)
+				{
+					if (class_exists('Moorexa\Bootloader'))
 					{
-						$str2 = strtolower($string);
+						$controller = isset(Moorexa\Bootloader::$helper['c_controller']) ? Moorexa\Bootloader::$helper['c_controller'] : "";
 
-						if (strpos($str2, 'models') > 0)
+						if (strpos($string, 'Pages') == 0 || strpos($string, 'pages') == 0)
 						{
-							$uf = ucfirst($controller);
-							$rem = str_ireplace("Pages/{$controller}/Main/", "", $string);
+							$str2 = strtolower($string);
 
-							$arr = explode('/', $rem);
-
-							if (count($arr) > 0)
+							if (strpos($str2, 'models') > 0)
 							{
-								if ($arr[0] != 'Models')
-								{
-									$rem = 'Pages/' . implode('/', $arr);
-								}
-								else
-								{
-									$rem = 'Pages/'. $uf . '/' . implode('/', $arr);
-								}
+								$uf = ucfirst($controller);
+								$rem = str_ireplace("Pages/{$controller}/Main/", "", $string);
 
-								$string = $rem;
+								$arr = explode('/', $rem);
+
+								if (count($arr) > 0)
+								{
+									if ($arr[0] != 'Models')
+									{
+										$rem = 'Pages/' . implode('/', $arr);
+									}
+									else
+									{
+										$rem = 'Pages/'. $uf . '/' . implode('/', $arr);
+									}
+
+									$string = $rem;
+								}
 							}
-						}
 
-						if (strpos($str2, 'packages') === 0)
-						{
-							
-							$string = str_replace('\\', '/', $class);
-							
-							$exp = explode("/", $string);
-
-							$controller = strtolower($exp[1]);
-
-
-							if (is_dir(HOME . 'pages/'.$controller))
+							if (strpos($str2, 'packages') === 0)
 							{
-								unset($exp[1]);
+								
+								$string = str_replace('\\', '/', $class);
+								
+								$exp = explode("/", $string);
 
-								$string = HOME . 'pages/'.$controller.'/'.strtolower(implode('/', $exp));
+								$controller = strtolower($exp[1]);
+
+
+								if (is_dir(HOME . 'pages/'.$controller))
+								{
+									unset($exp[1]);
+
+									$string = HOME . 'pages/'.$controller.'/'.strtolower(implode('/', $exp));
+								}
 							}
-						}
 
-						if (strpos($str2, 'db') === 0)
-						{
-							$name = 'accounts';
-							$class = substr($str2,2);	
+							if (strpos($str2, 'db') === 0)
+							{
+								$name = 'accounts';
+								$class = substr($str2,2);	
+							}
 						}
 					}
-				}
-				
-				$toarr = explode('/', $string);
-
-				$mainClass = end($toarr);
-				array_pop($toarr);
-
-				$path = implode('/', $toarr);
 					
-				if (is_dir($path))
-				{
-					$_path = rtrim($path, '/') .'/'. $mainClass;
+					$toarr = explode('/', $string);
 
-					$match = [$mainClass . '.php', ucfirst($mainClass).'.php', strtoupper($mainClass).'.php', strtolower($mainClass).'.php'];
+					$mainClass = end($toarr);
+					array_pop($toarr);
 
-					$path = deepScan($path, $match);
-
-					if (file_exists($path))
+					$path = implode('/', $toarr);
+						
+					if (is_dir($path))
 					{
-						// save path
-						saveNamespaceInAutoloader($class, $path);
+						$_path = rtrim($path, '/') .'/'. $mainClass;
 
-						// include path
-						include_once ($path);
+						$match = [$mainClass . '.php', ucfirst($mainClass).'.php', strtoupper($mainClass).'.php', strtolower($mainClass).'.php'];
+
+						$path = deepScan($path, $match);
+
+						if (file_exists($path))
+						{
+							// save path
+							saveNamespaceInAutoloader($class, $path);
+
+							// include path
+							include_once ($path);
+						}
+						else
+						{
+							throw new \Exceptions\Autoloader\AutoloaderException($_path . ' could not be found! Failed to load file');
+						}
+
 					}
 					else
 					{
-						throw new \Exceptions\Autoloader\AutoloaderException($_path . ' could not be found! Failed to load file');
-					}
+						
+						$autoload = finder('autoloader');
 
-				}
-				else
-				{
-					
-					$autoload = finder('autoloader');
+						$continue = true;
 
-					$continue = true;
+						$newPath = null;
 
-					$newPath = null;
-
-					if (strlen($path) > 4)
-					{
-						$newPath = deepScan($path, $mainClass.'.php');
-					}
-
-					if (!is_null($newPath) && is_file($newPath))
-					{
-						// save path
-						saveNamespaceInAutoloader($class, strtolower($newPath));
-
-						// include path
-						include_once (strtolower($newPath));
-
-						$continue = false;
-					}
-					else
-					{
-						if (is_array($autoload))
+						if (strlen($path) > 4)
 						{
-							$file = basename($string);
-
-							foreach ($autoload as $d => $dir)
-							{
-								$dir = rtrim($dir, '/');
-								$dir = rtrim($dir, '/*');
-
-								$namespace = str_replace('\\','/',$class);
-								$namespace = explode('/', $namespace);
-								array_pop($namespace);
-
-								// get sub directory
-								$subdir = findDirectory(HOME . $dir . '/', $namespace);
-
-								// base dir
-								$basedir = $subdir !== null ? $subdir : HOME . $dir . '/';
-
-								// seek file
-								$seek = dig($basedir, $file . '.php');
-
-								if (strlen($seek) > 2 && file_exists($seek))
-								{
-									// save path
-									saveNamespaceInAutoloader($class, $seek);
-
-									// include path
-									include_once $seek;
-
-									$continue = false;
-								}
-							}
+							$newPath = deepScan($path, $mainClass.'.php');
 						}
-					}
 
-
-					if ($continue)
-					{
-						// check in namespacing
-						$namespacing = finder('namespacing');
-
-						if (is_array($namespacing))
+						if (!is_null($newPath) && is_file($newPath))
 						{
-							foreach ($namespacing as $ns => $dir)
+							// save path
+							saveNamespaceInAutoloader($class, strtolower($newPath));
+
+							// include path
+							include_once (strtolower($newPath));
+
+							$continue = false;
+						}
+						else
+						{
+							if (is_array($autoload))
 							{
-								$ns = rtrim($ns, '*');
-								$path = str_replace("/", '\\', $path);
-								$ns2 = $path . '\\';
+								$file = basename($string);
 
-								$ns = rtrim($ns, "\\");
-								$nsArray = explode("\\", $ns);
-
-								$ns2 = rtrim($ns2, "\\");
-								$ns2Array = explode("\\", $ns2);
-
-								$len = count($nsArray);
-								$newArray = array_splice($ns2Array, 0, $len);
-
-								$ns2 = implode("\\", $newArray);
-
-								if (strcmp($ns, $ns2) === 0)
+								foreach ($autoload as $d => $dir)
 								{
-									$file = basename($string);
-									$find = dig($dir, $file . '.php');
-									
-									if (strlen($find) > 2 && file_exists($find))
+									$dir = rtrim($dir, '/');
+									$dir = rtrim($dir, '/*');
+
+									$namespace = str_replace('\\','/',$class);
+									$namespace = explode('/', $namespace);
+									array_pop($namespace);
+
+									// get sub directory
+									$subdir = findDirectory(HOME . $dir . '/', $namespace);
+
+									// base dir
+									$basedir = $subdir !== null ? $subdir : HOME . $dir . '/';
+
+									// seek file
+									$seek = dig($basedir, $file . '.php');
+
+									if (strlen($seek) > 2 && file_exists($seek))
 									{
 										// save path
-										saveNamespaceInAutoloader($class, $find);
+										saveNamespaceInAutoloader($class, $seek);
 
 										// include path
-										include_once $find;
+										include_once $seek;
+
+										$continue = false;
 									}
 								}
 							}
 						}
+						
+						if ($continue)
+						{
+							// check in namespacing
+							$namespacing = finder('namespacing');
+
+							if (is_array($namespacing))
+							{
+								foreach ($namespacing as $ns => $dir)
+								{
+									$ns = rtrim($ns, '*');
+									$path = str_replace("/", '\\', $path);
+									$ns2 = $path . '\\';
+
+									$ns = rtrim($ns, "\\");
+									$nsArray = explode("\\", $ns);
+
+									$ns2 = rtrim($ns2, "\\");
+									$ns2Array = explode("\\", $ns2);
+
+									$len = count($nsArray);
+									$newArray = array_splice($ns2Array, 0, $len);
+
+									$ns2 = implode("\\", $newArray);
+
+									if (strcmp($ns, $ns2) === 0)
+									{
+										$file = basename($string);
+										$find = dig($dir, $file . '.php');
+										
+										if (strlen($find) > 2 && file_exists($find))
+										{
+											// save path
+											saveNamespaceInAutoloader($class, $find);
+
+											// include path
+											include_once $find;
+										}
+									}
+								}
+							}
+						}
+						
 					}
-					
 				}	
 			}
 			else
 			{
+				
 				// boot manager has named?
 				if (BootMgr::hasNamed($class))
 				{
@@ -451,7 +468,8 @@ spl_autoload_register(function($class) use ($alias, $tables){
 						
 						if (!defined('CLI_ENV'))
 						{
-							throw new \Exceptions\Autoloader\AutoloaderException("Class: $class doesn't exists. Autoload failed!");
+							var_dump($class, $path);
+							//throw new \Exceptions\Autoloader\AutoloaderException("Class: $class doesn't exists. Autoload failed!");
 						}
 
 					}

@@ -22,8 +22,6 @@ class Activations
 		");
         $schema->alterStatement("COMMENT 'This would contain all activation triggered or required for a user.'");
 		$schema->alterStatement("MODIFY satisfied int   DEFAULT 0  COMMENT 'This operation, has it been satisfied ? 1 = yes, 0 = no.'");
-		$schema->alterStatement("ADD CONSTRAINT fk_activations_lock_status FOREIGN KEY ( lockid ) REFERENCES lock_status( lockid ) ON DELETE NO ACTION ON UPDATE NO ACTION");
-		$schema->alterStatement("ADD CONSTRAINT fk_activations0 FOREIGN KEY ( userid ) REFERENCES users( userid ) ON DELETE NO ACTION ON UPDATE NO ACTION"); 
     }
 
     // drop table

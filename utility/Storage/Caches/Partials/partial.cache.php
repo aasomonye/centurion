@@ -15,5 +15,15 @@ return array (
   'f09195dd20ff4bccc1a4eb024742f342_create-button.html' => '3f02065c5d1cc42f5971cc037ce5b1b3',
   '04917863cd9a1597960bd00ecc731dc2_tables.html' => '5d67bd67fcb0cf9a4426bffe2b73e43c',
   '11e0b44480b75c1bc7b2d4c317e79c95_alert-confirm.html' => 'a3e2ebbc108fab4688331b00d862be9e',
+  'f1a46a4120f907086d3adf1ae5e20f04_login-screen.html' => '2504caa8e23f4b611bc112651f6453d6',
+  'b82be9196c36825393bec20a2dc4f099_all-users.html' => 'dcc14fb7aeebbe048e5316e7cf3a065d',
+  '7a4c3e51f2049cc1cd4fd77aa9d86635_directive.html' => 'bc37adfc57472138355dde311869f80e',
+  '9a426233d1d3a19ecc8345ac77175504_images.html' => 'f5445ee33f7b7a6b9714597cb636d6c9',
+  '7eed6c9dcd6364c30c40d561c482175c_meta-tags.md' => 'd15b83281d0aea4dd1d9d4a404cd194f',
+  '62e6260150fb286b8159bf91c6576191_property-dropdown.html' => '8750ee175f26fb97aa4eace4bfee4a6e',
+  '78793e8f823005e257ef2e86be271910_topdestination.html' => '81ea1df4e8204a2f5a13fb348bfa0354',
+  'fc488486f2a6e15d5ffaf45f96f797d9_topratedplaces.html' => '65882237f7ee7909a4b0a11d92b34027',
+  'ed402eca7301ca4826d38ffbd1073b49_testimonials.html' => '16f92680f695ec40b3809f891ee0a03e',
+  '1111b5093e9a665fc4ab42bbf0868a45_contact-us-intro.html' => '1d4d21cb70937c3f43705af667413cab',
 );
 ?>

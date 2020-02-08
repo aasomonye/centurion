@@ -1,0 +1,49 @@
+<hy directive="Input">
+	
+	<hy func="render">
+		<hy lang="html">
+
+			@if (isset(props.type) && props.type == 'select')
+
+				<select name="{props.name}">
+					<option value="">{props.children}</option>
+					{$table = this.getNationality();}
+
+					@while ($row = $table->obj())
+						<option value="{$row->nationalityid}">{$row->country_name}</option>
+					@endwhile
+
+				</select>
+
+			@else
+				<input php-if::type="isset(props.type) ? props.type : 'text'" name="{props.name}" placeholder="{props.children}" value="{this.getVal(props.name)}">
+				<span class="has-error">{this.getError(props.name)}</span>
+			@endif
+
+		</hy>
+	</hy>
+
+
+	<hy func="getNationality">
+		return db(props.get)->get();
+	</hy>
+
+	<hy func="getVal" args="$name">
+		$data = \Centurion\Models\Input::get();
+
+		if ($data !== null)
+		{
+			return $data->{$name};
+		}
+	</hy>
+
+	<hy func="getError" args="$name">
+		$data = \Centurion\Models\Input::get();
+
+		if ($data !== null)
+		{
+			return $data->onError($name);
+		}
+	</hy>
+</hy>
+

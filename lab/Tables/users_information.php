@@ -26,7 +26,6 @@ class Users_information
         $schema->alterStatement("COMMENT 'This would contain additional information for user'");
 		$schema->alterStatement("MODIFY bank_name varchar(100)     COMMENT 'This would be added from banks table. We made this a text type so we can get add the name if not found in the list of banks by the user'");
 		$schema->alterStatement("MODIFY bank_swift_code varchar(100)     COMMENT 'optional for user. But important to add for users outside nigeria'");
-		$schema->alterStatement("ADD CONSTRAINT fk_users_information_users FOREIGN KEY ( userid ) REFERENCES users( userid ) ON DELETE NO ACTION ON UPDATE NO ACTION"); 
     }
 
     // drop table

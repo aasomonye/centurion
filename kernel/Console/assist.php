@@ -9,5 +9,9 @@ return [
     'Zema' => [
         'path' => 'lab/Cms/',
         'assist' => 'lab/Cms/Console.php'
+    ],
+    'App' => [
+        'path' => 'Centurion/Helpers/',
+        'assist' => 'Centurion/Helpers/Console.php'
     ]
 ];

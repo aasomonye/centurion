@@ -70,6 +70,13 @@ class Manager
             // oopps! so we create an instance of this class and save it.
             case false:
 
+                // already cached?
+                if (isset(self::$named[$className]))
+                {
+                    // return cached
+                    return self::$named[$className];
+                }
+
                 // remove backward slash
                 $className = ltrim($className, '\\');
 

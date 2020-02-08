@@ -17,7 +17,8 @@ class Users
 			firstname            varchar(100),
 			lastname             varchar(100),
 			email_address        varchar(200),
-			nationalityid        int
+            nationalityid        int,
+            accountid            int
 		");
         $schema->alterStatement("COMMENT 'users basic information provided during registration'"); 
     }

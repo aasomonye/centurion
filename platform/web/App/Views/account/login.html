@@ -1,0 +1,22 @@
+<hy>
+    <AccountScreen button="Proceed" 
+    title="Returning Customer."
+    caption="Glad to have you back. Please proceed with your login details."
+    inject="nav" image="slide7-bg">
+
+        <Input name="email_address">Email address</Input>
+        <Input type="password" name="password">Password</Input>
+
+        <div class="form-footer-tabs">
+            <label for="remember">
+                <input type="checkbox" id="remember" name="remember"> Remember me
+            </label>
+            <a $href="reset-password">Forgot password?</a>
+        </div>
+
+        <nav>
+            <a $href="register"><img $src="arrow-left.png"> Become a member</a>
+        </nav>
+
+    </AccountScreen>
+</hy>

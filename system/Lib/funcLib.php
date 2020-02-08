@@ -4815,7 +4815,7 @@ function boot($className = null, $value = null)
 
 			public function get(string $className, $callback = null)
 			{
-				switch (is_callable($callback))
+				switch (!is_null($callback) && is_callable($callback))
 				{
 					case true:
 						$instance = $this->singleton($className);

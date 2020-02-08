@@ -1536,4 +1536,26 @@ class Model extends Controller
 
 		return $data;
 	}
+
+	// load model parameters
+	public function parameters()
+	{
+		$parameters = func_get_args();
+
+		// create class
+		$paramClass = new class($parameters)
+		{
+			// push properties
+			public $properties = [];
+
+			public function __construct($parameters)
+			{
+				$this->properties = $parameters;
+			}
+		};
+
+		class_alias(get_class($paramClass), 'Moorexa\Model\Parameters');
+		
+		return $paramClass;
+	}
 }

@@ -135,7 +135,7 @@ class Hash
      * @param $hashed : string
      */
 
-    public static function verify( $value,  $hashed)
+    public static function verify(string $value, string $hashed)
     {
         $digest = self::digest($value, $hashValue);
 
