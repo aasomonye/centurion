@@ -104,6 +104,8 @@ function loadalldata(){
 	
 				if (deffered.length > 0)
 				{
+					var scriptHasText = [];
+
 					[].forEach.call(deffered, function(def){
 
 						if (!def.hasAttribute('data-deffered'))
@@ -111,32 +113,61 @@ function loadalldata(){
 							var script = document.createElement("script");
 							script.type = "text/javascript";
 
-							if (def.hasAttribute("data-src"))
+							var content = def.textContent.trim();
+
+							if (content == '')
 							{
-								script.src = def.getAttribute("data-src");
+								if (def.hasAttribute("data-src"))
+								{
+									script.src = def.getAttribute("data-src");
+								}
+								else
+								{
+									if (def.hasAttribute("src"))
+									{
+										script.src = def.getAttribute("src");
+									}
+								}
+
+								if (def.innerText.length > 0)
+								{
+									script.innerHTML = def.innerHTML;
+								}
+								
+								def.setAttribute('data-deffered', 'true');
+
+								script.async = def.hasAttribute("async");
+
+								var body = document.body;
+								body.insertBefore(script, body.lastElementChild.nextElementSibling);
 							}
 							else
 							{
-								if (def.hasAttribute("src"))
-								{
-									script.src = def.getAttribute("src");
-								}
+								scriptHasText.push(def);
 							}
-
-							if (def.innerText.length > 0)
-							{
-								script.innerHTML = def.innerHTML;
-							}
-							
-							def.setAttribute('data-deffered', 'true');
-
-							script.async = def.hasAttribute("async");
-
-							var body = document.body;
-							body.insertBefore(script, body.lastElementChild.nextElementSibling);
 						}	
 
 					});
+
+					if (scriptHasText.length > 0)
+					{
+						scriptHasText.forEach(function(def){
+							var copyDef = document.createElement('script');
+							copyDef.type = 'text/javascript';
+
+							var textcontent = def.textContent;
+
+							if (textcontent.indexOf('$') > 0)
+							{
+								textcontent = 'window.onload = function(){'+textcontent+'};';
+							}
+
+							copyDef.textContent = textcontent;
+						
+							var body = document.body;
+							body.insertBefore(copyDef, body.lastElementChild.nextElementSibling);
+						});
+					}
 				}
 			}();
 		}

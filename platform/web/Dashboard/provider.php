@@ -1,5 +1,6 @@
 <?php
 
+use Centurion\Helpers\Alert;
 /**
  * Dashboard Provider. Will be loaded before the Dashboard controller
  * @package App provider
@@ -7,6 +8,12 @@
 
 class DashboardProvider extends Dashboard
 {
+    public $defaultPages = [
+        'Profile Update' => 'dashboard/complete-registration',
+        'Profile' => 'dashboard/profile',
+        'Support' => ''
+    ];
+
     /**
      * @method DashboardProvider boot
      * This method would be called before controller renders a view
@@ -18,6 +25,11 @@ class DashboardProvider extends Dashboard
         
         // call view! Applies Globally.
         $next();
+
+        if ($this->has('dashboardMessage'))
+        {
+            Alert::toastDefaultSuccess($this->dashboardMessage);
+        }
     }
 
     /**
@@ -32,4 +44,10 @@ class DashboardProvider extends Dashboard
     }
 
     // you can register more init methods for your view models.
+    public function onCompleteRegistrationInit($next)
+    {
+        $this->requirejs('Centurion/Public/form.js');
+
+        $next();
+    }
 }

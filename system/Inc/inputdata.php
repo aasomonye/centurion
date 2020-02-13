@@ -1,6 +1,6 @@
 <?php
 namespace Moorexa;
-
+/** @noinspection All */
 /**
  * @package Moorexa Input data manager
  * @author Amadi ifeanyi
@@ -712,8 +712,11 @@ class InputData
             }
         };
 
-        // create class alias
-        class_alias(get_class($createRule), 'Moorexa\InputData\Rule');
+        if (!class_exists('Moorexa\InputData\Rule'))
+        {
+            // create class alias
+            class_alias(get_class($createRule), 'Moorexa\InputData\Rule');
+        }
 
         return $createRule;
     }
@@ -1080,6 +1083,18 @@ class InputData
 
         $post = !is_array($post) ? [] : $post;
 
+        // allow error if POST Data was sent
+        if (count($_POST) == 0)
+        {
+            $post = [];
+        }
+
+        // allow error if GET data was sent.
+        if (count($_GET) == 0)
+        {
+            $get = [];
+        }
+
         // merge them
         $array = array_merge($get, $post);
 
@@ -1133,4 +1148,27 @@ class InputData
     {
         return $this->rulesHasData();
     }
+
+    // pick from rules
+    public function pick()
+    {
+        $rules = func_get_args();
+
+        // create model rule
+        return createModelRule(md5(time() . implode('?', $rules)),
+            function($data) use ($rules)
+            {
+                if (count($rules) > 0)
+                {
+                    foreach ($rules as $key)
+                    {
+                        $data->{$key} = $this->getRule($key);
+                    }
+                }
+
+                $data->table = $this->table;
+            });
+
+    }
+
 }

@@ -149,6 +149,7 @@ class Config
     // load boot
     public static function loadBoot()
     {
+
         Boot::called('Moorexa\Bootloader', function()
         {
             // register prefix
@@ -156,16 +157,10 @@ class Config
             
             // load queries
             Boot::singleton_as('Query', 'Database\Query');
-            Boot::singleton_as('CMS', 'CmsGlobal\Cms')->loadDirectives();
-            
-            // change query cache path 
-            DB::prefixQuery('Zema_', function($instance)
-            {
-                $instance->queryCachePath = CMS_ROOT . 'Database/QueryStatements.php';
-            });
+            Boot::singleton_as('CMS', 'CmsGlobal\Cms');
 
             // load cms config
-            Boot::singleton_as('Config', 'Cms\Config')->loadStatic();
+            Boot::singleton_as('Config', 'Cms\Config');
         
             Boot::called('Moorexa\View', function()
             {
@@ -177,6 +172,19 @@ class Config
         // db handler called
         Boot::called('Moorexa\DatabaseHandler@createConnection', function($boot)
         {
+            // load directives
+            boot()->get('CMS')->loadDirectives();
+
+             // change query cache path 
+             DB::prefixQuery('Zema_', function($instance)
+             {
+                 $instance->queryCachePath = CMS_ROOT . 'Database/QueryStatements.php';
+             });
+
+            // load config
+            boot()->get('Config')->loadStatic();
+            
+            // listen for promises
             $boot->promise('data', function($instance)
             {
                 $instance->channel(function($request)
@@ -223,7 +231,9 @@ class Config
         
         // apply cms routes
         Boot::called('System@route', function(){
-            Boot::get('CMS')->listenForPageRoutes();
+            \Moorexa\Route::controller('zema', function(){
+                Boot::get('CMS')->listenForPageRoutes();
+            });
         });
     }
 }

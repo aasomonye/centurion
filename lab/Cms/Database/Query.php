@@ -61,7 +61,12 @@ class Query
     // get all directives
     public static function getAllDirectives()
     {
-        return db('Zema_directives')->allowSlashes()->get();
+        $query = db('Zema_directives')->config([
+            'allowSlashes' => true,
+            'allowHTML' => true
+        ]);
+
+        return $query->get();
     }
 
     // get all images

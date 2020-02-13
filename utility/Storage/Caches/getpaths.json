@@ -77,5 +77,14 @@
     ".\/platform\/web\/\/Dashboard\/Static\/:Dashboard.css:Dashboard.cxx.css:Dashboard.css": ".\/platform\/web\/Dashboard\/Static\/Dashboard.css",
     "public\/Assets\/Images\/:smiling2.png": "public\/Assets\/Images\/Sys\/smiling2.png",
     ".\/platform\/web\/\/Dashboard\/Static\/:Dashboard.js:Dashboard.js": ".\/platform\/web\/Dashboard\/Static\/Dashboard.js",
-    "utility\/Authentication\/:sessionLogin.auth.php:sessionLogin.auth.auth.php": "utility\/Authentication\/sessionLogin.auth.php"
+    "utility\/Authentication\/:sessionLogin.auth.php:sessionLogin.auth.auth.php": "utility\/Authentication\/sessionLogin.auth.php",
+    ".\/component\/Partials\/:auth-header.html:Auth-header.html": ".\/component\/Partials\/auth-header.html",
+    ".\/component\/Partials\/:car-rental-dropdown.html:Car-rental-dropdown.html": ".\/component\/Partials\/car-rental-dropdown.html",
+    ".\/platform\/web\/\/Dashboard\/Models\/:Dashboard.php:Dashboard.php": ".\/platform\/web\/Dashboard\/Models\/Dashboard.php",
+    ".\/platform\/web\/\/Customer\/Static\/:Customer.css:Customer.cxx.css:Customer.css": ".\/platform\/web\/Customer\/Static\/Customer.css",
+    ".\/platform\/web\/\/Customer\/Static\/:Customer.js:Customer.js": ".\/platform\/web\/Customer\/Static\/Customer.js",
+    "utility\/Middlewares\/:Template.php:Template.php:template.php": "utility\/Middlewares\/Template.php",
+    "utility\/Guards\/:sessionLogin.php": "utility\/Guards\/sessionLogin.php",
+    "utility\/Guards\/:template.php": "utility\/Guards\/template.php",
+    "public\/Assets\/Js\/:deffer.js": "public\/Assets\/Js\/Rexajs\/deffer.js"
 }

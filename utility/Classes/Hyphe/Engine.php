@@ -179,13 +179,14 @@ class Engine
 
                     if ($position !== false)
                     {
-                        $hash = md5(($position + $index) . $outerHTML);
+                        $hash = md5(($position + $index) . $outerHTML . time() * 10);
 
                         $directives[] = [
                             'outerHTML' => $outerHTML,
                             'attributeString' => $matches[2][$index],
                             'innerHTML' => '',
-                            'hash' => $hash
+                            'hash' => $hash,
+                            'position' => $position
                         ];
 
                         $domDocument = substr_replace($domDocument, $hash, $position, strlen($outerHTML));
@@ -215,13 +216,14 @@ class Engine
 
                 if ($position !== false)
                 {
-                    $hash = md5(($position + $index) . $outerHTML);
+                    $hash = md5(($position + $index) . $outerHTML . time() * 60);
 
                     $directives[] = [
                         'outerHTML' => $outerHTML,
                         'attributeString' => $matches[2][$index],
                         'innerHTML' => $matches[3][$index],
-                        'hash' => $hash
+                        'hash' => $hash,
+                        'position' => $position
                     ];
 
                     $domDocument = substr_replace($domDocument, $hash, $position, strlen($outerHTML));
@@ -239,6 +241,8 @@ class Engine
         $injector = $props['inject'];
         $injectorList = explode(',', $injector);
 
+        $props['inject'] = []; // create a new array
+
         foreach ($injectorList as $tagName)
         {
             // remove whitespace
@@ -249,7 +253,7 @@ class Engine
 
             if (isset($target[2]))
             {
-                $props[$tagName] = $target[2];
+                $props['inject'][$tagName] = $target[2];
                 // now remove target from document
                 $document = str_replace($target[0], '', $document);
             }
@@ -357,16 +361,21 @@ class Engine
                             $this->loadInjector($props, $innerHTML);
                         }
 
+                        
                         $block = $outerHTML;
+                        $exportparts = [];
+                        $excludeparts = [];
 
-                        $data = $this->getComponentData($file, $tag, $block, $props);
+                        $data = $this->getComponentData($file, $tag, $block, $props, $exportparts, $excludeparts);
                             
-                        $tree[] = [
+                        $tree[$directive['position']] = [
                             'inner' => $innerHTML,
                             'block' => $block,
                             'tag' => $tag,
                             'data' => $data,
-                            'hash' => $directive['hash']
+                            'hash' => $directive['hash'],
+                            'exportparts' => $exportparts,
+                            'excludeparts' => $excludeparts
                         ];
                     }
 
@@ -377,6 +386,8 @@ class Engine
         }
         
         $doc = trim($doc);
+
+        ksort($tree);
 
         foreach ($tree as $branch)
         {
@@ -396,7 +407,26 @@ class Engine
                 $block = str_replace($block, $data, $block);
 
                 // replace hash
-                $doc = substr_replace($doc, $block, strpos($doc, $hash), strlen($hash));
+                $doc = str_replace($hash, $block, $doc);
+
+                // replace export parts
+                if (count($exportparts) > 0)
+                {
+                    foreach ($exportparts as $part => $element)
+                    {
+                        $doc = str_replace($element['outer'], '', $doc);
+                        $doc = str_replace($part, $element['inner'], $doc);
+                    }
+                }
+
+                // replace exclude parts
+                if (count($excludeparts) > 0)
+                {
+                    foreach ($excludeparts as $element)
+                    {
+                        $doc = str_replace($element['outer'], '', $doc);
+                    }
+                }
             }
         }
         
@@ -435,7 +465,7 @@ class Engine
         
     }
 
-    private function getComponentData($file, $tag, $block, $props)
+    private function getComponentData($file, $tag, $block, $props, &$exportparts, &$excludeparts)
     {
         $continue = false;
         $render = null;
@@ -512,8 +542,6 @@ class Engine
 
                 $data = null;
 
-                
-
                 if (method_exists($chs, 'render'))
                 {
                     ob_start();
@@ -529,14 +557,57 @@ class Engine
                     ob_clean();
                 }
 
-                self::$chsInstances[$file] = ['render' => $render, 'class' => $chs];
-                self::$chsInstances['chs'][strtolower($tag)] = $chs;
+                
+                // export part
+                $this->loadExportParts($props, $data, $exportparts);
+                
+                // exclude part
+                $this->loadExcludeParts($props, $data, $excludeparts);
 
             }
         }
         
 
         return $data;
+    }
+
+    // load export parts
+    private function loadExportParts($props, $data, &$exportparts)
+    {
+        if (isset($props->exportparts))
+        {   
+            $parts = explode(',', $props->exportparts);
+
+            foreach ($parts as $part)
+            {
+                if (preg_match("/(\s*)(<$part(.*?)>)([\s\S]+?)(<\/$part>)/i", $data, $match))
+                {
+                    $exportparts['exportparts.'.$part] = [
+                        'inner' => $match[4],
+                        'outer' => $match[0]
+                    ];
+                }
+            }
+        }
+    }
+
+    // load exclude parts
+    private function loadExcludeParts($props, $data, &$excludeparts)
+    {
+        if (isset($props->excludeparts))
+        {   
+            $parts = explode(',', $props->excludeparts);
+
+            foreach ($parts as $part)
+            {
+                if (preg_match("/(\s*)(<$part(.*?)>)([\s\S]+?)(<\/$part>)/i", $data, $match))
+                {
+                    $excludeparts[] = [
+                        'outer' => $match[0]
+                    ];
+                }
+            }
+        }
     }
 
     // convert shortcuts

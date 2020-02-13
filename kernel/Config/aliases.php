@@ -1,7 +1,7 @@
 <?php
+/** @noinspection ALL */
 
 // Application Aliases
-
 $alias = [
 	'Moorexa\Assets' 		=> ['path' => PATH_TO_ASSETS . 'assets.php'],
 	'Moorexa\DB' 			=> ['path' => PATH_TO_DB . 'db.php'],
@@ -13,14 +13,12 @@ $alias = [
 	'Moorexa\Rexa' 			=> ['path' => PATH_TO_LIB . 'rexa.php'],
 	'env' 					=> ['path' => PATH_TO_INC . 'env.php'],
 	'Moorexa\Plugins' 		=> ['path' => PATH_TO_INC . 'plugins.php'],
-	'async|Async' 			=> ['path' => 'async.php'],
-	'task|Task' 			=> ['path' => PATH_TO_INC . 'tasks.php'],
 	'settings|Settings' 	=> ['path' => PATH_TO_INC . 'settings.php'],
 	'Moorexa\File' 			=> ['path' => PATH_TO_INC . 'files.php'],
 	'ApiManager' 			=> ['path' => PATH_TO_INC . 'apimanager.php'],
 	'Moorexa\ApiModel' 		=> ['path' => PATH_TO_INC . 'apimodel.php'],
 	'Moorexa\Controller' 	=> ['path' => PATH_TO_INC . 'controllers.php'],
-	'Authenticate' 			=> ['path' => PATH_TO_INC . 'authenticate.php'],
+	'Guards' 			    => ['path' => PATH_TO_INC . 'guards.php'],
 	'Objects|objects' 		=> ['path' => PATH_TO_LIB . 'object.php'],
 	'Moorexa\Middleware' 	=> ['path' => PATH_TO_INC . 'middleware.php'],
 	'Moorexa\Route' 		=> ['path' => PATH_TO_INC . 'routes.php'],
@@ -50,9 +48,8 @@ $alias = [
 	'Moorexa\DB\FetchRow' 	=> ['path' => PATH_TO_DB . 'fetch_db.php'],
 	'Moorexa\DB\Table' 		=> ['path' => PATH_TO_DB . 'tables.php'],
 	'Moorexa\Directive' 	=> ['path' => PATH_TO_LIB . 'directives.php'],
-	'Moorexa\Interfaces\Directive' => ['path' => PATH_TO_INTERFACE . 'directives.php'],
-	'Moorexa\InputData' 	=> ['path' => PATH_TO_INC . 'inputdata.php'],
-	'Cms\Config' 			=> ['path' => HOME . 'lab/Cms/Config.php'],
+    'Moorexa\Interfaces\Directive' => ['path' => PATH_TO_INTERFACE . 'directives.php'],
+    'Moorexa\InputData' => ['path' => PATH_TO_INC . 'inputData.php'],
 ];
 
 /*
@@ -64,12 +61,3 @@ $alias = [
 $tables = [
 	
 ];
-
-
-
-
-
-
-
-
-

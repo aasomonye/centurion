@@ -1,5 +1,6 @@
 <?php
 
+/** @noinspection All */
 namespace Moorexa;
 
 use utility\Classes\BootMgr\Manager as BootMgr;
@@ -84,8 +85,8 @@ class SET
 					// load providers.
 					include_once PATH_TO_SERVICES . 'registry.php';
 
-					// load authentication handler for controllers and views
-					include_once PATH_TO_SERVICES . 'authentication.php';
+					// load global guards handler for controllers and views
+					include_once PATH_TO_SERVICES . 'guards.php';
 
 					// #note: at this point app hasn't started. we just booting application.
 				break;

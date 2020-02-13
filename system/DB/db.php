@@ -156,6 +156,9 @@ class DB
 
    // allow saving queries
    private $allowSaveQuery = true;
+
+   // last successful query ran
+   public static $lastQueryRan = null;
   
     // list of allowed methods for ORM
     private function getAllowed($val = [null], &$sql = "")
@@ -3158,7 +3161,7 @@ class DB
     {
         $instance = new DB;
 
-        // get default data-source-name
+        // get default data-source-name]
         $connect = DatabaseHandler::$default;
 
         if ($instance->useConnection !== null)
@@ -3168,67 +3171,46 @@ class DB
 
         $freshConnect = true;
 
-        if (is_string($connect) && strlen($connect) > 1)
+        if (!is_null($connect))
         {
-            if (isset(self::$openedConnection[$connect]))
+            if ($instance->pdoInstance == null)
             {
-                $openedInstance = self::$openedConnection[$connect];
-                $openedInstance->table = !is_null($this->table) ? $this->table : $openedInstance->table;
-                $openedInstance->query = '';
-                $openedInstance->bind = [];
-                $openedInstance->allowed = $openedInstance->getAllowed(); 
-                //$openedInstance->pdoInstance = $this->pdoInstance;
-
-                if ($openedInstance->pdoInstance != null)
+                if ($freshConnect)
                 {
-                    $freshConnect = false;
-                    $instance = $openedInstance;
-                }
-                else
-                {
-                    $instance->pdoInstance = $this->pdoInstance;
-                }
-            }
-        }
-        
-
-        if ($instance->pdoInstance == null)
-        {
-            if ($freshConnect)
-            {
-                if (is_string($connect) && strlen($connect) > 1)
-                {
-                    // get driver
-                    $driver = DatabaseHandler::connectionConfig($connect, 'driver');
-                    
-                    if (DatabaseHandler::$dbset === true)
+                    if (is_string($connect) && strlen($connect) > 1)
                     {
-                        // a valid driver?
-                        if ($instance->drivers($driver) !== null)
+                        // get driver
+                        $driver = DatabaseHandler::connectionConfig($connect, 'driver');
+                        
+                        if (DatabaseHandler::$dbset === true)
                         {
-                            // save driver
-                            $instance->driver = $driver;
-                            $instance->instancedb = $connect;
-                            
-                            // extablish connection
-                            $con = DatabaseHandler::active($connect);
+                            // a valid driver?
+                            if ($instance->drivers($driver) !== null)
+                            {
+                                // save driver
+                                $instance->driver = $driver;
+                                $instance->instancedb = $connect;
+                                
+                                // extablish connection
+                                $con = DatabaseHandler::active($connect);
 
-                            // save instance.
-                            $instance->pdoInstance = $con;
+                                // save instance.
+                                $instance->pdoInstance = $con;
 
-                            $instance->allowed = $instance->getAllowed();
+                                $instance->allowed = $instance->getAllowed();
 
-                            // save instance
-                            self::$openedConnection[$connect] = $instance;
-                        }
-                        else
-                        {
-                            throw new \Exceptions\Database\DatabaseException('Driver you used isn\'t supported on this server. Please see documentation');
+                                // save instance
+                                self::$openedConnection[$connect] = $instance;
+                            }
+                            else
+                            {
+                                throw new \Exceptions\Database\DatabaseException('Driver you used isn\'t supported on this server. Please see documentation');
+                            }
                         }
                     }
                 }
-            }
 
+            }
         }
 
         return $instance;
@@ -3355,6 +3337,10 @@ class DB
                         // save to queries
                         $queries[$this->table] = $promise;
 
+                        // save for last query ran
+                        self::$lastQueryRan = $promise;
+
+                        // return promise
                         return $promise;
                     }
 
@@ -3910,6 +3896,19 @@ class DB
                 break;
             }
         }
+    }
+
+    // get last query
+    public function lastQuery()
+    {
+        $lastQueryRan = DB::$lastQueryRan;
+
+        if (!is_null($lastQueryRan))
+        {
+            return $lastQueryRan;
+        }
+
+        return $this;
     }
 }
 

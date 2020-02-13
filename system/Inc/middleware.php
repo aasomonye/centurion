@@ -121,6 +121,7 @@ class Middleware
 				$view = empty($view) ? config('router.default.view') : $view;
 			
 				$vars = null;
+				
 				if (get_class($mw) != 'System')
 				{
 					if (isset($view))

@@ -540,7 +540,7 @@ class Bootloader extends DatabaseHandler
 	{
 		static $dataPacked = []; // tmp storage
 
-		$session = new Session;
+		$session = boot()->get('Moorexa\Session');
 
 		if (count($dataPacked) == 0)
 		{
@@ -572,28 +572,54 @@ class Bootloader extends DatabaseHandler
 				$dataPacked = $decode;
 			}
 
-			if (is_array($dataPacked) || is_object($dataPacked))
-			{
-				foreach($dataPacked as $key => $val)
-				{
-					if (is_string($key))
-					{
-						$class->{$key} = $val;
-						Controller::$dropbox[$key] = $val;
-					}
-				}
-			}
-			else
-			{
-				$class->onair = $dataPacked;
-			}
-
-
 			$req = Bootloader::$pagePath;
 			$destination = explode('/', $session->get('__RedirectDataDestination'));
 
-			if (is_array($destination[0]) && in_array($req, $destination[0]))
+
+			$reqString = implode('/', $req);
+			$destinationString = implode('/', $destination);
+
+			// remove message from session
+			$removeMessageFromSession = false;
+
+			if (count($req) == count($destination))
 			{
+				if ($reqString == $destinationString)
+				{
+					$removeMessageFromSession = true;
+				}
+			}
+			
+			if (!$removeMessageFromSession)
+			{
+				// get the end and compare
+				$reqEnd = end($req);
+				$destinationEnd = end($destination);
+
+				if ($reqEnd == $destinationEnd)
+				{
+					$removeMessageFromSession = true;
+				}
+			}
+
+			if ($removeMessageFromSession)
+			{
+				if (is_array($dataPacked) || is_object($dataPacked))
+				{
+					foreach($dataPacked as $key => $val)
+					{
+						if (is_string($key))
+						{
+							$class->{$key} = $val;
+							Controller::$dropbox[$key] = $val;
+						}
+					}
+				}
+				else
+				{
+					$class->onair = $dataPacked;
+				}
+
 				$session->drop('__RedirectDataDestination', '__RedirectDataSent');
 			}
 		}
@@ -1009,7 +1035,6 @@ class Bootloader extends DatabaseHandler
 		$sys->system->push('refUrl', $this->url);
 	}
 
-
     /**
      * @method checkcontrollers
      *
@@ -1238,30 +1263,31 @@ class Bootloader extends DatabaseHandler
 		}
 	}
 
-	// authentication method
-	private function c_auth(\Closure $callback)
+	// c_globalGuards methodk
+	private function c_globalGuards(\Closure $callback)
 	{
-		static $auth = null;
+		static $guard = null;
 
-		if (is_null($auth))
+		if (is_null($guard))
 		{
-			// create only 1 instance.
-			$auth = BootMgr::singleton(\Authenticate::class);
+			// create only 1 instance of Guard class.
+			$guard = BootMgr::singleton(\Guards::class);
 		}
 
         /** @noinspection PhpUndefinedConstantInspection */
-        if (BootMgr::$BOOTMODE[\Authenticate::class] == CAN_CONTINUE)
+        if (BootMgr::$BOOTMODE[\Guards::class] == CAN_CONTINUE)
 		{
 			// listen for load event
-			Event::on('authentication.load', function($routes) use (&$callback, &$auth){
+			Event::on('guards.load', function($routes) use (&$callback, &$guard){
 				
 				// get controller
 				$controller = Bootloader::$helper['active_c'];
+
 				// get view
 				$view = Bootloader::$helper['active_v'];
 
 				// push routes used
-				$auth->routes = $routes;
+				$guard->routes = $routes;
 
 				$fullpath = env('bootstrap', 'controller.basepath') .'/'. $controller . '/main.php';
 
@@ -1299,7 +1325,7 @@ class Bootloader extends DatabaseHandler
 				if ($continue)
 				{
 					// call closure.
-					call_user_func($callback, $auth);
+					call_user_func($callback, $guard);
 				}
 			});
 		}
@@ -1509,8 +1535,8 @@ class Bootloader extends DatabaseHandler
 			case 'api':
 				return $this->c_api($params);
 
-			case 'authentication':
-				$this->c_auth($params[0]);
+			case 'globalGuards':
+				$this->c_globalGuards($params[0]);
 			break;
 
 			case 'directives':

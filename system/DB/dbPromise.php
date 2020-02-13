@@ -1,5 +1,5 @@
-<?php 
-
+<?php
+/** @noinspection All */
 namespace Moorexa;
 
 use PDO;
@@ -51,7 +51,7 @@ class DBPromise
         'keypair'   => FETCH_KEY_PAIR,
         'classtype' => FETCH_CLASSTYPE,
         'serialize' => FETCH_SERIALIZE,
-        'propslate' => FETCH_PROPS_LATE 
+        'propslate' => FETCH_PROPS_LATE
     ];
 
     // set fetch mode
@@ -77,7 +77,7 @@ class DBPromise
                 'keypair'   => PDO::FETCH_KEY_PAIR,
                 'classtype' => PDO::FETCH_CLASSTYPE,
                 'serialize' => PDO::FETCH_SERIALIZE,
-                'propslate' => PDO::FETCH_PROPS_LATE 
+                'propslate' => PDO::FETCH_PROPS_LATE
             ];
         }
     }
@@ -167,8 +167,8 @@ class DBPromise
 
                 while($fetch = $this->___fetch(self::$fetchMethods[$name], $name))
                 {
-                   call_user_func($config, $fetch);
-                   $data[] = $fetch;
+                    call_user_func($config, $fetch);
+                    $data[] = $fetch;
                 }
 
                 $fetch = null;
@@ -176,7 +176,7 @@ class DBPromise
             }
 
             return $this->___fetch(self::$fetchMethods[$name], $name, $config);
-            
+
         }
         else
         {
@@ -269,10 +269,10 @@ class DBPromise
                 $fetch = $all[$exec];
             }
 
-            
-            if ($name != 'class' && 
-                $name != 'func'  && 
-                $name != 'into'  && 
+
+            if ($name != 'class' &&
+                $name != 'func'  &&
+                $name != 'into'  &&
                 $name != 'bound' &&
                 $name != 'keypair')
             {
@@ -289,7 +289,7 @@ class DBPromise
 
                         $this->fetch_records = $fetchMode == 1 ? toObject($records) : $records;
                     }
-                
+
                 }
 
                 $fetch = $this->fetch_records;
@@ -349,7 +349,7 @@ class DBPromise
                     $fetch = toObject($toarr);
                 }
             }
-            
+
 
             if ($exec == $this->_rows)
             {
@@ -363,7 +363,7 @@ class DBPromise
 
             return new DB\FetchRow($this, $fetch);
         }
-            
+
         return false;
     }
 
@@ -375,7 +375,7 @@ class DBPromise
 
     public function __fetchFunc()
     {
-        
+
     }
 
     // bind query for mysqli
@@ -390,13 +390,13 @@ class DBPromise
         call_user_func_array(array($stmt, 'bind_result'), $params);
     }
 
-	// get magic method
-	public function __get($name)
-	{
+    // get magic method
+    public function __get($name)
+    {
         $packed = $this->getPacked;
-        
+
         if (isset($packed[$name]))
-        {   
+        {
             return stripslashes($packed[$name]);
         }
         elseif (method_exists($this, $name))
@@ -428,13 +428,13 @@ class DBPromise
         }
     }
 
-    // from option 
+    // from option
     public function from($tableName, $identity=null)
     {
         // create a new db instance
         $promise = new DBPromise;
 
-        $promise->table = $tableName;
+        $promise->table = DB::getTableName($tableName);
         $promise->getPacked = $this->getPacked;
         $promise->bindData = $this->bindData;
 
@@ -448,11 +448,11 @@ class DBPromise
 
     // set identity
     public function identity($key)
-    {   
+    {
         $this->identity = $key;
         return $this;
     }
-    
+
     // run update
     public function update($data=[], $where=null, $other=null)
     {
@@ -462,7 +462,7 @@ class DBPromise
             $row = $this->row();
 
             if (!is_null($row))
-            {   
+            {
                 if ($this->identity == null)
                 {
                     // get table info
@@ -492,7 +492,7 @@ class DBPromise
                 $table = DB::table($this->table);
 
                 $db = call_user_func_array([$table, 'update'], $args);
-                
+
                 return $db->go();
             }
         }
@@ -605,7 +605,7 @@ class DBPromise
         {
             return true;
         }
-        
+
         return false;
     }
 
@@ -638,8 +638,11 @@ class DBPromise
     }
 
     // query method
+
     /**
-     * @param $method could either be a string or array
+     * $method could either be a string or array
+     * @param $loadFrom
+     * @return mixed|DBPromise
      */
     public function query($loadFrom)
     {
@@ -650,7 +653,7 @@ class DBPromise
             case 'string':
                 // build method name 
                 $method = 'query'.ucwords($loadFrom);
-            break;
+                break;
 
             case 'array':
                 // get class name and method.
@@ -666,7 +669,7 @@ class DBPromise
                     // build singleton
                     $classCaller = BootMgr::singleton($classCaller);
                 }
-            break;
+                break;
         }
 
         // get arguments
@@ -745,7 +748,7 @@ class DBPromise
 
         // get keys
         $keys = array_keys($row);
-        
+
         if (is_int($index))
         {
             // return index 
@@ -767,7 +770,7 @@ class DBPromise
     public function primary()
     {
         static $tableInfo;
-        
+
         if (!isset($tableInfo[$this->table]))
         {
             $tableInfo = [];
@@ -783,11 +786,24 @@ class DBPromise
         if (isset($tableInfo[$this->table]))
         {
             $primary = $tableInfo[$this->table];
-            
+
             // return primary key
             return $this->{$primary};
         }
 
         return null;
+    }
+
+    // get last query
+    public function lastQuery()
+    {
+        $lastQueryRan = DB::$lastQueryRan;
+
+        if (!is_null($lastQueryRan))
+        {
+            return $lastQueryRan;
+        }
+
+        return $this;
     }
 }

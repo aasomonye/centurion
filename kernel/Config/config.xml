@@ -18,9 +18,10 @@
 	<public>
 		<support email="hello@moorexa.com"/>
 		<author>www.fregatelab.com fregatelab inc.</author>
-		<icon>icons.png@90:90</icon>
+		<icon>Centurion/Public/Images/centurion-logo.png</icon>
 		<keywords>SEO keywords here</keywords>
 		<description>SEO description here</description>
 		<developer>Developer</developer>
+		<productName>Centurion</productName>
 	</public>
 </app>

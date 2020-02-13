@@ -44,7 +44,7 @@ class View extends Bootloader
 	public 			$external_path = "";
 	public  static  $external_config = "";
 	public  static  $modalbox = [];
-	private 		$blankPage = false;
+	public 		    $blankPage = false;
 	private static	$jsbindata = [];
 	private static	$jsbinCalled = 0;
 	private static  $jsbinImport = [];
@@ -598,12 +598,7 @@ class View extends Bootloader
 				
 				// get header path
 				$headerFile = !empty($this->external_path) ? $this->external_path . 'pages/'.$controller.'/Custom/header.html' : env('bootstrap', 'controller.basepath') . '/'.$controller.'/Custom/header.html';
-
-				// load custom header if found
-				if (!is_null(self::$customHeaderPath))
-				{
-					$headerFile = self::$customHeaderPath;
-				}
+		
 
 				// check if custom/header.php is set to default.
 				if (file_exists($headerFile) && preg_match('/(@)\s{0}(setdefault)/m', file_get_contents($headerFile)) != true)
@@ -619,16 +614,23 @@ class View extends Bootloader
 				{
 					$headerFile = Template::$header;
 				}
+
+				// load custom header if found
+				if (!is_null(self::$customHeaderPath))
+				{
+					$headerFile = self::$customHeaderPath;
+				}
 				
 			break;
 
 			// load noheader
 			case false:
+
+				// load css
+				$__css = $this->app_css($this->bundle->stylesheet);
+
 				if (!$this->blankPage && ($this->default || $this->defaultHeader) )
 				{
-					// load css
-					$__css = $this->app_css($this->bundle->stylesheet);
-
 					// set header
 					$headerFile = PATH_TO_TEMPLATES .'noheader.html';
 				}
@@ -656,12 +658,6 @@ class View extends Bootloader
 				// get header path
 				$footerFile = !empty($this->external_path) ? $this->external_path . 'pages/'.$controller.'/Custom/footer.html' : env('bootstrap', 'controller.basepath') . '/'.$controller.'/Custom/footer.html';
 
-				// load custom footer if found
-				if (!is_null(self::$customFooterPath))
-				{
-					$footerFile = self::$customFooterPath;
-				}
-
 				// check if custom/header.php is set to default.
 				if (file_exists($footerFile) && preg_match('/(@)\s{0}(setdefault)/m', file_get_contents($footerFile)) != true)
 				{
@@ -673,6 +669,12 @@ class View extends Bootloader
 				{
 					$footerFile = Template::$footer;
 				}
+
+				// load custom footer if found
+				if (!is_null(self::$customFooterPath))
+				{
+					$footerFile = self::$customFooterPath;
+				}
 				
 				// push output for rendering
 				$this->renderOutput = true;
@@ -681,10 +683,12 @@ class View extends Bootloader
 
 			// load nofooter
 			case false:
+
+				// load js
+				$__js = $this->app_js($this->bundle->scripts);
+
 				if (!$this->blankPage && ($this->default || $this->defaultFooter) )
 				{
-					// load js
-					$__js = $this->app_js($this->bundle->scripts);
 					// make js publicly availiable
 					Controller::$dropbox['__js'] = $__js;
 					// set footer
@@ -1020,18 +1024,21 @@ class View extends Bootloader
 						// call function
 						$__loadStatic();
 
+						$loadFooter = false;
+						$footer = '';
+
 				
 						// load header if $justView === false
 						if (!$justView && $this->loadHeader($__css, $assets, $controller, $header))
 						{
+							// make package avaliable
+							$package = $this->package;
+							$package->name = $apptitle;
+							$package->url = implode('/', $this->system->system->refUrl);
+							
 							// include header
 							if (file_exists($header))
 							{
-								// make package avaliable
-								$package = $this->package;
-								$package->name = $apptitle;
-								$package->url = implode('/', $this->system->system->refUrl);
-
 								// cache path
 								cacheOrLoadCache($header, $newpath, 'Headers');
 
@@ -1039,7 +1046,14 @@ class View extends Bootloader
 								include $newpath;
 							}
 						}
-						
+
+						// load footer if $justView === false
+						if (!$justView && $this->loadFooter($__js, $controller, $footer))
+						{
+							$loadFooter = true;
+						}
+
+						// load view
 						if (strpos($render, '<') === false)
 						{
 							// render error if occured.
@@ -1075,18 +1089,15 @@ class View extends Bootloader
 							echo $render;
 						}
 						
-						// load footer if $justView === false
-						if (!$justView && $this->loadFooter($__js, $controller, $footer))
-						{
-							// include footer
-							if (file_exists($footer))
-							{
-								// cache path
-								cacheOrLoadCache($footer, $newpath, 'Footers');
 
-								// footer included.
-								include_once $newpath;
-							}
+						// include footer
+						if ($loadFooter && file_exists($footer))
+						{
+							// cache path
+							cacheOrLoadCache($footer, $newpath, 'Footers');
+
+							// footer included.
+							include_once $newpath;
 						}
 
 						// clean up
@@ -1573,6 +1584,7 @@ class View extends Bootloader
 		// get file name
 		$filename = basename($name);
 		$filename = preg_replace('/([^a-zA-Z\-\0-9\.])/', '', $filename);
+		$namePath = $name;
 
 		// get extension if sent.
 		if (strpos($filename, '.') !== false)
@@ -1584,61 +1596,71 @@ class View extends Bootloader
 		{
 			// load options
 			$options = [$filename.'.html', ucfirst($filename). '.html'];
+			$namePath .= '.html';
 		}
-			
-		// check for an absolute path
-		if (strlen($name) > 1 && $name[0] == '/')
+
+
+		if (is_file($namePath) && file_exists($namePath))
 		{
-			$name = substr($name, 1);
-			$path = $name;
+			$path = $namePath;
 		}
-		else
-		{
-			if ($name != '' && strlen($name) > 1)
+
+		if ($path == null)
+		{	
+			// check for an absolute path
+			if (strlen($name) > 1 && $name[0] == '/')
 			{
-				// check
-				if (strpos($name, '@') !== false)
+				$name = substr($name, 1);
+				$path = $name;
+			}
+			else
+			{
+				if ($name != '' && strlen($name) > 1)
 				{
-					$controller = substr($name, 0, strpos($name, '@'));
-				
-					if (is_dir($controller))
+					// check
+					if (strpos($name, '@') !== false)
 					{
-						// remove dir from string
-						$name = strstr($name, '@');
-						$name = ltrim($name, '@');
-						
-						// load path
-						$path = deepScan($controller, $options);
-
-						// save directory
-						$partialDirectory = $controller;
-					}
-					else
-					{
-						// remove controller from string
-						$name = strstr($name, '@');
-						$name = ltrim($name, '@');
-						
-						$path = deepScan(env('bootstrap', 'controller.basepath') . '/'. ucfirst($controller) . '/Partials/', $options);
-					}
-				}
-				else
-				{
-					if (file_exists($name))
-					{
-						$path = $name;
-					}
-					else
-					{
-						// get current controller
-						$controller = !is_null(self::$instance->controller) ? self::$instance->controller : config('router.default.controller');
-						// get path
-						$path = deepScan(env('bootstrap', 'controller.basepath') . '/'. ucfirst($controller) . '/Partials/', $options);
-
-						// check main partials
-						if (is_null($path) || strlen($path) < 4)
+						$controller = substr($name, 0, strpos($name, '@'));
+					
+						if (is_dir($controller))
 						{
-							$path = deepScan(PATH_TO_PARTIAL, $options);
+							// remove dir from string
+							$name = strstr($name, '@');
+							$name = ltrim($name, '@');
+							
+							// load path
+							$path = deepScan($controller, $options);
+
+							// save directory
+							$partialDirectory = $controller;
+						}
+						else
+						{
+							// remove controller from string
+							$name = strstr($name, '@');
+							$name = ltrim($name, '@');
+							
+							$path = deepScan(env('bootstrap', 'controller.basepath') . '/'. ucfirst($controller) . '/Partials/', $options);
+						}
+					}
+					else
+					{
+						if (file_exists($name))
+						{
+							$path = $name;
+						}
+						else
+						{
+							// get current controller
+							$controller = !is_null(self::$instance->controller) ? self::$instance->controller : config('router.default.controller');
+							// get path
+							$path = deepScan(env('bootstrap', 'controller.basepath') . '/'. ucfirst($controller) . '/Partials/', $options);
+
+							// check main partials
+							if (is_null($path) || strlen($path) < 4)
+							{
+								$path = deepScan(PATH_TO_PARTIAL, $options);
+							}
 						}
 					}
 				}
@@ -2153,10 +2175,10 @@ class View extends Bootloader
 	}
 
 	// load authentication handler for view.
-	final public function authentication($data=null)
+	final public function guard($data=null)
 	{
 		// get controller
-		\Authenticate::$controller = BootLoader::$helper['get_controller'];
+		\Guards::$controller = BootLoader::$helper['get_controller'];
 
 		// authentication handler sent
 		if (!is_null($data))
@@ -2171,13 +2193,13 @@ class View extends Bootloader
 			$params = array_splice($args, 1);
 
 			// scan for file
-			$path = deepScan(PATH_TO_AUTHENTICATION, [$handler . '.php', $handler.'.auth.php']);
+			$path = deepScan(PATH_TO_GUARDS, $handler . '.php');
 
 			// check if external config is not empty
 			if (!empty(View::$external_config))
 			{
 				// scan from thirdparty directory.
-				$path1 =  deepScan(Model::$thirdparty_path . 'utility/Authentication/', [$handler . '.php', $handler.'.auth.php']);
+				$path1 =  deepScan(Model::$thirdparty_path . 'utility/Guards/', $handler . '.php');
 
 				if (file_exists($path1))
 				{
@@ -2196,9 +2218,9 @@ class View extends Bootloader
 
 				$handler = basename($handler);
 
-				if (strpos($handler, '.auth') === false)
+				if (strpos($handler, 'Guard') === false)
 				{
-					$handler .= '.auth';
+					$handler .= '.Guard';
 				}
 
 				$class = ucwords(str_replace(".", ' ', $handler));
@@ -2254,13 +2276,13 @@ class View extends Bootloader
 			else
 			{
 				$error = true;
-				$message = "Authentication handler '$handler' doesn't exits in authentication/ dir. Action Failed!";
+				$message = "Guard handler '$handler' doesn't exits in ".PATH_TO_GUARDS." dir. Action Failed!";
 			}
 
 			if ($error !== false)
 			{
-				Event::emit('authentication.error', $message);
-				throw new \Exceptions\Authentication\AuthenticationException($message);
+				Event::emit('guards.error', $message);
+				throw new \Exceptions\Guards\GuardsException($message);
 			}
 
 		}

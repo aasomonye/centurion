@@ -939,15 +939,39 @@ class Model extends Controller
 				 * sendAppAp
 				 */
 
+				$methodView = function() use ($method)
+				{
+					$view = uri()->view;
+
+					if (is_string($view))
+					{
+						return $method . ucfirst($view);
+					}
+
+					return null;
+				};
+				
+				$methodValue = function() use ($method)
+				{
+					$methods = array_flip(['get', 'post', 'put', 'delete']);
+
+					if (!isset($methods[strtolower($method)]))
+					{
+						return $method;
+					}
+
+					return null;
+				};
+
 				$options = [
 					$applyArgument(),
 					$any($argument),
 					$any($model),
 					$any(uri()->view),
-					$method,
+					$methodValue(),
 					$method.ucfirst($model),
 					$method.$build,
-					$method.ucfirst(uri()->view),
+					$methodView(),
 					$args(),
 					$args($model),
 					$args(uri()->view),

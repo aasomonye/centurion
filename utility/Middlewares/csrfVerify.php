@@ -29,66 +29,68 @@ class CsrfVerify
         $verify = true;
         $types = [];
         $headerFound = false;
-
-        if (count($header) > 0)
-        {
-              foreach ($this->channels as $channel => $type)
-              {
-                  if ($type === CSRF_VERIFY_HEADER)
-                  {
-                      $types[] = $type;
-                      $verify = false;
-
-                      if (is_callable('getallheaders'))
-                      {
-                        $headers = \WekiWork\Http::getHeaders();
-                        
-                        foreach ($header as $i => $h)
-                        {
-                            $key = trim(substr($h, 0, strpos($h,':')));
-                            $v = trim(substr($h, strpos($h,':')+1));
-
-                            if (isset($headers[$key]))
-                            {
-                                $headerFound = true;
-                                $val = $headers[$key];
-
-                                if ($val == $v)
-                                {
-                                    $verify = true;
-                                    self::$headers[$key] = $val;
-                                }
-                            }
-                        }
-                        break;
-                      }
-                  }
-              }
-
-            // get all headers
-            foreach ($header as $i => $h)
-            {
-                $key = trim(substr($h, 0, strpos($h,':')));
-                $v = trim(substr($h, strpos($h,':')+1));
-
-                self::$allHeaders[$key] = $v;
-            }
-                
-        }
-
         $passed = false;
 
-        if (count($types) > 0)
-        {
-            foreach ($types as $I => $type)
+        Moorexa\Route::api(function() use (&$verify, &$types, &$headerFound, &$passed, &$header){
+
+            if (count($header) > 0)
             {
-                if ($type !== CSRF_VERIFY_HEADER && $verify === true)
+                foreach ($this->channels as $channel => $type)
                 {
-                    $passed = true;
-                    break;
+                    if ($type === CSRF_VERIFY_HEADER)
+                    {
+                        $types[] = $type;
+                        $verify = false;
+
+                        if (is_callable('getallheaders'))
+                        {
+                            $headers = \WekiWork\Http::getHeaders();
+                            
+                            foreach ($header as $i => $h)
+                            {
+                                $key = trim(substr($h, 0, strpos($h,':')));
+                                $v = trim(substr($h, strpos($h,':')+1));
+
+                                if (isset($headers[$key]))
+                                {
+                                    $headerFound = true;
+                                    $val = $headers[$key];
+
+                                    if ($val == $v)
+                                    {
+                                        $verify = true;
+                                        self::$headers[$key] = $val;
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+
+                // get all headers
+                foreach ($header as $i => $h)
+                {
+                    $key = trim(substr($h, 0, strpos($h,':')));
+                    $v = trim(substr($h, strpos($h,':')+1));
+
+                    self::$allHeaders[$key] = $v;
+                }
+                    
+            }
+
+            if (count($types) > 0)
+            {
+                foreach ($types as $I => $type)
+                {
+                    if ($type !== CSRF_VERIFY_HEADER && $verify === true)
+                    {
+                        $passed = true;
+                        break;
+                    }
                 }
             }
-        }
+        });
 
         if (!$passed)
         {
@@ -104,6 +106,6 @@ class CsrfVerify
             $verify = true;
         }
 
-        return $verify;
+        return false;
     }
 }

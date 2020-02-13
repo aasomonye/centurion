@@ -39,7 +39,7 @@ class Assist
         'migrate' => "Performs a database migration",
         'restore' => "Restore from last backup",
         'clean' => "Cleans code base. Everythings leaves.",
-        'new' => "Can be used to add the following, [arguments] (page, model, package, hyphe templates, middleware, auth, event, route, table, cli command, provider, vp).",
+        'new' => "Can be used to add the following, [arguments] (page, model, package, hyphe templates, middleware, guard, event, route, table, cli command, provider, vp).",
         'doc' => "Gives you a comprehensive documentation about moorexa for quick guide.",
         'version' => "Shows moorexa,assist,composer versions.",
         'database' => "Can add database configuration, clean database config file, set defaults.",
@@ -92,22 +92,22 @@ class Assist
                 'Component' => 'remains Component'
             ]
         ],
-        'new auth' => [
-            'info' => 'Generates an authentication handler',
+        'new guard' => [
+            'info' => 'Generates a guard handler',
             'optional commands' => [
-                'new auth <name> -<path>'
+                'new guard <name> -<path>'
             ],
             'usage' => 
             [
-                'php assist new auth <name>' => 'Generate/Overwrite and save to ./utility/authentication/',
-                'php assist new auth <name> -<path>' => 'Generate/Overwrite and save to <path>',
-                'php assist new auth <name>,<name> -<path>' => 'Generate/Overwrite and save to <path>'
+                'php assist new guard <name>' => 'Generate/Overwrite and save to ./utility/Guards/',
+                'php assist new guard <name> -<path>' => 'Generate/Overwrite and save to <path>',
+                'php assist new guard <name>,<name> -<path>' => 'Generate/Overwrite and save to <path>'
             ],
 
-            'auth naming style' => [
-                'name' => 'becomes NameAuth',
-                'nameBody' => 'becomes NameBodyAuth',
-                'Name' => 'remains NameAuth'
+            'guard naming style' => [
+                'name' => 'becomes NameGuard',
+                'nameBody' => 'becomes NameBodyGuard',
+                'Name' => 'remains NameGuard'
             ]
         ],
         'new table' => [
@@ -1927,25 +1927,26 @@ class Assist
                     self::out(PHP_EOL);
                 break;
 
-                case 'auth':
-                    $dir = self::$assistPath . PATH_TO_AUTHENTICATION;
+                case 'guard':
+                    $dir = self::$assistPath . PATH_TO_GUARDS;
 
                     $exp = explode(',', $arg[1]);
 
-                    foreach($exp as $i => $auth)
+                    foreach($exp as $i => $guard)
                     {
                         $template = decryptAssist('czozNjI6IjsiczozNDQ6Ij09UUNuaFV3aktkbS80MFJ4Yk5LZ1ZvZ3NwSUgvUWxEMVY2b0RDR1JWME0zekNhdTROSVFtYVRrWTdyd0w2L1A4WGNxeGREMGJxWnJBVE0yQUxFR2MyYm1pMVNNK2t0YUNiOVJRdzRNUUtzdEtqcVhRNGwxMEdid083LzRZbEhIV1h5eTVXdWpsUDBGdDBDb1hNTDNrdm13YUFubTllMGlNUFJyejNzSkFkVEZYeVRsdHFtcysxa1ZRQWdPRW9laWJFd3Ztd1M4UENhdU0wSUIrZmRVbFU2VGlmYWRIQnRUY1B0NzVRYzJ6eFM4Qi9qd0EvY3I1TzFlRDV6N0k4K2piRFE3azR0eHBFYW5zVkZHQU5IenRYUXZ5UVdYb05Sb1JianY4bEZ6TEpoS0RwQVBId1l2NEZBNjkwU3FTWU1qSjlCTm8vZ2dFSGxQekFCQWx4QWFqRFFxIjsiOjM1MzpzIjs=');
 
-                        $auth = preg_replace('/[^a-zA-Z_]/', ' ', $auth);
-                        $space = strpos($auth, ' ');
+                        $template = str_replace('Authenticate', 'Guards', $template);
+
+                        $guard = preg_replace('/[^a-zA-Z_]/', ' ', $guard);
+                        $space = strpos($guard, ' ');
                         if ($space !== false)
                         {
-                            $first = substr($auth, 0, $space);
+                            $first = substr($guard, 0, $space);
                         }
                         else
                         {   
-                            $auth = lcfirst($auth);
-                            $spl = preg_split('/[A-Z]/', $auth);
+                            $spl = preg_split('/[A-Z]/', $guard);
                             if (count($spl) > 1)
                             {
                                 $first = $spl[0];
@@ -1953,14 +1954,13 @@ class Assist
                             }
                             else
                             {
-                                $first = $auth;
+                                $first = $guard;
                             }
                             
                         }
 
-                        $auth = ucwords($auth);
-                        $auth = preg_replace('/[\s]/','',$auth);
-                        $auth = lcfirst($auth);
+                        $guard = xucwords($guard);
+                        $guard = preg_replace('/[\s]/','',$guard);
 
                         $path = isset($arg[2]) ? $arg[2] : null;
 
@@ -1978,16 +1978,16 @@ class Assist
 
                         if (is_dir($dir))
                         {
-                            $ucase = ucfirst($auth).'Auth';
+                            $ucase = ucfirst($guard).'Guard';
                             $template = str_replace('{ucase}', $ucase, $template);
 
-                            $path = $dir . $auth . '.auth.php';
+                            $path = $dir . $guard . '.php';
 
                             $continue = false;
 
                             if (file_exists($path))
                             {
-                                fwrite(STDOUT, "AUTH exists, should we overwrite ? (y/n) ");
+                                fwrite(STDOUT, "Guard exists, should we overwrite ? (y/n) ");
                                 $ans = strtolower(trim(fgets(STDIN)));
 
                                 if ($ans == 'y')
@@ -2006,7 +2006,7 @@ class Assist
                                 fwrite($fh, $template);
                                 fclose($fh);
 
-                                self::out("\n'$ucase' Authentication Handler generated ".$ass->ansii('green')."successfully.");
+                                self::out("\n'$ucase' Guard Handler generated ".$ass->ansii('green')."successfully.");
                             }
                             else
                             {

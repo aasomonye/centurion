@@ -1,22 +1,35 @@
+@partial('auth-header', ['__css' => $__css]);
+
 <hy>
-    <AccountScreen button="Proceed" 
-    title="Returning Customer."
-    caption="Glad to have you back. Please proceed with your login details."
-    inject="nav" image="slide7-bg">
+    <authWrapper button="Sign In" 
+    caption="Please proceed with your login details."
+    inject="nav-link" exportparts="authButton" excludeparts="socialSignup">
 
-        <Input name="email_address">Email address</Input>
-        <Input type="password" name="password">Password</Input>
+        <FormField name="email_address" type="email" icon="fa-envelope">Email Address</FormField>
+        <FormField name="password" type="password" icon="fa-lock">Password</FormField>
 
-        <div class="form-footer-tabs">
-            <label for="remember">
-                <input type="checkbox" id="remember" name="remember"> Remember me
-            </label>
-            <a $href="reset-password">Forgot password?</a>
-        </div>
+        <div class="row">
+            <div class="col-8">
+                <div class="icheck-primary">
+                    <input type="checkbox" id="remember" name="remember">
+                    <label for="remember">
+                        Remember Me
+                    </label>
+                </div>
+            </div>
+            exportparts.authButton
+      </div>
 
-        <nav>
-            <a $href="register"><img $src="arrow-left.png"> Become a member</a>
-        </nav>
+      <nav-link>
+        <p class="mb-1">
+            <a $href="reset-password">I forgot my password</a>
+          </p>
+          <p class="mb-0">
+            <a $href="register" class="text-center">Register a new membership</a>
+          </p>
+      </nav-link>
 
-    </AccountScreen>
+    </authWrapper>
 </hy>
+
+@partial('auth-footer', ['__js' => $__js]);

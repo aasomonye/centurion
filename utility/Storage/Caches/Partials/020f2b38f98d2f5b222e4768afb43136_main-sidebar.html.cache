@@ -1,0 +1,55 @@
+<?php $navigation = Centurion\Helpers\Query::getParentNavigation();?>
+
+<?php
+$navigation = $navigation;if ($navigation->rows > 0){
+while ($nav = $navigation->obj())
+{ ?>
+
+    <?php $sub = Centurion\Helpers\Query::getSubNavigation($nav->accountNavigationid);?>
+
+    <?php if($sub->rows > 0) { ?>
+    <li class="nav-item has-treeview">
+        <a href="<?=url("$nav->page_link")?>" class="nav-link">
+        <i class="<?=$nav->page_icon?>"></i>
+        <p>
+            <?=ucwords($nav->page_title)?>
+            <i class="right fas fa-angle-left"></i>
+        </p>
+        </a>
+
+        <ul class="nav nav-treeview">
+            <?php
+$sub = $sub;if ($sub->rows > 0){
+while ($subnav = $sub->obj())
+{ ?>
+            <li class="nav-item">
+                <a href="<?=url("$subnav->page_link")?>" class="nav-link">
+                <i class="<?=$subnav->page_icon?>"></i>
+                <p><?=$subnav->page_title?></p>
+                </a>
+            </li>
+            <?php }} ?>
+        </ul>
+    </li>
+    <?php } else { ?>
+      <li class="nav-item">
+        <a href="<?=url("$nav->page_link")?>" class="nav-link">
+          <i class="<?=$nav->page_icon?>"></i>
+          <p>
+            <?=$nav->page_title?>
+          </p>
+        </a>
+      </li>
+    <?php } ?>
+
+<?php }} ?>
+
+<!-- logout link -->
+<li class="nav-item">
+    <a href="<?=url("dashboard/logout")?>" class="nav-link">
+      <i class="nav-icon fas fa-power-off"></i>
+      <p>
+        Logout
+      </p>
+    </a>
+</li>

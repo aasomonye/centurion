@@ -1,0 +1,72 @@
+<?=\Moorexa\Rexa::runDirective(true,'setdefault')?>
+<!DOCTYPE html>
+<html lang="en-us">
+<head> 
+	<title><?=$package->name?></title>
+
+	<!-- meta tags -->
+	<?=\Moorexa\Rexa::runDirective(true,'partial','meta-tags.md')?>
+
+	<!-- link tags -->
+	<link rel="canonical" href="<?=url($package->url)?>">
+	<!-- favicon -->
+	<link rel="icon" type="image/png" href="<?=$package->icon?>" sizes="32x32">
+	
+	<!-- css -->
+	<?=$assets->loadCss($__css)?>
+  
+</head>
+	
+<body class="hold-transition sidebar-mini layout-navbar-fixed">
+	<div class="wrapper">
+		<?=\Moorexa\Rexa::runDirective(true,'partial','Centurion/Public/Templates/navbar')?>
+
+		<!-- Main Sidebar Container -->
+		<aside class="main-sidebar sidebar-dark-primary elevation-4">
+			<?=\Moorexa\Rexa::runDirective(true,'partial','Centurion/Public/Templates/brand-sidebar')?>
+		
+			  <!-- Sidebar Menu -->
+			  <nav class="mt-2">
+				<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+				  <?php if(Guards::info()->rows == 0) { ?>
+					<li class="nav-item has-treeview menu-open">
+						<a href="#" class="nav-link">
+						<i class="nav-icon fas fa-user"></i>
+						<p>
+							Account
+							<i class="right fas fa-angle-left"></i>
+						</p>
+						</a>
+						<ul class="nav nav-treeview">
+						<?php foreach ((\Moorexa\Bootloader::$currentClass)->provider->defaultPages as $linkTitle => $link) { ?>
+						<li class="nav-item">
+							<a href="<?=url("$link")?>"  class="<?=(uri()->pathAsSeen() == $link ? 'nav-link active' : 'nav-link')?>">
+							<i class="far fa-circle nav-icon"></i>
+							<p><?=$linkTitle?></p>
+							</a>
+						</li>
+						<?php } ?>
+						</ul>
+					</li>
+
+					<li class="nav-item">
+						<a href="<?=url("dashboard/logout")?>" class="nav-link">
+						<i class="nav-icon fas fa-power-off"></i>
+						<p>
+							Logout
+						</p>
+						</a>
+					</li>
+				  <?php } else { ?>
+					  <?=\Moorexa\Rexa::runDirective(true,'partial','Centurion/Public/Templates/main-sidebar')?>
+				  <?php } ?>
+				  
+				</ul>
+			  </nav>
+			  <!-- /.sidebar-menu -->
+			</div>
+			<!-- /.sidebar -->
+		</aside>
+		
+		<?=\Moorexa\Rexa::runDirective(true,'partial','Centurion/Public/Templates/content-header')?>

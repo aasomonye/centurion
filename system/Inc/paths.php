@@ -113,7 +113,7 @@ SysPath::utility([
 	'provider' => 'Providers',
 	'middleware' => 'Middlewares',
 	'console' => 'Console',
-	'authentication' => 'Authentication',
+	'guards' => 'Guards',
 	'storage' => 'Storage',
 	'event' => 'Events'
 ]);

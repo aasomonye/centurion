@@ -25,5 +25,14 @@ return array (
   'fc488486f2a6e15d5ffaf45f96f797d9_topratedplaces.html' => '65882237f7ee7909a4b0a11d92b34027',
   'ed402eca7301ca4826d38ffbd1073b49_testimonials.html' => '16f92680f695ec40b3809f891ee0a03e',
   '1111b5093e9a665fc4ab42bbf0868a45_contact-us-intro.html' => '1d4d21cb70937c3f43705af667413cab',
+  'f7df146bdc6e5b1317f95d7f658d6994_auth-header.html' => 'e36304244c9218b793a7ced0b22c3f1b',
+  '2e33de0e3d01c30c159138297358e5d6_auth-footer.html' => 'c99c5ec055f990c87de9f559cd6581d8',
+  'c014633ee88324fc6b41b990491dfa65_auth-footer.html' => 'b457562442fdc85a972c2112a084d02c',
+  '6d9a013598ff29a451614b14ae2a2c4e_car-rental-dropdown.html' => 'c1fe46b4dcb85b679ff7549c7cfd29fb',
+  '15a006eeb18b3756e8dee87d9b9526bc_footer.html' => '625c50a7468c7e6594495629d8b488f3',
+  '04a66744809f85927054582f727abdd6_content-header.html' => 'a5a6776db2ae86e6cbf303a53c928ed6',
+  'aa019c8c94304803bc19109df8bbddf6_brand-sidebar.html' => '0a3a9056f5629091099d6dfdbfb2137b',
+  'b9c80cbd05a20cc3937f2c19e9ff7d80_navbar.html' => '004a1743053af84e43a2311d934a089b',
+  '020f2b38f98d2f5b222e4768afb43136_main-sidebar.html' => '33942c9c1f5186d138915d34e267a0e1',
 );
 ?>

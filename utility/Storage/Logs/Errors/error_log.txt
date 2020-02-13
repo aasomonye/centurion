@@ -1,1 +1,7 @@
 [2020-02-02 1:05 pm] [file]: /Users/amadiify/Desktop/workspace/PHP/centurion-app/kernel/Config/config.php, [error]: Use of undefined constant PATH_TO_WEB_PLATFORM - assumed 'PATH_TO_WEB_PLATFORM', [line]: 155
+[2020-02-11 12:04 pm] [file]: /Users/mac/Desktop/workspace/centurion/system/DB/handler.php, [error]: Trying to get property of non-object, [line]: 83
+[2020-02-11 12:06 pm] [file]: /Users/mac/Desktop/workspace/centurion/lab/Cms/Config.php, [error]: Non-static method utility\Classes\BootMgr\Manager::onLoad() should not be called statically, [line]: 153
+[2020-02-11 12:08 pm] [file]: /Users/mac/Desktop/workspace/centurion/lab/Cms/Config.php, [error]: Use of undefined constant CMS_ROOT - assumed 'CMS_ROOT', [line]: 169
+[2020-02-11 12:09 pm] [file]: /Users/mac/Desktop/workspace/centurion/lab/Cms/Config.php, [error]: Non-static method utility\Classes\BootMgr\Manager::onLoad() should not be called statically, [line]: 153
+[2020-02-11 12:09 pm] [file]: /Users/mac/Desktop/workspace/centurion/lab/Cms/Config.php, [error]: Use of undefined constant CMS_ROOT - assumed 'CMS_ROOT', [line]: 169
+[2020-02-11 12:10 pm] [file]: /Users/mac/Desktop/workspace/centurion/lab/Cms/Config.php, [error]: Non-static method utility\Classes\BootMgr\Manager::onLoad() should not be called statically, [line]: 153

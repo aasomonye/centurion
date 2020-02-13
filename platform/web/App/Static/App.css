@@ -383,3 +383,10 @@ color: #fff; display: flex; align-items: center; width: 150px; font-size: 14px;
 margin-top: 20px;}
 .has-bg-form-area .form-container button img{width: 20px; opacity: 0.5;
 position: relative; left: 20px;}
+.alert-success {
+    color:#fff; background:  #74ba28; border: none !important;
+}
+.alert-danger {color: #fff;background:#ff4e00; border: none;}
+.login-logo, .register-logo {
+    margin-bottom: 2.2rem;
+}

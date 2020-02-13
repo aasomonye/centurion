@@ -46,4 +46,20 @@ class Query
     {
         return db('login_tracker')->insert($record);
     }
+
+    public static function getParentNavigation()
+    {
+        // get accountid
+        $accountid = \Guards::user()->accountid;
+
+        // get account navigation by accountid
+        return db('accountNavigation')->get('accountid = ? and parentid = ?', $accountid, 0);
+    }
+
+    public static function getSubNavigation(int $accountNavigationid)
+    {
+        // get sub navigation
+        return db('accountNavigation')->get('parentid = ?', $accountNavigationid);
+    }
+
 }

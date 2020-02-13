@@ -1,3 +1,4 @@
+@setdefault;
 <!DOCTYPE html>
 <html lang="en-us">
 <head> 
@@ -16,4 +17,56 @@
   
 </head>
 	
-<body>
+<body class="hold-transition sidebar-mini layout-navbar-fixed">
+	<div class="wrapper">
+		@partial('Centurion/Public/Templates/navbar');
+
+		<!-- Main Sidebar Container -->
+		<aside class="main-sidebar sidebar-dark-primary elevation-4">
+			@partial('Centurion/Public/Templates/brand-sidebar');
+		
+			  <!-- Sidebar Menu -->
+			  <nav class="mt-2">
+				<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+				  @if (Guards::info()->rows == 0)
+					<li class="nav-item has-treeview menu-open">
+						<a href="#" class="nav-link">
+						<i class="nav-icon fas fa-user"></i>
+						<p>
+							Account
+							<i class="right fas fa-angle-left"></i>
+						</p>
+						</a>
+						<ul class="nav nav-treeview">
+						@foreach ($this->provider->defaultPages as $linkTitle => $link)
+						<li class="nav-item">
+							<a $href="$link" php-if::class="uri()->pathAsSeen() == $link ? 'nav-link active' : 'nav-link'">
+							<i class="far fa-circle nav-icon"></i>
+							<p>{$linkTitle}</p>
+							</a>
+						</li>
+						@endforeach
+						</ul>
+					</li>
+
+					<li class="nav-item">
+						<a $href="dashboard/logout" class="nav-link">
+						<i class="nav-icon fas fa-power-off"></i>
+						<p>
+							Logout
+						</p>
+						</a>
+					</li>
+				  @else
+					  @partial('Centurion/Public/Templates/main-sidebar');
+				  @endif
+				  
+				</ul>
+			  </nav>
+			  <!-- /.sidebar-menu -->
+			</div>
+			<!-- /.sidebar -->
+		</aside>
+		
+		@partial('Centurion/Public/Templates/content-header');

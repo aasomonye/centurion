@@ -1,0 +1,58 @@
+<hy directive="FormField">
+	
+	<hy func="render">
+		<hy lang="html">
+
+			@if (isset(props.type) && props.type == 'select')
+
+				<div class="input-group mb-3">
+					<select name="{props.name}" class="form-control">
+						<option value="">{props.children}</option>
+						{$table = this.getNationality();}
+
+						@while ($row = $table->obj())
+							<option value="{$row->nationalityid}">{$row->country_name}</option>
+						@endwhile
+					</select>
+				</div>
+
+			@else
+
+				<div class="input-group mb-3">
+					<input php-if::type="isset(props.type) ? props.type : 'text'" name="{props.name}" class="form-control" placeholder="{props.children}" php-if::value="(isset(props.value) && strlen(props.value) > 0 ? props.value : this.getVal(props.name))" required>
+					<div class="input-group-append">
+						<div class="input-group-text">
+							<span class="fas {props.icon}"></span>
+						</div>
+					</div>
+				</div>
+				<span class="has-error" style="position:relative; top:-10px;">{this.getError(props.name)}</span>
+			@endif
+
+		</hy>
+	</hy>
+
+
+	<hy func="getNationality">
+		return db(props.get)->get();
+	</hy>
+
+	<hy func="getVal" args="$name">
+		$data = \Centurion\Models\Input::get();
+
+		if ($data !== null)
+		{
+			return $data->{$name};
+		}
+	</hy>
+
+	<hy func="getError" args="$name">
+		$data = \Centurion\Models\Input::get();
+
+		if ($data !== null)
+		{
+			return $data->onError($name);
+		}
+	</hy>
+</hy>
+

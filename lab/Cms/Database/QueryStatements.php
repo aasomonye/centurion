@@ -195,6 +195,24 @@ return array (
           'userid' => '1',
         ),
       ),
+      '248f71412349f00ac171168756aa9b574caec7f64e10b97407e0163b007c187b0090d2bb' => 
+      array (
+        'query' => 'UPDATE Zema_users SET loggedinToken = :loggedinToken  WHERE userid = :userid ',
+        'bind' => 
+        array (
+          'loggedinToken' => '7bdc6c48a657162e571f41e2886d6d68',
+          'userid' => '1',
+        ),
+      ),
+      '248f71412349f00ac171168756aa9b57b57efb92920cb206784a5c1feab707f70602fb89' => 
+      array (
+        'query' => 'UPDATE Zema_users SET loggedinToken = :loggedinToken  WHERE userid = :userid ',
+        'bind' => 
+        array (
+          'loggedinToken' => '64d480130b9f82f8611ea0cf92e1146f',
+          'userid' => '1',
+        ),
+      ),
     ),
     'Zema_containers' => 
     array (
@@ -573,6 +591,17 @@ return array (
           'accountid0' => '1',
         ),
       ),
+      '477e38b5e9b1a0bdaa3211945fa98309c21c323143f2cafeba9b5a622486c67b32f9182e' => 
+      array (
+        'query' => 'UPDATE Centurion_users SET firstname = :firstname , lastname = :lastname , userid = :userid  WHERE userid = :userid0 ',
+        'bind' => 
+        array (
+          'firstname' => 'ifeanyi',
+          'lastname' => 'amadi',
+          'userid' => '1',
+          'userid0' => '1',
+        ),
+      ),
     ),
     'Centurion_authentication' => 
     array (
@@ -939,6 +968,490 @@ return array (
           'authenticationid' => '1',
         ),
       ),
+      'e8f79dcc2ec50bd17087c67649fea98f6819e3d94147867547d52f5948d1d498f04053e3' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => '8893bc826877ae549d279e2715c31b18201e4ea7',
+          'session_token' => 'fe01526b624cf2d593a8da9138cb03bb',
+          'authenticationid' => '1',
+        ),
+      ),
+      'e8f79dcc2ec50bd17087c67649fea98f7074e18d15bcaa7ecd09faeeecc3d7f7fdf06ec6' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => '7328a328043c10f196cf55db6cd534899f0dd819',
+          'session_token' => '1122322da690c24d009c92980b156887',
+          'authenticationid' => '1',
+        ),
+      ),
+      'e8f79dcc2ec50bd17087c67649fea98ff18f40aa53efd08747c756c6a78845989046d803' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => '952e004233f6a428257decf0e66f91b34a44e090',
+          'session_token' => '0d97ffffed27732d45e7dd21f79a415a',
+          'authenticationid' => '1',
+        ),
+      ),
+      'e8f79dcc2ec50bd17087c67649fea98f5a4befc0d947c7da8842d3df1f40fb467cb1ee81' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => 'f1f9641d0ace1f00a265f87363dac9cb43fe7802',
+          'session_token' => 'f9dc103e23237ef8e50dc77a10030f9e',
+          'authenticationid' => '1',
+        ),
+      ),
+      'e8f79dcc2ec50bd17087c67649fea98f0a8ac34c0032aa931b53a813a607a4038921622d' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => '0299cb63663b7a70ce0a7e9d7c578419b9ec28dd',
+          'session_token' => '3e5580ef3c9a950768cdcd4209e49b65',
+          'authenticationid' => '1',
+        ),
+      ),
+      'e8f79dcc2ec50bd17087c67649fea98f891abd47fa0bd58da1fcdec8614e01188ad8a5c5' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => '78871a307d1e50f50e0cc00dd27d9c25e87b2ad9',
+          'session_token' => '3d0a4834ce5173c936d1e5a640eb0612',
+          'authenticationid' => '1',
+        ),
+      ),
+      'e8f79dcc2ec50bd17087c67649fea98fcb48ab5349fc81b0416183daa8431c3e95ff9a36' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => '36bf808a406dba0b6434af9623c7e22802a20bf2',
+          'session_token' => '454c12d6e5475140015a01470c7ea54d',
+          'authenticationid' => '1',
+        ),
+      ),
+      'e8f79dcc2ec50bd17087c67649fea98fb5a17649f8d0f545d3ba05935f5271eeec612d82' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => '64a832cda568950f1462e49e6d343b43f1cea150',
+          'session_token' => 'fd3ff3d1b42cfe4b9878f817f5dc3b09',
+          'authenticationid' => '1',
+        ),
+      ),
+      'e8f79dcc2ec50bd17087c67649fea98f84dd1c059846c08a5b4bdb13e69aa7a547fc744e' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => 'c7e2fe0b2275973de3a8a223b25a09046a1349bc',
+          'session_token' => '7dad6af83cffa98e490b730b0ebf2b53',
+          'authenticationid' => '1',
+        ),
+      ),
+      'e8f79dcc2ec50bd17087c67649fea98f628f7a3814074706f3f1a674c714a3afeade9852' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => 'b54320e62bde3aca9ea9dd0dfe1cb77408292554',
+          'session_token' => '8eee9c3be1287f2c3dc3d2cec00ebbc1',
+          'authenticationid' => '1',
+        ),
+      ),
+      'e8f79dcc2ec50bd17087c67649fea98f492690bf2df5e75f8470777acbe126952bd96049' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => '2a15566c2a04051647c1a7341080bedf1ff9e72a',
+          'session_token' => '235fa0a93b5246bb160f8db23e667db0',
+          'authenticationid' => '1',
+        ),
+      ),
+      'e8f79dcc2ec50bd17087c67649fea98fdb52920e9710716fb359012a060741617ea1b106' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => '7592dbe3d7d705ffff28626da96fde3a602aa6e3',
+          'session_token' => '363b7012d27a08a5991e91c10ad27e0f',
+          'authenticationid' => '1',
+        ),
+      ),
+      'e8f79dcc2ec50bd17087c67649fea98f29568f417aa2db4793675d1abef9d2d69f351d28' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => '265751ae7e9e97c4dcf39bcabc12831a1e25b75c',
+          'session_token' => '1a6321f56c39d66c4c3b3e5d4e7fca33',
+          'authenticationid' => '1',
+        ),
+      ),
+      'e8f79dcc2ec50bd17087c67649fea98f461691effdcf6dd82f9a9a86223f42e85b02660e' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => '740ba3e2a19c4115786607b80f3421fd23940115',
+          'session_token' => '45b0abb1b64b6428c5c837b0964014e8',
+          'authenticationid' => '1',
+        ),
+      ),
+      'e8f79dcc2ec50bd17087c67649fea98fd90d9412b299be85a2d4a93173facfc2384755d1' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => '9458faba649cf7dfc2c481df7cfdbf4b758858e2',
+          'session_token' => '1fb7e0290b1608b74d946da5d1076c7d',
+          'authenticationid' => '1',
+        ),
+      ),
+      'e8f79dcc2ec50bd17087c67649fea98fb2deeb63e2133f1a79b2d4c0ebae56e0102afcf6' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => 'e7966c8d30d49a7585496b93451e656d2a36690a',
+          'session_token' => 'e9d04456bcd08797ca27e6dc115be3f5',
+          'authenticationid' => '1',
+        ),
+      ),
+      'e8f79dcc2ec50bd17087c67649fea98faeaf0b39c112dd91591886c2a7b515b0ba3f5b77' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => 'a9bc87e97ce89ac43a65e6ab4752eda637949be9',
+          'session_token' => '950176396197e86e25adcbddc87062ff',
+          'authenticationid' => '1',
+        ),
+      ),
+      'e8f79dcc2ec50bd17087c67649fea98f3eee0cf93900083ba73ec70e08c3a3aca76881b1' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => '080b123de8acc817d78f0d9064030a6a73389f3d',
+          'session_token' => 'd0c0596bcc88f334524a9c1c779e4022',
+          'authenticationid' => '1',
+        ),
+      ),
+      'e8f79dcc2ec50bd17087c67649fea98fc744040e8448268653ddf9b3c8672e98a530924b' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => 'fec9a789facdcdff9e9842dab58bdf776f233e2b',
+          'session_token' => 'aff1036f16cc552a524077db926411a7',
+          'authenticationid' => '1',
+        ),
+      ),
+      'e8f79dcc2ec50bd17087c67649fea98f6d34c96531bc6d088a045f3de21d163fd5989c80' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => 'e935fbfe5f4bbed5cd7c1e68faca9128b06c6407',
+          'session_token' => '6b2cdedeec73552646216432a44e87f7',
+          'authenticationid' => '1',
+        ),
+      ),
+      'e8f79dcc2ec50bd17087c67649fea98f71d57109cfa0771e1dba151c9cf4f6c6be3555cf' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => '109abb7fa1cb5f4266a760ee59bbde4ea1e3b4da',
+          'session_token' => '7f3fba3d6854e7e09306629ad1395211',
+          'authenticationid' => '1',
+        ),
+      ),
+      'e8f79dcc2ec50bd17087c67649fea98f06816163a0394b1e4d5f35854aa98aac1bbef911' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => '90dccf8a1ce94aa4556589dadfba88d36f6bb487',
+          'session_token' => 'cefa2acce577c2da31a4d3dfda7833fd',
+          'authenticationid' => '1',
+        ),
+      ),
+      'e8f79dcc2ec50bd17087c67649fea98f9d1e8749f0a4c65a2b4ce1d295c433fcdc827826' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => '69e9c57adf47a69fdd4f74d27748199f998c2d48',
+          'session_token' => '4f9ce787df4c1aacbc5532a6b0653924',
+          'authenticationid' => '1',
+        ),
+      ),
+      'e8f79dcc2ec50bd17087c67649fea98f1c3074db1fdccf726e6f4d8656d4719513367dc2' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => 'b1ae5a76f5cfff07a7127e2f58daa7b2f1a454fa',
+          'session_token' => '4df385ef1c7965b754d7073652ee4605',
+          'authenticationid' => '1',
+        ),
+      ),
+      'e8f79dcc2ec50bd17087c67649fea98fe6b3ff1d13b2061b1e0966f7aa036ffcf867191c' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => 'a7eca4bb532cb81d0378969147f804fea258a6b5',
+          'session_token' => 'd2042ff87b869649aa1327584070e546',
+          'authenticationid' => '1',
+        ),
+      ),
+      'e8f79dcc2ec50bd17087c67649fea98f5cf0a97bdd82081ab8c2c018c97a97466d7a979a' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => 'd2f036cf3c368963070a3de56ffd46afa2f6fc8f',
+          'session_token' => '20b6a0127d42ab03e3b3277f0132ef10',
+          'authenticationid' => '1',
+        ),
+      ),
+      'e8f79dcc2ec50bd17087c67649fea98ff788ff05ef9a9d4f3c4d3efbbd7c6e59f8a63ea7' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => '69c34dc0439a61b6e1d4c5ca55e7e4ba37a5cdd5',
+          'session_token' => 'fc329470e4994b8fb967236813c5403c',
+          'authenticationid' => '1',
+        ),
+      ),
+      'e8f79dcc2ec50bd17087c67649fea98f2f053a81c19cf91f77ea1ea6db66a9c3730ef4af' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => '2a621a558d73cb6206260af2c3cdd54c1d09e4d7',
+          'session_token' => 'd16c05e334888a73f20ae433c502fce4',
+          'authenticationid' => '1',
+        ),
+      ),
+      'e8f79dcc2ec50bd17087c67649fea98f66e837edea15dc2de394cce8bc607e105d7e5756' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => '7562e0dd1c917332704cd93bc57dbf63821be5ab',
+          'session_token' => '1861bbb7750004fc170a433c3987d1a8',
+          'authenticationid' => '1',
+        ),
+      ),
+      '1aae3b362f040e390a8ccc2d467f026947cb28fbf3c4d295d945de8840ec4e62c3a6f0c0' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_hash = :password_hash , password_salt = :password_salt  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_hash' => '$2y$10$9ZoS77RI1eMBs2MUzcEqIeKJwdIaUDPv//0Y9vMroB/yYaIpuohJ6',
+          'password_salt' => '8b6deab4b3bcdec9697e8fb045f0e764c41d2025',
+          'authenticationid' => '1',
+        ),
+      ),
+      'e8f79dcc2ec50bd17087c67649fea98f524bf7bf4fc962af04bd42257aa9697f0094ee13' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => 'c5003866fe01aaad69b3d82ba8f43a23fd49e65f',
+          'session_token' => '80f35d3da1bc68a440cb6ae95830a3f9',
+          'authenticationid' => '1',
+        ),
+      ),
+      '1aae3b362f040e390a8ccc2d467f0269c18395e3f64b3e1b4828aaa9b028417ca4f4e934' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_hash = :password_hash , password_salt = :password_salt  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_hash' => '$2y$10$eNmH9YUy3GmYiHCxnaSvDu0ocfgkD5ELAcosTOHEy.0bnhx./2y/a',
+          'password_salt' => 'fdc493146a934f76c788a29d5ed34da26c4c7b31',
+          'authenticationid' => '1',
+        ),
+      ),
+      'dea6d8a5319e01962a4f7a6d74cd248ca83328ce3f6a139bdf5b94a01902d01ef442c708' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token , password_hash = :password_hash  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => 'fe148bd4d8f3696b4bab7c7ef58ffd6b5f990abe',
+          'session_token' => '714ede553fc9efd446bf85c64e231768',
+          'password_hash' => '$2y$10$ENR9vHtlH8e.pOtnB3CogO0gS3MMYeM/3zTdUJeqo3OxUe/Ul/FcC',
+          'authenticationid' => '1',
+        ),
+      ),
+      '1aae3b362f040e390a8ccc2d467f0269dac2ab0733eec339043a423e06b3fefd2316914b' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_hash = :password_hash , password_salt = :password_salt  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_hash' => '$2y$10$zSPCN5t0THH5pRaqcL95oerMfrnXPnv/R0hOewo7goS2SKN.CoYRu',
+          'password_salt' => 'af1c40f381a1d6183444db768d32d3449ed78633',
+          'authenticationid' => '1',
+        ),
+      ),
+      'dea6d8a5319e01962a4f7a6d74cd248c000adabb4523566249205c012e1791a8186c3e7a' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token , password_hash = :password_hash  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => '492587e6641dab2da15a5f107f0d67f8a3583da6',
+          'session_token' => '6950df2c3494d8b3ec4c20590ced9837',
+          'password_hash' => '$2y$10$TDDiXE6Wio2.YPadpdbdue9Cnv32XhQsWupyEg6GKA6hs0t4R5..W',
+          'authenticationid' => '1',
+        ),
+      ),
+      'dea6d8a5319e01962a4f7a6d74cd248cd0855e632371bca5d42f5fa3bc6fd410121c8ca1' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token , password_hash = :password_hash  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => '89e4cbf3357e327c9d1f274dc8b826da54e7e202',
+          'session_token' => 'ed9f2d711737f1d160e41cbe9817f958',
+          'password_hash' => '$2y$10$HxDu/iIuOAOVr.4kGR05Qu.U3lyPtv46aHwuVzPc6BR3yB22J1Ey2',
+          'authenticationid' => '1',
+        ),
+      ),
+      'dea6d8a5319e01962a4f7a6d74cd248cd11cf20bc19f638afee7f842d0ef8b00710ebefb' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token , password_hash = :password_hash  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => '6a65bbd1e1260e4494b26aa1a637f6247e96910c',
+          'session_token' => '13486c28a3084bbbc12f5c3c4490d192',
+          'password_hash' => '$2y$10$lH.OGsg2x85w.ckMg2cIw.oTWAsv4LqMmF/ouZZyPO.MCeE/rMBr6',
+          'authenticationid' => '1',
+        ),
+      ),
+      'dea6d8a5319e01962a4f7a6d74cd248cab471c01500a25940b07fa2cb463d3056a1ae479' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token , password_hash = :password_hash  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => '8170c6a0aa33f3aad6d8929c4b3aca25e0d54e91',
+          'session_token' => '702348b0f4f321c3590131054857be97',
+          'password_hash' => '$2y$10$W6K3A1M.tLMrhR0YbpljD.zTqNoaGWDGXUfmRjcrgyjxNkfCni5FO',
+          'authenticationid' => '1',
+        ),
+      ),
+      'dea6d8a5319e01962a4f7a6d74cd248c6b00d0b81f7be248411b8c4070ae09ae233e8d83' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token , password_hash = :password_hash  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => 'f1776ccf34785ee3cdd6ecea250b793bf5eedc6f',
+          'session_token' => '95a7764ae44f00242cf593dd906265d5',
+          'password_hash' => '$2y$10$cFxpG9u8jeslWzIsSdkXEOG6TrPZ0S8jDUQlM0/EgtMectN3APLmK',
+          'authenticationid' => '1',
+        ),
+      ),
+      'dea6d8a5319e01962a4f7a6d74cd248cd2f8621f38e898595d641858e35e9b68762b11c8' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token , password_hash = :password_hash  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => 'e92b98837a36ea249e7c8c67b09e82970321b4f1',
+          'session_token' => 'ef77df4dc3477027863ab0efde1d880f',
+          'password_hash' => '$2y$10$fCX8lB/ay3dcxjHLs/naVuuqKh4WMYdapPtT91NHN2y1UcWJw3Bn2',
+          'authenticationid' => '1',
+        ),
+      ),
+      'dea6d8a5319e01962a4f7a6d74cd248cf5649c4d8e092aedb87d3ea5de8ebd3589eec898' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token , password_hash = :password_hash  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => 'f195a80793968c892bab0021b96c6b13c479385d',
+          'session_token' => '027f1a2d54d0590dadc84b8400ab6427',
+          'password_hash' => '$2y$10$J24IL2Y7iewhO3XxLta0s.crGYveUgkZVfDvbaE3C6OB.tuMB0kie',
+          'authenticationid' => '1',
+        ),
+      ),
+      'dea6d8a5319e01962a4f7a6d74cd248c43b7a929fbbdfc0fa27debd357be1b96532078dc' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token , password_hash = :password_hash  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => 'a734bc71912785710e4fb5970339aa22085e4471',
+          'session_token' => '18b6b4d1a564ea0126b4b501bbd0cc5a',
+          'password_hash' => '$2y$10$vGapa5COg6P.qirsSUdfHu5dfSYoH.vX9iTRdhOWTpMeo699aSZEm',
+          'authenticationid' => '1',
+        ),
+      ),
+      'dea6d8a5319e01962a4f7a6d74cd248cf3fc29d6eb6ca4de748537408929625e3e40a8e4' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token , password_hash = :password_hash  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => '7730d2cdb2f2b1e9a23b54fc113226394ff464d8',
+          'session_token' => '7181e2196bab6334675ac65f08a8ca4a',
+          'password_hash' => '$2y$10$3z8Vqu5QNbDhocyYUgp61edE5EBKtr6w0mxTTxEChFwkDif0N7ItS',
+          'authenticationid' => '1',
+        ),
+      ),
+      'dea6d8a5319e01962a4f7a6d74cd248cf0f9759f3df79d14da0d2b5a5407cfe83f15c27a' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token , password_hash = :password_hash  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => 'c32386db6a84cf6981bfc24b92c4dd2c9e119285',
+          'session_token' => '9d2308ac8296a75164d1723e107744dc',
+          'password_hash' => '$2y$10$vsMUQHyn2NYrmgqwoEpN/uDFmZhprXtM/yaOffu/qB/iTxLfnN/f.',
+          'authenticationid' => '1',
+        ),
+      ),
+      'dea6d8a5319e01962a4f7a6d74cd248ce9f22a03a535bfc7bf101f252918c7d99edf8ee1' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token , password_hash = :password_hash  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => 'ad65b7ea0571f9a748d317535a0386a03aa619ea',
+          'session_token' => '704da7123a6c7c89a40867875ff134c0',
+          'password_hash' => '$2y$10$F/SWeX9mMhDNO43uR5Gvj.bJr5YiS9FX.ct9jUa97oT.RQeqT2ESi',
+          'authenticationid' => '1',
+        ),
+      ),
+      'dea6d8a5319e01962a4f7a6d74cd248ca762450f588aa6e03b05bc6429a3ac33a136ce3d' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token , password_hash = :password_hash  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => '803993065405c88754aad8bcbc6ae1dfb1f6aadb',
+          'session_token' => 'c92e289c7fbe419ad7a767024a85c856',
+          'password_hash' => '$2y$10$AhZX.VwlFxsHunBUAoljxea5IQMRrjXdSMuT8SEkXimCm5eI0S1vC',
+          'authenticationid' => '1',
+        ),
+      ),
+      'dea6d8a5319e01962a4f7a6d74cd248cd940b63d5cbc6b0ac57e7c7943bb298ee4bef512' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token , password_hash = :password_hash  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => 'c90c660df5bc77cbae4edeab6eddbb7a835fb07e',
+          'session_token' => 'd2b222c974ce631788885df1bb32bc2d',
+          'password_hash' => '$2y$10$2WzG5tg78.ZP.KM4gMVYtu913tbhntnsO.MGMwa813/6LdfmF5g.u',
+          'authenticationid' => '1',
+        ),
+      ),
     ),
     'Centurion_activations' => 
     array (
@@ -1156,6 +1669,101 @@ return array (
           'redirect_to0' => 'dashboard',
           'satisfied0' => '0',
           'lockid0' => '4',
+        ),
+      ),
+      '47ba36781afa4115b6d51ce1b9b17f606d04e29e35d0206e2e986befba1d0ec6ed8e4c07' => 
+      array (
+        'query' => 'INSERT INTO Centurion_activations (activation_code,redirect_to,satisfied,lockid) VALUES (:activation_code0,:redirect_to0,:satisfied0,:lockid0)',
+        'bind' => 
+        array (
+          'activation_code0' => 'b6c2c5f4f26e503f08212a6cb43fc5dd3e2bbdcf',
+          'redirect_to0' => 'dashboard',
+          'satisfied0' => '0',
+          'lockid0' => '2',
+        ),
+      ),
+      '9eff7fec00138df9b0863de21b073d80804d55a5b6fa1240a2be3af1f94d52154ce5b4f3' => 
+      array (
+        'query' => 'INSERT INTO Centurion_activations (userid,activation_code,redirect_to,satisfied,lockid) VALUES (:userid0,:activation_code0,:redirect_to0,:satisfied0,:lockid0)',
+        'bind' => 
+        array (
+          'userid0' => '1',
+          'activation_code0' => '1f010ca4a684662623ea0101acef5c10cf199ef3',
+          'redirect_to0' => 'dashboard',
+          'satisfied0' => '0',
+          'lockid0' => '2',
+        ),
+      ),
+      '9eff7fec00138df9b0863de21b073d807afabb23713a2ef8143a9383e50452ac1dcbeb28' => 
+      array (
+        'query' => 'INSERT INTO Centurion_activations (userid,activation_code,redirect_to,satisfied,lockid) VALUES (:userid0,:activation_code0,:redirect_to0,:satisfied0,:lockid0)',
+        'bind' => 
+        array (
+          'userid0' => '1',
+          'activation_code0' => '5483605aeab7553e6e89b663fe455fac80c7cbe2',
+          'redirect_to0' => 'dashboard',
+          'satisfied0' => '0',
+          'lockid0' => '2',
+        ),
+      ),
+      '9eff7fec00138df9b0863de21b073d80bd35d8fef6856f34c49d3478be0621c51dd57e65' => 
+      array (
+        'query' => 'INSERT INTO Centurion_activations (userid,activation_code,redirect_to,satisfied,lockid) VALUES (:userid0,:activation_code0,:redirect_to0,:satisfied0,:lockid0)',
+        'bind' => 
+        array (
+          'userid0' => '1',
+          'activation_code0' => '2d34e594ce0b96f1c45a5bb93735a4fcbb5b6cd2',
+          'redirect_to0' => 'dashboard',
+          'satisfied0' => '0',
+          'lockid0' => '2',
+        ),
+      ),
+      '9eff7fec00138df9b0863de21b073d802fbbc284c2da8f51f7cd237e115c6c6190ec3f50' => 
+      array (
+        'query' => 'INSERT INTO Centurion_activations (userid,activation_code,redirect_to,satisfied,lockid) VALUES (:userid0,:activation_code0,:redirect_to0,:satisfied0,:lockid0)',
+        'bind' => 
+        array (
+          'userid0' => '1',
+          'activation_code0' => 'f2fd3ec9d616b4bdef801267f3880ecca766ae7f',
+          'redirect_to0' => 'dashboard',
+          'satisfied0' => '0',
+          'lockid0' => '2',
+        ),
+      ),
+      '9eff7fec00138df9b0863de21b073d80d2971f249c84f5ef25313f66e06f75f21e51d6e4' => 
+      array (
+        'query' => 'INSERT INTO Centurion_activations (userid,activation_code,redirect_to,satisfied,lockid) VALUES (:userid0,:activation_code0,:redirect_to0,:satisfied0,:lockid0)',
+        'bind' => 
+        array (
+          'userid0' => '1',
+          'activation_code0' => '840d7497c498a1d10408cc96ce775168a11b1ebb',
+          'redirect_to0' => 'dashboard',
+          'satisfied0' => '0',
+          'lockid0' => '2',
+        ),
+      ),
+      '9eff7fec00138df9b0863de21b073d80ba3afdb323dccc2366fca8cbd9b719e284f811bc' => 
+      array (
+        'query' => 'INSERT INTO Centurion_activations (userid,activation_code,redirect_to,satisfied,lockid) VALUES (:userid0,:activation_code0,:redirect_to0,:satisfied0,:lockid0)',
+        'bind' => 
+        array (
+          'userid0' => '1',
+          'activation_code0' => '4244dea1dc5c2fb51baf2be096fe669108a17344',
+          'redirect_to0' => 'dashboard',
+          'satisfied0' => '0',
+          'lockid0' => '2',
+        ),
+      ),
+      '9eff7fec00138df9b0863de21b073d80f390a5f4c7b5fc35e79e16d35a4239d639168bc7' => 
+      array (
+        'query' => 'INSERT INTO Centurion_activations (userid,activation_code,redirect_to,satisfied,lockid) VALUES (:userid0,:activation_code0,:redirect_to0,:satisfied0,:lockid0)',
+        'bind' => 
+        array (
+          'userid0' => '1',
+          'activation_code0' => '4d83e3ea659170a38d2da4003cb3665adc4fc404',
+          'redirect_to0' => 'dashboard',
+          'satisfied0' => '0',
+          'lockid0' => '2',
         ),
       ),
     ),
@@ -1435,6 +2043,24 @@ return array (
           'isloggedin' => '1',
           'last_login' => '2020-02-08 9:17:27 am',
           'authenticationid' => '1',
+        ),
+      ),
+    ),
+    'Centurion_users_information' => 
+    array (
+      '1f7b58c3c62b3f50487152d1e25f9ced3656467fad5bcdb23656aa7bedc9d9e18969515a' => 
+      array (
+        'query' => 'INSERT INTO Centurion_users_information (userid,next_of_kin_name,next_of_kin_telephone,next_of_kin_address,next_of_kin_relationship,telephone,home_address,work_address) VALUES (:userid0,:next_of_kin_name0,:next_of_kin_telephone0,:next_of_kin_address0,:next_of_kin_relationship0,:telephone0,:home_address0,:work_address0)',
+        'bind' => 
+        array (
+          'userid0' => '1',
+          'next_of_kin_name0' => 'ifeoma',
+          'next_of_kin_telephone0' => '08092727228',
+          'next_of_kin_address0' => '10 kaslat avenue kebe',
+          'next_of_kin_relationship0' => 'sister',
+          'telephone0' => '08029925179',
+          'home_address0' => '10 kaslat avenue kebe',
+          'work_address0' => '10 kaslat avenue kebe',
         ),
       ),
     ),

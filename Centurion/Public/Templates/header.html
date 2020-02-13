@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head> 
+	<title>{$package->name}</title>
+
+	<!-- meta tags -->
+	@partial('meta-tags.md')
+
+	<!-- link tags -->
+	<link rel="canonical" href="{url($package->url)}">
+	<!-- favicon -->
+	<link rel="icon" type="image/png" href="{$package->icon}" sizes="32x32">
+	
+	<!-- css -->
+	{$assets->loadCss($__css)}
+  
+</head>
+	
+<body class="hold-transition sidebar-mini layout-navbar-fixed">
+	<div class="wrapper">
+		@partial('Centurion/Public/Templates/navbar');
+
+		<!-- Main Sidebar Container -->
+		<aside class="main-sidebar sidebar-dark-primary elevation-4">
+			@partial('Centurion/Public/Templates/brand-sidebar');
+		
+			  <!-- Sidebar Menu -->
+			  <nav class="mt-2">
+				<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+				  @partial('Centurion/Public/Templates/main-sidebar');
+				</ul>
+			  </nav>
+			  <!-- /.sidebar-menu -->
+			</div>
+			<!-- /.sidebar -->
+		</aside>
+		
+		@partial('Centurion/Public/Templates/content-header');

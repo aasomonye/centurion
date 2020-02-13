@@ -128,11 +128,11 @@
         "path": "utility\/Storage\/Caches\/Footers\/cache.7b879a27ec5898dc85dd63537b9f07f8.App.footer.html"
     },
     ".\/platform\/web\/\/App\/Views\/account\/login.html": {
-        "hash": "6e90e3745213fada88e6e7f3da6c41f4",
+        "hash": "347f9706cc6a0b2d893de28bb35f95de",
         "path": "utility\/Storage\/Caches\/Views\/cache.a160ba1d6534c0532bdfe33f6c937daf.App.login.html"
     },
     ".\/platform\/web\/\/App\/Views\/account\/register.html": {
-        "hash": "fe96f6689101984d2f76564ddae10a02",
+        "hash": "56fecac76e7717ae96f674271c485cdc",
         "path": "utility\/Storage\/Caches\/Views\/cache.fc8f5eaddafc4adda4f70f08f6f801f7.App.register.html"
     },
     ".\/platform\/web\/\/Admin\/Views\/home.html": {
@@ -144,11 +144,51 @@
         "path": "utility\/Storage\/Caches\/Views\/cache.820178b7878537fbc1c1fd7669353322.Dashboard.welcome.html"
     },
     ".\/platform\/web\/\/App\/Views\/account\/resetpassword.html": {
-        "hash": "1fb155df9cf2c828acf0a3685c85ba2a",
+        "hash": "d1595bd91620ecc0ba50f93e97e4d55a",
         "path": "utility\/Storage\/Caches\/Views\/cache.bffadcc098011417ab2aa117963d7600.App.resetpassword.html"
     },
     ".\/platform\/web\/\/Dashboard\/Views\/home.html": {
         "hash": "d41d8cd98f00b204e9800998ecf8427e",
         "path": "utility\/Storage\/Caches\/Views\/cache.20d06ed04daed9367650d6c37f21961d.Dashboard.home.html"
+    },
+    ".\/platform\/web\/\/App\/Views\/changepassword.html": {
+        "hash": "bf23979a902144a2b76b4a64f75f007b",
+        "path": "utility\/Storage\/Caches\/Views\/cache.0be8b0a4da0d89a7b46bcfc046d2e8a9.App.changepassword.html"
+    },
+    ".\/platform\/web\/\/App\/Views\/account\/changepassword.html": {
+        "hash": "72b27d50a21eb41d662a444a41798afe",
+        "path": "utility\/Storage\/Caches\/Views\/cache.0b2a123a52fd47e485d32dad62673a3e.App.changepassword.html"
+    },
+    ".\/platform\/web\/\/App\/Views\/carrental.html": {
+        "hash": "b1b164ded1552c3690cddd31542bc828",
+        "path": "utility\/Storage\/Caches\/Views\/cache.5e8d6295e9b10ba29dac381c0591997d.App.carrental.html"
+    },
+    ".\/platform\/web\/\/Dashboard\/Custom\/header.html": {
+        "hash": "1e6b23439aa5d368f8e53c62cfa22dc9",
+        "path": "utility\/Storage\/Caches\/Headers\/cache.87bd00806077a7b9aaa28f69312e5194.Dashboard.header.html"
+    },
+    ".\/platform\/web\/\/Dashboard\/Custom\/footer.html": {
+        "hash": "2e856fcbedd114305735ec23f41315b1",
+        "path": "utility\/Storage\/Caches\/Footers\/cache.95c1d3b5493e04e7bbf5871138720c6f.Dashboard.footer.html"
+    },
+    ".\/platform\/web\/\/Dashboard\/Views\/completeregistration.html": {
+        "hash": "022a3dbc8af5d228660530dd564207d9",
+        "path": "utility\/Storage\/Caches\/Views\/cache.d11688192d4f182149e692cbd41d5b61.Dashboard.completeregistration.html"
+    },
+    ".\/platform\/web\/\/Customer\/Views\/dashboard.html": {
+        "hash": "d41d8cd98f00b204e9800998ecf8427e",
+        "path": "utility\/Storage\/Caches\/Views\/cache.5ce17d9ae5052b684af68b572fafdeb6.Customer.dashboard.html"
+    },
+    "Centurion\/Public\/Templates\/header.html": {
+        "hash": "f22b84b393dd120aa6c381892268f4ff",
+        "path": "utility\/Storage\/Caches\/Headers\/cache.6d16e07ba37eca8a2f4de2342ef1ec3d.Customer.header.html"
+    },
+    "Centurion\/Public\/Templates\/footer.html": {
+        "hash": "625c50a7468c7e6594495629d8b488f3",
+        "path": "utility\/Storage\/Caches\/Footers\/cache.15a006eeb18b3756e8dee87d9b9526bc.Customer.footer.html"
+    },
+    ".\/platform\/web\/\/Dashboard\/Views\/profile.html": {
+        "hash": "12113a2564bfbe215f2ccb5b3183858f",
+        "path": "utility\/Storage\/Caches\/Views\/cache.f45082e125461c8117a3f29012d83774.Dashboard.profile.html"
     }
 }

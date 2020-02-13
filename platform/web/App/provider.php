@@ -7,7 +7,7 @@
 
 class AppProvider extends App
 {
-    private $viewsExceptions = ['login', 'register', 'resetPassword', 'recovery'];
+    private $viewsExceptions = ['login', 'register', 'resetPassword', 'changePassword'];
 
     /**
      * @method Boot startup 
@@ -20,12 +20,11 @@ class AppProvider extends App
        
        if (in_array($view, $this->viewsExceptions))
        {
-           // add wrapper.css
-           $this->requirecss('wrapper.css');
+           config('loadStatic', read_json(HOME . 'Centurion/Public/adminStaticPack.json'));
 
            // hide header and footer. And set the page title 
            $this->customConfig([
-               'default' => true,
+               'blankPage' => true,
                'apptitle' => ucfirst($view)
            ]);
        }

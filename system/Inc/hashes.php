@@ -116,7 +116,7 @@ class Hash
         $string = '$'.implode("", array_splice($char, 0, $len)) . '$' . implode("", array_splice($digits, 0, $len));
 
         // new value
-        $value = $string.'$'.$value . 'salt:'. $moorexaSalt;
+        $value = sha1($string.'$'.$value . '@salt:'. $moorexaSalt);
 
         $hashValue = $value;
         

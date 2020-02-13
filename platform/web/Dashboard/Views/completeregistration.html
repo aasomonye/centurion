@@ -1,0 +1,131 @@
+<form action="" method="POST">
+@csrf;
+<div class="card card-default">
+	<div class="card-header">
+	  <h3 class="card-title">Update your personal information</h3>
+
+	  <div class="card-tools">
+		<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+		<button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-remove"></i></button>
+	  </div>
+	</div>
+	<!-- /.card-header -->
+	<div class="card-body">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Telephone</label>
+								<hy>
+									<FormField icon="fa-phone" name="telephone" type="tel">Telephone</FormField>
+								</hy>
+							</div>
+						</div>
+						<!-- /.form-group -->
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Home Address</label>
+								<hy>
+									<FormField icon="fa-address-book" name="home_address" type="text">Your Home Address</FormField>
+								</hy>
+							</div>
+							<!-- /.form-group -->
+						</div>
+					</div>
+				</div>
+				<!-- /.col -->
+				<div class="col-md-12">
+					<div class="form-group">
+						<label>Work Address</label>
+						<hy>
+							<FormField icon="fa-address-book" name="work_address" type="text">Your Work Address</FormField>
+						</hy>
+					</div>
+				<!-- /.form-group -->
+				</div>
+				<!-- /.col -->
+			</div>
+			<!-- /.row -->
+	</div>
+	<!-- /.card-body -->
+</div>
+<!-- /.card -->
+
+<div class="card card-default">
+	<div class="card-header">
+	  <h3 class="card-title">Next of Kin information</h3>
+
+	  <div class="card-tools">
+		<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+		<button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-remove"></i></button>
+	  </div>
+	</div>
+	<!-- /.card-header -->
+	<div class="card-body">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Next of kin Name</label>
+							<hy>
+								<FormField icon="fa-user" name="next_of_kin_name" type="text">Next of Kin Name</FormField>
+							</hy>
+						</div>
+					</div>
+					<!-- /.form-group -->
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Next of Kin Telephone</label>
+							<hy>
+								<FormField icon="fa-phone" name="next_of_kin_telephone" type="tel">Next of Kin Telephone</FormField>
+							</hy>
+						</div>
+						<!-- /.form-group -->
+					</div>
+				</div>
+			</div>
+			<!-- /.col -->
+
+			<div class="col-md-12">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Next of kin address</label>
+							<hy>
+								<FormField icon="fa-address-book" name="next_of_kin_address" type="text">Next of Kin Address</FormField>
+							</hy>
+						</div>
+					</div>
+					<!-- /.form-group -->
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Next of Kin relationship</label>
+							<hy>
+								<select name="next_of_kin_relationship" required class="form-control select2">
+									<option value="">Please choose</option>
+									<option value="brother">Brother</option>
+									<option value="sister">Sister</option>
+									<option value="uncle">Uncle</option>
+									<option value="cousin">Cousin</option>
+									<option value="daughter">Daughter</option>
+									<option value="son">Son</option>
+									<option value="father">Father</option>
+									<option value="mother">Mother</option>
+								</select>
+							</hy>
+						</div>
+						<!-- /.form-group -->
+					</div>
+				</div>
+			</div>
+			<!-- /.col -->
+		</div>
+		<!-- /.row -->
+	</div>
+	<!-- /.card-body -->
+</div>
+<!-- /.card -->
+<button type="submit" class="btn btn-success">Submit</button>
+</form>

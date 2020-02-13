@@ -14,10 +14,7 @@ use Moorexa\Middleware;
  * info: Add your GET, POST, DELETE, PUT request handlers here. 
 */
 
-Route::domain('console.fregatelab.com', function()
+Route::any('change-password-{activationcode}', ['activationcode' => '/([\S]+)/'], function($activationcode)
 {
-    if (!isset($_SESSION['lab.access.guranted']))
-    {
-        //redirect('http://console.fregatelab.com?msg=Access denied');
-    }
+    return 'app/changePassword/'.$activationcode;
 });

@@ -21,7 +21,11 @@ class Users_information
 			account_name         varchar(150),
 			account_number       varchar(100),
 			bank_name            varchar(100),
-			bank_swift_code      varchar(100)
+            bank_swift_code      varchar(100),
+            next_of_kin_name     varchar(100),
+            next_of_kin_relationship     varchar(100),
+            next_of_kin_telephone     varchar(100),
+            next_of_kin_address     varchar(200)
 		");
         $schema->alterStatement("COMMENT 'This would contain additional information for user'");
 		$schema->alterStatement("MODIFY bank_name varchar(100)     COMMENT 'This would be added from banks table. We made this a text type so we can get add the name if not found in the list of banks by the user'");

@@ -4,99 +4,109 @@ namespace Moorexa;
 
 class Location
 {
-	public function get($id=null)
-	{
-		return self::paths($id);
-	}
+    // argument
+    public $arg = [];
+    
+    public function get($id=null)
+    {
+        return self::paths($id);
+    }
 
-	public static function paths($id = null)
-	{
-		$loc = Bootloader::$helper['location.url'];
+    public static function paths($id = null)
+    {
+        $loc = Bootloader::$helper['location.url'];
 
-		if (!is_null($id))
-		{
-			$loc = isset($loc[$id]) ? $loc[$id] : false;
-		}
+        if (!is_null($id))
+        {
+            $loc = isset($loc[$id]) ? $loc[$id] : false;
+        }
 
-		return $loc;
-	}
+        return $loc;
+    }
 
-	// covert paths to string
-	public static function pathAsString() :string
-	{
-		$paths = self::paths();
-		$paths[0] = strtolower($paths[0]); // make controller lowercase
+    // convert paths to string
+    public static function pathAsString() :string
+    {
+        $paths = self::paths();
+        $paths[0] = strtolower($paths[0]); // make controller lowercase
 
-		return implode("/", $paths);
-	}
+        return implode("/", $paths);
+    }
 
-	// get previous page
-	public static function previous()
-	{
-		return Route::previous();
-	}
+    // part as seen
+    public static function pathAsSeen() : string
+    {
+        return isset($_GET['__app_request__']) ? $_GET['__app_request__'] : '';
+    }
 
-	// check if request is sent.
-	public function is($name)
-	{
-		$location = Bootloader::$helper['location.url'];
-		$current = Bootloader::$helper['c_controller'];
+    // get previous page
+    public static function previous()
+    {
+        return Route::previous();
+    }
 
-		$flip = array_flip($location);
-		$explode = array_flip(explode('/', $name));
+    // check if request is sent.
+    public function is($name)
+    {
+        $location = Bootloader::$helper['location.url'];
+        $current = Bootloader::$helper['c_controller'];
 
-		if (isset($flip[$current]))
-		{
-			unset($flip[$current]);
-			if (isset($explode[$current]))
-			{
-				unset($explode[$current]);
-			}
-		}
+        $flip = array_flip($location);
+        $explode = array_flip(explode('/', $name));
 
-		$flip = array_flip($flip);
-		$explode = array_flip($explode);
-		sort($flip);
-		sort($explode);
+        if (isset($flip[$current]))
+        {
+            unset($flip[$current]);
+            if (isset($explode[$current]))
+            {
+                unset($explode[$current]);
+            }
+        }
 
-		$url = array_splice($flip, 0, count($explode));
-		$url = implode('/', $url);
-		$explode = implode('/', $explode);
+        $flip = array_flip($flip);
+        $explode = array_flip($explode);
+        sort($flip);
+        sort($explode);
 
-		if ($explode == $url)
-		{
-			return true;
-		}
+        $url = array_splice($flip, 0, count($explode));
+        $url = implode('/', $url);
+        $explode = implode('/', $explode);
 
-		return false;
-	}
+        if ($explode == $url)
+        {
+            return true;
+        }
 
-	// get argument
-	public function arg($id=0)
-	{
-		$array = $this->arg;
-		if (isset($array[$id]))
-		{
-			return $array[$id];
-		}
+        return false;
+    }
 
-		return null;
-	}
+    // get argument
+    public function arg($id=0)
+    {
+        $array = $this->arg;
 
-	// get
-	public function __get($name)
-	{
-		if ($name == 'view')
-		{
-			return $this->get(1);
-		}
-		elseif ($name == 'arg')
-		{
-			$array = [];
-			$uri = self::paths();
-			$array = array_splice($uri, 2);
+        if (is_array($array) && isset($array[$id]))
+        {
+            return $array[$id];
+        }
 
-			return $array;
-		}
-	}
+        return null;
+    }
+
+    // get
+    public function __get($name)
+    {
+        if ($name == 'view')
+        {
+            return $this->get(1);
+        }
+        elseif ($name == 'arg')
+        {
+            $array = [];
+            $uri = self::paths();
+            $array = array_splice($uri, 2);
+
+            return $array;
+        }
+    }
 }

@@ -1,0 +1,49 @@
+{$navigation = Centurion\Helpers\Query::getParentNavigation();}
+
+@fetch ($navigation, 'nav')
+
+    {$sub = Centurion\Helpers\Query::getSubNavigation($nav->accountNavigationid);}
+
+    @if ($sub->rows > 0)
+    <li class="nav-item has-treeview">
+        <a $href="$nav->page_link" class="nav-link">
+        <i class="{$nav->page_icon}"></i>
+        <p>
+            {ucwords($nav->page_title)}
+            <i class="right fas fa-angle-left"></i>
+        </p>
+        </a>
+
+        <ul class="nav nav-treeview">
+            @fetch ($sub, 'subnav')
+            <li class="nav-item">
+                <a $href="$subnav->page_link" class="nav-link">
+                <i class="{$subnav->page_icon}"></i>
+                <p>{$subnav->page_title}</p>
+                </a>
+            </li>
+            @endfetch
+        </ul>
+    </li>
+    @else
+      <li class="nav-item">
+        <a $href="$nav->page_link" class="nav-link">
+          <i class="{$nav->page_icon}"></i>
+          <p>
+            {$nav->page_title}
+          </p>
+        </a>
+      </li>
+    @endif
+
+@endfetch
+
+<!-- logout link -->
+<li class="nav-item">
+    <a $href="dashboard/logout" class="nav-link">
+      <i class="nav-icon fas fa-power-off"></i>
+      <p>
+        Logout
+      </p>
+    </a>
+</li>

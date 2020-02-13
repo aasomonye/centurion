@@ -1,6 +1,18 @@
 {
     "stylesheet": [
-        "moorexa.css"
+        "moorexa.css",
+        "theme/plugins/fontawesome-free/css/all.min.css",
+        "https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css",
+        "theme/plugins/daterangepicker/daterangepicker.css",
+        "theme/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css",
+        "theme/plugins/select2/css/select2.min.css",
+        "theme/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css",
+        "theme/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css",
+        "theme/plugins/icheck-bootstrap/icheck-bootstrap.min.css",
+        "theme/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css",
+        "theme/plugins/toastr/toastr.min.css",
+        "theme/dist/css/adminlte.min.css",
+        "https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700"
     ],
 
     "stylesheet@bundle" : [
@@ -8,7 +20,19 @@
     ],
     
     "scripts": [
-        "moorexa.min.js"
+        "moorexa.min.js",
+        "theme/plugins/jquery/jquery.min.js",
+        "theme/plugins/bootstrap/js/bootstrap.bundle.min.js",
+        "theme/plugins/select2/js/select2.full.min.js",
+        "theme/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js",
+        "theme/plugins/moment/moment.min.js",
+        "theme/plugins/inputmask/min/jquery.inputmask.bundle.min.js",
+        "theme/plugins/daterangepicker/daterangepicker.js",
+        "theme/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js",
+        "theme/plugins/bootstrap-switch/js/bootstrap-switch.min.js",
+        "theme/plugins/sweetalert2/sweetalert2.min.js",
+        "theme/plugins/toastr/toastr.min.js",
+        "theme/dist/js/adminlte.min.js"
     ],
 
     "scripts@bundle" : [

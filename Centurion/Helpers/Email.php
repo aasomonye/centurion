@@ -64,7 +64,7 @@ class Email
 
         // send mail
         $sendMail = $mail->send();
- 
+
         if ($sendMail && self::$userid != 0)
         {
             Query::logMessageToDatabase([

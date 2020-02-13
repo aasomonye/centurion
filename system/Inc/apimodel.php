@@ -20,6 +20,9 @@ class ApiModel extends InputData
     // transactions
     public $transactions = [];
 
+    // promise returned after query using exists method
+    private $queryReturned;
+
     // caller method
     public function __call($meth, $args)
     {
@@ -125,6 +128,7 @@ class ApiModel extends InputData
                 // good
                 $id = $insert->id;
                 $this->transactions['create'.ucfirst($this->table)]['args'] = [$id];
+                $this->queryReturned = $insert;
 
                 return true;
             }
@@ -182,6 +186,7 @@ class ApiModel extends InputData
             {
                 // run update
                 $update = DB::table($this->table)->update($this->currentObject, $pri . ' = ?', $id);
+                $this->queryReturned = $update;
 
                 if ($update->ok)
                 {
@@ -251,6 +256,7 @@ class ApiModel extends InputData
             {
                 // run delete
                 $delete = DB::table($this->table)->delete($pri . ' = ?', $id);
+                $this->queryReturned = $delete;
 
                 if ($delete->ok)
                 {
@@ -436,6 +442,7 @@ class ApiModel extends InputData
 
         // run get request
         $check = DB::table($table)->get($where);
+        $this->queryReturned = $check;
 
         if ($check->rows == 0)
         {
@@ -469,7 +476,8 @@ class ApiModel extends InputData
 
         // run get request
         $check = DB::table($table)->get($where, 'OR');
-
+        $this->queryReturned = $check;
+        
         if ($check->rows == 0)
         {
             return false;
@@ -497,10 +505,20 @@ class ApiModel extends InputData
             
             if ($check->rows > 0)
             {
+                if (count($this->identityCreated) > 0)
+                {
+                    $this->pushObject($check);
+                }
+
+                // set query returned
+                $this->queryReturned = $check;
+                
+                // passed
                 return true;
             }
         }
 
+        // failed.
         return false;
     }
 
@@ -511,4 +529,11 @@ class ApiModel extends InputData
 
         return $this;
     }
+
+    // promise method returned
+    public function getQuery()
+    {
+        return $this->queryReturned;
+    }
+    
 }

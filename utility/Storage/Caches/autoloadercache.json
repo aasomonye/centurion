@@ -49,5 +49,6 @@
     "Moorexa\/HttpGet": "system\/Lib\/Http\/httpGet.php",
     "Centurion\/Helpers\/Email": "Centurion\/Helpers\/Email.php",
     "Centurion\/Helpers\/EmailTemplate": "Centurion\/Helpers\/EmailTemplate.php",
-    "Messaging\/Mail": ".\/utility\/Classes\/Messaging\/Mail.php"
+    "Messaging\/Mail": ".\/utility\/Classes\/Messaging\/Mail.php",
+    "Guards": "system\/Inc\/guards.php"
 }

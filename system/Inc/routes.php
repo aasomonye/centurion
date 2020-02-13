@@ -334,25 +334,25 @@ class Route
 		return $this;
 	}
 
-	// load authentication for route
-	private function loadAuthentication($bus, $callback)
+	// load guard for route
+	private function loadGuard($bus, $callback)
 	{
 		// get handler
 		list($handler, $method) = explode('@', $bus);
 		// build path
-		$dir = PATH_TO_AUTHENTICATION;
+		$dir = PATH_TO_GUARDS;
 		// get path
-		$path = deepScan($dir, [$handler.'.php', $handler.'.auth.php']);
-		throw_unless(empty($path), ['\Exceptions\Authentication\AuthenticationException', 'Invalid Authentication handler \''.$handler.'\'']);
+		$path = deepScan($dir, $handler.'.php');
+		throw_unless(empty($path), ['\Exceptions\Guards\GuardException', 'Invalid Guard handler \''.$handler.'\'']);
 
 		// include handler
 		include_once $path;
 
 		$handler = basename($handler);
 
-		if (strpos($handler, '.auth') === false)
+		if (strpos($handler, 'Guard') === false)
 		{
-			$handler .= '.auth';
+			$handler .= '.Guard';
 		}
 
 		$class = ucwords(str_replace(".", ' ', $handler));
@@ -363,7 +363,7 @@ class Route
 		if (BootMgr::$BOOTMODE[$class] == CAN_CONTINUE)
 		{
 			// trigger error if method doesn't exists.
-			throw_unless(!method_exists($handler, $method), ['\Exceptions\Authentication\AuthenticationException', $class . ' handler method > ' . $method . ' doesn\'t exists. Authentication failed!.']);
+			throw_unless(!method_exists($handler, $method), ['\Exceptions\Guards\GuardException', $class . ' handler method > ' . $method . ' doesn\'t exists. Guard failed!.']);
 
 			// build request
 			$request = $class . '@' . $method;
@@ -382,8 +382,8 @@ class Route
 		return $this;
 	}
 
-	// prepare authentication for route.
-	public function authentication($bus, $callback=null)
+	// prepare guard for route.
+	public function guard($bus, $callback=null)
 	{
 		// only load if route was successful
 		if ($this->is_match)
@@ -393,15 +393,15 @@ class Route
 			{
 				// string
 				case 'string':
-					$this->loadAuthentication($bus, $callback);
+					$this->loadGuard($bus, $callback);
 				break;
 
 				// array
 				case 'array':
-					array_walk($bus, function($auth) use (&$callback)
+					array_walk($bus, function($guard) use (&$callback)
 					{
-						// load authentication
-						$this->loadAuthentication($auth, $callback);
+						// load guard
+						$this->loadGuard($guard, $callback);
 					});
 				break;
 			}
@@ -567,7 +567,7 @@ class Route
 				$newParams = [];
 
 				// get names
-				array_walk($params, function(\ReflectionProperty $param, $index) use (&$newParams, $parameters)
+				array_walk($params, function(\ReflectionParameter $param, $index) use (&$newParams, $parameters)
 				{
 					$name = $param->getName();
 					if (isset($parameters[$name]))

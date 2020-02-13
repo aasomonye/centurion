@@ -1,30 +1,38 @@
+@partial('auth-header', ['__css' => $__css]);
+
 <hy>
-    <AccountScreen button="Proceed" title="Become a customer." 
-    caption="We are glad you are here, You would be required to provide
-	your basic information. This process shouldn’t take more than
-	30 seconds of your time." inject="nav" image="slide1-bg">
+    <authWrapper button="Create an account" 
+    caption="Don't have an account? Here you can easily create a new account."
+    inject="nav-link" exportparts="authButton,socialSignup" excludeparts="socialAuthLinks" buttonsize="col-12 mt-3">
 
-		<div class="wrapper column-gap10">
-			<div class="w1-10">
-				<Input name="firstname">First Name</Input>
-			</div>
-			<div class="w10-end">
-				<Input name="lastname">Last Name</Input>
-			</div>
-		</div>
-        
-		<Input type="email" name="email_address">Email Address</Input>
-		<Input type="password" name="password">Password</Input>
-		<Input type="password" name="password_again">Password Again</Input>
+        <FormField name="firstname" icon="fa-user">First Name</FormField>
+        <FormField name="lastname" icon="fa-user">Last Name</FormField>
+        <FormField name="email_address" icon="fa-envelope" type="email">Email Address</FormField>
+        <FormField name="password" type="password" icon="fa-lock">Password</FormField>
+        <FormField name="password_again" type="password" icon="fa-lock">Password Again</FormField>
 
-        <div class="form-footer-tabs" style="grid-template-columns: 1fr;">
-            <label for="iagree" style="display: block;">
-                <input type="checkbox" id="iagree" name="iagree" required> I agree to the <a href="" style="text-decoration: underline;">terms and condition</a> of this platform.
-            </label>
-		</div>
-		
-		<nav>
-			<a $href="login"><img $src="arrow-left.png"> Account login</a>
-		</nav>
-    </AccountScreen>
+        <div class="row">
+            <div class="col-12">
+                <div class="icheck-primary">
+                    <input type="checkbox" id="iagree" name="iagree">
+                    <label for="iagree">
+                        I agree to the <a href="" style="text-decoration: underline;">terms and condition</a> of this platform.
+                    </label>
+                </div>
+			</div>
+			
+            exportparts.authButton
+	  </div>
+	  
+	  exportparts.socialSignup
+
+      <nav-link>
+        <p class="mb-1 mt-3">
+            <a $href="login">I already have an account.</a>
+          </p>
+      </nav-link>
+
+    </authWrapper>
 </hy>
+
+@partial('auth-footer', ['__js' => $__js]);

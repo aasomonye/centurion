@@ -7,7 +7,10 @@ use Centurion\Models\Users;
 use Centurion\Models\Input;
 use Centurion\Helpers\Email;
 use Centurion\Helpers\Query;
-use Bootstrap\Alert;
+use Centurion\Helpers\Alert;
+use Centurion\Models\Table;
+use Moorexa\InputData\Rule;
+use Guards as Auth;
 
 /**
  * App model class auto generated.
@@ -89,7 +92,7 @@ class App extends Model
                                 'name' => ucwords($model->firstname . ' ' . $model->lastname),
                                 'link' => url('complete-registration/'.$activationcode),
                                 'year' => date('Y')
-                            ]);//->send('Welcome to Centurion', $model->email_address);
+                            ])->send('Welcome to Centurion', $model->email_address);
 
                             // pass password on.
                             $model->password = $password;
@@ -103,13 +106,13 @@ class App extends Model
                         }
                     }
 
-                    Alert::error('Registration failed. Email already in use.');
+                    Alert::toastDefaultError('Registration failed. Email already in use.');
                 }
 
-                Alert::error('Registration failed. Account exits, please login instead');
+                Alert::toastDefaultError('Registration failed. Account exits, please login instead');
             }
 
-            Alert::error('Password do not match. Please try again please.');
+            Alert::toastDefaultError('Password do not match. Please try again please.');
         }
         
         // pass to view
@@ -129,10 +132,19 @@ class App extends Model
 
             if ($login->status == 'success')
             {
-                $this->redir($login->redirection, $login->message);
+                // redirection url
+                $redirectionUrl = $login->redirection;
+
+                // check if user information has been submitted
+                if ($login->userInfo->rows == 0)
+                {
+                    $redirectionUrl = 'dashboard/complete-registration';
+                }
+
+                $this->redir($redirectionUrl, $login->message);
             }
 
-            Alert::error($login->message);
+            Alert::toastDefaultError($login->message);
         }
 
         Input::pass($model);    
@@ -185,7 +197,10 @@ class App extends Model
                     session()->set('session.token', $sessionToken);
 
                     // update salt
-                    $authentication->update(['password_salt' => $newSalt, 'session_token' => $sessionToken]);
+                    $authentication->update(['password_salt' => $newSalt, 
+                    'session_token' => $sessionToken, 
+                    'password_hash' => Hash::digest($newSalt . '::' . $password)
+                    ]);
 
                     if ($model->has('remember'))
                     {
@@ -200,6 +215,7 @@ class App extends Model
 
                     $response->status = 'success';
                     $response->message = 'Login successful';
+                    $response->userInfo = $authentication->from('users_information', 'userid')->get();
 
                     // check for rediretion url
                     if ($authentication->lockid == 0)
@@ -241,5 +257,112 @@ class App extends Model
 
        // encrypt
        return sha1(encrypt(time() . $string . '@' . $salt . $randomNumber));
+    }
+
+    // reset password
+    public function postResetPassword(Users $model, Table $table)
+    {
+        $model = $model->useRule('ResetPasswordRule');
+        
+        if ($model->isOk())
+        {
+            // check for email existance
+            if ($model->exists())
+            {
+                // send email reset url
+                // get user information
+                $user = Query::getUserByEmail($model->email_address);
+
+                // get the password salt
+                $authentication = Query::getAuthenticationByUserId($user->userid);
+
+                // generate activation code
+                $activationCode = sha1(time() * 60 . $model->email_address . $authentication->password_salt);
+
+                // get the lock status we want to use
+                $lockStatus = Query::getLockByStatus('password reset');
+
+                // add to activation table
+                $activation = $table->useRule('Activation');
+                $activation->lockid = $lockStatus->lockid;
+                $activation->activation_code = $activationCode;
+                $activation->redirect_to = 'dashboard';
+                $activation->userid = $user->userid;
+
+                if ($activation->isOk())
+                {
+                    $activation->create(); 
+
+                    // send to user email account
+                    $replace = [
+                        'ipaddress' => $_SERVER['REMOTE_ADDR'],
+                        'date' => date('jS F Y g:i a'),
+                        'link' => url('change-password-'.$activationCode),
+                        'year' => date('Y')
+                    ];
+
+                    // send email out
+                    Email::getTemplate('password reset', $replace)->send('Password Reset', $user->email_address);
+
+                    // redirect to login page with a message
+                    $this->redir('login', 'A mail has been sent to you, please check your inbox to complete password reset.');
+                }
+
+                Alert::toastDefaultError('An error occured. Please check activation rules');
+            }
+
+            Alert::toastDefaultError('Email address not linked to any account. Please check and try again.');
+        }
+
+        Input::pass($model);
+    }
+
+    // process password recovery
+    public function processPasswordRecovery($model, Users $user)
+    {
+        $userModel = $user->useRule('PasswordRecoveryRule');
+
+        if ($userModel->isOk())
+        {
+            // do they match
+            if ($userModel->password == $userModel->password_again)
+            {
+                // get user authentication record 
+                $authentication = $model->getQuery()->from('authentication', 'userid')->get();
+                
+                // now we generate a new salt for this user
+                $password_salt = $this->generateSalt($userModel->password);
+
+                // generate password hash
+                $updateArray = [
+                    'password_hash' => Hash::digest($password_salt . '::' . $userModel->password),
+                    'password_salt' => $password_salt
+                ];
+
+                // now update user authentication table and redirect user to @model redirect_to page with a message
+                if ($authentication->update($updateArray)->ok)
+                {
+                    // action has been satisfied, so we update
+                    $model->satisfied = 1;
+                    $model->update();
+
+                    if (!Auth::isLoggedin())
+                    {
+                        $model->redirect_to = 'login';
+                    }
+
+                    // redirect user.
+                    $this->redir($model->redirect_to, 'Your password was changed successfully. Thank you for using this channel.');
+                }
+            }
+
+            $userModel->clear(); // clear entries
+
+            // oops! failed
+            Alert::toastDefaultError('Password provided do not match. Please try again');
+        }
+
+        // pass entries back to form.            
+        Input::pass($userModel);   
     }
 }
