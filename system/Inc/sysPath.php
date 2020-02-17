@@ -1,4 +1,5 @@
 <?php
+/** @noinspection All */
 namespace Moorexa;
 
 /**
@@ -8,6 +9,9 @@ namespace Moorexa;
 
 if (!class_exists('Moorexa\SysPath'))
 {
+    /**
+     * @method static system()
+     */
     class SysPath
     {
         // custom paths
@@ -24,9 +28,15 @@ if (!class_exists('Moorexa\SysPath'))
         // define path
         public static function __callStatic($pathName, $args)
         {
+            self::definePathWrapper($pathName, $args);
+        }
+
+        // define path container
+        private static function definePathWrapper($pathName, $args = [])
+        {
             // get path
             $getPath = isset(self::$PATH[$pathName]) ? self::$PATH[$pathName] : null;
-            
+
             // determine data type
             // ensure array size is greater than zero
             switch (count($args) > 0)
@@ -50,7 +60,6 @@ if (!class_exists('Moorexa\SysPath'))
                             {
                                 self::$PATH[$args[0]] = $path;
                             }
-
                             return self::definePath('PATH_TO_'.strtoupper($args[0]), $path);
                         break;
                     }
@@ -64,6 +73,8 @@ if (!class_exists('Moorexa\SysPath'))
 
             // clean path
             $getPath = null;
+
+            return null;
         }
 
         // init paths
@@ -197,6 +208,14 @@ if (!class_exists('Moorexa\SysPath'))
             }
 
             return false;
+        }
+
+        // define path from method
+        public static function definePathFunc($path, $configuration = [])
+        {
+            $args = [$path];
+            if (count($configuration) > 0){ $args = [$configuration]; }
+            return self::definePathWrapper($path, $args);
         }
 
         // define path

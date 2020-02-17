@@ -4004,10 +4004,13 @@ function throw_unless($execute, $exception)
             case 'array':
                 // get exception class
                 $getException = $exception[0];
+                
                 // get arguments
-                $argument = $exception[1] ?? null;
+                $argument = isset($exception[1]) ? $exception[1] : null;
+
                 // throw exception
                 throw new $getException($argument);
+
                 break;
 
             // string
@@ -4182,48 +4185,7 @@ function createModelRule($tableName, $object=null)
         $body = null;
 
         // create a new annonymus class
-        $class = new class($tableName, $object, $body) extends \Moorexa\ApiModel
-        {
-            // table name
-            public $table;
-
-            // callback function
-            private $__callback_func;
-
-            // createmodelrule
-            public $usingRule = true;
-
-            // constructor
-            public function __construct($tableName, $object, &$body)
-            {
-                $this->table = $tableName;
-
-                if (is_callable($object))
-                {
-                    $this->__callback_func = $object;
-
-                    // call set rule
-                    \Moorexa\ApiModel::getSetRules($this);
-
-                    $body = $this;
-                }
-            }
-
-            // create rule
-            public function setRules($body)
-            {
-                if (is_callable($this->__callback_func))
-                {
-                    $argument = [];
-                    $argument[] = &$body;
-
-                    \Moorexa\Route::getParameters($this->__callback_func, $const, $argument);
-
-                    // call callback function
-                    call_user_func_array($this->__callback_func, $const);
-                }
-            }
-        };
+        $class = new \system\Lib\ModelRuleClass($tableName, $object, $body);
 
         \Moorexa\ApiModel::$useRulesCreated[$tableName] = $body;
 
@@ -4277,78 +4239,7 @@ function extension($file)
 // add lifecycle
 function lifecycle($request)
 {
-    return new class ($request)
-    {
-        // save all attachments
-        private static $attachments = [];
-
-        // request
-        public $request;
-
-        // watchman
-        public static $watchman = [];
-
-        // constructor
-        public function __construct($request)
-        {
-            $this->request = $request;
-        }
-
-        // attach an handle
-        public function attach($handle, $data)
-        {
-            self::$attachments[$this->request][$handle] = $data;
-        }
-
-        // load breakpoint
-        public function breakpoint($handle)
-        {
-            if (isset(self::$attachments[$this->request]))
-            {
-                $request = self::$attachments[$this->request];
-
-                // check for handle
-                if (isset($request[$handle]))
-                {
-                    $data = $request[$handle];
-
-                    if (is_callable($data))
-                    {
-                        // get args
-                        \Moorexa\Route::getParameters($data, $const);
-
-                        $func = call_user_func_array($data, $const);
-
-                        if (isset(self::$watchman[$this->request]))
-                        {
-                            if (isset(self::$watchman[$this->request][$handle]))
-                            {
-                                $watchman = self::$watchman[$this->request][$handle];
-
-                                if (is_callable($watchman))
-                                {
-                                    // get args
-                                    \Moorexa\Route::getParameters($watchman, $const);
-                                    // call
-                                    call_user_func_array($watchman, $const);
-                                }
-                            }
-                        }
-
-                        return $func;
-                    }
-
-                    return $data;
-                }
-            }
-        }
-
-        // watch breakpoint
-        public function watch($handle, $data)
-        {
-            self::$watchman[$this->request][$handle] = $data;
-        }
-    };
+    return new system\Lib\LifeCycleClass($request);
 }
 
 // bind
@@ -4401,94 +4292,7 @@ function app($key=null)
 
     if (is_null($app))
     {
-        $app = new class($registry)
-        {
-            // defined keys
-            public $definedKey;
-
-            // register to
-            private $registerTo = [];
-
-            // registry
-            private $registry;
-
-            // load constructor
-            public function __construct(&$registry)
-            {
-                $this->registry = $registry;
-            }
-
-            // key method
-            public function key($name)
-            {
-                $this->definedKey = $name;
-
-                if (isset($this->registry[$name]))
-                {
-                    $this->registerTo[$name] = &$this->registry[$name];
-                }
-
-                return $this;
-            }
-
-            // registry method
-            public function register($value)
-            {
-                $key = $this->definedKey;
-
-                if (isset($this->registerTo[$key]))
-                {
-                    switch (gettype($this->registerTo[$key]))
-                    {
-                        case 'array':
-                            $declared = &$this->registerTo[$key];
-                            $declared[] = $value;
-                            break;
-
-                        case 'object':
-                            $this->registerTo[$key]->{$key} = $value;
-                            break;
-
-                        default:
-                            $this->registerTo[$key] = $value;
-                    }
-                }
-                else
-                {
-                    $this->registerTo[$key] = &$value;
-                }
-
-                return $this;
-            }
-
-            // setter method
-            public function set($key, $val)
-            {
-                $this->registerTo[$key] = &$val;
-            }
-
-            // has method
-            public function has($key, &$val)
-            {
-                if (isset($this->registerTo[$key]))
-                {
-                    $val = $this->registerTo[$key];
-
-                    return true;
-                }
-            }
-
-            // getter method
-            public function get($key)
-            {
-                if ($this->has($key, $val))
-                {
-                    return $val;
-                }
-
-                return null;
-            }
-        };
+        $app = new \system\Lib\AppRegistry($registry);
     }
 
     if (!is_null($key))
@@ -4796,65 +4600,7 @@ function boot($className = null, $value = null)
 
     if (is_null($bootClass))
     {
-        $bootClass = new class()
-        {
-            // run singleton
-            public function singleton()
-            {
-                return call_user_func_array('\utility\Classes\BootMgr\Manager::singleton', func_get_args());
-            }
-
-            public function method()
-            {
-                return call_user_func_array('\utility\Classes\BootMgr\Manager::method', func_get_args());
-            }
-
-            public function assign()
-            {
-                return call_user_func_array('\utility\Classes\BootMgr\Manager::assign', func_get_args());
-            }
-
-            public function get(string $className, $callback = null)
-            {
-                switch (!is_null($callback) && is_callable($callback))
-                {
-                    case true:
-                        $instance = $this->singleton($className);
-
-                        call_user_func($callback, $instance);
-
-                        return $instance;
-
-                    case false:
-
-                        if (strpos($className, '@') === false)
-                        {
-                            return $this->singleton($className);
-                        }
-
-                        return $this->method($className);
-                }
-            }
-
-            // check named
-            public function hasNamed(string $className)
-            {
-                $named = \utility\Classes\BootMgr\Manager::$named;
-
-                if (isset($named[$className]))
-                {
-                    return true;
-                }
-
-                return false;
-            }
-
-            // get named
-            public function getNamed(string $className)
-            {
-                return \utility\Classes\BootMgr\Manager::$named[$className];
-            }
-        };
+        $bootClass = new \system\Lib\BootHelper();
     }
 
     switch (is_null($className))
@@ -4895,7 +4641,7 @@ function vars($var)
 }
 
 // dropbox
-function dropbox(string $name = '', $content = null)
+function dropbox($name = '', $content = null)
 {
     static $dropboxInternal;
 
@@ -4998,40 +4744,7 @@ function pagepath(string $directory,  $filepath = null)
         $seenpath = $basePath;
     }
 
-    return new class($seenpath, $filepath)
-    {
-        private $basepath;
-        private $filepath;
-
-        // load construtor
-        public function __construct($basePath, $filepath)
-        {
-            $this->basepath = $basePath;
-            $this->filepath = $filepath;
-        }
-
-        // to string magic method
-        public function __toString()
-        {
-            return $this->find($this->filepath);
-        }
-
-        // find file
-        public function find($filename)
-        {
-            if (!is_null($filename))
-            {
-                $path = deepScan($this->basepath, $filename);
-
-                if ($path != '')
-                {
-                    return url($path);
-                }
-            }
-
-            return '';
-        }
-    };
+    return new \system\Lib\PagePath($seenpath, $filepath);
 
 }
 
@@ -5048,8 +4761,8 @@ function xsubstr_replace(string $text, string $replace, int $start)
     return $body;
 }
 
-// ucwords 
-function xucwords(string $text) : string
+// ucwords
+function xucwords(string $text)
 {
     $textArray = explode(" ", $text);
     // remove first
@@ -5060,7 +4773,7 @@ function xucwords(string $text) : string
     // make text array string
     $textArrayString = ucwords($textArrayString);
     $textArray = explode(" ", $textArrayString);
-    
+
     array_unshift($textArray, $firstElem);
 
     return implode(' ', $textArray);

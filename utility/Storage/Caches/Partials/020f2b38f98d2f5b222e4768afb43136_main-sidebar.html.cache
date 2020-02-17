@@ -44,6 +44,19 @@ while ($subnav = $sub->obj())
 
 <?php }} ?>
 
+<?php if (1 == Guards::account()->accountid) { ?>
+    <!-- become a member -->
+    <li class="nav-item">
+        <a href="<?=url("dashboard/become-a-partner")?>" class="nav-link">
+          <i class="nav-icon fas fa-users"></i>
+          <p>
+            Become a partner
+            <span class="right badge badge-danger">New</span>
+          </p>
+        </a>
+    </li>
+<?php } ?>
+
 <!-- logout link -->
 <li class="nav-item">
     <a href="<?=url("dashboard/logout")?>" class="nav-link">

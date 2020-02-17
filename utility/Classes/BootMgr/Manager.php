@@ -29,14 +29,14 @@ class Manager
         {
             case true:
                 return self::$assigns[$key];
-            break;
+                break;
 
             case false:
-                
+
                 self::set($key, $data, 'assigns');
 
                 return $data;
-            break;
+                break;
         }
     }
 
@@ -52,8 +52,11 @@ class Manager
     {
         if (is_null(self::$bootloader))
         {
-            // create instance for bootloader
-            self::$bootloader = new Bootloader;
+            if (class_exists(Bootloader::class))
+            {
+                // create instance for bootloader
+                self::$bootloader = new Bootloader;
+            }
         }
 
         // set original classname
@@ -65,7 +68,7 @@ class Manager
             // yeah! so we return that instance
             case true:
                 return self::$instance[$className];
-            break;
+                break;
 
             // oopps! so we create an instance of this class and save it.
             case false:
@@ -83,44 +86,48 @@ class Manager
                 // we add a backward slash so we check outside this namespace
                 $class = '\\' . $className; // eg : \Moorexa\Controller
 
-                // create reflection object
-                $reflection = new \ReflectionClass($class);
-
-                // create instance
-                switch ($createInstance)
+                if (class_exists($class))
                 {
-                    case true:
-                        // check if class has a constructor
-                        if ($reflection->hasMethod('__construct'))
-                        {
-                            // get arguments from constructor
-                            self::$bootloader->getParameters($class, '__construct', $const, (is_array($argument) ? $argument : [$argument]));
-                            
-                            // create instance
-                            $invoke = $reflection->newInstanceArgs($const);
+                    // create reflection object
+                    $reflection = new \ReflectionClass($class);
+
+                    // create instance
+                    switch ($createInstance)
+                    {
+                        case true:
+                            // check if class has a constructor
+                            if ($reflection->hasMethod('__construct'))
+                            {
+                                // get arguments from constructor
+                                self::$bootloader->getParameters($class, '__construct', $const, (is_array($argument) ? $argument : [$argument]));
+
+                                // create instance
+                                $invoke = $reflection->newInstanceArgs($const);
+
+                                self::set($originalClassName, $invoke, 'instance');
+
+                                return $invoke;
+                            }
+                            break;
+
+                        case false:
+                            $invoke = $reflection->newInstanceWithoutConstructor();
 
                             self::set($originalClassName, $invoke, 'instance');
 
                             return $invoke;
-                        }
-                    break;
+                            break;
+                    }
 
-                    case false:
-                        $invoke = $reflection->newInstanceWithoutConstructor();
+                    // create instance without invoking arguments
+                    $invoke = new $class;
 
-                        self::set($originalClassName, $invoke, 'instance');
+                    self::set($originalClassName, $invoke, 'instance');
 
-                        return $invoke;
-                    break;
+                    return $invoke;
                 }
-
-                // create instance without invoking arguments
-                $invoke = new $class;
-
-                self::set($originalClassName, $invoke, 'instance');
-
-                return $invoke;
-            break;
+                
+                break;
         }
     }
 
@@ -130,12 +137,12 @@ class Manager
         {
             case true:
                 return self::$methods[$definition];
-            break;
+                break;
 
             case false:
                 self::set($definition, $returnData, 'methods');
                 return $returnData;
-            break;
+                break;
         }
     }
 
@@ -152,6 +159,11 @@ class Manager
     public static function called(string $event, \closure $callback)
     {
         self::$channel[$event][] = $callback;
+    }
+
+    public static function on(string $event, \closure $callback)
+    {
+        return self::called($event, $callback);
     }
 
     private static function checkChannelAndCall(string $className)
@@ -193,7 +205,7 @@ class Manager
         {
             return true;
         }
-        
+
         return false;
     }
 
@@ -219,8 +231,8 @@ class Manager
     }
 
     private static function has(string $className, string $property)
-    {   
-        // get data 
+    {
+        // get data
         $getFromProperty = self::${$property};
 
         if (isset($getFromProperty[$className]))
@@ -236,19 +248,19 @@ class Manager
         // push to array
         self::${$property}[$className] = &$data;
 
-        // boot mode passed 
+        // boot mode passed
         self::$BOOTMODE[$className] = true;
 
         // boot process paused ?
         if (self::$pauseBootProcess)
         {
-            // boot mode paused 
+            // boot mode paused
             self::$BOOTMODE[$className] = false;
         }
 
         // push to boot function
         //boot($className, $data);
- 
+
         // check channel
         self::checkChannelAndCall($className);
     }
@@ -271,7 +283,7 @@ class Manager
         {
             case 'class':
                 return isset(self::$instance[$this->classListening]) ? self::$instance[$this->classListening] : self::instance();
-            break;
+                break;
         }
     }
 
@@ -282,7 +294,7 @@ class Manager
 
         // get keys
         $keys = array_keys(self::$BOOTMODE);
-        
+
         // get index
         $index = array_flip($keys)[$this->classListening];
 
@@ -324,7 +336,7 @@ class Manager
                 call_user_func($promise['data'], $returnData);
             }
         }
-        
+
         return $returnData;
     }
 }

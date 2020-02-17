@@ -33,6 +33,6 @@ return array (
   '04a66744809f85927054582f727abdd6_content-header.html' => 'a5a6776db2ae86e6cbf303a53c928ed6',
   'aa019c8c94304803bc19109df8bbddf6_brand-sidebar.html' => '0a3a9056f5629091099d6dfdbfb2137b',
   'b9c80cbd05a20cc3937f2c19e9ff7d80_navbar.html' => '004a1743053af84e43a2311d934a089b',
-  '020f2b38f98d2f5b222e4768afb43136_main-sidebar.html' => '33942c9c1f5186d138915d34e267a0e1',
+  '020f2b38f98d2f5b222e4768afb43136_main-sidebar.html' => '316965546a04ddffdf78e6fcd2d4633a',
 );
 ?>

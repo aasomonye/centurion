@@ -79,7 +79,7 @@ class Users extends Model
         $data->next_of_kin_name('required|string|min:2|notag');
         $data->next_of_kin_telephone('required|number|min:10|notag');
         $data->next_of_kin_address('required|string|min:5|notag');
-        $data->next_of_kin_relationship('required|string|min:5|notag');
+        $data->next_of_kin_relationship('required|string|min:2|notag');
         $data->telephone('required|number|min:10|notag');
         $data->home_address('required|string|min:5|notag');
         $data->work_address('required|string|min:5|notag');

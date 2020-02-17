@@ -3,7 +3,7 @@
 namespace Moorexa;
 
 /**
- * @package HTTP Post 
+ * @package HTTP Post
  */
 
 class HttpPost
@@ -35,13 +35,13 @@ class HttpPost
         }
 
         $this->data = $post;
-        
+
         if (count($_FILES) > 0)
         {
             $this->files = $_FILES;
         }
     }
-    
+
     public function __get($name)
     {
         if ($name == 'getData')
@@ -161,7 +161,7 @@ class HttpPost
             foreach ($this->data as $key => $val)
             {
                 $data[$key] = is_string($val) ? filter_var($val, FILTER_SANITIZE_STRING) : $val;
-                
+
             }
             return $data;
         }
@@ -238,10 +238,27 @@ class HttpPost
         return false;
     }
 
+    // check for keys
+    public function hasKeys()
+    {
+        $keys = func_get_args();
+        $valid = [];
+
+        foreach ($keys as $key)
+        {
+            if ($this->has($key))
+            {
+                $valid[] = true;
+            }
+        }
+
+        return (count($valid) == count($keys) ? true : false);
+    }
+
     // check if post is empty
     public function isEmpty()
     {
-        
+
         if (count($this->data) == 0 && count($_FILES) == 0)
         {
             return true;

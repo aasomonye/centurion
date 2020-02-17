@@ -35,8 +35,8 @@ SysPath::root('platform', 'platform');
  * add path for folders in the components directory
  */
 SysPath::components([
-	'partial' => 'Partials',
-	'directives' => 'Directives',
+    'partial' => 'Partials',
+    'directives' => 'Directives',
     'templates' => 'Template'
 ]);
 
@@ -44,8 +44,8 @@ SysPath::components([
  * add path for folders in the platform directory
  */
 SysPath::platform([
-	'web_platform' => 'web',
-	'api_platform' => 'api'
+    'web_platform' => 'web',
+    'api_platform' => 'api'
 ]);
 
 /**
@@ -57,17 +57,17 @@ SysPath::kernel();
  * add path for folders in the kernel directory
  */
 SysPath::kernel([
-	'servicemanager' => 'Service-Manager',
-	'config' => 'Config',
-	'extra' => 'Extra',
-	'services' => 'Services',
-	'konsole' => 'Console'
+    'servicemanager' => 'Service-Manager',
+    'config' => 'Config',
+    'extra' => 'Extra',
+    'services' => 'Services',
+    'konsole' => 'Console'
 ]);
 
 /**
  * extablish base path for public directory
  */
-SysPath::public();
+SysPath::definePathFunc('public');
 
 /**
  * extablish base path for utility directory
@@ -77,14 +77,14 @@ SysPath::utility();
 /**
  * add path for folders in the public directory
  */
-SysPath::public([
-	'helper' => 'Helper',
-	'errors' => 'Errors',
-	'assets' => 'Assets',
-	'css' => 'Assets/Css',
-	'js' => 'Assets/Js',
-	'media' => 'Assets/Media',
-	'image' => 'Assets/Images'
+SysPath::definePathFunc('public', [
+    'helper' => 'Helper',
+    'errors' => 'Errors',
+    'assets' => 'Assets',
+    'css' => 'Assets/Css',
+    'js' => 'Assets/Js',
+    'media' => 'Assets/Media',
+    'image' => 'Assets/Images'
 ]);
 
 /**
@@ -96,26 +96,26 @@ SysPath::system();
  * add path for folders in the system directory
  */
 SysPath::system([
-	'db'   => 'DB',
-	'inc'  => 'Inc',
-	'lib'  => 'Lib',
-	'core' => 'Core',
-	'abstract' => 'Abstract',
-	'interface' => 'Interface',
+    'db'   => 'DB',
+    'inc'  => 'Inc',
+    'lib'  => 'Lib',
+    'core' => 'Core',
+    'abstract' => 'Abstract',
+    'interface' => 'Interface',
 ]);
 
 /**
  * add path for folders in the utility directory
  */
 SysPath::utility([
-	'exceptions' => 'Exceptions',
-	'plugin' => 'Plugins',
-	'provider' => 'Providers',
-	'middleware' => 'Middlewares',
-	'console' => 'Console',
-	'guards' => 'Guards',
-	'storage' => 'Storage',
-	'event' => 'Events'
+    'exceptions' => 'Exceptions',
+    'plugin' => 'Plugins',
+    'provider' => 'Providers',
+    'middleware' => 'Middlewares',
+    'console' => 'Console',
+    'guards' => 'Guards',
+    'storage' => 'Storage',
+    'event' => 'Events'
 ]);
 
 // command line surfing

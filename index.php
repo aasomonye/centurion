@@ -1,50 +1,40 @@
 <?php
+/** @noinspection All */
 
-namespace Moorexa;
+namespace Moorexa {
 
-use Exception;
+    use Exception;
 
-/**
- * @package      Moorexa PHP Framework
- * @author       wekiwork inc <Ifeanyi Amadi>. https://www.moorexa.com <amadiify.com>
- * @description  A Rapid PHP Technology for a better and faster web development.
- * @company      https://www.wekiwork.com
- * @version      0.0.1
- */
+    /**
+     * @package  Moorexa PHP Framework
+     * @author   Fregatelab inc <Ifeanyi Amadi>. https://www.moorexa.com <amadiify.com>
+     * @version  0.0.1
+     */
 
-// enable gzip
-ob_start('ob_gzhandler');
+    // enable gzip
+    ob_start('ob_gzhandler');
 
+    // include application paths
+    include_once 'system/Inc/paths.php';
 
-// include application paths
-include_once 'system/Inc/paths.php';
+    // Check if CORE module really exists in the module folder
+    try {
 
-
-// Check if CORE module really exists in the module folder
-switch (file_exists(MODULE_PATH))
-{
-    case true:
-        // require core module
-        require_once MODULE_PATH;
-
-        // check if engine class exists
-        switch (class_exists('Moorexa\Engine'))
+        if (file_exists(MODULE_PATH))
         {
-            case true:
-                // require composer autoloader, then create new engine class instance
-                require_once COMPOSER;
+            // require composer autoloader
+            require_once COMPOSER;
 
-                // return instance
-                return new Engine(); // app entry =>
+            // require core module
+            require_once MODULE_PATH;
 
-            case false:
-                // throw exception
-                throw new Exception('Moorexa Engine class not found in '.HOME.'system/core/');
+            // engine class not found ?
+            if ( !class_exists('Moorexa\Engine') ) { throw new \Exception('Moorexa Engine class not found in '.HOME.'system/core/'); }
         }
-    break;
 
-    // throw exception
-    case false:
-        throw new Exception('Error Loading Core Module. Application failed to start! You can contact support@moorexa.com for support or raise a ticket @ https://www.moorexa.com/ticket/new');
+    } finally {
+        // return instance
+        return new Engine(); // app entry =>
+    }
 }
 

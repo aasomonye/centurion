@@ -384,6 +384,83 @@ return array (
           'authenticationid' => '1',
         ),
       ),
+      'dea6d8a5319e01962a4f7a6d74cd248c182edb9a4220585087097c8b3e1059e68d015183' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token , password_hash = :password_hash  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => '9edc29b34a4e6a41a94bf20bf007b5ac16a6dee9',
+          'session_token' => '8a25880bbcc29c8a1708ddc123f4846d',
+          'password_hash' => '$2y$10$HeJtM1kr1pl0.sJ8KaIFZuYKJKYPwpGizfiA/QArDthNDYrqWL4EK',
+          'authenticationid' => '1',
+        ),
+      ),
+      'dea6d8a5319e01962a4f7a6d74cd248c6992db0859044fcf57493f23cc859c14345289bb' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token , password_hash = :password_hash  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => '773b6588b35858f7737ee6958290453e93d56cfe',
+          'session_token' => 'f997b5f5280502c051a965bb7be1ada7',
+          'password_hash' => '$2y$10$Yyy8jXQueukohoMXmU7ofOM/hPMF/HDqlWMaveB5lJ1qlcJEEPZ7C',
+          'authenticationid' => '1',
+        ),
+      ),
+      'd27086beafd1561f79602940405d3e41448873b6318f3905cf98ca04375e7d1be167178e' => 
+      array (
+        'query' => 'INSERT INTO Centurion_authentication (userid,password_salt,password_hash,remember_me_cookie,lockid) VALUES (:userid0,:password_salt0,:password_hash0,:remember_me_cookie0,:lockid0)',
+        'bind' => 
+        array (
+          'userid0' => '2',
+          'password_salt0' => '0d862218bc34ca857827ee08f37a9c843035a38c',
+          'password_hash0' => '$2y$10$yt6LZBSkEFbVxQbyVTdXG.Xgq0cJqX5mMD4p2ghwwdVVNzDtkr.oe',
+          'remember_me_cookie0' => '',
+          'lockid0' => '4',
+        ),
+      ),
+      'dea6d8a5319e01962a4f7a6d74cd248c970fefb1696ab8ff891bf3af43c841d1f39fb700' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token , password_hash = :password_hash  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => '3c8bbc225d72e9f08d3b26a72368085fc9ec2f3b',
+          'session_token' => '463d89e2d347c18e300c1574a59788f1',
+          'password_hash' => '$2y$10$IuTMDVtgT4AvR.LAj0o1VO6phHSu9EsEGqRkUyV0xuRSOfL5E2ZYG',
+          'authenticationid' => '2',
+        ),
+      ),
+      '16a1f7e9fa4a62eb007ec472b31a48c5da4b9237bacccdf19c0760cab7aec4a8359010b0' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET session_token = :session_token , remember_me_cookie = :remember_me_cookie  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'session_token' => '',
+          'remember_me_cookie' => '',
+          'authenticationid' => '2',
+        ),
+      ),
+      'dea6d8a5319e01962a4f7a6d74cd248c4afc7597283052209c9005932331ee7ad826b634' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token , password_hash = :password_hash  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => '1c74a3ac94e6ba576ad0384b2c88737b179cba73',
+          'session_token' => '751082bba45a11222b77bdf43b8a2fd5',
+          'password_hash' => '$2y$10$H0YJWW/RIUIsrdkBYxzuMelRlyhpHqE4FVkCcfoH1VCRZv9WLxtV6',
+          'authenticationid' => '2',
+        ),
+      ),
+      'dea6d8a5319e01962a4f7a6d74cd248c268f485d977188c356ac66888973c6fd9c1e8a36' => 
+      array (
+        'query' => 'UPDATE Centurion_authentication SET password_salt = :password_salt , session_token = :session_token , password_hash = :password_hash  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'password_salt' => '586a0580f48f01a615b92e57a44e6ef619f00cf1',
+          'session_token' => '205fd134cecbf8fa85dceee9cacc95b7',
+          'password_hash' => '$2y$10$Nm/xgPCaF.hpSs4jQ2a88el3kf002CdysN8ck9xn.UEo/zsXVaiR2',
+          'authenticationid' => '1',
+        ),
+      ),
     ),
     'Centurion_login_tracker' => 
     array (
@@ -926,6 +1003,73 @@ return array (
           'authenticationid' => '1',
         ),
       ),
+      '0b7c9587c8693c7a72644fad24b1796be6c23236634a758e4a1ab96d36a47037949008bd' => 
+      array (
+        'query' => 'UPDATE Centurion_login_tracker SET isloggedin = :isloggedin , last_login = :last_login  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'isloggedin' => '1',
+          'last_login' => '2020-02-13 3:13:17 pm',
+          'authenticationid' => '1',
+        ),
+      ),
+      '0b7c9587c8693c7a72644fad24b1796b2f5c8cb9f0e6d2ef65d4d44b8f264fa49d3671a2' => 
+      array (
+        'query' => 'UPDATE Centurion_login_tracker SET isloggedin = :isloggedin , last_login = :last_login  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'isloggedin' => '1',
+          'last_login' => '2020-02-13 3:29:18 pm',
+          'authenticationid' => '1',
+        ),
+      ),
+      '3943fc26d94d8d2e37b86b3b3d26466eda4b9237bacccdf19c0760cab7aec4a8359010b0' => 
+      array (
+        'query' => 'INSERT INTO Centurion_login_tracker (authenticationid) VALUES (:authenticationid0)',
+        'bind' => 
+        array (
+          'authenticationid0' => '2',
+        ),
+      ),
+      '0b7c9587c8693c7a72644fad24b1796b54ef653d4f1ad94156206c86a0743459469aa293' => 
+      array (
+        'query' => 'UPDATE Centurion_login_tracker SET isloggedin = :isloggedin , last_login = :last_login  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'isloggedin' => '1',
+          'last_login' => '2020-02-13 3:32:27 pm',
+          'authenticationid' => '2',
+        ),
+      ),
+      '0de7d9d70141985603f08b04d9acbfd2bcac9d1d8eab3713ae489224d0130c9468e7a0e3' => 
+      array (
+        'query' => 'UPDATE Centurion_login_tracker SET isloggedin = :isloggedin  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'isloggedin' => '0',
+          'authenticationid' => '2',
+        ),
+      ),
+      '0b7c9587c8693c7a72644fad24b1796b2fdc0037ae4eeddd29ce5c6e89a8d28ec3dfd4f2' => 
+      array (
+        'query' => 'UPDATE Centurion_login_tracker SET isloggedin = :isloggedin , last_login = :last_login  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'isloggedin' => '1',
+          'last_login' => '2020-02-13 3:33:25 pm',
+          'authenticationid' => '2',
+        ),
+      ),
+      '0b7c9587c8693c7a72644fad24b1796bb406f45f4c566818db1795ac165f825069371b17' => 
+      array (
+        'query' => 'UPDATE Centurion_login_tracker SET isloggedin = :isloggedin , last_login = :last_login  WHERE authenticationid = :authenticationid ',
+        'bind' => 
+        array (
+          'isloggedin' => '1',
+          'last_login' => '2020-02-13 7:58:38 pm',
+          'authenticationid' => '1',
+        ),
+      ),
     ),
     'Centurion_activations' => 
     array (
@@ -969,6 +1113,18 @@ return array (
           'lockid' => '2',
           'activationid' => '9',
           'activation_code0' => '4d83e3ea659170a38d2da4003cb3665adc4fc404',
+        ),
+      ),
+      '9eff7fec00138df9b0863de21b073d805dbdff04b9a36929cc935b29edfb027ec5dd2add' => 
+      array (
+        'query' => 'INSERT INTO Centurion_activations (userid,activation_code,redirect_to,satisfied,lockid) VALUES (:userid0,:activation_code0,:redirect_to0,:satisfied0,:lockid0)',
+        'bind' => 
+        array (
+          'userid0' => '2',
+          'activation_code0' => '101916',
+          'redirect_to0' => 'dashboard',
+          'satisfied0' => '0',
+          'lockid0' => '4',
         ),
       ),
     ),
@@ -1136,6 +1292,381 @@ return array (
           'accountid0' => '1',
         ),
       ),
+      '6661a098dafb4f3a46ee1bbdb3ee677865f36c9aa52659bbcfa29637963d525412177483' => 
+      array (
+        'query' => 'INSERT INTO Centurion_accountNavigation (page_title,page_link,page_icon,accountid) VALUES (:page_title0,:page_link0,:page_icon0,:accountid0)',
+        'bind' => 
+        array (
+          'page_title0' => 'Deals',
+          'page_link0' => 'customer/deals',
+          'page_icon0' => 'nav-icon fas fa-grin-stars',
+          'accountid0' => '1',
+        ),
+      ),
+      'ef501048c7bc586ae8effa6732731abdf2ba7ad3f185d4906ee68b3edb1edc4cb1c63f88' => 
+      array (
+        'query' => 'INSERT INTO Centurion_accountNavigation (page_title,page_link,page_icon,parentid,accountid) VALUES (:page_title0,:page_link0,:page_icon0,:parentid0,:accountid0)',
+        'bind' => 
+        array (
+          'page_title0' => 'History',
+          'page_link0' => 'customer/booking/history',
+          'page_icon0' => 'far fa-circle nav-icon',
+          'parentid0' => '3',
+          'accountid0' => '1',
+        ),
+      ),
+      'ef501048c7bc586ae8effa6732731abd5326b51bde48497d4512511ac712ce899df514a0' => 
+      array (
+        'query' => 'INSERT INTO Centurion_accountNavigation (page_title,page_link,page_icon,parentid,accountid) VALUES (:page_title0,:page_link0,:page_icon0,:parentid0,:accountid0)',
+        'bind' => 
+        array (
+          'page_title0' => 'Create',
+          'page_link0' => 'customer/booking/create',
+          'page_icon0' => 'far fa-circle nav-icon',
+          'parentid0' => '3',
+          'accountid0' => '1',
+        ),
+      ),
+      '6661a098dafb4f3a46ee1bbdb3ee67789b1a36a7c8077e7ffe66b4e2980eba769bed6523' => 
+      array (
+        'query' => 'INSERT INTO Centurion_accountNavigation (page_title,page_link,page_icon,accountid) VALUES (:page_title0,:page_link0,:page_icon0,:accountid0)',
+        'bind' => 
+        array (
+          'page_title0' => 'Rental',
+          'page_link0' => 'customer/rental',
+          'page_icon0' => 'nav-icon fas fa-car',
+          'accountid0' => '1',
+        ),
+      ),
+      'ef501048c7bc586ae8effa6732731abdf0882e5694766043e855da80b9f8b832dd9b2426' => 
+      array (
+        'query' => 'INSERT INTO Centurion_accountNavigation (page_title,page_link,page_icon,parentid,accountid) VALUES (:page_title0,:page_link0,:page_icon0,:parentid0,:accountid0)',
+        'bind' => 
+        array (
+          'page_title0' => 'History',
+          'page_link0' => 'customer/rental/history',
+          'page_icon0' => 'far fa-circle nav-icon',
+          'parentid0' => '6',
+          'accountid0' => '1',
+        ),
+      ),
+      'ef501048c7bc586ae8effa6732731abd8860390438a6b92efddc42fa6266ea987b9d4908' => 
+      array (
+        'query' => 'INSERT INTO Centurion_accountNavigation (page_title,page_link,page_icon,parentid,accountid) VALUES (:page_title0,:page_link0,:page_icon0,:parentid0,:accountid0)',
+        'bind' => 
+        array (
+          'page_title0' => 'Create',
+          'page_link0' => 'customer/rental/create',
+          'page_icon0' => 'far fa-circle nav-icon',
+          'parentid0' => '6',
+          'accountid0' => '1',
+        ),
+      ),
+      '6661a098dafb4f3a46ee1bbdb3ee67786c6021638d795590f34a7419e904198ab177df8c' => 
+      array (
+        'query' => 'INSERT INTO Centurion_accountNavigation (page_title,page_link,page_icon,accountid) VALUES (:page_title0,:page_link0,:page_icon0,:accountid0)',
+        'bind' => 
+        array (
+          'page_title0' => 'Support',
+          'page_link0' => 'customer/support',
+          'page_icon0' => 'nav-icon far fa-question-circle',
+          'accountid0' => '1',
+        ),
+      ),
+      'ef501048c7bc586ae8effa6732731abda0293eddd79c0ab0971b033df43ac8c3b0b9ffe6' => 
+      array (
+        'query' => 'INSERT INTO Centurion_accountNavigation (page_title,page_link,page_icon,parentid,accountid) VALUES (:page_title0,:page_link0,:page_icon0,:parentid0,:accountid0)',
+        'bind' => 
+        array (
+          'page_title0' => 'Testimonial',
+          'page_link0' => 'customer/support/testimonial',
+          'page_icon0' => 'far fa-circle nav-icon',
+          'parentid0' => '10',
+          'accountid0' => '1',
+        ),
+      ),
+      'ef501048c7bc586ae8effa6732731abd441b9ca7d4efd7999e5288865162271cd8aba660' => 
+      array (
+        'query' => 'INSERT INTO Centurion_accountNavigation (page_title,page_link,page_icon,parentid,accountid) VALUES (:page_title0,:page_link0,:page_icon0,:parentid0,:accountid0)',
+        'bind' => 
+        array (
+          'page_title0' => 'Ticket',
+          'page_link0' => 'customer/support/ticket',
+          'page_icon0' => 'far fa-circle nav-icon',
+          'parentid0' => '10',
+          'accountid0' => '1',
+        ),
+      ),
+      'ef501048c7bc586ae8effa6732731abd48f7a877373441e322953be51a664393f6906dc2' => 
+      array (
+        'query' => 'INSERT INTO Centurion_accountNavigation (page_title,page_link,page_icon,parentid,accountid) VALUES (:page_title0,:page_link0,:page_icon0,:parentid0,:accountid0)',
+        'bind' => 
+        array (
+          'page_title0' => 'Orders',
+          'page_link0' => 'customer/report/orders',
+          'page_icon0' => 'far fa-circle nav-icon',
+          'parentid0' => '11',
+          'accountid0' => '1',
+        ),
+      ),
+      'ef501048c7bc586ae8effa6732731abd61c21803c5aeb8758a65f05ae6cd1b25a1281541' => 
+      array (
+        'query' => 'INSERT INTO Centurion_accountNavigation (page_title,page_link,page_icon,parentid,accountid) VALUES (:page_title0,:page_link0,:page_icon0,:parentid0,:accountid0)',
+        'bind' => 
+        array (
+          'page_title0' => 'Checking History',
+          'page_link0' => 'customer/report/checking-history',
+          'page_icon0' => 'far fa-circle nav-icon',
+          'parentid0' => '11',
+          'accountid0' => '1',
+        ),
+      ),
+      'ef501048c7bc586ae8effa6732731abdfbbb4a47b7dfdc5005aa9f57c0ce16d05360c573' => 
+      array (
+        'query' => 'INSERT INTO Centurion_accountNavigation (page_title,page_link,page_icon,parentid,accountid) VALUES (:page_title0,:page_link0,:page_icon0,:parentid0,:accountid0)',
+        'bind' => 
+        array (
+          'page_title0' => 'Transactions',
+          'page_link0' => 'customer/report/transactions',
+          'page_icon0' => 'far fa-circle nav-icon',
+          'parentid0' => '11',
+          'accountid0' => '1',
+        ),
+      ),
+      '6661a098dafb4f3a46ee1bbdb3ee6778c210d256d5da8d35e941ce4eabb2fd7d0d753395' => 
+      array (
+        'query' => 'INSERT INTO Centurion_accountNavigation (page_title,page_link,page_icon,accountid) VALUES (:page_title0,:page_link0,:page_icon0,:accountid0)',
+        'bind' => 
+        array (
+          'page_title0' => 'Membership',
+          'page_link0' => 'customer/membership',
+          'page_icon0' => 'nav-icon fas fa-crown',
+          'accountid0' => '1',
+        ),
+      ),
+      '6661a098dafb4f3a46ee1bbdb3ee6778863a078a6a929bdd5f2199dcfca03255caee8911' => 
+      array (
+        'query' => 'INSERT INTO Centurion_accountNavigation (page_title,page_link,page_icon,accountid) VALUES (:page_title0,:page_link0,:page_icon0,:accountid0)',
+        'bind' => 
+        array (
+          'page_title0' => 'Coupons',
+          'page_link0' => 'customer/coupon',
+          'page_icon0' => 'nav-icon fas fa-tag',
+          'accountid0' => '1',
+        ),
+      ),
+      'ef501048c7bc586ae8effa6732731abdb0ae03ec2600e1f7d78883568519b9d1069c7be1' => 
+      array (
+        'query' => 'INSERT INTO Centurion_accountNavigation (page_title,page_link,page_icon,parentid,accountid) VALUES (:page_title0,:page_link0,:page_icon0,:parentid0,:accountid0)',
+        'bind' => 
+        array (
+          'page_title0' => 'History',
+          'page_link0' => 'customer/booking/history',
+          'page_icon0' => 'far fa-circle nav-icon',
+          'parentid0' => '',
+          'accountid0' => '1',
+        ),
+      ),
+      'ef501048c7bc586ae8effa6732731abde4deacb9a3e979aabfb4c914796258cfcec3cbae' => 
+      array (
+        'query' => 'INSERT INTO Centurion_accountNavigation (page_title,page_link,page_icon,parentid,accountid) VALUES (:page_title0,:page_link0,:page_icon0,:parentid0,:accountid0)',
+        'bind' => 
+        array (
+          'page_title0' => 'History',
+          'page_link0' => 'customer/rental/history',
+          'page_icon0' => 'far fa-circle nav-icon',
+          'parentid0' => '3',
+          'accountid0' => '1',
+        ),
+      ),
+      'ef501048c7bc586ae8effa6732731abddfeefc02bd7f27f50f72a143348aefdcb7074c22' => 
+      array (
+        'query' => 'INSERT INTO Centurion_accountNavigation (page_title,page_link,page_icon,parentid,accountid) VALUES (:page_title0,:page_link0,:page_icon0,:parentid0,:accountid0)',
+        'bind' => 
+        array (
+          'page_title0' => 'Create',
+          'page_link0' => 'customer/rental/create',
+          'page_icon0' => 'far fa-circle nav-icon',
+          'parentid0' => '3',
+          'accountid0' => '1',
+        ),
+      ),
+      'ef501048c7bc586ae8effa6732731abd81a0746410f7dbceca069160a144691bcd4e8291' => 
+      array (
+        'query' => 'INSERT INTO Centurion_accountNavigation (page_title,page_link,page_icon,parentid,accountid) VALUES (:page_title0,:page_link0,:page_icon0,:parentid0,:accountid0)',
+        'bind' => 
+        array (
+          'page_title0' => 'Testimonial',
+          'page_link0' => 'customer/support/testimonial',
+          'page_icon0' => 'far fa-circle nav-icon',
+          'parentid0' => '3',
+          'accountid0' => '1',
+        ),
+      ),
+      'ef501048c7bc586ae8effa6732731abd6dbf3e7069c256bce7313bba5ba3063aab69e00f' => 
+      array (
+        'query' => 'INSERT INTO Centurion_accountNavigation (page_title,page_link,page_icon,parentid,accountid) VALUES (:page_title0,:page_link0,:page_icon0,:parentid0,:accountid0)',
+        'bind' => 
+        array (
+          'page_title0' => 'Ticket',
+          'page_link0' => 'customer/support/ticket',
+          'page_icon0' => 'far fa-circle nav-icon',
+          'parentid0' => '3',
+          'accountid0' => '1',
+        ),
+      ),
+      'ef501048c7bc586ae8effa6732731abddc6177bc8198b3edc892cd5df1ba3653c8f62fde' => 
+      array (
+        'query' => 'INSERT INTO Centurion_accountNavigation (page_title,page_link,page_icon,parentid,accountid) VALUES (:page_title0,:page_link0,:page_icon0,:parentid0,:accountid0)',
+        'bind' => 
+        array (
+          'page_title0' => 'Orders',
+          'page_link0' => 'customer/report/orders',
+          'page_icon0' => 'far fa-circle nav-icon',
+          'parentid0' => '3',
+          'accountid0' => '1',
+        ),
+      ),
+      'ef501048c7bc586ae8effa6732731abd2765ade422be6a2933adaea033c174b8c1545c5d' => 
+      array (
+        'query' => 'INSERT INTO Centurion_accountNavigation (page_title,page_link,page_icon,parentid,accountid) VALUES (:page_title0,:page_link0,:page_icon0,:parentid0,:accountid0)',
+        'bind' => 
+        array (
+          'page_title0' => 'Checking History',
+          'page_link0' => 'customer/report/checking-history',
+          'page_icon0' => 'far fa-circle nav-icon',
+          'parentid0' => '3',
+          'accountid0' => '1',
+        ),
+      ),
+      'ef501048c7bc586ae8effa6732731abd62b12c19951a16818b5d24a124102d5fe902cade' => 
+      array (
+        'query' => 'INSERT INTO Centurion_accountNavigation (page_title,page_link,page_icon,parentid,accountid) VALUES (:page_title0,:page_link0,:page_icon0,:parentid0,:accountid0)',
+        'bind' => 
+        array (
+          'page_title0' => 'Transactions',
+          'page_link0' => 'customer/report/transactions',
+          'page_icon0' => 'far fa-circle nav-icon',
+          'parentid0' => '3',
+          'accountid0' => '1',
+        ),
+      ),
+      '6661a098dafb4f3a46ee1bbdb3ee67782349b1fbe00d5ff61680a255f2f128e1465e1a56' => 
+      array (
+        'query' => 'INSERT INTO Centurion_accountNavigation (page_title,page_link,page_icon,accountid) VALUES (:page_title0,:page_link0,:page_icon0,:accountid0)',
+        'bind' => 
+        array (
+          'page_title0' => 'Dashboard',
+          'page_link0' => 'customer/dashboard',
+          'page_icon0' => 'nav-icon fas fa-tachometer-alt',
+          'accountid0' => '',
+        ),
+      ),
+      '6661a098dafb4f3a46ee1bbdb3ee67789d0622cb033df51d037f35fb8fb1f8251a347a32' => 
+      array (
+        'query' => 'INSERT INTO Centurion_accountNavigation (page_title,page_link,page_icon,accountid) VALUES (:page_title0,:page_link0,:page_icon0,:accountid0)',
+        'bind' => 
+        array (
+          'page_title0' => 'Booking',
+          'page_link0' => 'customer/booking',
+          'page_icon0' => 'nav-icon fas fa-book',
+          'accountid0' => '',
+        ),
+      ),
+      'ef501048c7bc586ae8effa6732731abd1a5171935e438f33aa831a5982e437ad7e15dba7' => 
+      array (
+        'query' => 'INSERT INTO Centurion_accountNavigation (page_title,page_link,page_icon,parentid,accountid) VALUES (:page_title0,:page_link0,:page_icon0,:parentid0,:accountid0)',
+        'bind' => 
+        array (
+          'page_title0' => 'Create',
+          'page_link0' => 'customer/booking/create',
+          'page_icon0' => 'far fa-circle nav-icon',
+          'parentid0' => '3',
+          'accountid0' => '',
+        ),
+      ),
+      'ef501048c7bc586ae8effa6732731abd625092db861bc3b0dc7729ea119a852822e13fdf' => 
+      array (
+        'query' => 'INSERT INTO Centurion_accountNavigation (page_title,page_link,page_icon,parentid,accountid) VALUES (:page_title0,:page_link0,:page_icon0,:parentid0,:accountid0)',
+        'bind' => 
+        array (
+          'page_title0' => 'History',
+          'page_link0' => 'customer/rental/history',
+          'page_icon0' => 'far fa-circle nav-icon',
+          'parentid0' => '3',
+          'accountid0' => '',
+        ),
+      ),
+      '6661a098dafb4f3a46ee1bbdb3ee6778ac0cf6466b000eec4fcd106f83bb3bf2a816345f' => 
+      array (
+        'query' => 'INSERT INTO Centurion_accountNavigation (page_title,page_link,page_icon,accountid) VALUES (:page_title0,:page_link0,:page_icon0,:accountid0)',
+        'bind' => 
+        array (
+          'page_title0' => 'Support',
+          'page_link0' => 'customer/support',
+          'page_icon0' => 'nav-icon far fa-question-circle',
+          'accountid0' => '',
+        ),
+      ),
+      'ef501048c7bc586ae8effa6732731abda805428dc7a5d8bcaad2e7fa19a319f0800772aa' => 
+      array (
+        'query' => 'INSERT INTO Centurion_accountNavigation (page_title,page_link,page_icon,parentid,accountid) VALUES (:page_title0,:page_link0,:page_icon0,:parentid0,:accountid0)',
+        'bind' => 
+        array (
+          'page_title0' => 'Ticket',
+          'page_link0' => 'customer/support/ticket',
+          'page_icon0' => 'far fa-circle nav-icon',
+          'parentid0' => '3',
+          'accountid0' => '',
+        ),
+      ),
+      'ef501048c7bc586ae8effa6732731abda408df47a9ecd31798fccc9a3c4eb8efe891b29d' => 
+      array (
+        'query' => 'INSERT INTO Centurion_accountNavigation (page_title,page_link,page_icon,parentid,accountid) VALUES (:page_title0,:page_link0,:page_icon0,:parentid0,:accountid0)',
+        'bind' => 
+        array (
+          'page_title0' => 'Orders',
+          'page_link0' => 'customer/report/orders',
+          'page_icon0' => 'far fa-circle nav-icon',
+          'parentid0' => '3',
+          'accountid0' => '',
+        ),
+      ),
+      'ef501048c7bc586ae8effa6732731abda1109bcfc8b13ab36cdc2d4fd9f166618eff0f38' => 
+      array (
+        'query' => 'INSERT INTO Centurion_accountNavigation (page_title,page_link,page_icon,parentid,accountid) VALUES (:page_title0,:page_link0,:page_icon0,:parentid0,:accountid0)',
+        'bind' => 
+        array (
+          'page_title0' => 'Transactions',
+          'page_link0' => 'customer/report/transactions',
+          'page_icon0' => 'far fa-circle nav-icon',
+          'parentid0' => '3',
+          'accountid0' => '',
+        ),
+      ),
+      '6661a098dafb4f3a46ee1bbdb3ee67784c7effdf6bf8753f4c70f3a628a247e3419d0a2b' => 
+      array (
+        'query' => 'INSERT INTO Centurion_accountNavigation (page_title,page_link,page_icon,accountid) VALUES (:page_title0,:page_link0,:page_icon0,:accountid0)',
+        'bind' => 
+        array (
+          'page_title0' => 'Membership',
+          'page_link0' => 'customer/membership',
+          'page_icon0' => 'nav-icon fas fa-crown',
+          'accountid0' => '',
+        ),
+      ),
+      'ef501048c7bc586ae8effa6732731abd82c8f86f35298824be0b9765bd7e1ff61e57129f' => 
+      array (
+        'query' => 'INSERT INTO Centurion_accountNavigation (page_title,page_link,page_icon,parentid,accountid) VALUES (:page_title0,:page_link0,:page_icon0,:parentid0,:accountid0)',
+        'bind' => 
+        array (
+          'page_title0' => 'Transactions',
+          'page_link0' => 'customer/report/transactions',
+          'page_icon0' => 'far fa-circle nav-icon',
+          'parentid0' => '12',
+          'accountid0' => '1',
+        ),
+      ),
     ),
     'Centurion_users_information' => 
     array (
@@ -1174,6 +1705,21 @@ return array (
           'informationid' => '1',
         ),
       ),
+      '1f7b58c3c62b3f50487152d1e25f9ced112151ff22ae853ee0c1bbc952047256d9966021' => 
+      array (
+        'query' => 'INSERT INTO Centurion_users_information (userid,next_of_kin_name,next_of_kin_telephone,next_of_kin_address,next_of_kin_relationship,telephone,home_address,work_address) VALUES (:userid0,:next_of_kin_name0,:next_of_kin_telephone0,:next_of_kin_address0,:next_of_kin_relationship0,:telephone0,:home_address0,:work_address0)',
+        'bind' => 
+        array (
+          'userid0' => '2',
+          'next_of_kin_name0' => 'kaito',
+          'next_of_kin_telephone0' => '08092727228',
+          'next_of_kin_address0' => 'wuse zone 4,  abujawuse zone 4,  abuja',
+          'next_of_kin_relationship0' => 'son',
+          'telephone0' => '08029925179',
+          'home_address0' => 'wuse zone 4,  abuja',
+          'work_address0' => 'wuse zone 4,  abuja',
+        ),
+      ),
     ),
     'Centurion_users' => 
     array (
@@ -1186,6 +1732,90 @@ return array (
           'lastname' => 'amadi',
           'userid' => '1',
           'userid0' => '1',
+        ),
+      ),
+      'a091d47d048fc2dfc186510124f6034c1f7144a50d70df60f98ff0c9ddebe757a9ad152c' => 
+      array (
+        'query' => 'INSERT INTO Centurion_users (firstname,lastname,email_address,nationalityid,accountid) VALUES (:firstname0,:lastname0,:email_address0,:nationalityid0,:accountid0)',
+        'bind' => 
+        array (
+          'firstname0' => 'Azubuike',
+          'lastname0' => 'Asomonye',
+          'email_address0' => 'aasomonye@gmail.com',
+          'nationalityid0' => '1',
+          'accountid0' => '1',
+        ),
+      ),
+    ),
+    'Centurion_mail_logger' => 
+    array (
+      '7178fd31eb91df6d9fa1678c138df8d37671fba9db48b4d3d0255dc2a3ce3aaf28eca5cc' => 
+      array (
+        'query' => 'INSERT INTO Centurion_mail_logger (userid,message) VALUES (:userid0,:message0)',
+        'bind' => 
+        array (
+          'userid0' => '2',
+          'message0' => '            
+                @import url(\'https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap\');
+                .template-wrapper{display: flex; justify-content: center; align-items: center; padding: 30px;
+                box-shadow: 0px 0px 10px rgba(0,0,0,0.2); width: 95%; margin: auto; margin-top: 20px; color: #12233E;}
+                .template-wrapper .template-body{width: 80%; margin: 0 auto; text-align: center; font-family: \'Poppins\', sans-serif; line-height: 26px;}
+                .template-wrapper .template-body h1{font-weight: 700; font-family: \'Poppins\', sans-serif; margin-bottom: 30px; font-size: 35px;}
+                .template-wrapper .template-body p{font-size: 16px; margin-bottom: 30px;}
+                .template-wrapper .template-body .template-button{margin-bottom: 30px;}
+                .template-wrapper .template-body .template-button a{display: block; width: 50%; height: 65px; text-align: center;
+                color: #fff; background-color: #FF4E00; font-size: 16px; border-radius: 40px; margin: 0 auto;
+                display: flex; justify-content: center; align-items: center; text-decoration:none;}
+                .template-wrapper .template-body .template-footer ul{list-style: none; display: flex; justify-content: center;}
+                .template-wrapper .template-body .template-footer ul li{padding-right: 6px; padding-left: 6px; opacity: 0.27;
+                padding-top: 0px; position: relative;}
+                .template-wrapper .template-body .template-footer ul li::after{
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    content: "|";
+                    width: 1px;
+                    height: 100%;
+                    color: #12233E;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+                .template-wrapper .template-body .template-footer ul li:last-child:after{content: \'\';}
+                .template-wrapper .template-body .template-footer ul li:hover{opacity: 1;}
+                .template-wrapper .template-body .template-footer ul li a{text-decoration:none; font-size:14px; color:#12233E;}
+                .template-wrapper .template-body .template-footer .template-footer-text{display: block; margin-bottom: 20px;
+                font-size: 14px;}
+                .template-wrapper .template-body .template-footer .template-footer-small-text{font-size: 12px; opacity: 0.3;
+                max-width: 70%; display: block; margin: auto;}
+                .template-wrapper .template-body .template-footer .template-footer-small-text a{text-decoration: underline;}
+            
+	
+		Welcome Onboard
+		Hello Azubuike Asomonye, we are happy to have you on board and we look forward to your satisfaction and happiness. So what’s next? Your account has a pending confirmation. Click on the button below to confirm your account.
+		
+			Confirm my account
+		
+
+		
+			
+				About us
+				Properties
+				Car rental
+				Become a partner
+				Trust & Safety
+				Best price
+			
+			
+				© 2020 Centurion Apartments Limited. All Rights Reserved.  No 30, Wuse Zone 4, Abuja Ciry, Nigeria 
+			
+
+			
+				You are receiving this email because you signed up for a Centurion account. If you no longer wish to receive these emails, please unsubscribe here
+			
+		
+	
+',
         ),
       ),
     ),

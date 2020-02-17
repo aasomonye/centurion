@@ -23,162 +23,162 @@ use utility\Classes\BootMgr\Manager as BootMgr;
 
 class DB
 {
-   public  static $instance = null;
-   private static $command = [];
-   private        $method = "";
-   private static $calls = 0;
-   private        $allowed = [];
-   private static $call = 0;
-   private        $drum = [];
-   private        $sub = 0;
-   public  static $bindExternal = [];
-   public         $cacheQuery = true;
-   
-   // pack all errors occured.
-   private $errorpack = [];
+    public  static $instance = null;
+    private static $command = [];
+    private        $method = "";
+    private static $calls = 0;
+    private        $allowed = [];
+    private static $call = 0;
+    private        $drum = [];
+    private        $sub = 0;
+    public  static $bindExternal = [];
+    public         $cacheQuery = true;
 
-   // get database driver from database handler
-   private $driver;    
+    // pack all errors occured.
+    private $errorpack = [];
 
-   // sql query 
-   private $query = '';    
+    // get database driver from database handler
+    private $driver;
 
-   // pdo bind values
-   private $bind = [];   
+    // sql query
+    private $query = '';
 
-   // operation failed
-   private $failed = false;  
-   
-   // skip checking
-   private $skipchecking = false;
+    // pdo bind values
+    private $bind = [];
 
-   // last where statement
-   private $lastWhere = '';   
+    // operation failed
+    private $failed = false;
 
-   // database.table
-   public $table = '';
+    // skip checking
+    private $skipchecking = false;
 
-   // packed argument
-   private static $packed = [];   
-   
-   // argument sent.. 
-   private static $argument = [];   
+    // last where statement
+    private $lastWhere = '';
 
-   // promise instance  
-   private static $promise = null; 
-   
-   // query instance
-   protected static $queryInstance = null; 
-   
-   // pdo instance 
-   public $pdoInstance = null;   
-   
-   // active connections
-   private static $activeConnections = [];
+    // database.table
+    public $table = '';
 
-   // set active database
-   public static $connectWith = null; // do not make constant
-   
-   // set active table
-   public static $activeTable = null; // do not make constant
+    // packed argument
+    private static $packed = [];
 
-   // current use
-   public $useConnection = null;
+    // argument sent..
+    private static $argument = [];
 
-   // private $began 
-   private static $began = 0;
+    // promise instance
+    private static $promise = null;
 
-   // pause execution
-   public $pause = false;
+    // query instance
+    protected static $queryInstance = null;
 
-   // allow html tags
-   private $allowHTMLTags = false;
-   
-   // active connection
-   public $instancedb = null;
+    // pdo instance
+    public $pdoInstance = null;
 
-   // insert keys
-   private $insertKeys = '';
+    // active connections
+    private static $activeConnections = [];
 
-   // get query
-   private $getSql = '';
+    // set active database
+    public static $connectWith = null; // do not make constant
 
-   // get binds
-   private $getBinds = [];
+    // set active table
+    public static $activeTable = null; // do not make constant
 
-   // allow query called
-   private $allowedQueryCalled = false;
+    // current use
+    public $useConnection = null;
 
-   // transaction success
-   public static $transactionCode = 0;
+    // private $began
+    private static $began = 0;
 
-   // opened connection
-   private static $openedConnection = [];
+    // pause execution
+    public $pause = false;
 
-   // class using lazy method
-   public $classUsingLazy;
+    // allow html tags
+    private $allowHTMLTags = false;
 
-   // pause execution
-   private $pauseExecution = false;
+    // active connection
+    public $instancedb = null;
 
-   // add wherePrefix
-   private $wherePrefix = ' ';
+    // insert keys
+    private $insertKeys = '';
 
-   // return promise
-   public $returnPromise = false;
+    // get query
+    private $getSql = '';
 
-   // return new query
-   public $returnNewQuery = null;
+    // get binds
+    private $getBinds = [];
 
-   // allow slashes
-   public $allowSlashes = false;
+    // allow query called
+    private $allowedQueryCalled = false;
 
-   // hold prefix
-   public static $prefix = null;
+    // transaction success
+    public static $transactionCode = 0;
 
-   // no prefix ?
-   private static $noprefix = false;
+    // opened connection
+    private static $openedConnection = [];
 
-   // insert data
-   private $argumentPassed = [];
+    // class using lazy method
+    public $classUsingLazy;
 
-   // get query cache path
-   public $queryCachePath = null;
+    // pause execution
+    private $pauseExecution = false;
 
-   // cached data array for migration
-   private static $cacheQueryData = [];
+    // add wherePrefix
+    private $wherePrefix = ' ';
 
-   // prefixed registered
-   private static $prefixRegistered = [];
+    // return promise
+    public $returnPromise = false;
 
-   // register all prefix event queries
-   private static $prefixRegistry = [];
+    // return new query
+    public $returnNewQuery = null;
 
-   // allow saving queries
-   private $allowSaveQuery = true;
+    // allow slashes
+    public $allowSlashes = false;
 
-   // last successful query ran
-   public static $lastQueryRan = null;
-  
+    // hold prefix
+    public static $prefix = null;
+
+    // no prefix ?
+    private static $noprefix = false;
+
+    // insert data
+    private $argumentPassed = [];
+
+    // get query cache path
+    public $queryCachePath = null;
+
+    // cached data array for migration
+    private static $cacheQueryData = [];
+
+    // prefixed registered
+    private static $prefixRegistered = [];
+
+    // register all prefix event queries
+    private static $prefixRegistry = [];
+
+    // allow saving queries
+    private $allowSaveQuery = true;
+
+    // last successful query ran
+    public static $lastQueryRan = null;
+
     // list of allowed methods for ORM
     private function getAllowed($val = [null], &$sql = "")
     {
-       if (!isset($val[0]))
-       {
-           $val[0] = '';
-       }
+        if (!isset($val[0]))
+        {
+            $val[0] = '';
+        }
 
-       $orginal = $val;
+        $orginal = $val;
 
-       foreach ($val as $i => $v)
-       {
-           if (is_callable($v))
-           {
-               $val[$i] = null;
-           }
-       }
+        foreach ($val as $i => $v)
+        {
+            if (is_callable($v))
+            {
+                $val[$i] = null;
+            }
+        }
 
-       $this->allowed = [
+        $this->allowed = [
             'bind'      => "",
             'min'       => str_replace('SELECT', 'SELECT MIN('.implode(',', $val).')', $sql),
             'max'       => str_replace('SELECT', 'SELECT MAX('.implode(',', $val).')', $sql),
@@ -229,65 +229,65 @@ class DB
                 }
             },
             'like'      => function($obj, $m="and") use ($val, $sql){
-                
-                    $a =& $val;
-                    $structure = $sql;
 
-                    $line = $obj->__stringBind($a[0], ' LIKE ', '');
+                $a =& $val;
+                $structure = $sql;
 
-                    $where = $line['line'];
-                    $bind = $line['bind'];
+                $line = $obj->__stringBind($a[0], ' LIKE ', '');
 
-                    
-                    if (preg_match('/({where})/', $structure))
-                    {
-                        $structure = str_replace('{where}', 'WHERE '.$where.' ', $structure);
-                        $obj->query = $structure;
-                        $obj->lastWhere = 'WHERE '.$where.' ';
-                    }
-                    else
-                    {
-                        $obj->query = trim($obj->query) .' '.$m.' '. $where;
-                        $w = substr($obj->query, strpos($obj->query, 'WHERE'));
-                        $w = substr($w, 0, strrpos($w, $where)) . $where;
-                        $obj->lastWhere = $w;
-                    }
+                $where = $line['line'];
+                $bind = $line['bind'];
 
-                    array_shift($a);
 
-                    $obj->__addBind($a, $bind, null);
+                if (preg_match('/({where})/', $structure))
+                {
+                    $structure = str_replace('{where}', 'WHERE '.$where.' ', $structure);
+                    $obj->query = $structure;
+                    $obj->lastWhere = 'WHERE '.$where.' ';
+                }
+                else
+                {
+                    $obj->query = trim($obj->query) .' '.$m.' '. $where;
+                    $w = substr($obj->query, strpos($obj->query, 'WHERE'));
+                    $w = substr($w, 0, strrpos($w, $where)) . $where;
+                    $obj->lastWhere = $w;
+                }
 
-                    $newBind = [];
-                    
-                    // avoid clashes
-                    $obj->__avoidClashes($bind, $newBind);
+                array_shift($a);
 
-                    $obj->bind = array_merge($obj->bind, $newBind);  
+                $obj->__addBind($a, $bind, null);
+
+                $newBind = [];
+
+                // avoid clashes
+                $obj->__avoidClashes($bind, $newBind);
+
+                $obj->bind = array_merge($obj->bind, $newBind);
             },
         ];
 
-       $more = [
-           'orLike' => function($obj) use ($val, $sql)
-           {
-               $logic = 'and';
+        $more = [
+            'orLike' => function($obj) use ($val, $sql)
+            {
+                $logic = 'and';
 
-               if (strpos($sql, 'LIKE') !== false)
-               {
-                   $logic = 'or';
-               }
+                if (strpos($sql, 'LIKE') !== false)
+                {
+                    $logic = 'or';
+                }
 
-               return call_user_func($this->allowed['like'], $obj, $logic);
-           }
-       ];
+                return call_user_func($this->allowed['like'], $obj, $logic);
+            }
+        ];
 
-       $this->allowed = array_merge($this->allowed, $more);
+        $this->allowed = array_merge($this->allowed, $more);
 
-       return $this->allowed;
+        return $this->allowed;
     }
 
-    // queries by drivers  
+    // queries by drivers
     private function drivers($driver = null)
-    {    
+    {
         // supported drivers.
         $queries = [
             // mysql queries..
@@ -304,20 +304,20 @@ class DB
                 'delete' => 'DELETE FROM {table} {where}',
                 'select' => 'SELECT {column} FROM {table} {where}'
             ],
-            // sqlite queries.. 
+            // sqlite queries..
             'sqlite' => [
                 'update' => 'UPDATE {table} SET {query} {where}',
                 'insert' => 'INSERT INTO {table} ({column}) VALUES {query}',
                 'delete' => 'DELETE FROM {table} {where}',
                 'select' => 'SELECT {column} FROM {table} {where}'
             ]
-		];
-		
-		if (!is_null($driver))
-		{
-			return isset($queries[$driver]) ? $queries[$driver] : null;
+        ];
+
+        if (!is_null($driver))
+        {
+            return isset($queries[$driver]) ? $queries[$driver] : null;
         }
-        
+
         return isset($queries[$this->driver]) ? $queries[$this->driver] : null;
     }
 
@@ -353,12 +353,12 @@ class DB
     public static function fetchRowsEnd()
     {
         $end = "<?php }} ?>";
-        
+
         // end while, if
         return $end;
     }
 
-    // add static bind    
+    // add static bind
     private static function __bind(&$obj, &$a)
     {
         if (count($obj->bind) > 0)
@@ -396,15 +396,15 @@ class DB
                             $obj->errorpack[$command] = [];
                             $obj->errorpack[$command][] = 'Invalid Bind parameter. Scaler Type expected, Compound Type passed.';
                         }
-                    }   
+                    }
                     else
                     {
                         $obj->bind[$key] = isset($a[$i]) ? $a[$i] : '';
                     }
-                    
+
                     $i++;
                 }
-                
+
             }
         }
     }
@@ -423,7 +423,13 @@ class DB
         $other = '';
         $binds = '';
 
+        // get table namee
+        $tableInfo = explode(' as ', $table);
+
+        list($table, $var) = $tableInfo;
+
         // $tableName = self::getTableName($table);
+        $resetdb = false;
 
         if ($table[0] != '$')
         {
@@ -438,6 +444,7 @@ class DB
         {
             $tablefetch = $table .';';
             $table = substr($table, 1);
+            $resetdb = true;
         }
 
         // fetch for all records
@@ -446,6 +453,10 @@ class DB
         // check if we have rows
         $build .= "if (\$$table".'->rows > 0)';
         $build .= "{\n";
+        if ($resetdb)
+        {
+            $build .= "\$$table".'->reset();';
+        }
         $build .= "while (\$$var = \$$table".'->obj())'."\n";
         $build .= "{ ?>";
 
@@ -506,7 +517,7 @@ class DB
             {
                 $set .= $key.' = :'.$key.' '.$seperator.' ';
                 $val = html_entity_decode($val);
-                
+
                 if (!$this->allowSlashes)
                 {
                     $val = addslashes(stripslashes($val));
@@ -538,7 +549,7 @@ class DB
             }
 
             if (is_array($data))
-            {   
+            {
                 $xx = 0;
                 $value = [];
 
@@ -547,11 +558,15 @@ class DB
                     $hkey = trim($structure[$xx]);
                     $value[] = ':'.$hkey.$x;
                     $d = isset($data[$hkey]) ? $data[$hkey] : (isset($data[$xx]) ? $data[$xx] : null);
-                    $d = html_entity_decode($d);
 
-                    if (!$this->allowSlashes)
+                    if (is_string($d))
                     {
-                        $d = addslashes(stripslashes($d));
+                        $d = html_entity_decode($d);
+
+                        if (!$this->allowSlashes)
+                        {
+                            $d = addslashes(stripslashes($d));
+                        }
                     }
 
                     $binds[$hkey.$x] = $d;
@@ -566,8 +581,8 @@ class DB
         $x = 0;
 
         return ['values' => implode(',', $values), 'bind' => $binds];
-    } 
-    
+    }
+
     private function __arrayInsertHeader($array)
     {
         $header = [];
@@ -584,18 +599,18 @@ class DB
                 {
                     $header[] = $val;
                 }
-            } 
+            }
         }
 
         return ['header' => implode(',', $header), 'structure' => $header];
-    }  
+    }
 
     // string insert bind
     private function __stringInsertBind($data)
     {
         // get all strings
         preg_match_all('/[\'|"]([\s\S])[\'|"|\S]{1,}[\'|"]/',$data, $match);
-                                    
+
         $strings = [];
         if (count($match[0]) > 0)
         {
@@ -641,7 +656,7 @@ class DB
                 {
                     $header[] = $lval;
                 }
-                
+
                 if ($rval == '?')
                 {
                     $values[] = ':'.$lval.$xc;
@@ -654,7 +669,7 @@ class DB
                     $values[] = $rval.$xc;
                     $bind[$rval.$xc] = '';
                 }
-                else 
+                else
                 {
                     // has values
                     $start = $rval[0];
@@ -667,7 +682,7 @@ class DB
                             $rval = substr($rval, 0, $end);
                             $line = str_replace($bf, $rval, $line);
                             $split[$i] = $line;
-                        } 
+                        }
                         elseif ($start == "'")
                         {
                             $bf = $rval;
@@ -692,7 +707,7 @@ class DB
                     $rval = preg_replace('/^[\'|"]/','',$rval);
                     $rval = preg_replace('/[\'|"]$/','',$rval);
                     $rval = html_entity_decode($rval);
-                    
+
                     if (!$this->allowSlashes)
                     {
                         $rval = addslashes(stripslashes($rval));
@@ -709,14 +724,14 @@ class DB
         $xc = 0;
 
         return ['values' => $values, 'bind' => $bind, 'header' => $header];
-    }    
+    }
 
     // string as argument
     private function __stringBind($data, $l = null, $r = null)
     {
         // get all strings
         preg_match_all('/[\'|"]([\s\S])[\'|"|\S]{0,}[\'|"]/',$data, $match);
-                                    
+
         $strings = [];
         if (count($match[0]) > 0)
         {
@@ -774,11 +789,11 @@ class DB
 
                 if (preg_match("/[:]($line)/", $this->query) || preg_match("/[:]($line)/", $query))
                 {
-                    $line .= $xy;  
+                    $line .= $xy;
                     $bind[$line] = '';
 
                     $xy++;
-                    
+
                 }
                 else
                 {
@@ -848,7 +863,7 @@ class DB
                 $lval = trim(substr($line, 0, $eq));
                 $lval = trim(preg_replace('/[!|=|<|>]$/','',$lval));
 
-                
+
                 if ($rval == '?')
                 {
                     static $xx = 0;
@@ -857,7 +872,7 @@ class DB
 
                     if (preg_match("/[:]($lval)/", $this->query) || preg_match("/[:]($lval)/", $query))
                     {
-                        $lval .= $xx;  
+                        $lval .= $xx;
                         $xx++;
                     }
 
@@ -875,14 +890,14 @@ class DB
                     {
                         $bind[substr($rval,1).$xx] = '';
                         $xx++;
-                    }   
+                    }
                     else
                     {
                         $bind[substr($rval,1)] = '';
                     }
-                    
+
                 }
-                else 
+                else
                 {
                     static $xx = 0;
 
@@ -897,7 +912,7 @@ class DB
                             $rval = substr($rval, 0, $end+1);
                             $line = str_replace($bf, $rval, $line);
                             $split[$i] = $line;
-                        } 
+                        }
                         elseif ($start == "'")
                         {
                             $bf = $rval;
@@ -1044,7 +1059,7 @@ class DB
                 }
                 else
                 {
-                    
+
                     $ret = $i;
                     if (is_string($val))
                     {
@@ -1097,20 +1112,20 @@ class DB
     // set active table
     public function setActiveTable($table)
     {
-       self::$activeTable = $table;
-       $this->table = $table;
+        self::$activeTable = $table;
+        $this->table = $table;
     }
 
     // set connect with
     public function setConnectWith($with)
     {
-       self::$connectWith = $with;
+        self::$connectWith = $with;
     }
 
     public function _apply($dataName = null)
     {
-       if (!is_null($dataName) && !empty($dataName))
-	   {
+        if (!is_null($dataName) && !empty($dataName))
+        {
             if (isset(self::$openedConnection[$dataName]))
             {
                 $con = self::$openedConnection[$dataName];
@@ -1120,14 +1135,14 @@ class DB
                 $con->allowed = $this->getAllowed();
 
                 return $con;
-            }   
-			// switch connection
-			else
-			{
+            }
+            // switch connection
+            else
+            {
                 $driver = DatabaseHandler::connectionConfig($dataName, 'driver');
                 // get allowed
                 $this->getAllowed();
-                
+
                 if (DatabaseHandler::connectionConfig($dataName) !== false)
                 {
                     DatabaseHandler::$dbset = true;
@@ -1145,7 +1160,7 @@ class DB
 
                         // save driver
                         $this->driver = $driver;
-                        
+
                         $this->instancedb = $dataName;
 
                         // extablish connection
@@ -1154,7 +1169,7 @@ class DB
                         // save instance.
                         $this->pdoInstance = $con;
 
-                        // push connection 
+                        // push connection
                         self::$openedConnection[$dataName] = $this;
                     }
                     else
@@ -1162,56 +1177,56 @@ class DB
                         throw new \Exceptions\Database\DatabaseException('Driver you used isn\'t supported on this server. Please see documentation');
                     }
                 }
-			}
-	   }
+            }
+        }
 
-	   return $this;
+        return $this;
     }
 
     // get table info
     public function _getTableInfo($instance = null, $type = null, $table = null)
     {
-       $ins = $this;
+        $ins = $this;
 
-       if (is_object($instance))
-       {
-           $ins = $instance;
-       }
+        if (is_object($instance))
+        {
+            $ins = $instance;
+        }
 
-       $server = !is_null($ins->driver) ? $ins->driver : $this->driver;
-       $tableName = !is_null($ins->table) ? $ins->table : $this->table;
+        $server = !is_null($ins->driver) ? $ins->driver : $this->driver;
+        $tableName = !is_null($ins->table) ? $ins->table : $this->table;
 
-       if (is_object($instance) && is_string($type))
-       {
-           $server = $type;
-       }
+        if (is_object($instance) && is_string($type))
+        {
+            $server = $type;
+        }
 
-       if (is_string($instance))
-       {
-           $server = $instance;
-       }
+        if (is_string($instance))
+        {
+            $server = $instance;
+        }
 
-       if (!is_null($table))
-       {
-           $tableName = $table;
-       }
+        if (!is_null($table))
+        {
+            $tableName = $table;
+        }
 
-       if (is_string($instance) && is_string($type))
-       {
-           $tableName = $type;
-       }
+        if (is_string($instance) && is_string($type))
+        {
+            $tableName = $type;
+        }
 
-       $query = [
-           'sqlite' => "SELECT sql FROM sqlite_master WHERE name = '{$tableName}'",
-           'pgsql' => "SELECT COLUMN_NAME,COLUMN_TYPE FROM information_schema.COLUMNS WHERE TABLE_NAME = '{$tableName}'",
-           'mysql' => "SELECT COLUMN_NAME,COLUMN_TYPE FROM information_schema.COLUMNS WHERE TABLE_NAME = '{$tableName}'",
-       ];
+        $query = [
+            'sqlite' => "SELECT sql FROM sqlite_master WHERE name = '{$tableName}'",
+            'pgsql' => "SELECT COLUMN_NAME,COLUMN_TYPE FROM information_schema.COLUMNS WHERE TABLE_NAME = '{$tableName}'",
+            'mysql' => "SELECT COLUMN_NAME,COLUMN_TYPE FROM information_schema.COLUMNS WHERE TABLE_NAME = '{$tableName}'",
+        ];
 
-       $structure = [];
+        $structure = [];
 
-       if (isset($query[$server]))
-       {    
-            
+        if (isset($query[$server]))
+        {
+
             $run = $ins->sql($query[$server]);
 
             if ($run->rows > 0)
@@ -1220,34 +1235,34 @@ class DB
                 {
                     case 'mysql':
                     case 'pgsql':
-                            $run->array(function($row) use (&$structure)
+                        $run->array(function($row) use (&$structure)
+                        {
+                            if (isset($row['COLUMN_TYPE']))
                             {
-                                if (isset($row['COLUMN_TYPE']))
-                                {
-                                    // get size
-                                    $type = $row['COLUMN_TYPE'];
-                                    $size = preg_replace("/([^\d]*)/",'',$type);
-                                    $name = preg_replace("/([^a-zA-Z_]*)/",'', $type);
-                                    $structure[$row['COLUMN_NAME']] = ['size' => $size, 'type' => $name];
-                                }
-                            });
-                    break;
+                                // get size
+                                $type = $row['COLUMN_TYPE'];
+                                $size = preg_replace("/([^\d]*)/",'',$type);
+                                $name = preg_replace("/([^a-zA-Z_]*)/",'', $type);
+                                $structure[$row['COLUMN_NAME']] = ['size' => $size, 'type' => $name];
+                            }
+                        });
+                        break;
 
                     case 'sqlite':
-                    break;
+                        break;
                 }
             }
-            
-       }
 
-       return $structure;
+        }
+
+        return $structure;
     }
 
     // get request
     private function ___get($a, $structure, $table)
     {
-       // set method
-       $this->method = 'get';
+        // set method
+        $this->method = 'get';
 
         // run callback
         $runCallback = null;
@@ -1307,7 +1322,7 @@ class DB
                 }
 
                 $arrayBind = $this->__arrayBind($data, $cond);
-                
+
                 $structure = str_replace('{column}', '*', $structure);
                 $structure = str_replace('{where}', 'WHERE '.$arrayBind['set'].' ', $structure);
 
@@ -1353,11 +1368,11 @@ class DB
                         {
                             $dl = $this->__stringBind($data);
                             $bind = $dl['bind'];
-            
+
                             array_shift($a);
-                            
+
                             $this->__addBind($a, $bind);
-            
+
                             $structure = str_replace('{where}', 'WHERE '.$dl['line'].' ', $structure);
                             $structure = str_replace('{column}', '*', $structure);
 
@@ -1382,7 +1397,7 @@ class DB
                                 // convert to array
                                 $data = toArray($data);
                             }
-                
+
                             // json data?
                             if (is_string($data) && trim($data[0]) == '{' )
                             {
@@ -1402,10 +1417,10 @@ class DB
                                 }
 
                                 $arrayBind = $this->__arrayBind($data, $cond);
-                    
+
                                 $structure = str_replace('{column}', '*', $structure);
                                 $structure = str_replace('{where}', 'WHERE '.$arrayBind['set'].' ', $structure);
-                
+
                                 $this->query = $structure;
                                 $this->bind = $arrayBind['bind'];
                             }
@@ -1413,11 +1428,11 @@ class DB
                             {
                                 $dl = $this->__stringBind($data);
                                 $bind = $dl['bind'];
-                
+
                                 array_shift($a);
-                                
+
                                 $this->__addBind($a, $bind);
-                
+
                                 $structure = str_replace('{where}', 'WHERE '.$dl['line'].' ', $structure);
                                 $structure = str_replace('{column}', '*', $structure);
 
@@ -1475,7 +1490,7 @@ class DB
         $this->argumentPassed = $a;
 
         if (count($a) > 0)
-        {   
+        {
             // check if args 2 is string and possibly an object
             if (isset($a[1]) && is_string($a[1]))
             {
@@ -1491,7 +1506,7 @@ class DB
                     foreach ($object as $key => $val)
                     {
                         $row = [];
-                
+
                         $row[trim($columns[0])] = $key;
                         $row[trim($columns[1])] = $val;
 
@@ -1537,18 +1552,18 @@ class DB
             if (is_array($data))
             {
                 $getHeader = $instance->__arrayInsertHeader($a);
-               
+
                 $header = $getHeader['header'];
                 $struct = $getHeader['structure'];
 
                 $instance->insertKeys = $header;
 
                 $structure = str_replace('{column}', $header, $structure);
-                
+
                 $data = $instance->__arrayInsertBody($a, $struct);
                 $bind = $data['bind'];
                 $values = $data['values'];
-                
+
                 $structure = str_replace('{query}', $values, $structure);
 
                 $instance->query = $structure;
@@ -1571,14 +1586,14 @@ class DB
                     if (isset($a[0]))
                     {
                         $data = $a[0];
-            
+
                         // is object?
                         if (is_object($data))
                         {
                             // convert to array
                             $data = toArray($data);
                         }
-            
+
                         // json data?
                         if (is_string($data) && trim($data[0]) == '{' )
                         {
@@ -1587,18 +1602,18 @@ class DB
                         }
 
                         $continue = true;
-                        
+
 
                         if (is_array($data))
                         {
                             if (count($a) != 1)
                             {
                                 $continue = false;
-                                
+
                                 $data = $instance->__arrayInsertBody($a, $struct);
                                 $bind = $data['bind'];
                                 $values = $data['values'];
-                                
+
                                 $structure = str_replace('{query}', $values, $structure);
                                 $instance->query = $structure;
                                 $instance->bind = $bind;
@@ -1615,8 +1630,8 @@ class DB
                                 $continue = true;
                             }
                         }
-                        
-                        
+
+
                         if ($continue)
                         {
                             static $x = 0;
@@ -1627,7 +1642,7 @@ class DB
                             $y = 0;
 
                             if (count($struct) > count($a))
-                            {   
+                            {
                                 foreach ($struct as $i => $h)
                                 {
                                     if (!isset($a[$i]))
@@ -1639,13 +1654,13 @@ class DB
 
                             $len--;
                             $value = [];
-                            
+
                             foreach ($a as $i => $val)
                             {
                                 $struct[$y] = trim($struct[$y]);
                                 $value[$y] = ':'.$struct[$y].$x;
                                 $binds[$struct[$y].$x] = addslashes(htmlentities($val, ENT_QUOTES, 'UTF-8'));
-                                
+
                                 if ($y == count($struct)-1 || $y == count($a)-1)
                                 {
                                     $y = 0;
@@ -1658,9 +1673,9 @@ class DB
 
                                 $x++;
                             }
-                            
+
                             $x = 0;
-                            
+
                             $structure = str_replace('{query}',implode(',', $values),$structure);
                             $instance->query = $structure;
                             $instance->bind = $binds;
@@ -1677,7 +1692,7 @@ class DB
                         $y = 0;
 
                         if (count($struct) > count($a))
-                        {   
+                        {
                             foreach ($struct as $i => $h)
                             {
                                 if (!isset($a[$i]))
@@ -1689,13 +1704,13 @@ class DB
 
                         $len--;
                         $value = [];
-                        
+
                         foreach ($a as $i => $val)
                         {
                             $struct[$y] = trim($struct[$y]);
                             $value[$y] = ':'.$struct[$y].$x;
                             $binds[$struct[$y].$x] = addslashes(htmlentities($val, ENT_QUOTES, 'UTF-8'));
-                            
+
                             if ($y == count($struct)-1 || $y == count($a)-1)
                             {
                                 $y = 0;
@@ -1711,7 +1726,7 @@ class DB
 
 
                         $x = 0;
-                        
+
                         $structure = str_replace('{query}',implode(',', $values),$structure);
                         $instance->query = $structure;
                         $instance->bind = $binds;
@@ -1726,9 +1741,9 @@ class DB
 
                     $bind = $data['bind'];
                     $instance->insertKeys = $data['header'];
-                
+
                     array_shift($a);
-                    
+
                     $instance->__addBind($a, $bind);
 
                     $instance->bind = $bind;
@@ -1739,14 +1754,14 @@ class DB
         else
         {
             $instance->errorpack['insert'][] = 'No data to insert. You can pass compound data types.';
-        }  
+        }
 
         if (!is_null($runCallback))
         {
             $run = $this->go();
             call_user_func($runCallback, $run);
         }
-        
+
         return $instance;
     }
 
@@ -1807,7 +1822,7 @@ class DB
             if (is_array($data))
             {
                 $arrayBind = $instance->__arrayBind($data, 'OR');
-                
+
                 $structure = str_replace('{where}', 'WHERE '.$arrayBind['set'].' ', $structure);
 
                 $instance->query = $structure;
@@ -1849,11 +1864,11 @@ class DB
                         {
                             $dl = $instance->__stringBind($data);
                             $bind = $dl['bind'];
-            
+
                             array_shift($a);
-                            
+
                             $instance->__addBind($a, $bind);
-            
+
                             $structure = str_replace('{where}', 'WHERE '.$dl['line'].' ', $structure);
 
                             $instance->query = $structure;
@@ -1875,7 +1890,7 @@ class DB
                                 // convert to array
                                 $data = toArray($data);
                             }
-                
+
                             // json data?
                             if (is_string($data) && trim($data[0]) == '{' )
                             {
@@ -1886,9 +1901,9 @@ class DB
                             if (is_array($data))
                             {
                                 $arrayBind = $instance->__arrayBind($data, 'OR');
-                    
+
                                 $structure = str_replace('{where}', 'WHERE '.$arrayBind['set'].' ', $structure);
-                
+
                                 $instance->query = $structure;
                                 $instance->bind = $arrayBind['bind'];
                             }
@@ -1896,11 +1911,11 @@ class DB
                             {
                                 $dl = $instance->__stringBind($data);
                                 $bind = $dl['bind'];
-                                
+
                                 array_shift($a);
-                                
+
                                 $instance->__addBind($a, $bind);
-                
+
                                 $structure = str_replace('{where}', 'WHERE '.$dl['line'].' ', $structure);
 
                                 $instance->query = $structure;
@@ -1911,11 +1926,11 @@ class DB
                         {
                             $dl = $instance->__stringBind($data);
                             $bind = $dl['bind'];
-            
+
                             array_shift($a);
-                            
+
                             $instance->__addBind($a, $bind);
-            
+
                             $structure = str_replace('{where}', 'WHERE '.$dl['line'].' ', $structure);
 
                             $instance->query = $structure;
@@ -1964,7 +1979,7 @@ class DB
         }
 
         if (count($a) > 0)
-        {   
+        {
             // check if args 2 is string and possibly an object
             if (isset($a[1]) && is_string($a[1]))
             {
@@ -1985,7 +2000,7 @@ class DB
                         foreach ($object as $key => $val)
                         {
                             $row = [];
-                    
+
                             $row[trim($columns[0])] = $key;
                             $row[trim($columns[1])] = $val;
 
@@ -2035,7 +2050,7 @@ class DB
             {
                 $arrayBind = $this->__arrayBind($data);
 
-                $structure = str_replace('{query}', $arrayBind['set'], $structure); 
+                $structure = str_replace('{query}', $arrayBind['set'], $structure);
 
                 $this->query = $structure;
                 $this->bind = $arrayBind['bind'];
@@ -2048,7 +2063,7 @@ class DB
                 $bind = $dl['bind'];
 
                 array_shift($a);
-                
+
                 $this->__addBind($a, $bind);
 
                 $structure = str_replace('{query}', $dl['line'], $structure);
@@ -2084,7 +2099,7 @@ class DB
                         $this->lastWhere = 'WHERE '.$where.' ';
 
                         $newBind = [];
-                        
+
                         // avoid clashes
                         $this->__avoidClashes($bind, $newBind);
 
@@ -2102,27 +2117,27 @@ class DB
                         $line = $this->__stringBind($a[0]);
                         $where = $line['line'];
                         $bind = $line['bind'];
-                        
+
                         $structure = str_replace('{where}', 'WHERE '.$where.' ', $structure);
                         $this->query = $structure;
                         $this->lastWhere = 'WHERE '.$where.' ';
-                        
+
                         array_shift($a);
 
                         $this->__addBind($a, $bind);
 
                         $newBind = [];
-                        
+
                         // avoid clashes
                         $this->__avoidClashes($bind, $newBind);
 
-                        
+
                         $this->bind = array_merge($this->bind, $newBind);
                     }
                 }
             }
 
-            
+
         }
         else
         {
@@ -2209,7 +2224,7 @@ class DB
                                     $this->errorpack[$command] = [];
                                     $this->errorpack[$command][] = 'Invalid Bind parameter. Scaler Type expected, Compound Type passed.';
                                 }
-                            }   
+                            }
                             else
                             {
                                 if (isset($a[$i]))
@@ -2222,11 +2237,11 @@ class DB
                         {
                             $bind[$key] = isset($a[$i-1]) ? $a[$i-1] : '';
                         }
-                        
+
                         $i++;
                     }
                 }
-                
+
                 $newBind = [];
                 $this->__avoidClashes($bind, $newBind);
 
@@ -2282,7 +2297,7 @@ class DB
                     }
 
                     $newBind = [];
-                    
+
                     // avoid clashes
                     $this->__avoidClashes($bind, $newBind);
 
@@ -2301,7 +2316,7 @@ class DB
 
                     $where = $line['line'];
                     $bind = $line['bind'];
-                    
+
                     if (preg_match('/({where})/', $structure))
                     {
                         $structure = str_replace('{where}', 'WHERE '.$where.' ', $structure);
@@ -2315,13 +2330,13 @@ class DB
                         $w = substr($w, 0, strrpos($w, $where)) . $where;
                         $this->lastWhere = $w;
                     }
-                    
+
                     array_shift($a);
 
                     $this->__addBind($a, $bind);
 
                     $newBind = [];
-                    
+
                     // avoid clashes
                     $this->__avoidClashes($bind, $newBind);
 
@@ -2346,7 +2361,7 @@ class DB
         $instance->pdoInstance = $this->pdoInstance;
         $instance->driver = $this->driver;
         $instance->table = $this->table;
-        
+
         if (is_string($data) && strlen($data) > 3)
         {
             $bind = [];
@@ -2418,7 +2433,7 @@ class DB
                     $instance->__addBind($a, $newBind);
 
                     $newBind2 = [];
-                                            
+
                     // avoid clashes
                     $instance->__avoidClashes($newBind, $newBind2);
 
@@ -2434,7 +2449,7 @@ class DB
         }
 
         return (object) ['rows' => 0, 'row' => 0, 'error' => 'Invalid sql statement.'];
-        
+
     }
 
     // prepare query
@@ -2498,16 +2513,16 @@ class DB
                                     {
                                         case 'integer':
                                             $type = 'i';
-                                        break;
+                                            break;
                                         case 'string':
                                             $type = 's';
-                                        break;
+                                            break;
                                         case 'double':
                                             $type = 'd';
-                                        break;
+                                            break;
                                         case 'blob':
                                             $type = 'b';
-                                        break;
+                                            break;
                                         default:
                                             $type = 'i';
                                     }
@@ -2543,7 +2558,7 @@ class DB
                         }
                     }
 
-                   
+
                     if (count($bind) > 0)
                     {
                         $index = 0;
@@ -2557,7 +2572,12 @@ class DB
                                     $val = $val[$index];
                                     $index++;
                                 }
-                                
+
+                                if (!is_null($val) && is_callable($val))
+                                {
+                                    $val = call_user_func($val);
+                                }
+
                                 if (is_string($val))
                                 {
                                     $smt->bindValue(':'.$key, $val, PDO::PARAM_STR);
@@ -2576,7 +2596,14 @@ class DB
                                 }
                                 elseif (!is_array($val))
                                 {
-                                    $smt->bindValue(':'.$key, $val);
+                                    if (!is_object($val))
+                                    {
+                                        $smt->bindValue(':'.$key, $val);
+                                    }
+                                    else
+                                    {
+                                        $smt->bindValue(':'.$key, null);
+                                    }
                                 }
                                 else
                                 {
@@ -2643,10 +2670,10 @@ class DB
 
                 $this->query = '';
                 $this->bind = [];
-                    
+
                 if (DatabaseHandler::$dbset === true)
                 {
-                    try 
+                    try
                     {
                         $exec = $smt->execute();
 
@@ -2656,7 +2683,7 @@ class DB
                         }
                         else
                         {
-                            
+
                             $smt->store_result();
 
                             if (is_object($smt) && property_exists($smt, 'num_rows'))
@@ -2667,7 +2694,7 @@ class DB
                             {
                                 $rows = $smt->affected_rows;
                             }
-                            
+
                         }
 
                         if ($exec)
@@ -2680,7 +2707,7 @@ class DB
                                     self::$transactionCode = 200;
                                     $this->saveQueryStatement($query, $bind);
                                     $this->queryCachePath = null;
-                                break;
+                                    break;
                             }
                         }
 
@@ -2693,7 +2720,7 @@ class DB
                             if ($rows == 1)
                             {
                                 $promise->row = 1;
-                                
+
                                 if ($usePDO)
                                 {
                                     $arr = $smt->fetch(PDO::FETCH_ASSOC);
@@ -2746,7 +2773,10 @@ class DB
                         // commit transaction
                         if (method_exists($this->pdoInstance, 'commit'))
                         {
-                            $this->pdoInstance->commit();
+                            if ($this->pdoInstance->inTransaction())
+                            {
+                                $this->pdoInstance->commit();
+                            }
                         }
                     }
                     catch(\PDOException $e)
@@ -2779,11 +2809,11 @@ class DB
         {
             case true:
                 $table = $this->table;
-            break;
+                break;
 
             case false:
                 $table = self::$activeTable;
-            break;
+                break;
         }
 
         // set table
@@ -2791,7 +2821,7 @@ class DB
 
         // reset allowSlashes
         $this->allowSlashes = false;
-        
+
         // return promise
         return $promise;
     }
@@ -2880,7 +2910,7 @@ class DB
 
                     $pass = $method == 'get' ? 'select' : $method;
                     $structure = isset($queries[$pass]) ? $queries[$pass] : null;
-                    
+
                     $this->method = $method;
 
                     if (strlen($this->table) > 1)
@@ -2903,11 +2933,11 @@ class DB
 
             case 'allowHTML':
                 $this->allowHTMLTags = true;
-            break;
+                break;
 
             case 'allowSlashes':
                 $this->allowSlashes = true;
-            break;
+                break;
 
             case 'bind':
                 return $this->callMethod('runBinding', $data);
@@ -2920,11 +2950,16 @@ class DB
             case 'orWhere':
                 $this->wherePrefix = ' or ';
                 return $this->callMethod('runWhere', $data);
-                
+
 
             case 'andWhere':
                 $this->wherePrefix = ' and ';
                 return $this->callMethod('runWhere', $data);
+
+            case 'hasRow':
+            case 'hasRows':
+                // execute request
+               return call_user_func_array([$this->go(), $method], $data);
 
 
             default:
@@ -2944,7 +2979,7 @@ class DB
                         return call_user_func_array([$run, $method], $data);
                     }
 
-                    // specifically where.. 
+                    // specifically where..
                     if (preg_match('/({where})/', $this->query))
                     {
                         $newBind = [];
@@ -2955,19 +2990,19 @@ class DB
                         $where = 'WHERE '.$method.' = :'.$method.$i.' ';
 
                         $this->bind = array_merge($this->bind, $newBind);
-                        
+
                         $this->query = str_replace('{where}', $where, $this->query);
                     }
                     else
                     {
-                        
+
                         $newBind = [];
                         $bind = [$method => ''];
 
                         $i = $this->__avoidClashes($bind, $newBind);
 
                         $append = ' '.$method.' = :'.$method.$i.' ';
-                        
+
                         $this->bind = array_merge($this->bind, $newBind);
 
                         $this->query = trim($this->query) . $append;
@@ -2986,7 +3021,7 @@ class DB
         $table = DB::sql('DESCRIBE '.$this->table);
 
         if ($table->rows > 0)
-        {   
+        {
             // get primary key
             while ($column = $table->obj())
             {
@@ -3004,10 +3039,10 @@ class DB
     // allow query execution.
     private function allowQuery(&$con)
     {
-       if ($this->method == 'insert')
-       {
+        if ($this->method == 'insert')
+        {
             $instance = &$this;
-            
+
             if ($instance->allowedQueryCalled === false)
             {
                 $usePDO = Handler::usePDO($instance->instancedb);
@@ -3078,7 +3113,14 @@ class DB
 
                             foreach($valueArray as $bindKey)
                             {
-                                $bind[] = $instance->bind[$bindKey];
+                                $bindVal = $instance->bind[$bindKey];
+
+                                if (!is_null($bindVal) && is_callable($bindVal))
+                                {
+                                    $bindVal = call_user_func($bindVal);
+                                }
+
+                                $bind[] = $bindVal;
                             }
 
                             $execute = $sel->execute($bind);
@@ -3089,7 +3131,14 @@ class DB
 
                                 foreach ($valueArray as $bindKey)
                                 {
-                                    $newBind[$bindKey] = $instance->bind[$bindKey];
+                                    $bindVal = $instance->bind[$bindKey];
+
+                                    if (!is_null($bindVal) && is_callable($bindVal))
+                                    {
+                                        $bindVal = call_user_func($bindVal);
+                                    }
+
+                                    $newBind[$bindKey] = $bindVal;
                                 }
                             }
                         }
@@ -3101,16 +3150,16 @@ class DB
                         $instance->bind = $newBind;
 
                         $instance->query = str_replace($orginalValue, 'VALUES '.$values, $instance->query);
-                        
+
                         return true;
                     }
 
                     return false;
                 }
             }
-       }
+        }
 
-       return true;
+        return true;
     }
 
     // check for potential errors
@@ -3140,7 +3189,7 @@ class DB
                     $free = false;
                     $errors[] = 'Where statement missing. Statement Constrution failed.';
                 }
-            break;
+                break;
         }
 
         if (count($errors) > 0)
@@ -3156,56 +3205,58 @@ class DB
         return $free;
     }
 
-    // serve database connection  
+    // serve database connection
     private function _serve()
     {
-        $instance = new DB;
-
         // get default data-source-name]
         $connect = DatabaseHandler::$default;
 
-        if ($instance->useConnection !== null)
+        if ($this->useConnection !== null)
         {
-            $connect = $instance->useConnection;
+            $connect = $this->useConnection;
         }
-
-        $freshConnect = true;
 
         if (!is_null($connect))
         {
-            if ($instance->pdoInstance == null)
+            if ($this->pdoInstance == null)
             {
-                if ($freshConnect)
+                if (isset(self::$openedConnection[$connect]))
                 {
-                    if (is_string($connect) && strlen($connect) > 1)
+                    $connection = new DB;
+                    $currentDB = self::$openedConnection[$connect];
+                    $connection->driver = $currentDB->driver;
+                    $connection->instancedb = $connect;
+                    $connection->allowed = $currentDB->allowed;
+                    $connection->pdoInstance = $currentDB->pdoInstance;
+
+                    return $connection;
+                }
+
+                if (is_string($connect) && strlen($connect) > 1)
+                {
+                    // get driver
+                    $driver = DatabaseHandler::connectionConfig($connect, 'driver');
+
+                    if (DatabaseHandler::$dbset === true)
                     {
-                        // get driver
-                        $driver = DatabaseHandler::connectionConfig($connect, 'driver');
-                        
-                        if (DatabaseHandler::$dbset === true)
+                        // a valid driver?
+                        if ($this->drivers($driver) !== null)
                         {
-                            // a valid driver?
-                            if ($instance->drivers($driver) !== null)
-                            {
-                                // save driver
-                                $instance->driver = $driver;
-                                $instance->instancedb = $connect;
-                                
-                                // extablish connection
-                                $con = DatabaseHandler::active($connect);
+                            // save driver
+                            $this->driver = $driver;
+                            $this->instancedb = $connect;
 
-                                // save instance.
-                                $instance->pdoInstance = $con;
+                            // save instance.
+                            $this->pdoInstance = DatabaseHandler::active($connect);
 
-                                $instance->allowed = $instance->getAllowed();
+                            $this->allowed = $this->getAllowed();
 
-                                // save instance
-                                self::$openedConnection[$connect] = $instance;
-                            }
-                            else
-                            {
-                                throw new \Exceptions\Database\DatabaseException('Driver you used isn\'t supported on this server. Please see documentation');
-                            }
+                            // save instance
+                            self::$openedConnection[$connect] = $this;
+                        }
+                        else
+                        {
+                            throw new \Exceptions\Database\DatabaseException('Driver you used isn\'t supported on this server. Please see documentation');
                         }
                     }
                 }
@@ -3213,7 +3264,7 @@ class DB
             }
         }
 
-        return $instance;
+        return $this;
     }
 
     // process request
@@ -3278,7 +3329,7 @@ class DB
                     if ($name == 'get')
                     {
 
-                        // fill in the gap 
+                        // fill in the gap
                         foreach ($this->bind as $key => $val)
                         {
                             if (is_null($val) || (is_string($val) && strlen($val) == 0))
@@ -3301,7 +3352,7 @@ class DB
                     if (!$this->allowHTMLTags)
                     {
                         $bind = $this->bind;
-                        
+
                         foreach ($bind as $key => $val)
                         {
                             if (is_array($val) || is_object($val))
@@ -3365,9 +3416,9 @@ class DB
         switch (gettype($loadFrom))
         {
             case 'string':
-                // build method name 
+                // build method name
                 $method = 'query'.ucwords($loadFrom);
-            break;
+                break;
 
             case 'array':
                 // get class name and method.
@@ -3383,7 +3434,7 @@ class DB
                     // build singleton
                     $classCaller = BootMgr::singleton($classCaller);
                 }
-            break;
+                break;
         }
 
         // get arguments
@@ -3414,7 +3465,7 @@ class DB
             $trace = null;
             $traceArray = null;
         }
-        
+
         // check if method exists
         if (method_exists($classCaller, $method))
         {
@@ -3427,13 +3478,13 @@ class DB
     // find method
     public function find()
     {
-        // get arguments 
+        // get arguments
         $arguments = func_get_args();
 
         // get table name
         $tableName = $this->table;
 
-        // remove anything that's not a character 
+        // remove anything that's not a character
         $tableName = preg_replace('/[^a-zA-Z]/', ' ', $tableName);
         $tableName = ucwords($tableName);
         $tableName = preg_replace('/(\s*)/', '', $tableName);
@@ -3569,7 +3620,7 @@ class DB
         $table = DB::sql('DESCRIBE '.$this->table);
 
         if ($table->rows > 0)
-        {   
+        {
             // get primary key
             $primary = '';
 
@@ -3621,7 +3672,7 @@ class DB
     public static function getPrefix()
     {
         $prefix = handler::$prefix;
-        
+
         if (self::$prefix !== null)
         {
             $prefix = self::$prefix;
@@ -3737,7 +3788,7 @@ class DB
 
                 // get path
                 $path = $this->getQuerySavePath();
-                
+
                 $line = [];
                 $line[] = '<?php';
                 $line[] = 'return [];';
@@ -3756,11 +3807,11 @@ class DB
                     $data = [];
                 }
 
-                // build index 
+                // build index
                 $index = md5($query) . sha1(implode('', $bind));
 
                 // remove slashes
-                foreach ($bind as $key => $value) 
+                foreach ($bind as $key => $value)
                 {
                     $bind[$key] = stripslashes($value);
                 }
@@ -3811,7 +3862,7 @@ class DB
                 if (isset($data[$handler]))
                 {
                     $dataHandler = $data[$handler];
-                    
+
                     // check for table
                     if (isset($dataHandler[$tableName]))
                     {
@@ -3856,7 +3907,7 @@ class DB
     // register prefix
     public static function registerPrefix()
     {
-        // get prefix passed 
+        // get prefix passed
         $prefixes = func_get_args();
 
         if (count($prefixes) > 0)

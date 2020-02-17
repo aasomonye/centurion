@@ -153,9 +153,9 @@ class DBPromise
         return null;
     }
 
-    public function __call($name, $args)
+    public function __call(string $method, $args)
     {
-        if (isset(self::$fetchMethods[$name]))
+        if (isset(self::$fetchMethods[$method]))
         {
             $config = isset($args[0]) ? $args[0] : [];
 
@@ -165,7 +165,7 @@ class DBPromise
 
                 $data = [];
 
-                while($fetch = $this->___fetch(self::$fetchMethods[$name], $name))
+                while($fetch = $this->___fetch(self::$fetchMethods[$method], $method))
                 {
                     call_user_func($config, $fetch);
                     $data[] = $fetch;
@@ -175,13 +175,69 @@ class DBPromise
                 return $data;
             }
 
-            return $this->___fetch(self::$fetchMethods[$name], $name, $config);
+            return $this->___fetch(self::$fetchMethods[$method], $method, $config);
 
+        }
+        
+
+        // check for request method
+        if (preg_match('/(has|get)([\S]+)/', $method, $match))
+        {
+
+            return $this->manageRequestMethod($match[1], $match[2], $args);
+        }
+
+        return false;
+    }
+
+    private function manageRequestMethod(string $method, string $column, array $arguments)
+    {
+        // response object
+        $responseObject = null;
+
+        $tableName = $this->table;
+        $firstArgs = isset($arguments[0]) ? $arguments[0] : null;
+
+        if (!is_null($firstArgs) && is_array($firstArgs))
+        {
+            $tableName = $firstArgs[0];
+        }
+        
+        // get primary key
+        if ($this->table == $tableName)
+        {
+            $value = $firstArgs;
+
+            if (is_null($firstArgs) || is_array($firstArgs))
+            {
+                // primary id
+                $value = $this->primary();
+            }
+
+            // get column
+            $responseObject = $this->get([$column => $value]);
         }
         else
         {
-            return false;
+            // check
+            $responseObject = db($tableName)->get([$column => $this->{$column}]);
         }
+
+        switch ($method)
+        {
+            case 'get':
+                return $responseObject;
+            break;
+
+            case 'has':
+                if (!is_null($responseObject) && $responseObject->rows > 0)
+                {
+                    return true;
+                }
+            break;
+        }
+
+        return false;
     }
 
     private function ___fetch($fetchMode, $name, $config = [])
@@ -391,7 +447,7 @@ class DBPromise
     }
 
     // get magic method
-    public function __get($name)
+    public function __get(string $name)
     {
         $packed = $this->getPacked;
 
@@ -429,7 +485,7 @@ class DBPromise
     }
 
     // from option
-    public function from($tableName, $identity=null)
+    public function from(string $tableName, $identity=null)
     {
         // create a new db instance
         $promise = new DBPromise;
@@ -454,7 +510,7 @@ class DBPromise
     }
 
     // run update
-    public function update($data=[], $where=null, $other=null)
+    public function update(array $data=[], $where=null, $other=null)
     {
         if (is_null($where))
         {
@@ -499,7 +555,7 @@ class DBPromise
     }
 
     // run insert
-    public function insert($data=[])
+    public function insert(array $data=[])
     {
         $args = func_get_args();
 
@@ -599,6 +655,7 @@ class DBPromise
         return $this;
     }
 
+    // 
     public function has($column)
     {
         if (isset($this->getPacked[$column]))
@@ -805,5 +862,28 @@ class DBPromise
         }
 
         return $this;
+    }
+
+    // hasRows method
+    public function hasRows($response, $failed = null)
+    {
+        // check if we have rows 
+        if ($this->rows > 0)
+        {
+            if (is_callable($response) || function_exists($response))
+            {
+                return call_user_func($response, $this);
+            }
+
+            return $response;
+        }
+
+        return (!is_null($failed) && is_callable($failed) ? call_user_func($failed, $this) : $failed);
+    }
+
+    // has single row method
+    public function hasRow()
+    {
+        return call_user_func_array([$this, 'hasRows'], func_get_args());
     }
 }

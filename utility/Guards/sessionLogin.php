@@ -1,5 +1,7 @@
 <?php
 
+use Moorexa\Rexa;
+
 /**
  * @package SessionLoginGuard
  * @author  Moorexa Assist
@@ -78,6 +80,9 @@ class SessionLoginGuard extends Guards
                         }
                     ]
                 );
+
+                // load diretives for accounts
+                $this->loadDirectives();
             }
         }
 
@@ -86,5 +91,27 @@ class SessionLoginGuard extends Guards
         {
             $this->redir('login', 'Session expired. Please login again.');
         }
+    }
+
+    private function loadDirectives()
+    {
+        // get all accounts
+        $accounts = db('accounts')->get();
+
+        $accounts->obj(function($account)
+        {
+            Rexa::directive('if'.ucfirst($account->account_name), function() use ($account)
+            {
+                $currentUser = false;
+
+                // check current user id
+                if ($account->accountid == Guards::account()->accountid)
+                {
+                    $currentUser = true;
+                }
+
+                return '<?php if ('.$account->accountid.' == Guards::account()->accountid) { ?>';
+            }); 
+        });
     }
 }

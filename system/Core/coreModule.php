@@ -1,4 +1,5 @@
 <?php
+/** @noinspection All */
 namespace Moorexa;
 
 // Engine Class is Classified as Moorexa Power house
@@ -40,60 +41,54 @@ class Engine
 			// load dependencies
 			$this->dependencies = PATH_TO_CORE . 'coreDependencies.php';
 
-			if (file_exists($this->dependencies))
-			{
-				if (isset($_SERVER['SERVER_SOFTWARE']))
-				{
-					$soft = $_SERVER['SERVER_SOFTWARE'];
-					$str = preg_quote("PHP ".phpversion()." Development Server");
+			if (!file_exists($this->dependencies)) { throw new \Exception("Cannot find Core Dependencies in system/core/"); }
 
-					if (preg_match("/($str)/i", $soft))
-					{
-						$_SERVER['REQUEST_QUERY_STRING'] = ltrim($_SERVER['REQUEST_URI'], '/');
-						$_SERVER['SERVER_TYPE'] = 'moorexa_php_server';
-					}
-				}
+            $this->configureDevelopmentServer();
 
-				// load dependencies
-				include_once $this->dependencies;
+            // load dependencies
+            include_once $this->dependencies;
 
-				// watch version manager
-				$this->watchVersionManager();
+            // watch version manager
+            $this->watchVersionManager();
 
-				// set engine instance
-				Engine::$instance = $this;
+            // set engine instance
+            Engine::$instance = $this;
 
-				// add breakpoint
-				BootMgr::addBreakPoint('loadingPlatforms', function()
-				{
-					$kernel = SET::$kernel;
-
-					// open keep_alive
-					if (!$this->assistRequest())
-					{
-						if (BootMgr::$BOOTMODE[Bootloader::class] == CAN_CONTINUE)
-						{
-							$kernel->keep_alive();
-						}
-					}
-
-					// remove class, 
-					$kernel = null;
-				});
-			}
-			else
-			{
-				throw new \Exception ( "Cannot find Core Dependencies in system/core/" );
-			}
+            // add breakpoint
+            BootMgr::addBreakPoint('loadingPlatforms', function()
+            {
+                // open keep_alive
+                if (!$this->assistRequest() && BootMgr::$BOOTMODE[Bootloader::class] == CAN_CONTINUE)
+                {
+                    SET::$kernel->keep_alive();
+                }
+            });
 
 		});
 	}
+
+	// configure development server
+    public function configureDevelopmentServer()
+    {
+        // check for SERVER_SOFTWARE
+        if (isset($_SERVER['SERVER_SOFTWARE']))
+        {
+            $software = $_SERVER['SERVER_SOFTWARE'];
+            $findPattern = preg_quote("PHP ".phpversion()." Development Server");
+
+            if (preg_match("/($findPattern)/i", $software))
+            {
+                $_SERVER['REQUEST_QUERY_STRING'] = ltrim($_SERVER['REQUEST_URI'], '/');
+                $_SERVER['SERVER_TYPE'] = 'moorexa_php_server';
+            }
+        }
+    }
 
 	// load software requirements 
 	public function requirementPassed(\closure $callback)
 	{
 		$requirements = [
-			'version' => '5.4+', // php version
+			'version' => '7.0+', // php version
 			'pdo', // database
 			'openssl', // encryption
 			'xml', // reading xml data
@@ -200,8 +195,8 @@ class Engine
 
 			$content = str_replace('--font', $font, $content);
 			$content = str_replace('--text', $fontText, $content);
-			preg_match("/(<\!)[-]{1,}\s*(@$str)\s*[-]*[>]/", $content, $match);
-			preg_match("/(<\!)[-]{1,}\s*(@end$str)\s*[-]*[>]/", $content, $match2);
+			preg_match("/(<!)[-]{1,}\s*(@$str)\s*[-]*[>]/", $content, $match);
+			preg_match("/(<!)[-]{1,}\s*(@end$str)\s*[-]*[>]/", $content, $match2);
 			$start = $match[0];
 			$end = $match2[0];
 
@@ -241,7 +236,7 @@ class Engine
 	// assist manager request
 	public function assistRequest()
 	{
-		$headers = getallheaders() ?? null;
+		$headers = function_exists('getallheaders') ? getallheaders() : null;
 		
 		if (!is_null($headers))
 		{

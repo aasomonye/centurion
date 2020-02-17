@@ -379,27 +379,7 @@ spl_autoload_register(function($class) use ($alias, $tables){
 				{	
 					$createClass = function($class)
 					{
-						$newClass = new class($class) extends \Moorexa\DB\ORMReciever
-						{
-							private static $thisclass;
-							public $name = null;
-
-							public function __construct($className)
-							{
-								if (isset(\Moorexa\DatabaseHandler::$databaseTables[$className]))
-								{
-									$className = \Moorexa\DatabaseHandler::$databaseTables[$className];
-								}
-
-								$db = new \Moorexa\DB();
-								$db->table = $className;
-
-								parent::getInstance($db);
-
-								$db = null;
-								return $this;
-							}
-						};
+						$newClass = new \system\DB\AutoloadTableName($class);
 
 						// get classname
 						$className = get_class($newClass);

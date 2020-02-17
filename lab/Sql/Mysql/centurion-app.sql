@@ -152,6 +152,8 @@ CREATE TABLE IF NOT EXISTS `Centurion_accountNavigation` (
 	visible TINYINT default 1
 );
 ALTER TABLE `Centurion_accountNavigation` CHANGE COLUMN pageicon page_icon VARCHAR(255);
+
+ALTER TABLE `Centurion_accountNavigation` CHANGE COLUMN pageicon page_icon VARCHAR(255);
 CREATE TABLE IF NOT EXISTS `Centurion_accountNavigation` (
 	accountNavigationid BIGINT(20) auto_increment primary key, 
 	accountid INT , 

@@ -1,5 +1,5 @@
 <?php
-
+/** @noinspection All */
 namespace Moorexa\DB;
 use utility\Classes\BootMgr\Manager as BootMgr;
 
@@ -28,6 +28,9 @@ class ORMReciever
 	// pause 
 	protected $pauseGo = false;
 
+	// promise methods
+	private static $promiseMethods = [];
+
 	// get instance
 	public static function getInstance(&$db_instance, $id=1, $orm=null)
 	{
@@ -50,6 +53,7 @@ class ORMReciever
 			// return instance
 			return self::$class_instance[$caller];
 		}
+		return null;
 	}	
 
 	// __call magic method
@@ -65,6 +69,7 @@ class ORMReciever
 		{
 			return $this->executeRequest()->{$name};
 		}
+		return null;
 	}
 
 	// __callStatic magic method
@@ -165,6 +170,64 @@ class ORMReciever
 					return $this->go();
 				}
 		}
+
+		return null;
+	}
+
+	// load promise methods
+	public function loadPromiseMethods()
+	{	
+		if (count(self::$promiseMethods) == 0)
+		{
+			// reflection class for dbpromise;
+			$reflectionClass = new \ReflectionClass('\Moorexa\DBPromise');
+			
+			// get all class methods
+			$methods = $reflectionClass->getMethods();
+
+			// all unpacked methods
+			$unpackedMethods = [];
+
+			// ignore list 
+			$ignoreList = array_flip(
+			[
+			'setFetchMode',
+			'hasFetchMethod', 
+			'setpdoInstance', 
+			'__call', 
+			'bind_array', 
+			'__get', 
+			'update', 
+			'insert', 
+			'get', 
+			'delete',
+			'go',
+			]);
+
+			array_map(function($method) use (&$unpackedMethods, $ignoreList){
+				// get method name
+				$methodName = $method->name;
+
+				// check if method doesn't exist in ignorelist then add
+				if (!isset($ignoreList[$methodName]))
+				{
+					self::$promiseMethods[] = $methodName; 
+				}
+			}, $methods);
+		}
+	}
+
+	// not a promise method
+	private static function notAPromiseMethod(string $methodName)
+	{
+		$promiseMethods = array_flip(self::$promiseMethods);
+
+		if (isset($promiseMethods[$methodName]))
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	// push call
@@ -220,7 +283,11 @@ class ORMReciever
 			$before = null;
 		}
 
-		if ($method != 'go' && !\Moorexa\DBPromise::hasFetchMethod($method))
+		// load promise methods
+		$instance->loadPromiseMethods();
+
+		// execute request if semi colon exists at the end of statement line.
+		if ($method != 'go' && !\Moorexa\DBPromise::hasFetchMethod($method) && self::notAPromiseMethod($method))
 		{
 			$instance->method_called[] = ['method' => $method, 'args' => $data];
 
@@ -241,7 +308,7 @@ class ORMReciever
 						if ($index == ($file['line']-1))
 						{
 							$line = preg_replace('/[\s]/', '', $line);
-							$line = preg_replace('/(\$)(\w*)(->)/', '@', $line);
+							$line = preg_replace('/($)(\w*)(->)/', '@', $line);
 
 							$line = explode('->', $line);
 
@@ -299,12 +366,19 @@ class ORMReciever
 		}
 		else
 		{
-			if (\Moorexa\DBPromise::hasFetchMethod($method))
+			if (\Moorexa\DBPromise::hasFetchMethod($method) && self::notAPromiseMethod($method))
 			{
 				$instance->method_called[] = ['method' => $method, 'args' => $data];
 			}
 
-			return $instance->executeRequest();
+			$executeRequest = $instance->executeRequest();
+
+			if (self::notAPromiseMethod($method) === false)
+			{
+				return call_user_func_array([$executeRequest, $method], $data);
+			}
+
+			return $executeRequest;
 		}
 
 		return $instance;	
