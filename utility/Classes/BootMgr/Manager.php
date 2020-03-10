@@ -315,7 +315,7 @@ class Manager
         self::$BOOTMODE[$this->classListening] = false;
     }
 
-    public function onLoad(\closure $callback)
+    public static function onLoad(\closure $callback)
     {
         self::$onLoadClosure = $callback;
     }

@@ -5,3 +5,6 @@
 [2020-02-11 12:09 pm] [file]: /Users/mac/Desktop/workspace/centurion/lab/Cms/Config.php, [error]: Non-static method utility\Classes\BootMgr\Manager::onLoad() should not be called statically, [line]: 153
 [2020-02-11 12:09 pm] [file]: /Users/mac/Desktop/workspace/centurion/lab/Cms/Config.php, [error]: Use of undefined constant CMS_ROOT - assumed 'CMS_ROOT', [line]: 169
 [2020-02-11 12:10 pm] [file]: /Users/mac/Desktop/workspace/centurion/lab/Cms/Config.php, [error]: Non-static method utility\Classes\BootMgr\Manager::onLoad() should not be called statically, [line]: 153
+[2020-02-20 8:48 pm] [file]: /Users/mac/Desktop/workspace/centurion/system/Inc/controllers.php, [error]: Trying to get property of non-object, [line]: 578
+[2020-02-20 8:50 pm] [file]: /Users/mac/Desktop/workspace/centurion/system/Inc/controllers.php, [error]: Trying to get property of non-object, [line]: 580
+[2020-02-20 8:50 pm] [file]: /Users/mac/Desktop/workspace/centurion/system/Inc/controllers.php, [error]: Trying to get property of non-object, [line]: 578

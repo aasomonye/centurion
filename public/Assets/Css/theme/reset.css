@@ -1,0 +1,14 @@
+.justify-end{display:flex; justify-content:flex-end;}
+.room-details span{color: #999;}
+.room-details h2{font-weight: normal; font-size: 16px;}
+.room-details h2 span{color:#000;}
+select[name="room-action"]{border: 1px solid #ddd; appearance: none; -webkit-appearance: none; -moz-appearance: none;
+position: relative; padding-left: 10px; padding-right: 20px;
+background-image: url('../../Images/account/down-icon.png'); background-repeat: no-repeat; background-size: 15px;
+background-position: 94%;}
+.room-details{margin-top: 15px; margin-bottom: 10px;}
+.room-title{font-size: 20px;}
+.no-border .card-header a:hover {
+    border-top: none !important;
+}
+.no-border .card-title .fa{font-size: 14px;}

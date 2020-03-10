@@ -3150,6 +3150,7 @@ class DB
                         $instance->bind = $newBind;
 
                         $instance->query = str_replace($orginalValue, 'VALUES '.$values, $instance->query);
+                        $con = $this->___prepare($instance->query);
 
                         return true;
                     }
@@ -3798,7 +3799,7 @@ class DB
                 {
                     file_put_contents($path, implode("\n\n", $line));
                 }
-
+                
                 // get data
                 $data = include($path);
 

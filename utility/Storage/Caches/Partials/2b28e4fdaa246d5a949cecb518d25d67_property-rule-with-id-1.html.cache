@@ -1,0 +1,52 @@
+<div class="bootstrap-timepicker">
+    <?php $propertyVal = (\Moorexa\Bootloader::$currentClass)->query->getPropertyListVal($id);?>
+    <?php $dates = explode(' - ', $propertyVal->property_rule);?>
+    <?php $check_in_start = $dates[0]; $check_in_end = $dates[1];?>
+
+
+    <?php 
+ // PHP starts here 
+
+        if (isset($info)) :
+            $check_in_start = $info->check_in_start;
+            $check_in_end = $info->check_in_end;
+        endif;
+    
+ // PHP ends here 
+ ?> 
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+            <label>From:</label>
+
+            <div class="input-group date" id="timepicker" data-target-input="nearest">
+                <div class="input-group-prepend" data-target="#timepicker" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="far fa-clock"></i></div>
+                </div>
+                <input type="text" name="check_in_start" class="form-control datetimepicker-input" value="<?=$check_in_start?>" data-target="#timepicker">
+                
+                </div>
+            <!-- /.input group -->
+            </div>
+            <!-- /.form group -->
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>To:</label>
+        
+                <div class="input-group date" id="timepicker2" data-target-input="nearest">
+                <div class="input-group-prepend" data-target="#timepicker2" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="far fa-clock"></i></div>
+                </div>
+                <input type="text" name="check_in_end" class="form-control datetimepicker-input" value="<?=$check_in_end?>" data-target="#timepicker2">
+                
+                </div>
+                <!-- /.input group -->
+            </div>
+            <!-- /.form group -->
+        </div>
+    </div>
+</div>
+

@@ -439,8 +439,9 @@ class Bootloader extends DatabaseHandler
 							default:
 								// get handler
 								$handler = config('error.handler');
+
 								// check if handler exists
-								$path = HOME . 'pages/' . ucfirst($handler) . '/main.php';
+								$path = env('bootstrap', 'controller.basepath') . '/' . ucfirst($handler) . '/main.php';
 		
 								// set load custom 
 								$loadCustomHandler = false;
@@ -538,14 +539,7 @@ class Bootloader extends DatabaseHandler
 	// this method collects data sent via the $this->redir() method.
 	final static function RedirectedData(&$class)
 	{
-		static $dataPacked = []; // tmp storage
-
-		$session = boot()->get('Moorexa\Session');
-
-		if (count($dataPacked) == 0)
-		{
-			$dataPacked = $session->has('__RedirectDataSent') ? $session->get('__RedirectDataSent') : [];
-		}
+		$dataPacked = session()->get('__RedirectDataSent');
 
 		if (is_string($dataPacked))
 		{
@@ -563,6 +557,7 @@ class Bootloader extends DatabaseHandler
 			}
 		}
 
+
 		if (is_array($dataPacked) && count($dataPacked) > 0)
 		{
 			$decode = is_string($dataPacked) ? json_decode($dataPacked) : false;
@@ -573,7 +568,7 @@ class Bootloader extends DatabaseHandler
 			}
 
 			$req = Bootloader::$pagePath;
-			$destination = explode('/', $session->get('__RedirectDataDestination'));
+			$destination = explode('/', session()->get('__RedirectDataDestination'));
 
 
 			$reqString = implode('/', $req);
@@ -620,7 +615,7 @@ class Bootloader extends DatabaseHandler
 					$class->onair = $dataPacked;
 				}
 
-				$session->drop('__RedirectDataDestination', '__RedirectDataSent');
+				session()->drop('__RedirectDataDestination', '__RedirectDataSent');
 			}
 		}
 	}
@@ -870,7 +865,6 @@ class Bootloader extends DatabaseHandler
 		// the bootloader has requested for the url
 		// so let's make it avaliable to her.
 		Bootloader::$getUrl = $refUrl;
-
 
 		// now that we have our url,
 		// we wanna process for routes configuration
@@ -1279,7 +1273,7 @@ class Bootloader extends DatabaseHandler
 		{
 			// listen for load event
 			Event::on('guards.load', function($routes) use (&$callback, &$guard){
-				
+
 				// get controller
 				$controller = Bootloader::$helper['active_c'];
 
@@ -1301,6 +1295,7 @@ class Bootloader extends DatabaseHandler
 
 					if (class_exists($class))
 					{
+						// load controller
 						$ins = BootMgr::singleton($class, [], false);
 
                         /** @noinspection PhpUndefinedConstantInspection */

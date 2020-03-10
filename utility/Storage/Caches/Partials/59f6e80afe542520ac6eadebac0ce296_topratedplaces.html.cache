@@ -1,0 +1,89 @@
+<!-- ====================== Popular Tour ================= -->
+<section class="gray-dot gray-bg">
+    <div class="container">
+        
+        <div class="row">
+            <div class="col-md-12">
+                <div class="sec-title text-center">
+                    <span class="theme-cl">Some of our finest properties</span>
+                    <h2>Top <strong>Rated</strong> Places</h2>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row" style="margin-top: 30px;">
+            
+            <div class="list-slider">
+            
+                <?php $properties = (\Moorexa\Bootloader::$currentClass)->query->getPropertiesFromListing();?>
+
+                <?php
+$properties = $properties;if ($properties->rows > 0){
+$properties->reset();while ($prop = $properties->obj())
+{ ?>
+                <div class="list-slide-box">
+                    <?php $info = json_decode($prop->listing_information);?>
+                    <?php $rooms = count($info->property_room_title);?>
+                    <article class="tour-box style-1">
+                    
+                        <!-- Single Tour -->
+                        <div class="tour-box-image">
+                            <figure>
+                                <a href="<?=url("list/$info->property_name/$prop->listingid",true)?>">
+                                    <img src="<?=$assets->image("$prop->cover_image")?>" class="img-responsive listing-box-img" alt="" />
+                                    <div class="list-overlay"></div>
+                                </a>
+                                <div class="entry-bookmark">                                   
+                                    <a href="#"><i class="ti-bookmark"></i></a>
+                                </div>
+                                <div class="tour-time">
+                                    <i class="ti ti-bell"></i><span><?=$rooms?> <?=plural('room', $rooms)?></span>
+                                </div>
+                                <h4 class="tour-place">
+                                    <a href=""><?=ucwords($info->property_name)?></a>
+                                </h4>
+                                <span class="featured-tour"><i class="fa fa-star"></i></span>
+                                <a href="#" class="list-like left"><i class="ti-heart"></i></a>
+                            </figure>
+                        </div>
+                        
+                        <div class="entry-meta">
+                            <div class="meta-item meta-author" style="font-size: 16px;">
+                                <p><?=substr($info->about_property, 0, 30)?></p>
+                            </div>
+                            <div class="meta-item meta-comment fl-right">
+                                <i class="ti-comment-alt"></i><span>0</span>
+                            </div>
+                            <div class="meta-item meta-rating fl-right">
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                            </div>
+                        </div>
+
+                        <div class="inner-box">
+                            <div class="box-inner-ellipsis">
+                                <h4 class="entry-title">
+                                    <i class="fa fa-map-marker"></i> <?=ucfirst($info->property_address)?>
+                                </h4>
+                                <div class="price-box">
+                                    <div class="tour-price fl-right">
+                                        <a href="" style="border: 1px solid #f90; padding: 10px;">See Prices</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+    
+                    </article>
+                </div>
+                <?php }} ?>
+                
+                
+            </div>
+        </div>
+
+    </div>
+</section>
+<!-- ====================== Popular Tour ================= -->
+<div class="clearfix"></div>

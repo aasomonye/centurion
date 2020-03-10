@@ -202,6 +202,7 @@ class ORMReciever
 			'get', 
 			'delete',
 			'go',
+			'primary',
 			]);
 
 			array_map(function($method) use (&$unpackedMethods, $ignoreList){

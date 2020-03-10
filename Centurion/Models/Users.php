@@ -99,4 +99,49 @@ class Users extends Model
         $data->work_address(SELF::TEXT_RULE);
         $data->userid = Auth::id();
     }
+
+    // change admin right
+    public function setRevokeAdminToUser(Rule $data, $userid)
+    {
+        // add flag
+        $data->flag_required_if = 'GET';
+
+        // set active table to users
+        $data->table = 'users';
+        $data->accountid = \Centurion\Helpers\Query::getCustomerAccount();
+        $data->userid('number|required|min:1', $userid);
+    }
+
+    // make user admin
+    public function setUserToAdmin(Rule $data, $userid)
+    {
+        // add flag
+        $data->flag_required_if = 'GET';
+        
+        // set active table to users
+        $data->table = 'users';
+        $data->accountid = \Centurion\Helpers\Query::getAdminAccount();
+        $data->userid('number|required|min:1', $userid);
+    }
+
+    // become a partner rule
+    public function setBecomeAPartnerRule(Rule $data)
+    {
+        // flag required
+        $data->flag_required_if = 'POST';
+
+        // set rules
+        $data->userid('required|number', \Guards::id());
+        $data->account_name(SELF::TEXT_RULE);
+        $data->account_number('required|number|min:10');
+        $data->bank_name(SELF::TEXT_RULE);
+        $data->bank_swift_code('string|min:1');
+        $data->business_name(SELF::TEXT_RULE);
+        $data->contact_phone('required|number|min:8');
+        $data->contact_email(SELF::EMAIL_RULE);
+        $data->contact_address(SELF::TEXT_RULE);
+        $data->cac_certificate('required|file|filetype:jpg,png,doc,docx,pdf,jpeg');
+        $data->about_business(SELF::TEXT_RULE);
+        $data->tin_number('required|number|min:4');
+    }
 }

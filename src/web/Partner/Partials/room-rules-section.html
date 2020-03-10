@@ -1,0 +1,41 @@
+<div class="row">
+    <div class="col-5 col-sm-3">
+      <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
+        {$parent = $this->query->getAllRoomRules(); $index = 0; $parentInfo = [];}
+
+        @fetch ($parent as 'row')
+            @if ($row->parentid == 0)
+                <a class="nav-link {$index == 0 ? 'active' : ''}" id="vert-tabs-room-{$index}-tab" data-add-index="id" data-toggle="pill" href="#vert-tabs-room-{$index}" role="tab" aria-controls="vert-tabs-room-{$index}" aria-selected="false">{ucwords($row->property_rule_title)}</a>
+                {$parentInfo[$index] = ['haschild' => $this->query->propertyListHasChild($row->property_ruleid), 'id' => $row->property_ruleid];}
+                {$index++;}
+            @endif
+        @endfetch
+
+      </div>
+    </div>
+    <div class="col-7 col-sm-9">
+        <div class="tab-content" id="vert-tabs-tabContent">
+            @for ($identity = 0 and $identity < $index then $identity++)
+                <div class="tab-pane text-left fade {$identity == 0 ? 'active show' : ''}" data-add-index="id" id="vert-tabs-room-{$identity}" role="tabpanel" aria-labelledby="vert-tabs-room-{$identity}-tab">
+                    @if ($parentInfo[$identity]['haschild'])
+                        {$val = $this->query->getPropertyListVal($parentInfo[$identity]['id']);}
+
+                        {$child = $this->query->getPropertyRuleChildren($parentInfo[$identity]['id']);}
+                        <div class="row">
+                            @fetch ($child as 'row')
+                                <!-- check box -->
+                                <div class="col-md-4">
+                                    <label for="checkbox-x-{$row->property_ruleid}" data-add-index="for" style="font-weight: normal;">
+                                    <input type="checkbox" id="checkbox-x-{$row->property_ruleid}" data-add-index="id" data-add-rowid="true" name="room[property_rule][{$val->property_rule_title}][{$row->property_ruleid}]"/> <span> {ucfirst($row->property_rule_title)}</span>
+                                    </label>
+                                </div>
+                            @endfetch
+                        </div>
+                    @else
+                        @partial('property-rule-with-id-'.$parentInfo[$identity]['id'], ['id' => $parentInfo[$identity]['id']]);
+                    @endif
+                </div>
+            @endfor
+          </div>
+    </div>
+</div>

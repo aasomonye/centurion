@@ -21,3 +21,5 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
+          <?=\Moorexa\Rexa::runDirective(true,'partial','Centurion/Public/Templates/confirm-account-prompt')?>
+          <?=\Moorexa\Rexa::runDirective(true,'partial','Centurion/Public/Templates/confirm-delete')?>

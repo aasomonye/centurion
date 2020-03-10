@@ -1,17 +1,21 @@
 <?php
+
 namespace Centurion\Helpers;
+use Moorexa\Event;
 
 class Alert
 {
     public static function __callStatic($message, $args)
     {
-        // get controller
-        $controller = boot()->get('\Moorexa\Controller');
-
         dropbox('alertFunc', $message);
         dropbox('alertFuncArgs', $args);
 
-        $controller->requirejs('php-vars.js');
-        $controller->requirejs('Centurion/Public/alerts.js');
+        Event::on('guards.load', function(){
+            // get controller
+            $controller = boot()->get('\Moorexa\Controller');
+
+            $controller->requirejs('php-vars.js');
+            $controller->requirejs('Centurion/Public/alerts.js');
+        });
     }
 }

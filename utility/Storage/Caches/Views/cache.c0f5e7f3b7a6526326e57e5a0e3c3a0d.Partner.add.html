@@ -1,0 +1,69 @@
+<form action="" method="POST" enctype="multipart/form-data">
+	<?=\Moorexa\Rexa::runDirective(true,'csrf')?>
+	<main class="card">
+		<section class="card-header">
+			<h3 class="card-title">Floor information</h3>
+		</section>
+	
+		<section class="card-body">
+			<div class="row">
+				<div class="col-12">
+					<div class="post">
+	
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="">Floor</label>
+								<?php
+	$dfdcffaedeecf= <<<EOT
+
+									<FormField name="property_floor" icon="fa-door-open">eg. first floor</FormField>
+								
+EOT;
+	echo \Hyphe\Engine::ParseTags($dfdcffaedeecf, './component/Directives/');
+	?>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="">Floor number</label>
+								<?php
+	$aabacbeeceb= <<<EOT
+
+									<FormField name="property_floor_number" type="number" icon="fa-door-open">eg. 1</FormField>
+								
+EOT;
+	echo \Hyphe\Engine::ParseTags($aabacbeeceb, './component/Directives/');
+	?>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						
+
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="">Floor Description</label>
+								<?php
+	$deaeceaefc= <<<EOT
+
+									<FormField name="property_floor_description" icon="fa-comment" type="textarea">A short description about this floor</FormField>
+								
+EOT;
+	echo \Hyphe\Engine::ParseTags($deaeceaefc, './component/Directives/');
+	?>
+							</div>
+						</div>
+					</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<button class="btn btn-success" type="submit">Submit</button>
+</form>
+
+<br>
+<br>

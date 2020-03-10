@@ -3938,6 +3938,9 @@ function action($path, $data = null)
         $cont = Moorexa\Bootloader::$helper['ROOT_GET'][0];
     }
 
+    // make cont lowercase
+    $cont = lcfirst($cont);
+
 
     if (is_array($data))
     {
@@ -4210,7 +4213,7 @@ function number($string)
     return $number;
 }
 
-function image($img, $size=null)
+function image($img = '', $size=null)
 {
     static $assets;
 
@@ -4777,4 +4780,21 @@ function xucwords(string $text)
     array_unshift($textArray, $firstElem);
 
     return implode(' ', $textArray);
+}
+
+function plural(string $text, int $count)
+{
+    return ($count > 1 ? $text . 's' : $text);
+}
+
+function currency(int $amount, string $type = 'naira')
+{
+    $symbols = [
+        'naira' => '₦',
+        'dollar' => '$',
+        'pound' => '£',
+        'euro' => '€'
+    ];
+
+    return (isset($symbols[$type]) ? $symbols[$type] : '') . number_format($amount, 2, '.', ','); 
 }

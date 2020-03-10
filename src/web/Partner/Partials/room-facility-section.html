@@ -1,0 +1,23 @@
+{$facilities = $this->query->getAllRoomFacilities();}
+<div class="row facility-room-list" data-add-index="class" id="facility-room-list">
+@fetch ($facilities as 'facility')
+    @if ($facility->parentid == 0)
+        <div class="col-md-6">
+            <h5>
+                <label for="parent-room-{$facility->property_facilityid}" style="font-weight: normal;" data-add-index="for">
+                    <input type="checkbox" id="parent-room-{$facility->property_facilityid}" data-add-index="id" data-checkbox-trigger="{$facility->property_facilityid}" data-parent-trigger="facility-room-list" data-add-rowid="true" name="room[facility][{$facility->property_facilityid}]"/> {ucfirst($facility->facility)}
+                </label>
+            </h5>
+            <ul>
+                {$children = $this->query->getAllChildrenFacilities($facility->property_facilityid);}
+                @fetch ($children as 'child')
+                    <li>
+                        <label for="child-room-{$child->property_facilityid}" data-add-index="for" style="font-weight: normal;">
+                            <input type="checkbox" id="child-room-{$child->property_facilityid}" data-add-index="id" data-checkbox-child="{$facility->property_facilityid}"  name="room[facility][{$facility->property_facilityid}][{$child->property_facilityid}]" data-add-rowid="true"/> {ucfirst($child->facility)}
+                        </label>
+                    </li>
+                @endfetch
+            </ul>
+        </div>
+    @endif
+@endfetch

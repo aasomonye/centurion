@@ -1,0 +1,86 @@
+<section class="card">
+    <section class="card-header card-header-flex">
+        <h3 class="card-title">Properties Listed by you</h3>
+        <div class="btn-wrapper">
+        <a $action="property/list" class="btn btn-success"><i class="fa fa-plus"></i> List a Property</a>
+        </div>
+    </section>
+    <section class="card-body">
+        <div class="table-responsive">
+            <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th></th>
+                  <th>Property</th>
+                  <th>Property Type</th>
+                  <th>Rooms</th>
+                  <th>Bookings</th>
+                  <th>Views</th>
+                  <th>Ratings</th>
+                  <th>Reviews</th>
+                  <th>Status</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                    {$properties = $this->query->getPartnerPropertyListing();}
+                    @fetch ($properties as 'property')
+                    <tr>
+                        {$info = json_decode($property->listing_information);}
+                        {$booking = $this->query->getListBookings($property->listingid);}
+                        {$status = '';}
+
+                        @php
+
+                            switch ($property->approved)
+                            {
+                                case 1:
+                                    $status = 'approved';
+                                break;
+                                
+                                case 2:
+                                    $status = 'suspended';
+                                break;
+
+                                case 3:
+                                    $status = 'closed';
+                                break;
+
+                                default:
+                                    $status = 'pending';
+                            }
+
+                        @endphp
+
+                        <td class="text-center">
+                            <a php-if="$status != 'approved' && $status != 'closed'" $action="property/remove/$property->listingid" class="text text-danger"><i class="fa fa-trash-alt"></i> Trash</a>
+                            <a php-if="$status == 'approved'" $action="property/close/$property->listingid" class="text text-danger"><i class="fa fa-eye-slash"></i> lock</a>
+                            <a php-if="$status == 'closed'" $action="property/open/$property->listingid" class="text text-primary"><i class="fa fa-eye"></i> unlock</a>
+                        </td>
+                        <td><a $action="property/edit/$property->listingid" style="text-decoration: underline; color: #28a745;">{ucfirst($info->property_name)}</a></td>
+                        <td>{$this->query->getPropertyTypeById($info->property_type)}</td>
+                        <td>{count($info->property_room_title)}</td>
+                        <td>{$booking->rows}</td>
+                        <td>{$booking->views > 0 ? $booking->views : '0'}</td>
+                        <td>
+                            <ul class="ratings">
+                                <li><span class="fa fa-star"></span></li>
+                                <li><span class="fa fa-star"></span></li>
+                                <li><span class="fa fa-star"></span></li>
+                                <li><span class="fa fa-star"></span></li>
+                            </ul>
+                        </td>
+                        <td>{$booking->reviews > 0 ? $booking->reviews : '0'}</td>
+                        
+                        <td><span php-if::class="$status == 'approved' ? 'badge badge-success' : ($status == 'suspended' ? 'badge badge-danger' : 'badge badge-warning')">{strtoupper($status)}</span></td>
+                    </tr>
+                    @endfetch
+                </tbody>
+            </table>
+        </div>
+    </section>
+</section>
+
+<script type="text/deffered">
+    $('#example1').DataTable();
+</script>

@@ -1,0 +1,256 @@
+<div class="card">
+	<div class="card-header">
+	  <h3 class="card-title">Partnership Guide</h3>
+
+	  <div class="card-tools">
+		<button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+		  <i class="fas fa-minus"></i></button>
+		<button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
+		  <i class="fas fa-times"></i></button>
+	  </div>
+	</div>
+	<div class="card-body">
+		<form action="" method="POST" enctype="multipart/form-data">
+			<?=\Moorexa\Rexa::runDirective(true,'csrf')?>
+			<div class="row">
+				<div class="col-12 col-md-12 col-lg-8 order-2 order-md-1">
+				<div class="row">
+					<div class="col-12 col-sm-4">
+					<div class="info-box bg-light">
+						<div class="info-box-content">
+						<span class="info-box-text text-center text-muted">Setup Fee</span>
+						<span class="info-box-number text-center text-muted mb-0">$0</span>
+						</div>
+					</div>
+					</div>
+					<div class="col-12 col-sm-4">
+					<div class="info-box bg-light">
+						<div class="info-box-content">
+						<span class="info-box-text text-center text-muted">Commision for booking</span>
+						<span class="info-box-number text-center text-muted mb-0">%20</span>
+						</div>
+					</div>
+					</div>
+					<div class="col-12 col-sm-4">
+					<div class="info-box bg-light">
+						<div class="info-box-content">
+						<span class="info-box-text text-center text-muted">Cash out method</span>
+						<span class="info-box-number text-center text-muted mb-0">Bank<span>
+						</span></span></div>
+					</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12">
+					<h4>Partnership Form</h4>
+						<div class="post">
+						<p>
+							You need to add a bank information for your cash out. All online bookings would be paid into this account.
+						</p>
+
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="accountName">Account Name</label>
+									<?php
+	$dfdaeceaddc= <<<EOT
+
+										<FormField name="account_name" icon="fa-user">Your account name</FormField>
+									
+EOT;
+	echo \Hyphe\Engine::ParseTags($dfdaeceaddc, './component/Directives/');
+	?>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="accountNumber">Account Number</label>
+									<?php
+	$bdfaedcaebcb= <<<EOT
+
+										<FormField name="account_number" icon="fa-user">Your account number</FormField>
+									
+EOT;
+	echo \Hyphe\Engine::ParseTags($bdfaedcaebcb, './component/Directives/');
+	?>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="accountNumber">Bank Name</label>
+									<?php
+	$abcbcfebbcbbcaebbc= <<<EOT
+
+										<FormField name="bank_name" icon="fa-building">Your bank name</FormField>
+									
+EOT;
+	echo \Hyphe\Engine::ParseTags($abcbcfebbcbbcaebbc, './component/Directives/');
+	?>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="accountNumber">Bank Swift Code</label>
+									<?php
+	$acbcdcedabec= <<<EOT
+
+										<FormField name="bank_swift_code" icon="fa-user" required="no" value="(optional)"/>
+									
+EOT;
+	echo \Hyphe\Engine::ParseTags($acbcdcedabec, './component/Directives/');
+	?>
+								</div>
+							</div>
+						</div>
+						</div>
+
+						<div class="post clearfix">
+						
+						<p>
+							Add a business information. All fields are required.
+						</p>
+						
+						<div class="row">
+							<div class="col-md-6">
+							<div class="form-group">
+								<label>Business Name</label>
+								<?php
+	$cfdcebfd= <<<EOT
+
+									<FormField name="business_name" icon="fa-briefcase">Your business name</FormField>
+								
+EOT;
+	echo \Hyphe\Engine::ParseTags($cfdcebfd, './component/Directives/');
+	?>
+							</div>
+							</div>
+							<div class="col-md-6">
+							<div class="form-group">
+								<label>Contact Phone</label>
+								<?php
+	$eebaebfdaddeabc= <<<EOT
+
+									<FormField name="contact_phone" icon="fa-phone">Your business contact phone</FormField>
+								
+EOT;
+	echo \Hyphe\Engine::ParseTags($eebaebfdaddeabc, './component/Directives/');
+	?>
+							</div>
+							</div>
+							<div class="col-md-6">
+							<div class="form-group">
+								<label>Contact Email</label>
+								<?php
+	$aecddcaffdd= <<<EOT
+
+									<FormField name="contact_email" icon="fa-envelope">Your business contact email</FormField>
+								
+EOT;
+	echo \Hyphe\Engine::ParseTags($aecddcaffdd, './component/Directives/');
+	?>
+							</div>
+							</div>
+							<div class="col-md-6">
+							<div class="form-group">
+								<label>Contact Address</label>
+								<?php
+	$aebaacccbe= <<<EOT
+
+									<FormField name="contact_address" icon="fa-map-pin">Your business address</FormField>
+								
+EOT;
+	echo \Hyphe\Engine::ParseTags($aebaacccbe, './component/Directives/');
+	?>
+							</div>
+							</div>
+
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>CAC Certificate</label>
+									<?php $filetypes = '.jpg,.jpeg,.png,.pdf,.doc,.docx';?>
+									<small class="text text-info" style="display:block; margin-bottom: 10px;">Must match this file types : <?=$filetypes?></small>
+									<?php
+	$bdfebeddbeff = $filetypes;
+$ebdaccadbdbf= <<<EOT
+
+										<FormField name="cac_certificate" type="file" accept="$bdfebeddbeff" icon="fa-file"/>
+									
+EOT;
+	echo \Hyphe\Engine::ParseTags($ebdaccadbdbf, './component/Directives/');
+	?>
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Tin Number</label>
+									<?php
+	$dfafbfbedeb= <<<EOT
+
+										<FormField name="tin_number" icon="fa-map-pin">Your business tin number</FormField>
+									
+EOT;
+	echo \Hyphe\Engine::ParseTags($dfafbfbedeb, './component/Directives/');
+	?>
+								</div>
+							</div>
+						</div>
+						</div>
+
+						<div class="post">
+						<p>
+							Tell us a little bit about your business. 
+						</p>
+						<div class="row">
+							<div class="col-md-12">
+								<label>About business</label>
+								<?php
+	$bccdbdbfbbade= <<<EOT
+
+									<FormField name="about_business" type="textarea" icon="fa-comment">Your business information</FormField>
+								
+EOT;
+	echo \Hyphe\Engine::ParseTags($bccdbdbfbbade, './component/Directives/');
+	?>
+							</div>
+						</div>
+						</div>
+					</div>
+				</div>
+				</div>
+				<div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">
+				<h3 class="text-primary">Centurion Partners</h3>
+				<p class="text-muted">
+					A partnership account allows listing of properties to our wide variety of client. After submission, a review would be undergone to verify the authencity of the business. Please be sure to provide accurate information
+				</p>
+				<br>
+				<div class="text-muted">
+					<p class="text-sm">Parent Company
+					<b class="d-block">Centurion Apartments Inc</b>
+					</p>
+					<p class="text-sm">Review Duration
+					<b class="d-block">2 business working days</b>
+					</p>
+				</div>
+
+				<h5 class="mt-5 text-muted">Requirements</h5>
+				<ul class="list-unstyled">
+					<li>
+					<span class="btn-link text-secondary"><i class="far fa-fw fa-file-word"></i> CAC Document </span>
+					</li>
+					<li>
+					<span class="btn-link text-secondary"><i class="far fa-fw fa-file-pdf"></i> Business information</span>
+					</li>
+					<li>
+						<span class="btn-link text-secondary"><i class="far fa-fw fa-file-pdf"></i> Bank information </span>
+					</li>
+				</ul>
+				<div class="text-left mt-5 mb-3">
+					<button type="submit" class="btn btn-sm btn-primary">Submit Request</button>
+				</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- /.card-body -->
+  </div>

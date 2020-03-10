@@ -1,0 +1,92 @@
+<form action="" method="POST" enctype="multipart/form-data">
+	@csrf;
+	<main class="card">
+		<section class="card-header">
+			<h3 class="card-title">Role information</h3>
+		</section>
+	
+		<section class="card-body">
+			<div class="row">
+				<div class="col-12">
+					<div class="post">
+	
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="">Role</label>
+								<hy>
+									<FormField name="userrole" icon="fa-door-open">eg. level 1 officer</FormField>
+								</hy>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="">Account Type</label>
+								<select name="accountid" data-target="get-navigationid" class="form-control" required>
+									<option value="">-- Select an account Type -- </option>
+									@fetch ($subaccounts as 'account')
+										<option value="{$account->accountid}">{ucwords($account->account_name)}</option>
+									@endfetch
+								</select>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						
+
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="">Role Description</label>
+								<hy>
+									<FormField name="description" icon="fa-comment" type="textarea">A short description about this role</FormField>
+								</hy>
+							</div>
+						</div>
+
+						<div class="col-md-12">
+							<label>Role Permission</label>
+							<div class="flex-wrapper">
+							@fetch ('userpermission' as 'permission')
+								<label class="flex-section" for="can_{$permission->userpermission}" style="font-weight: normal; display: block;">
+									<input type="checkbox" id="can_{$permission->userpermission}" name="can_{$permission->userpermission}" checked/>
+									<span>{ucwords($permission->userpermission)}</span>
+								</label>
+							@endfetch
+							</div>
+						</div>
+					</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<main class="card">
+		<section class="card-header">
+			<h3 class="card-title">Allowed areas</h3>
+		</section>
+
+		<section class="card-body" data-target="navigation-body">
+			
+		</section>
+	</main>
+
+	<button class="btn btn-success" type="submit">Submit</button>
+</form>
+
+<br>
+<br>
+
+{$decode = json_decode($this->navigation);}
+
+@foreach ($decode as $accountid => $account)
+<section data-target="navigation-{$accountid}" style="display: none;">
+	@if (count($account) > 0)
+	<label for="navigation-{$row->id}" php-for="$row in $account" style="font-weight:normal" class="col-md-3">
+		<input type="checkbox" id="navigation-{$row->id}" name="navigation[{$row->id}]" checked/> <span>{ucwords($row->title)}</span> <br>
+		<small>{$row->link}</small>
+	</label>
+	@endif
+</section>
+@endforeach

@@ -9,7 +9,8 @@ class Fileio
     private $waiting = [];
 
     // check from
-    public function from($data)
+    // @param : Mixed $data
+    public function from($data) : Fileio
     {
         if (is_object($data))
         {
@@ -25,13 +26,18 @@ class Fileio
     }
 
     // listen for upload
-    public function upload()
+    public function upload() : Fileio
     {
         $names = func_get_args();
         
         if (count($names) > 0)
         {
             $data = $this->files;
+
+            if (count($data) == 0)
+            {
+                $data = $_FILES;
+            }
 
             array_walk($names, function($key) use ($data)
             {
@@ -52,8 +58,18 @@ class Fileio
         return $this;
     }
 
+    // single upload mechanisim
+    public function singleUpload(string $filename, array $file) : Fileio
+    {
+        // add file to waiting list
+        $this->waiting[$filename] = $file;
+
+        // return
+        return $this;
+    }
+
     // move to destination folder
-    public function to($destination, $callback=null)
+    public function to($destination, $callback=null) : array
     {
         $uploads = [];
 
@@ -71,9 +87,10 @@ class Fileio
                         if (is_dir($destination))
                         {
                             // get extension
-                            $extension = extension($name);
+                            $extension = $this->getExtension($name);
+
                             // hash filename
-                            $filename = sha1(time().$name.$destination.uniqid($extension)).'.'.$extension;
+                            $filename = sha1($name).'.'.$extension;
 
                             if (move_uploaded_file($data['tmp_name'], $destination . '/'. $filename))
                             {
@@ -83,7 +100,7 @@ class Fileio
 
                                 if (is_callable($callback) && $callback !== null)
                                 {
-                                    call_user_func_array($callback, [$key, $destination . '/'. $filename, $filename]);
+                                    call_user_func_array($callback, [$key, str_replace('//', '/', $destination . '/'. $filename), $filename]);
                                 }
                             }
                         }
@@ -101,19 +118,19 @@ class Fileio
                             foreach ($data['name'] as $index => $name)
                             {
                                 // get extension
-                                $extension = extension($name);
+                                $extension = $this->getExtension($name);
 
                                 // hash filename
-                                $filename = sha1(time().$name.$destination.uniqid($extension)).'.'.$extension;
-                                if (move_uploaded_file($data[$index]['tmp_name'], $destination . '/'. $filename))
+                                $filename = sha1($name).'.'.$extension;
+                                if (move_uploaded_file($data['tmp_name'][$index], $destination . '/'. $filename))
                                 {
                                     $uploads[$key]['code'] = 200;
                                     $uploads[$key]['status'] = 'Success';
-                                    $uploads[$key]['size'] = $data[$index]['size'];
+                                    $uploads[$key]['size'] = $data['size'][$index];
 
                                     if (is_callable($callback) && $callback !== null)
                                     {
-                                        call_user_func_array($callback, [$key, $destination . '/'. $filename, $filename]);
+                                        call_user_func_array($callback, [$key, str_replace('//', '/', $destination . '/'. $filename), $filename]);
                                     }
                                 }
                             }
@@ -131,4 +148,12 @@ class Fileio
         return $uploads;
     }
     // -end file upload locally
+
+    // get file extenstion
+    public function getExtension(string $filename) : string
+    {
+        $extension = strrpos($filename, '.');
+        $extension = substr($filename, $extension+1);
+        return $extension;
+    }
 }

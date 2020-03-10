@@ -12,7 +12,9 @@
         "theme/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css",
         "theme/plugins/toastr/toastr.min.css",
         "theme/dist/css/adminlte.min.css",
-        "https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700"
+        "theme/plugins/datatables-bs4/css/dataTables.bootstrap4.css",
+        "https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700",
+        "theme/reset.css"
     ],
 
     "stylesheet@bundle" : [
@@ -31,6 +33,8 @@
         "theme/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js",
         "theme/plugins/bootstrap-switch/js/bootstrap-switch.min.js",
         "theme/plugins/sweetalert2/sweetalert2.min.js",
+        "theme/plugins/datatables/jquery.dataTables.js",
+        "theme/plugins/datatables-bs4/js/dataTables.bootstrap4.js",
         "theme/plugins/toastr/toastr.min.js",
         "theme/dist/js/adminlte.min.js"
     ],

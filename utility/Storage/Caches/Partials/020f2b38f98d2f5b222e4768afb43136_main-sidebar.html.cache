@@ -2,7 +2,7 @@
 
 <?php
 $navigation = $navigation;if ($navigation->rows > 0){
-while ($nav = $navigation->obj())
+$navigation->reset();while ($nav = $navigation->obj())
 { ?>
 
     <?php $sub = Centurion\Helpers\Query::getSubNavigation($nav->accountNavigationid);?>
@@ -13,18 +13,21 @@ while ($nav = $navigation->obj())
         <i class="<?=$nav->page_icon?>"></i>
         <p>
             <?=ucwords($nav->page_title)?>
+            
             <i class="right fas fa-angle-left"></i>
+            <?=(\Moorexa\Bootloader::$currentClass)->hasNotification($nav->page_link)?>
         </p>
         </a>
 
         <ul class="nav nav-treeview">
             <?php
 $sub = $sub;if ($sub->rows > 0){
-while ($subnav = $sub->obj())
+$sub->reset();while ($subnav = $sub->obj())
 { ?>
             <li class="nav-item">
                 <a href="<?=url("$subnav->page_link")?>" class="nav-link">
                 <i class="<?=$subnav->page_icon?>"></i>
+                <?=(\Moorexa\Bootloader::$currentClass)->hasNotification($subnav->page_link)?>
                 <p><?=$subnav->page_title?></p>
                 </a>
             </li>
@@ -36,7 +39,7 @@ while ($subnav = $sub->obj())
         <a href="<?=url("$nav->page_link")?>" class="nav-link">
           <i class="<?=$nav->page_icon?>"></i>
           <p>
-            <?=$nav->page_title?>
+            <?=$nav->page_title?> <?=(\Moorexa\Bootloader::$currentClass)->hasNotification($nav->page_link)?>
           </p>
         </a>
       </li>
@@ -47,14 +50,37 @@ while ($subnav = $sub->obj())
 <?php if (1 == Guards::account()->accountid) { ?>
     <!-- become a member -->
     <li class="nav-item">
-        <a href="<?=url("dashboard/become-a-partner")?>" class="nav-link">
+       <?php if((\Moorexa\Bootloader::$currentClass)->query->getBusinessInformation()->rows == 1) { ?>
+       <a href="<?=url("switch-to-partner")?>" class="nav-link">
+        <i class="nav-icon fas fa-random"></i>
+        <p>
+          Switch Account
+          <span class="right badge badge-danger">New</span>
+        </p>
+       </a>
+       <?php } else { ?>
+        <a href="<?=url("customer/become-a-partner")?>" class="nav-link">
           <i class="nav-icon fas fa-users"></i>
           <p>
             Become a partner
             <span class="right badge badge-danger">New</span>
           </p>
         </a>
+        <?php } ?>
     </li>
+<?php } ?>
+
+<?php if (3 == Guards::account()->accountid) { ?>
+    <!-- become a member -->
+    <li class="nav-item">
+      <a href="<?=url("switch-to-customer")?>" class="nav-link">
+        <i class="nav-icon fas fa-random"></i>
+        <p>
+          Switch Account
+          <span class="right badge badge-danger">New</span>
+        </p>
+      </a>
+  </li>
 <?php } ?>
 
 <!-- logout link -->

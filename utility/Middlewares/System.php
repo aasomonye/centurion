@@ -735,4 +735,38 @@ class System extends Session
 		$this->refUrl = $url;
 	}
 	
+	// register header
+	public function registerHeader(array $header, closure $callback)
+	{
+		if (count($header) > 0)
+		{
+			// header passed
+			$headerPassed = false;
+			// total passed
+			$totalPassed = 0;
+
+			// get all headers
+			$headers = WekiWork\Http::getHeaders();
+
+			foreach ($header as $headerKey => $headerValue)
+			{
+				$headerKey = strtolower($headerKey);
+
+				if (isset($headers[$headerKey]))
+				{
+					$totalPassed++;
+				}
+			}
+
+			if ($totalPassed == count($header))
+			{
+				$headerPassed = true;
+			}
+
+			// Call closure function
+			call_user_func($callback, $headerPassed);
+		}
+
+		return $this;
+	}
 }

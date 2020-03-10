@@ -154,6 +154,14 @@ class TemplateEngine
                     $start = strpos($before, $attributeDecleration);
                     $block = substr_replace($before, '', $start, strlen($attributeDecleration));
                     $block = preg_replace('/([<])([\S]+)\s{1,}[>]/', '<$2>', $block);
+
+
+                    // manage limit
+                    $limit = null;
+                    if (preg_match("/(limit)\s*=\s*(['|\"])([\s\S]*?)(['|\"])/", $tag, $match))
+                    {
+                        $limit = $match[3];
+                    }
                     
                     $bind = $attribute;
                     $attribute = $getAttr;
@@ -181,6 +189,7 @@ class TemplateEngine
                                 $exp[$ix] = trim($k);
                             }
 
+
                             if (count($exp) == 2)
                             {
                                 $key = $exp[0];
@@ -201,6 +210,7 @@ class TemplateEngine
 
                             $forl = '<?php'."\n";
                             $forl .= 'if (is_array('.$right.') || is_object('.$right.')){'."\n";
+                            $forl .= '$foreachIndex = 0;';
                             $forl .= "foreach ($right ";
                             if ($key !== null)
                             {
@@ -210,7 +220,13 @@ class TemplateEngine
                             {
                                 $forl .= "as $val){\n";
                             }
-
+                           
+                            if ($limit != null)
+                            {
+                                $forl .= 'if ($foreachIndex == '.intval($limit).'){ break; }';
+                            }
+                            
+                            $forl .= '$foreachIndex++;';
                             $forl .= "?>\n";
                             $forl .= $block;
                             $forl .= "<?php }\n}?>";
@@ -263,6 +279,13 @@ class TemplateEngine
                     $attribute = $getAttr;
                     $clear = false;
 
+                    // manage limit
+                    $limit = null;
+                    if (preg_match("/(limit)\s*=\s*(['|\"])([\s\S]*?)(['|\"])/", $tag, $match))
+                    {
+                        $limit = $match[3];
+                    }
+
 
                     if (strpos($attribute, ' is ') > 2)
                     {
@@ -276,12 +299,17 @@ class TemplateEngine
                             $vars = '{'.$right.'}';
                             $this->stringHasVars($vars, $templateEngine, true, $dump);
 
-                            $whilel = '<?php'."\n";
+                            $whilel  = '<?php'."\n";
                             $whilel .= 'if (is_array('.$right.') || is_object('.$right.')){'."\n";
                             $whilel .= '\Moorexa\DBPromise::$loopid = 0;'."\n";
-                            $whilel .= 'while ('.$left.' = '.$right.'){?>'."\n";
+                            $whilel .= '$whileIndex = 0;';
+                            $whilel .= 'while ('.$left.' = '.$right.'){ ?>'."\n";
                             $whilel .= $block;
-                            $whilel .= "\n<?php }\n}?>";
+                            if ($limit != null)
+                            {
+                                $whilel .= 'if ($whileIndex == '.intval($limit).'){ break; }';
+                            }
+                            $whilel .= "\n<?php \$whileIndex++; }\n}?>";
 
                             $this->interpolateExternal = str_replace($before, $whilel, $this->interpolateExternal);
                         }

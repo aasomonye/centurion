@@ -2,54 +2,40 @@
     <ul class="dropdown-menu megamenu-content" role="menu">
         <li>
             <div class="row">
-                <div class="col-menu col-md-3">
-                    <h6 class="title">Apartment</h6>
+                <?php $index = 0;?>
+                <?php
+$property_types = \Moorexa\DB::sql('SELECT * FROM '.(\Moorexa\DB::getTableName('property_types')).' ');if ($property_types->rows > 0){
+while ($ptype = $property_types->obj())
+{ ?>
+                <div class="col-menu col-md-3" style="margin-bottom:20px">
+                    <h6 class="title"><?=$ptype->propertytype?></h6>
                     <div class="content">
                         <ul class="menu-col">
-                            <li><a href="<?=url("apartments")?>">All <em class="pull-right">(0)</em></a></li>
-                            <li><a href="">Demo</a></li>
-                            <li><a href="">Demo</a></li>
-                            <li><a href="">Demo</a></li>
-                            <li><a href="<?=url("apartments")?>"><i class="fa fa-plus"></i> Discover more</a></li>
+                            <?php $type = strtolower($ptype->propertytype);?>
+                            <?php $props = (\Moorexa\Bootloader::$currentClass)->query->getPropertiesWithType($ptype->property_typeid);?>
+                            <li><a href="<?=url("property-$type",true)?>">All <em class="pull-right">(<?=count($props)?>)</em></a></li>
+                            <?php
+if (is_array($props) || is_object($props)){
+$foreachIndex = 0;foreach ($props as $row){
+if ($foreachIndex == 4){ break; }$foreachIndex++;?>
+<li  limit="4">
+                                <?php $info = json_decode($row->listing_information);?>
+                                <a href="<?=url("list/$info->property_name/$row->listingid",true)?>">
+                                    <?=ucwords($info->property_name)?>
+                                </a>
+                            </li><?php }
+}?>
+                            <li><a href="<?=url("property-$type",true)?>"><i class="fa fa-plus"></i> Discover more</a></li>
                         </ul>
                     </div>
                 </div><!-- end col-3 -->
-                <div class="col-menu col-md-3">
-                    <h6 class="title">Condo</h6>
-                    <div class="content">
-                        <ul class="menu-col">
-                            <li><a href="<?=url("apartments")?>">All <em class="pull-right">(0)</em></a></li>
-                            <li><a href="">Demo</a></li>
-                            <li><a href="">Demo</a></li>
-                            <li><a href="">Demo</a></li>
-                            <li><a href="<?=url("apartments")?>"><i class="fa fa-plus"></i> Discover more</a></li>
-                        </ul>
-                    </div>
-                </div><!-- end col-3 -->
-                <div class="col-menu col-md-3">
-                    <h6 class="title">Duplex House</h6>
-                    <div class="content">
-                        <ul class="menu-col">
-                            <li><a href="<?=url("apartments")?>">All <em class="pull-right">(0)</em></a></li>
-                            <li><a href="">Demo</a></li>
-                            <li><a href="">Demo</a></li>
-                            <li><a href="">Demo</a></li>
-                            <li><a href="<?=url("apartments")?>"><i class="fa fa-plus"></i> Discover more</a></li>
-                        </ul>
-                    </div>
-                </div>    
-                <div class="col-menu col-md-3">
-                    <h6 class="title">House</h6>
-                    <div class="content">
-                        <ul class="menu-col">
-                            <li><a href="<?=url("apartments")?>">All <em class="pull-right">(0)</em></a></li>
-                            <li><a href="">Demo</a></li>
-                            <li><a href="">Demo</a></li>
-                            <li><a href="">Demo</a></li>
-                            <li><a href="<?=url("apartments")?>"><i class="fa fa-plus"></i> Discover more</a></li>
-                        </ul>
-                    </div>
-                </div><!-- end col-3 -->
+                <?php
+if($index == 3 || $index == 9){?>
+<div class="clearfix" ></div>
+<?php }
+?>
+                <?php $index++;?>
+                <?php }} ?>
             </div><!-- end row -->
         </li>
     </ul>

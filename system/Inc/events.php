@@ -131,23 +131,24 @@ class Event
 			}
 		}
 
-		if (isset($listen[$calledBy][$event]))
+		foreach ($listen[$calledBy] as $listenTrigger => $callbackArgs)
 		{
-			// event 
-			$_event = $listen[$calledBy][$event];
+			if (!isset(self::$triggered[$calledBy][$listenTrigger]) && $listenTrigger == $event)
+			{
+				foreach ($callbackArgs as $callback)
+				{
+					$const = [];
+					Route::getParameters($callback, $const, $args);
 
-			$const = [];
-			Route::getParameters($_event, $const, $args);
-
-			// call function
-			call_user_func_array($_event, $const);
-
-			self::$triggered[$calledBy][$event] = $args;
+					// call closure
+					call_user_func_array($callback, $const);
+				}
+			}
 		}
-		else
-		{
-			self::$triggered[$calledBy][$event] = $args;
-		}
+
+		self::$triggered[$calledBy][$event][] = $args;
+
+		
 	}
 
 	public static function _onTriggered($event, $callback, $calledBy = null, $instance = null)
@@ -195,19 +196,31 @@ class Event
 			}
 		}
 
-		self::$listening[$calledBy][$event] = $callback;
+		self::$listening[$calledBy][$event][] = $callback;
 
-		// check if triggered
-		if (isset(self::$triggered[$calledBy][$event]))
+		if (isset(self::$triggered[$calledBy]))
 		{
-			$args = self::$triggered[$calledBy][$event];
-			
-			$const = [];
-			Route::getParameters($callback, $const, $args);
+			// check the event
+			$calledByTriggers = self::$triggered[$calledBy];
 
-			// call closure
-			call_user_func_array($callback, $const);
+			foreach ($calledByTriggers as $triggerEvent => $argumentArray)
+			{
+				if ($triggerEvent == $event)
+				{
+					foreach ($argumentArray as $index => $args)
+					{
+						$const = [];
+						Route::getParameters($callback, $const, $args);
+
+						// call closure
+						call_user_func_array($callback, $const);
+
+						unset(self::$triggered[$calledBy][$event][$index]);
+					}
+				}
+			}
 		}
+			
 	}
 
 	// listen when event not triggered

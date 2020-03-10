@@ -63,6 +63,8 @@ class Controller extends ApiModel
     public static $assetPreloader = [];
     // page props
     public static $pageProps = [];
+    // no redirect or render
+    public static $noRedirOrRender = false;
 
     public function __construct()
     {
@@ -75,32 +77,37 @@ class Controller extends ApiModel
     // render to view.
     protected function render($path, $arg = "", $arg2 = "")
     {
-        switch ( Controller::$rendering === false && $this->stateChanged == false)
+        if (self::$noRedirOrRender === false)
         {
-            // render view
-            case true:
-                // app would render now
-                self::$appInstance->rendering = true;
+            switch ( Controller::$rendering === false && $this->stateChanged == false)
+            {
+                // render view
+                case true:
+                    // app would render now
+                    self::$appInstance->rendering = true;
 
-                // controller
-                $controller = Bootloader::$helper['active_c'];
-                // view
-                $view = Bootloader::$helper['active_v'];
-                // boot mgr
-                $request = $controller . '@' . $view . '@render';
+                    // controller
+                    $controller = Bootloader::$helper['active_c'];
+                    // view
+                    $view = Bootloader::$helper['active_v'];
+                    // boot mgr
+                    $request = $controller . '@' . $view . '@render';
 
-                BootMgr::method($request, null);
+                    BootMgr::method($request, null);
 
-                if (BootMgr::$BOOTMODE[$request] == CAN_CONTINUE)
-                {
-                    // get vars from class if properties gets updated
-                    $this->getVarsFromClassIfUpdated();
+                    if (BootMgr::$BOOTMODE[$request] == CAN_CONTINUE)
+                    {
+                        // get vars from class if properties gets updated
+                        $this->getVarsFromClassIfUpdated();
 
-                    // call the render method/
-                    return BootMgr::methodGotCalled($request, self::$appInstance->render($path, $arg, $arg2));
-                }
-                break;
+                        // call the render method/
+                        BootMgr::methodGotCalled($request, self::$appInstance->render($path, $arg, $arg2));
+                    }
+                    break;
+            }
         }
+
+        return $this;
     }
 
     // do not create a model
@@ -145,39 +152,52 @@ class Controller extends ApiModel
     // redirect method.
     protected function redir($path, $data = null)
     {
-        switch ( !(self::$noRenderPlease) && !$this->stateChanged )
+        if (self::$noRedirOrRender === false)
         {
-            // call redirection.
-            case true:
-                if (!self::$redirCalled)
-                {
-                    self::$redirCalled = true;
-
-                    // controller
-                    $controller = Bootloader::$helper['active_c'];
-
-                    // view
-                    $view = Bootloader::$helper['active_v'];
-
-                    // boot mgr
-                    $request = $controller . '@' . $view . '@redir';
-
-                    BootMgr::method($request, null);
-
-                    if (BootMgr::$BOOTMODE[$request] == CAN_CONTINUE)
+            switch ( !(self::$noRenderPlease) && !$this->stateChanged )
+            {
+                // call redirection.
+                case true:
+                    if (!self::$redirCalled)
                     {
-                        // call the renderNew method/
-                        return BootMgr::methodGotCalled($request, self::$appInstance->renderNew($path, $data));
-                    }
-                }
-                break;
+                        self::$redirCalled = true;
 
-            // failed. return app instance.
-            case false:
-                return self::$appInstance;
-                break;
+                        // controller
+                        $controller = Bootloader::$helper['active_c'];
+
+                        // view
+                        $view = Bootloader::$helper['active_v'];
+
+                        // boot mgr
+                        $request = $controller . '@' . $view . '@redir';
+
+                        BootMgr::method($request, null);
+
+                        if (BootMgr::$BOOTMODE[$request] == CAN_CONTINUE)
+                        {
+                            // call the renderNew method/
+                            BootMgr::methodGotCalled($request, self::$appInstance->renderNew($path, $data));
+                        }
+                    }
+                    break;
+
+                // failed. return app instance.
+                case false:
+                    return self::$appInstance;
+                    break;
+            }
         }
 
+        return $this;
+    }
+
+    // render json
+    protected function json(array $jsonArray)
+    {
+        if (self::$noRedirOrRender || (self::$redirCalled === false && Controller::$rendering === false))
+        {
+            echo json_encode($jsonArray, JSON_PRETTY_PRINT);
+        }
     }
 
     public function __set($key, $value)
@@ -448,6 +468,12 @@ class Controller extends ApiModel
     {
         $model =& $this->model;
 
+        // load provider class aliases
+        if (self::loadedFromProviderClass($this, $name, $instance))
+        {
+            return $instance;
+        }
+
         // configuration ?
         switch ($name == 'config')
         {
@@ -565,6 +591,43 @@ class Controller extends ApiModel
 
     }
 
+    // load class from provider aliases
+    public static function loadedFromProviderClass(Controller $class, string $alias, &$classInstance)
+    {
+        $loaded = false;
+        $provider = $class->provider;
+
+        if (is_null($provider))
+        {
+            $provider = Bootloader::$currentClass->provider;
+        }
+
+        if ($provider !== null)
+        {
+            if (property_exists($provider, 'classAliases'))
+            {
+                $aliases = $provider->classAliases;
+
+                // check if alias exists
+                if (isset($aliases[$alias]))
+                {
+                    // get class name
+                    $classAddress = $aliases[$alias];
+
+                    // get instance
+                    $classInstance = boot()->get($classAddress);
+
+                    if (is_object($classInstance))
+                    {
+                        $loaded = true;
+                    }
+                }
+            }
+        }
+
+        return $loaded;
+    }
+
     // magic method for external methods
     // we start checking from the view model, then to the view provider or controller provider, finally the app instance
     public function __call($meth, $params)
@@ -581,9 +644,9 @@ class Controller extends ApiModel
                 return call_user_func_array([$classInstance, $meth], $params);
             }
         }
-        
+
         $loadFromServiceManager = $this->loadFromServiceManager($meth, $params);
-        
+
 
         return $loadFromServiceManager == 'loadfrommodelfunc' ? Model::getModelFunc($meth, $params, $this->model) : $loadFromServiceManager;
     }
@@ -962,6 +1025,7 @@ class Controller extends ApiModel
     // serve controller
     public static function serve($sys, &$helper, $callback=null)
     {
+
         // get bootloader instance
         $instance =& Bootloader::$instance;
 
@@ -1019,7 +1083,6 @@ class Controller extends ApiModel
 
                 // trigger guard handler
                 Event::emit('guards.load', $url);
-
 
                 // check if app is on coming soon or maintainance mode
                 $loadController = true;
@@ -1408,7 +1471,7 @@ class Controller extends ApiModel
                 // make assets avaliable
                 $assets = $sys->loadAssets;
                 // include starter file
-                include_once HOME . 'help/Starter/index.html';
+                include_once PATH_TO_SYSTEM . 'Starter/index.html';
                 // #clean up
                 $assets = null;
                 break;

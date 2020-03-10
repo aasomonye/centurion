@@ -1,0 +1,323 @@
+<form action="" method="POST" enctype="multipart/form-data">
+<?=\Moorexa\Rexa::runDirective(true,'csrf')?>
+<main class="card">
+	<section class="card-header">
+		<h3 class="card-title">Property information</h3>
+	</section>
+
+	<section class="card-body">
+		<div class="row">
+			<div class="col-12">
+				<div class="post">
+
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="">Property Name</label>
+							<?php
+	$ebfcdbfdcbdfb= <<<EOT
+
+								<FormField name="property_name" icon="fa-hotel">Your property name</FormField>
+							
+EOT;
+	echo \Hyphe\Engine::ParseTags($ebfcdbfdcbdfb, './component/Directives/');
+	?>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="">Property Address</label>
+							<?php
+	$addbbdbeadeff= <<<EOT
+
+								<FormField name="property_address" icon="fa-address-book">Your property address</FormField>
+							
+EOT;
+	echo \Hyphe\Engine::ParseTags($addbbdbeadeff, './component/Directives/');
+	?>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="">Property Type</label>
+							
+							<div class="input-group mb-3">
+								<select name="property_type" class="form-control select2" required>
+									<option value="">Please select</option>
+									<?php
+$property_types = \Moorexa\DB::sql('SELECT * FROM '.(\Moorexa\DB::getTableName('property_types')).' ');if ($property_types->rows > 0){
+while ($type = $property_types->obj())
+{ ?>
+									<option value="<?=$type->property_typeid?>"><?=ucfirst($type->propertytype)?></option>
+									<?php }} ?>
+								</select>
+								<div class="input-group-append">
+									<div class="input-group-text">
+										<span class="fas fa-building"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="accountNumber">Property City</label>
+							<div class="input-group mb-3">
+								<select class="form-control select2" name="property_city" required>
+									<option value="">Please select</option>
+									<option>Alaska</option>
+									<option>California</option>
+									<option>Delaware</option>
+									<option>Tennessee</option>
+									<option>Texas</option>
+									<option>Washington</option>
+								</select>
+
+								<div class="input-group-append">
+									<div class="input-group-text">
+										<span class="fas fa-city"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				</div>
+
+				<div class="post">
+				<p>
+					Tell us a little bit about this property. 
+				</p>
+				<div class="row">
+					<div class="col-md-12">
+						<label>About Property</label>
+						<?php
+	$ecbfcabcfbbb= <<<EOT
+
+							<FormField name="about_property" type="textarea" icon="fa-comment">Property information</FormField>
+						
+EOT;
+	echo \Hyphe\Engine::ParseTags($ecbfcabcfbbb, './component/Directives/');
+	?>
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</main>
+
+<main class="card">
+	<section class="card-header">
+		<h3 class="card-title">Cover Image</h3>
+	</section>
+
+	<section class="card-body">
+		<input class="form-control" name="cover_image" type="file" accept="image/*" required>
+	</section>
+</main>
+
+<main class="card">
+	<section class="card-header card-header-flex">
+		<h3 class="card-title">Property Facilities</h3>
+		<div class="btn-wrapper">
+			<a href="javascript:void(0)" class="btn btn-success" style="margin-right: 10px;"><i class="fa fa-save"></i> Save</a>
+			<a href="javascript:void(0)" class="btn btn-info"><i class="fa fa-angle-down"></i> Autofill</a>
+		</div>
+	</section>
+
+	<section class="card-body">
+		<?php $facilities = (\Moorexa\Bootloader::$currentClass)->query->getAllParentFacilities();?>
+		<div class="row facility-list">
+			<?php
+$facilities = $facilities;if ($facilities->rows > 0){
+$facilities->reset();while ($facility = $facilities->obj())
+{ ?>
+				<div class="col-md-3">
+					<h5>
+						<label for="parent-<?=$facility->property_facilityid?>" style="font-weight: normal;">
+							<input type="checkbox" id="parent-<?=$facility->property_facilityid?>" data-checkbox-trigger="<?=$facility->property_facilityid?>" data-parent-trigger="facility-list" name="facility[<?=$facility->property_facilityid?>]"/> <?=ucfirst($facility->facility)?>
+						</label>
+					</h5>
+					<ul>
+						<?php $children = (\Moorexa\Bootloader::$currentClass)->query->getAllChildrenFacilities($facility->property_facilityid);?>
+						<?php
+$children = $children;if ($children->rows > 0){
+$children->reset();while ($child = $children->obj())
+{ ?>
+							<li>
+								<label for="child-<?=$child->property_facilityid?>" style="font-weight: normal;">
+									<input type="checkbox" id="child-<?=$child->property_facilityid?>" data-checkbox-child="<?=$facility->property_facilityid?>"  name="facility[<?=$facility->property_facilityid?>][<?=$child->property_facilityid?>]"/> <?=ucfirst($child->facility)?>
+								</label>
+							</li>
+						<?php }} ?>
+					</ul>
+				</div>
+			<?php }} ?>
+		</div>
+	</section>
+</main>
+
+<main class="card">
+	<section class="card-header card-header-flex">
+		<h3 class="card-title">Property Rules</h3>
+		<div class="btn-wrapper">
+			<a href="javascript:void(0)" class="btn btn-success" style="margin-right: 10px;"><i class="fa fa-save"></i> Save</a>
+			<a href="javascript:void(0)" class="btn btn-info"><i class="fa fa-angle-down"></i> Autofill</a>
+		</div>
+	</section>
+
+	<section class="card-body">
+		<div class="row">
+			<div class="col-5 col-sm-3">
+			  <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
+				<?php $parent = (\Moorexa\Bootloader::$currentClass)->query->getPropertyRuleParent(); $index = 0; $parentInfo = [];?>
+
+				<?php
+$parent = $parent;if ($parent->rows > 0){
+$parent->reset();while ($row = $parent->obj())
+{ ?>
+					<a class="nav-link <?=$index == 0 ? 'active' : ''?>" id="vert-tabs-<?=$index?>-tab" data-toggle="pill" href="#vert-tabs-<?=$index?>" role="tab" aria-controls="vert-tabs-<?=$index?>" aria-selected="false"><?=ucwords($row->property_rule_title)?></a>
+					<?php $parentInfo[$index] = ['haschild' => (\Moorexa\Bootloader::$currentClass)->query->propertyListHasChild($row->property_ruleid), 'id' => $row->property_ruleid];?>
+					<?php $index++;?>
+				<?php }} ?>
+
+			  </div>
+			</div>
+			<div class="col-7 col-sm-9">
+			  <div class="tab-content" id="vert-tabs-tabContent">
+				<?php for ($identity = 0; $identity < $index; $identity++) { ?>
+					<div class="tab-pane text-left fade <?=$identity == 0 ? 'active show' : ''?>" id="vert-tabs-<?=$identity?>" role="tabpanel" aria-labelledby="vert-tabs-<?=$identity?>-tab">
+						<?php if($parentInfo[$identity]['haschild']) { ?>
+							<?php $val = (\Moorexa\Bootloader::$currentClass)->query->getPropertyListVal($parentInfo[$identity]['id']);?>
+
+							<?php $child = (\Moorexa\Bootloader::$currentClass)->query->getPropertyRuleChildren($parentInfo[$identity]['id']);?>
+							<div class="row">
+								<?php
+$child = $child;if ($child->rows > 0){
+$child->reset();while ($row = $child->obj())
+{ ?>
+									<!-- check box -->
+									<div class="col-md-4">
+										<label for="checkbox-<?=$row->property_ruleid?>" style="font-weight: normal;">
+										<input type="checkbox" id="checkbox-<?=$row->property_ruleid?>" name="property_rule[<?=$val->property_rule_title?>][<?=$row->property_ruleid?>]"/> <span> <?=ucfirst($row->property_rule_title)?></span>
+										</label>
+									</div>
+								<?php }} ?>
+							</div>
+						<?php } else { ?>
+							<?=\Moorexa\Rexa::runDirective(true,'partial','property-rule-with-id-'.$parentInfo[$identity]['id'], ['id' => $parentInfo[$identity]['id']])?>
+						<?php } ?>
+					</div>
+				<?php } ?>
+			  </div>
+			</div>
+		</div>
+	</section>
+</main>
+
+<main class="card">
+	<section class="card-header">
+		<h3 class="card-title">Property Images</h3>
+	</section>
+
+	<section class="card-body">
+		<!-- <input type="file" multiple name="property_images[]" class="file-upload-element my-pond"/>  -->
+		<?=\Moorexa\Rexa::runDirective(true,'partial','file-upload-element', ['name' => 'property_images'])?>
+	</section>
+</main>
+
+<main class="card">
+	<section class="card-header card-header-flex">
+		<h3 class="card-title">Property Rooms</h3>
+		<div class="btn-wrapper">
+			<a href="javascript:void(0)" data-target="add-new-rooms" class="btn btn-info"><i class="fa fa-plus"></i> Add new row</a>
+		</div>
+	</section>
+
+	<section class="card-body">
+		<div class="table-responsive">
+			<table class="table table-bordered table-striped">
+				<thead>
+					<th></th>
+					<th>Room Type</th>
+					<th>Sleeps</th>
+					<th>Room Price</th>
+					<th>Total Rooms</th>
+					<th></th>
+				</thead>
+
+				<tbody id="autoload-room-rows">
+					
+				</tbody>
+			</table>
+		</div>
+	</section>
+</main>
+
+<button class="btn btn-success" type="submit">Submit</button>
+</form>
+<br>
+
+<script type="text/deffered">
+    //Timepicker
+    let config = {format: 'LT'};
+    $('#timepicker').datetimepicker(config);
+	$('#timepicker2').datetimepicker(config);
+	$('#timepicker3').datetimepicker(config);
+	$('#timepicker4').datetimepicker(config);
+	//Initialize Select2 Elements
+	$('.select2').select2();
+</script>
+
+
+<section class="modal-options" style="display: none;">
+	<div class="post">
+		<p>Auto fill saved settings</p>
+		<div class="form-group">
+			<div class="input-group mb-3">
+				<select class="form-control" name="auto_fill">
+					<option value="">Please select</option>
+					<option>Alaska</option>
+					<option>California</option>
+					<option>Delaware</option>
+					<option>Tennessee</option>
+					<option>Texas</option>
+					<option>Washington</option>
+				</select>
+
+				<div class="input-group-append">
+					<div class="input-group-text">
+						<span class="fas fa-book"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="post">
+		<p>Room Facilities</p>
+		<?=\Moorexa\Rexa::runDirective(true,'partial','room-facility-section')?>
+		</div>
+	</div>
+
+	<div class="post">
+		<p>Room Rules</p>
+		<?=\Moorexa\Rexa::runDirective(true,'partial','room-rules-section')?>
+	</div>
+
+	<div class="post">
+		<p>About Room</p>
+		<textarea name="about_room[]" data-add-rowid="true" class="form-control" placeholder="A little information about this room"></textarea>
+	</div>
+
+	<div class="post">
+		<p>Room Number</p>
+		<input type="number" name="room_number[]" data-add-rowid="true" class="form-control" placeholder="Room Number"/>
+	</div>
+
+	<div class="post">
+		<p>Room Images</p>
+		<?=\Moorexa\Rexa::runDirective(true,'partial','file-upload-element', ['name' => 'room_images', 'add' => true])?>
+	</div>
+</section>

@@ -1,0 +1,105 @@
+<section class="card">
+    <section class="card-header card-header-flex">
+        <h3 class="card-title">Properties Listed by you</h3>
+        <div class="btn-wrapper">
+        <a href="<?=action("property/list")?>" class="btn btn-success"><i class="fa fa-plus"></i> List a Property</a>
+        </div>
+    </section>
+    <section class="card-body">
+        <div class="table-responsive">
+            <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th></th>
+                  <th>Property</th>
+                  <th>Property Type</th>
+                  <th>Rooms</th>
+                  <th>Bookings</th>
+                  <th>Views</th>
+                  <th>Ratings</th>
+                  <th>Reviews</th>
+                  <th>Status</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                    <?php $properties = (\Moorexa\Bootloader::$currentClass)->query->getPartnerPropertyListing();?>
+                    <?php
+$properties = $properties;if ($properties->rows > 0){
+$properties->reset();while ($property = $properties->obj())
+{ ?>
+                    <tr>
+                        <?php $info = json_decode($property->listing_information);?>
+                        <?php $booking = (\Moorexa\Bootloader::$currentClass)->query->getListBookings($property->listingid);?>
+                        <?php $status = '';?>
+
+                        <?php 
+ // PHP starts here 
+
+
+                            switch ($property->approved)
+                            {
+                                case 1:
+                                    $status = 'approved';
+                                break;
+                                
+                                case 2:
+                                    $status = 'suspended';
+                                break;
+
+                                case 3:
+                                    $status = 'closed';
+                                break;
+
+                                default:
+                                    $status = 'pending';
+                            }
+
+                        
+ // PHP ends here 
+ ?>
+
+                        <td class="text-center">
+                            <?php
+if($status != 'approved' && $status != 'closed'){?>
+<a  href="<?=action("property/remove/$property->listingid")?>" class="text text-danger"><i class="fa fa-trash-alt"></i> Trash</a>
+<?php }
+?>
+                            <?php
+if($status == 'approved'){?>
+<a  href="<?=action("property/close/$property->listingid")?>" class="text text-danger"><i class="fa fa-eye-slash"></i> lock</a>
+<?php }
+?>
+                            <?php
+if($status == 'closed'){?>
+<a  href="<?=action("property/open/$property->listingid")?>" class="text text-primary"><i class="fa fa-eye"></i> unlock</a>
+<?php }
+?>
+                        </td>
+                        <td><a href="<?=action("property/edit/$property->listingid")?>" style="text-decoration: underline; color: #28a745;"><?=ucfirst($info->property_name)?></a></td>
+                        <td><?=(\Moorexa\Bootloader::$currentClass)->query->getPropertyTypeById($info->property_type)?></td>
+                        <td><?=count($info->property_room_title)?></td>
+                        <td><?=$booking->rows?></td>
+                        <td><?=$booking->views > 0 ? $booking->views : '0'?></td>
+                        <td>
+                            <ul class="ratings">
+                                <li><span class="fa fa-star"></span></li>
+                                <li><span class="fa fa-star"></span></li>
+                                <li><span class="fa fa-star"></span></li>
+                                <li><span class="fa fa-star"></span></li>
+                            </ul>
+                        </td>
+                        <td><?=$booking->reviews > 0 ? $booking->reviews : '0'?></td>
+                        
+                        <td><span  class="<?=($status == 'approved' ? 'badge badge-success' : ($status == 'suspended' ? 'badge badge-danger' : 'badge badge-warning'))?>"><?=strtoupper($status)?></span></td>
+                    </tr>
+                    <?php }} ?>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</section>
+
+<script type="text/deffered">
+    $('#example1').DataTable();
+</script>

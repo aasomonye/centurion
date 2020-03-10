@@ -75,4 +75,32 @@ class Email
 
         return $sendMail;
     }
+
+    // resend activation link
+    public static function resendActivationLink(&$controller, &$view)
+    {
+        // get user 
+        $user = \Guards::user();
+
+        // get account
+        $account = \Guards::account();
+
+        // get lockid
+        $lockid = $user->from('authentication', 'userid')->pick('lockid');
+
+        // get activation code for this account
+        $activationCode = $user->from('activations', 'userid')->get('lockid=?', 4)->activation_code;
+
+        // send mail
+        self::getTemplate('resend activation', [
+            'link' => url('complete-registration/' . $activationCode),
+            'year' => date('Y')
+        ])->send('Account Activation', $user->email_address);
+
+        // get base controller and view
+        list($controller, $view) = explode('/', $account->account_base_url);
+
+        // message sent
+        Alert::toastDefaultSuccess('Please check your mail for activation link.');
+    }
 }

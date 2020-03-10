@@ -1,0 +1,6 @@
+<?php if(!Centurion\Helpers\Query::isActivated()) { ?>
+    <div class="callout callout-danger">
+        <h5>Pending Verification!</h5>
+        <p>Your account hasn't been verified. Please check your inbox for an activation link or <a href="<?=url("resend-activation-link")?>" style="color: #0056b3;">click here</a> to resend activation link.</p>
+  </div>
+<?php } ?>

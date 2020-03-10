@@ -15,11 +15,15 @@
 						@endwhile
 					</select>
 				</div>
-
-			@else
-
+			@elseif (isset(props.type) && props.type == 'textarea')
 				<div class="input-group mb-3">
-					<input php-if::type="isset(props.type) ? props.type : 'text'" name="{props.name}" class="form-control" placeholder="{props.children}" php-if::value="(isset(props.value) && strlen(props.value) > 0 ? props.value : this.getVal(props.name))" required>
+					<textarea class="form-control" name="{props.name}" placeholder="{props.children}" {!isset(props.required) ? "required" : ''}>{(isset(props.value) && strlen(props.value) > 0 ? props.value : this.getVal(props.name))}</textarea>
+				</div>
+				<span class="has-error" style="position:relative; top:-10px;">{this.getError(props.name)}</span>
+			@else
+				<div class="input-group mb-3">
+					{$required = isset(props.required) && props.required == 'no' ? '' : 'required';}
+					<input php-if::type="isset(props.type) ? props.type : 'text'" name="{props.name}" data-accept="{isset(props.accept) ? props.accept : '*'}" class="form-control" placeholder="{props.children}" php-if::value="(isset(props.value) && strlen(props.value) > 0 ? props.value : this.getVal(props.name))" required>
 					<div class="input-group-append">
 						<div class="input-group-text">
 							<span class="fas {props.icon}"></span>

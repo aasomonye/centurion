@@ -1,0 +1,174 @@
+<form action="" method="POST" enctype="multipart/form-data">
+	@csrf;
+	{$info = json_decode($listinginfo->listing_information);}
+	<main class="card">
+		<section class="card-header">
+			<h3 class="card-title">Property information</h3>
+		</section>
+	
+		<section class="card-body">
+			<div class="row">
+				<div class="col-12">
+					<div class="post">
+	
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="">Property Address</label>
+								<hy>
+									<FormField name="property_address" icon="fa-book" value="{$info->property_address}">eg. property address</FormField>
+								</hy>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="">Property Type</label>
+								<div class="input-group mb-3">
+									<select name="property_type" class="form-control select2" required>
+										<option value="">Please select</option>
+										@fetch ('property_types' as 'type')
+										{$selected = $info->property_type == $type->property_typeid ? 'selected' : '';}
+										<option value="{$type->property_typeid}" {$selected}>{ucfirst($type->propertytype)}</option>
+										@endfetch
+									</select>
+									<div class="input-group-append">
+										<div class="input-group-text">
+											<span class="fas fa-building"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<label>About Property</label>
+							<hy>
+								<FormField name="about_property" type="textarea" icon="fa-comment" value="{$info->about_property}">Property description</FormField>
+							</hy>
+						</div>
+					</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<main class="card">
+		<section class="card-header">
+			<h3 class="card-title">Cover Image</h3>
+		</section>
+
+		<section class="card-body">
+			<input class="form-control" name="cover_image" type="file" accept="image/*">
+		</section>
+	</main>
+
+	<main class="card">
+		<section class="card-header card-header-flex">
+			<h3 class="card-title">Property Rules</h3> 
+		</section>
+	
+		<section class="card-body">
+			<div class="row">
+				<div class="col-5 col-sm-3">
+				  <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
+					{$parent = $this->query->getPropertyRuleParent(); $index = 0; $parentInfo = [];}
+	
+					@fetch ($parent as 'row')
+						<a class="nav-link {$index == 0 ? 'active' : ''}" id="vert-tabs-{$index}-tab" data-toggle="pill" href="#vert-tabs-{$index}" role="tab" aria-controls="vert-tabs-{$index}" aria-selected="false">{ucwords($row->property_rule_title)}</a>
+						{$parentInfo[$index] = ['haschild' => $this->query->propertyListHasChild($row->property_ruleid), 'id' => $row->property_ruleid];}
+						{$index++;}
+					@endfetch
+	
+				  </div>
+				</div>
+				<div class="col-7 col-sm-9">
+				  <div class="tab-content" id="vert-tabs-tabContent">
+					{$rules = toArray($info->property_rule);}
+					
+					@for ($identity = 0 and $identity < $index then $identity++)
+						<div class="tab-pane text-left fade {$identity == 0 ? 'active show' : ''}" id="vert-tabs-{$identity}" role="tabpanel" aria-labelledby="vert-tabs-{$identity}-tab">
+							@if ($parentInfo[$identity]['haschild'])
+								{$val = $this->query->getPropertyListVal($parentInfo[$identity]['id']);}
+								{$child = $this->query->getPropertyRuleChildren($parentInfo[$identity]['id']);}
+								<div class="row">
+									@fetch ($child as 'row')
+										<!-- check box -->
+										{$childRuleChecked = isset($rules[$val->property_rule_title][$row->property_ruleid]) ? 'checked' : '';}
+										<div class="col-md-4">
+											<label for="checkbox-{$row->property_ruleid}" style="font-weight: normal;">
+											<input type="checkbox" {$childRuleChecked} id="checkbox-{$row->property_ruleid}" name="property_rule[{$val->property_rule_title}][{$row->property_ruleid}]"/> <span> {ucfirst($row->property_rule_title)}</span>
+											</label>
+										</div>
+									@endfetch
+								</div>
+							@else
+								@partial('property-rule-with-id-'.$parentInfo[$identity]['id'], ['id' => $parentInfo[$identity]['id'], 'info' => $info]);
+							@endif
+						</div>
+					@endfor
+				  </div>
+				</div>
+			</div>
+		</section>
+	</main>
+
+
+	<main class="card">
+		<section class="card-header">
+			<h3 class="card-title">Property Images</h3>
+		</section>
+
+		<section class="card-body">
+			@partial('file-upload-element', ['name' => 'property_images']);
+			@php
+				$fileImage = [];
+				foreach ($images as $image) :
+					$fileImage[] = basename($image);
+				endforeach;
+			@endphp
+			<input type="hidden" name="property_images_copy" value="{implode(',', $fileImage)}"/>
+		</section>
+	</main>
+
+	
+
+	<main class="card">
+		<section class="card-header card-header-flex">
+			<h3 class="card-title">Property Facilities</h3>
+		</section>
+	
+		<section class="card-body">
+			{$facilities = $this->query->getAllParentFacilities();}
+			{$rowFacility = toArray($info->facility);}
+
+			<div class="row facility-list">
+				@fetch ($facilities as 'facility')
+					<div class="col-md-3">
+						<h5>
+							<label for="parent-{$facility->property_facilityid}" style="font-weight: normal;">
+								{$parentChecked = isset($rowFacility[$facility->property_facilityid]) ? 'checked' : '';}
+								<input type="checkbox" {$parentChecked} id="parent-{$facility->property_facilityid}" data-checkbox-trigger="{$facility->property_facilityid}" data-parent-trigger="facility-list" name="facility[{$facility->property_facilityid}]"/> {ucfirst($facility->facility)}
+							</label>
+						</h5>
+						<ul>
+							{$children = $this->query->getAllChildrenFacilities($facility->property_facilityid);}
+							@fetch ($children as 'child')
+								<li>
+									{$childChecked = isset($rowFacility[$facility->property_facilityid][$child->property_facilityid]) ? 'checked' : '';}
+									<label for="child-{$child->property_facilityid}" style="font-weight: normal;">
+										<input type="checkbox" {$childChecked} id="child-{$child->property_facilityid}" data-checkbox-child="{$facility->property_facilityid}"  name="facility[{$facility->property_facilityid}][{$child->property_facilityid}]"/> {ucfirst($child->facility)}
+									</label>
+								</li>
+							@endfetch
+						</ul>
+					</div>
+				@endfetch
+			</div>
+		</section>
+	</main>
+
+	<button class="btn btn-success" type="submit">Update</button>
+</form>
+
+<br>
+<br>

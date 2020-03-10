@@ -373,6 +373,19 @@ class ApiModel extends InputData
         return $this;
     }
 
+    // set table name
+    public function setTable(string $tableName, $identity = null)
+    {
+        $this->table = $tableName;
+
+        if ($identity !== null)
+        {
+            $this->identity($identity);
+        }
+        
+        return $this;
+    }
+    
     // get table
     private function getTable(&$table=null)
     {

@@ -5,7 +5,7 @@
     "Objects": "system\/Lib\/object.php",
     "utility\/Classes\/BootMgr\/Manager": "utility\/Classes\/BootMgr\/Manager.php",
     "env": "system\/Inc\/env.php",
-    "Moorexa\/UrlConfig": "kernel\/Config\/urlConfig.php",
+    "Moorexa\/UrlConfig": "build\/Config\/urlConfig.php",
     "Moorexa\/Rexa": "system\/Lib\/rexa.php",
     "Moorexa\/Directive": "system\/Lib\/directives.php",
     "SmartRow\/Directives": ".\/lab\/Cms\/Installations\/Events\/Directives.php",
@@ -50,5 +50,10 @@
     "Centurion\/Helpers\/Email": "Centurion\/Helpers\/Email.php",
     "Centurion\/Helpers\/EmailTemplate": "Centurion\/Helpers\/EmailTemplate.php",
     "Messaging\/Mail": ".\/utility\/Classes\/Messaging\/Mail.php",
-    "Guards": "system\/Inc\/guards.php"
+    "Guards": "system\/Inc\/guards.php",
+    "Centurion\/Query": "Centurion\/Helpers\/Query.php",
+    "Centurion\/Helpers\/utility\/Classes\/BootMgr\/Manager": ".\/utility\/Classes\/BootMgr\/Manager.php",
+    "Centurion\/Alert": "Centurion\/Helpers\/Alert.php",
+    "WekiWork\/Fileio": ".\/lab\/Fileio.php",
+    "Moorexa\/Table": ".\/utility\/Console\/Table.php"
 }

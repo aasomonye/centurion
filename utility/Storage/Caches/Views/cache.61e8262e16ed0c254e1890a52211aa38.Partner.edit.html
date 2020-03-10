@@ -1,0 +1,366 @@
+<?php $property = (\Moorexa\Bootloader::$currentClass)->query->getListingById($listingid);?>
+<?php $info = json_decode($property->listing_information);?>
+<?php $propertyType = (\Moorexa\Bootloader::$currentClass)->query->getPropertyTypeById($info->property_type);?>
+<?php $booking = (\Moorexa\Bootloader::$currentClass)->query->getListBookings($listingid);?>
+<?php $totalRooms = count($info->property_room_title);?>
+
+<div class="row">
+	<?php
+if($totalRooms > 0){?>
+<div class="col-md-3 col-sm-6 col-12" >
+	  <div class="info-box">
+		<span class="info-box-icon bg-info"><i class="fa fa-door-open"></i></span>
+
+		<div class="info-box-content">
+		  <span class="info-box-text">Rooms</span>
+		  <span class="info-box-number"><?=$totalRooms?></span>
+		</div>
+		<!-- /.info-box-content -->
+	  </div>
+<?php }
+?>
+	  <!-- /.info-box -->
+	</div>
+	<!-- /.col -->
+	<div class="col-md-3 col-sm-6 col-12">
+	  <div class="info-box">
+		<span class="info-box-icon bg-success"><i class="far fa-flag"></i></span>
+
+		<div class="info-box-content">
+		  <span class="info-box-text">Bookings</span>
+		  <span class="info-box-number"><?=$booking->rows?></span>
+		</div>
+		<!-- /.info-box-content -->
+	  </div>
+	  <!-- /.info-box -->
+	</div>
+	<!-- /.col -->
+	<div class="col-md-3 col-sm-6 col-12">
+	  <div class="info-box">
+		<span class="info-box-icon bg-warning"><i class="fa fa-luggage-cart"></i></span>
+
+		<div class="info-box-content">
+		  <span class="info-box-text">Property Type</span>
+		  <span class="info-box-number"><?=$propertyType?></span>
+		</div>
+		<!-- /.info-box-content -->
+	  </div>
+	  <!-- /.info-box -->
+	</div>
+	<!-- /.col -->
+	<div class="col-md-3 col-sm-6 col-12">
+	  <div class="info-box">
+		<span class="info-box-icon bg-danger"><i class="far fa-star"></i></span>
+
+		<div class="info-box-content">
+		  <span class="info-box-text">Reviews</span>
+		  <span class="info-box-number"><?=$booking->reviews > 0 ? $booking->reviews : '0'?></span>
+		</div>
+		<!-- /.info-box-content -->
+	  </div>
+	  <!-- /.info-box -->
+	</div>
+	<!-- /.col -->
+</div>
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="card card-primary card-outline card-outline-tabs">
+		<div class="card-header p-0 border-bottom-0">
+			<ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
+			<li class="nav-item">
+				<a class="nav-link <?=(\Moorexa\Bootloader::$currentClass)->setActive('default')?>" id="custom-tabs-three-overview-tab" data-toggle="pill" href="#custom-tabs-three-overview" role="tab" aria-controls="custom-tabs-three-overview" aria-selected="true">Overview</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link <?=(\Moorexa\Bootloader::$currentClass)->setActive('bookings')?>" id="custom-tabs-three-bookings-tab" data-toggle="pill" href="#custom-tabs-three-bookings" role="tab" aria-controls="custom-tabs-three-bookings" aria-selected="true">Bookings</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link <?=(\Moorexa\Bootloader::$currentClass)->setActive('rooms')?>" id="custom-tabs-three-Rooms-tab" data-toggle="pill" href="#custom-tabs-three-Rooms" role="tab" aria-controls="custom-tabs-three-Rooms" aria-selected="false">Rooms</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link <?=(\Moorexa\Bootloader::$currentClass)->setActive('manager')?>" id="custom-tabs-three-manager-tab" data-toggle="pill" href="#custom-tabs-three-manager" role="tab" aria-controls="custom-tabs-three-manager" aria-selected="false">Property Users</a>
+			</li>
+			</ul>
+		</div>
+		<div class="card-body">
+			<div class="tab-content" id="custom-tabs-three-tabContent">
+			<div class="tab-pane fade <?=(\Moorexa\Bootloader::$currentClass)->setActive('default')?>" id="custom-tabs-three-overview" role="tabpanel" aria-labelledby="custom-tabs-three-overview-tab">
+				
+				<div class="row">
+					<div class="col-lg-5">
+						<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+							<?php $images = json_decode($property->listing_images);?>
+							<?php $count = count($images->images);?>
+							<ol class="carousel-indicators">
+							<?php for ($i = 0; $i < $count; $i++) { ?>
+								<li data-target="#carouselExampleIndicators" data-slide-to="<?=$i?>"  class="<?=($i == 0 ? 'active' : '')?>"></li>
+							<?php } ?>
+							</ol>
+
+							<div class="carousel-inner">
+							<?php foreach ($images->images as $imageindex => $image) { ?>
+							<div class="carousel-item <?=$imageindex == 0 ? 'active' : ''?>">
+								<img class="d-block w-100" src="<?=$assets->image("$image")?>" alt="Property slide">
+							</div>
+							<?php } ?>each
+							</div>
+							<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+							<span class="sr-only">Previous</span>
+							</a>
+							<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+							<span class="carousel-control-next-icon" aria-hidden="true"></span>
+							<span class="sr-only">Next</span>
+							</a>
+						</div>
+					</div>
+
+					<div class="col-lg-7">
+						<div style="display: flex; align-items: center; justify-content: center;">
+						<h3><?=ucwords($info->property_name)?> <small class="badge badge-secondary" style="font-size: 14px; font-weight: normal;"><?=strtoupper($propertyType)?></small></h3>
+						<span style="display:flex; justify-content:center; align-items:center; margin-left: auto; padding-right: 10px;">
+							<a href="<?=url("edit-property/$listingid")?>" class="btn btn-primary"><i class="fa fa-edit"></i> Edit Property</a>
+						</span>
+						</div>
+						<p><i class="fa fa-map-marker-alt text text-secondary"></i> <?=$info->property_address?></p>
+						<dl>
+							<dt>About Property</dt>
+							<dd><?=ucfirst($info->about_property)?></dd>
+							<dt>Check In</dt>
+							<dd><i class="fa fa-clock text text-secondary"></i> <?=$info->check_in_start?> - <?=$info->check_in_end?></dd>
+							<dt>Check Out</dt>
+							<dd><i class="fa fa-clock text text-secondary"></i> <?=$info->check_out_start?></dd>
+							<dt>Facilities</dt>
+							<dd>
+								<?php $facilities = $info->facility;?>
+								<?php foreach ($facilities as $facilityParent => $facilityChild) { ?>
+									<?php $facility = (\Moorexa\Bootloader::$currentClass)->query->getFacilityById($facilityParent);?>
+									<span class="badge badge-info"><?=strtoupper($facility->facility)?></span>
+								<?php } ?>
+							</dd>
+						</dl>
+						
+					</div>
+				</div>
+			</div>
+				
+			<div class="tab-pane fade <?=(\Moorexa\Bootloader::$currentClass)->setActive('bookings')?>" id="custom-tabs-three-bookings" role="tabpanel" aria-labelledby="custom-tabs-three-bookings-tab">
+				<div class="table-responsive">
+				<table id="example1" class="table table-bordered table-striped">
+					<thead>
+					<tr>
+					<th>Reservation Date</th>
+					<th>Guest</th>
+					<th>Adult/Children</th>
+					<th>Room Type</th>
+					<th>Room Number</th>
+					<th>Check In</th>
+					<th>Check Out</th>
+					<th>Rate</th>
+					<th>Status</th>
+					</tr>
+					</thead>
+		
+					<tbody>
+
+					</tbody>
+		
+				</table>
+				</div>
+			</div>
+			<div php-if="$totalRooms > 0" class="tab-pane fade <?=(\Moorexa\Bootloader::$currentClass)->setActive('rooms')?>" id="custom-tabs-three-Rooms" role="tabpanel" aria-labelledby="custom-tabs-three-Rooms-tab">
+				<div class="row">
+					<div class="col-lg-12 justify-end">
+						<a href="<?=url("add-a-room-to-$listingid")?>" class="btn btn-primary"><i class="fa fa-plus"></i> add a room</a>
+					</div>
+					<?php foreach ($info->property_room_title as $index => $roomTitle) { ?>
+					<div class="col-lg-12" style="margin-top:10px;">
+						<section class="card">
+							<?php $rooms = $info->total_rooms[$index]; $sleeps = $info->sleeps[$index];?>
+							<?php $room = $info->room[$index];?>
+							<?php $roomRules = $room->property_rule;?>
+
+							<div class="card-body">
+								<div class="container-fluid">
+									<div class="row">
+										<div class="col-lg-10">
+											<?php $locks = isset($info->room_locks) ? toArray($info->room_locks) : [];?>
+											<?php $locked = isset($locks[$index]) ? true : false;?>
+											<h4 class="room-title"><?=ucwords($roomTitle)?>, <?=$rooms?> <?=plural('room', $rooms)?>, <?=$sleeps?> <?=plural('sleep', $sleeps)?>
+												<?php
+if($locked == false){?>
+<b class="badge badge-success" >Active</b>
+<?php }
+?>
+												<?php
+if($locked == true){?>
+<b class="badge badge-danger" >Locked!</b>
+<?php }
+?>
+											</h4>
+										</div>
+										<div class="col-lg-2 justify-end">
+											<select name="room-action" data-target="submit-on-change">
+												<option value="">Room Action</option>
+												<option value="edit-room-<?=$listingid?>/<?=$index?>">Edit Room</option>
+												<option value="apply-room-rate-<?=$listingid?>/<?=$index?>">Apply Rate</option>
+												<?php
+if($locked == false){?>
+<option value="lock-room-<?=$listingid?>/<?=$index?>">Lock Room</option>
+<?php }
+?>
+												<?php
+if($locked == true){?>
+<option value="unlock-room-<?=$listingid?>/<?=$index?>">Unlock Room</option>
+<?php }
+?>
+												<option value="preview-room-<?=$listingid?>/<?=$index?>">Preview Room</option>
+											</select>
+										</div>
+									</div>
+
+									<div class="row">
+										
+										<?php
+if (is_array($roomRules) || is_object($roomRules)){
+$foreachIndex = 0;foreach ($roomRules as $rule => $ruleData){
+$foreachIndex++;?>
+<div class="col-lg-3 room-details" >
+											<span><?=$rule?></span>
+											<?php
+if (is_array($ruleData) || is_object($ruleData)){
+$foreachIndex = 0;foreach ($ruleData as $key => $val){
+if ($foreachIndex == 1){ break; }$foreachIndex++;?>
+<h2  limit="1">
+												<span><?=ucwords((\Moorexa\Bootloader::$currentClass)->query->getPropertyRule($key))?></span>
+											</h2><?php }
+}?>
+										</div><?php }
+}?>
+
+										<div class="col-lg-3 room-details">
+											<span>Room Number</span>
+											<h2>
+												<span><?=$info->room_number[$index][0]?></span>
+											</h2>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-lg-12">
+
+											<div id="accordion<?=$index?>">
+												<div class="card no-border" style="box-shadow:none;">
+												<div class="card-header" style="padding:0px; border: none;">
+													<h4 class="card-title">
+													<a data-toggle="collapse" data-parent="#accordion<?=$index?>" href="#moredetails<?=$index?>">
+														More details <i class="fa fa-angle-double-down"></i>
+													</a>
+													</h4>
+												</div>
+												<div id="moredetails<?=$index?>" class="panel-collapse collapse in">
+													<div class="card-body" style="padding-left: 0px;">
+													<div class="row">
+														<div class="col-lg-6 room-details">
+															<span>Room Description</span>
+															<h2>
+																<span><?=$info->about_room[$index][0]?></span>
+															</h2>
+														</div>
+
+														<div class="col-lg-6 room-details">
+															<span>Room Rate</span>
+															<h2>
+																<span><?=currency($info->room_price[$index])?></span>
+															</h2>
+														</div>
+													</div>
+													</div>
+												</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</section>
+					</div>
+					<?php } ?>
+
+				</div>
+			</div>
+			<div class="tab-pane fade <?=(\Moorexa\Bootloader::$currentClass)->setActive('manager')?>" id="custom-tabs-three-manager" role="tabpanel" aria-labelledby="custom-tabs-three-manager-tab">
+				<div class="row">
+					<div class="col-lg-12" style="display:flex; justify-content:flex-end;">
+						<a href="" class="btn btn-primary"><i class="fa fa-plus"></i> add a user</a>
+					</div>
+				</div>
+
+				<div class="row" style="margin-top: 20px;">
+					<div class="table">
+						<table id="example2" class="table table-bordered table-striped">
+							<thead>
+							<tr>
+							<th>Fullname</th>
+							<th>Role</th>
+							<th>Priveledge</th>
+							<th>Username</th>
+							<th>Last Login</th>
+							<th>Status</th>
+							<th></th>
+							</tr>
+							</thead>
+				
+							<tbody>
+		
+							</tbody>
+				
+						</table>
+					</div>
+				</div>
+			</div>
+			</div>
+		</div>
+		<!-- /.card -->
+		</div>
+	</div>
+
+	<div class="col-lg-12">
+		<h3 class="mt-5 lead">Quick Link</h3>
+		<ul>
+			<?php $navigation = Centurion\Helpers\Query::getNavigation();?>
+
+			<?php
+$navigation = $navigation;if ($navigation->rows > 0){
+$navigation->reset();while ($nav = $navigation->obj())
+{ ?>
+				<?php $rate = $nav->get(['page_link' => 'partner/rate-avaliability']);?>
+				<?php if($rate->primary() == $nav->parentid) { ?>
+					<li><a href="<?=url("$nav->page_link")?>"><?=$nav->page_title?></a></li>
+				<?php } ?>
+			<?php }} ?>
+		</ul>
+	</div>
+
+	<?php $otherProperties = Centurion\Helpers\Query::getOtherPropertiesExcept($listingid);?>
+
+	<?php if($otherProperties->rows > 0) { ?>
+	<div class="col-lg-12">
+		<h3 class="mt-5 lead">Other Properties</h3>
+		<ul>
+			<?php
+$otherProperties = $otherProperties;if ($otherProperties->rows > 0){
+$otherProperties->reset();while ($property = $otherProperties->obj())
+{ ?>
+				<?php $info = json_decode($property->listing_information);?>
+				<li><a href="<?=action("property/edit/$property->listingid")?>"><?=ucwords($info->property_name)?> (<?=(\Moorexa\Bootloader::$currentClass)->query->getPropertyTypeById($info->property_type)?>)</a></li>
+			<?php }} ?>
+		</ul>
+	</div>
+	<?php } ?>
+</div>
+
+<script type="text/deffered">
+	$('#example1').DataTable();
+	$('#example2').DataTable();
+</script>

@@ -17,6 +17,6 @@
     </div>
     <div class="info">
     <?php $user = Guards::user();?>
-      <a href="#" class="d-block"><?=ucwords($user->firstname . ' ' . $user->lastname)?></a>
+      <a href="<?=url("dashboard/profile")?>" class="d-block"><?=ucwords($user->firstname . ' ' . $user->lastname)?></a>
     </div>
   </div>

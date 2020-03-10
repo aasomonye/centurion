@@ -2,54 +2,28 @@
     <ul class="dropdown-menu megamenu-content" role="menu">
         <li>
             <div class="row">
-                <div class="col-menu col-md-3">
-                    <h6 class="title">Apartment</h6>
+                {$index = 0;}
+                @fetch ('property_types' as 'ptype')
+                <div class="col-menu col-md-3" style="margin-bottom:20px">
+                    <h6 class="title">{$ptype->propertytype}</h6>
                     <div class="content">
                         <ul class="menu-col">
-                            <li><a $href="apartments">All <em class="pull-right">(0)</em></a></li>
-                            <li><a href="">Demo</a></li>
-                            <li><a href="">Demo</a></li>
-                            <li><a href="">Demo</a></li>
-                            <li><a $href="apartments"><i class="fa fa-plus"></i> Discover more</a></li>
+                            {$type = strtolower($ptype->propertytype);}
+                            {$props = $this->query->getPropertiesWithType($ptype->property_typeid);}
+                            <li><a $shref="property-$type">All <em class="pull-right">({count($props)})</em></a></li>
+                            <li php-for="$row in $props" limit="4">
+                                {$info = json_decode($row->listing_information);}
+                                <a $shref="list/$info->property_name/$row->listingid">
+                                    {ucwords($info->property_name)}
+                                </a>
+                            </li>
+                            <li><a $shref="property-$type"><i class="fa fa-plus"></i> Discover more</a></li>
                         </ul>
                     </div>
                 </div><!-- end col-3 -->
-                <div class="col-menu col-md-3">
-                    <h6 class="title">Condo</h6>
-                    <div class="content">
-                        <ul class="menu-col">
-                            <li><a $href="apartments">All <em class="pull-right">(0)</em></a></li>
-                            <li><a href="">Demo</a></li>
-                            <li><a href="">Demo</a></li>
-                            <li><a href="">Demo</a></li>
-                            <li><a $href="apartments"><i class="fa fa-plus"></i> Discover more</a></li>
-                        </ul>
-                    </div>
-                </div><!-- end col-3 -->
-                <div class="col-menu col-md-3">
-                    <h6 class="title">Duplex House</h6>
-                    <div class="content">
-                        <ul class="menu-col">
-                            <li><a $href="apartments">All <em class="pull-right">(0)</em></a></li>
-                            <li><a href="">Demo</a></li>
-                            <li><a href="">Demo</a></li>
-                            <li><a href="">Demo</a></li>
-                            <li><a $href="apartments"><i class="fa fa-plus"></i> Discover more</a></li>
-                        </ul>
-                    </div>
-                </div>    
-                <div class="col-menu col-md-3">
-                    <h6 class="title">House</h6>
-                    <div class="content">
-                        <ul class="menu-col">
-                            <li><a $href="apartments">All <em class="pull-right">(0)</em></a></li>
-                            <li><a href="">Demo</a></li>
-                            <li><a href="">Demo</a></li>
-                            <li><a href="">Demo</a></li>
-                            <li><a $href="apartments"><i class="fa fa-plus"></i> Discover more</a></li>
-                        </ul>
-                    </div>
-                </div><!-- end col-3 -->
+                <div class="clearfix" php-if="$index == 3 || $index == 9"></div>
+                {$index++;}
+                @endfetch
             </div><!-- end row -->
         </li>
     </ul>

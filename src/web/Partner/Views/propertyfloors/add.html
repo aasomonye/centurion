@@ -1,0 +1,54 @@
+<form action="" method="POST" enctype="multipart/form-data">
+	@csrf;
+	<main class="card">
+		<section class="card-header">
+			<h3 class="card-title">Floor information</h3>
+		</section>
+	
+		<section class="card-body">
+			<div class="row">
+				<div class="col-12">
+					<div class="post">
+	
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="">Floor</label>
+								<hy>
+									<FormField name="property_floor" icon="fa-door-open">eg. first floor</FormField>
+								</hy>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="">Floor number</label>
+								<hy>
+									<FormField name="property_floor_number" type="number" icon="fa-door-open">eg. 1</FormField>
+								</hy>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						
+
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="">Floor Description</label>
+								<hy>
+									<FormField name="property_floor_description" icon="fa-comment" type="textarea">A short description about this floor</FormField>
+								</hy>
+							</div>
+						</div>
+					</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<button class="btn btn-success" type="submit">Submit</button>
+</form>
+
+<br>
+<br>

@@ -20,7 +20,7 @@ if (!class_exists('Moorexa\SysPath'))
             'comp'   => 'utility/Components/',
             'system' => 'system/',
             'public' => 'public/',
-            'kernel' => 'kernel/',
+            'kernel' => 'build/',
             'root'   => './',
             'utility' => 'utility/'
         ];
@@ -85,7 +85,7 @@ if (!class_exists('Moorexa\SysPath'))
             {
                 case true:
                     // read config.xml
-                    $config = simplexml_load_file('kernel/Config/config.xml');
+                    $config = simplexml_load_file('build/Config/config.xml');
                     $mode = (array) $config->versioning->attributes()->mode;
                     $mode = $mode[0];
                     
@@ -162,7 +162,7 @@ if (!class_exists('Moorexa\SysPath'))
                     }
                     else
                     {
-                        $xml = simplexml_load_file(HOME . 'kernel/Config/config.xml');
+                        $xml = simplexml_load_file(PATH_TO_CONFIG . 'config.xml');
                         $cont = $xml->router->defaul->controller;
                         $server['REQUEST_QUERY_STRING'] = $cont .'/'. $last;
                     }

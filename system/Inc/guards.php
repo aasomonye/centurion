@@ -22,6 +22,8 @@ class Guards
     private static $configuration = [];
     private $tableAuthID = 0;
     private static $loadedConfiguration = [];
+    private static $ignoreList = [];
+    private static $loadedGuardFiles = [];
 
     public function __construct()
     {
@@ -117,181 +119,61 @@ class Guards
                 // convert data to array
                 $data = explode('@', $data);
                 $data[1] = isset($data[1]) ? $data[1] : null;
+
                 // get handler and method
                 list($class, $meth) = $data;
 
                 // $dataReceived
                 $dataReceived = [];
 
-                // manage handler
-                foreach($this->paths as $k => $dir)
+                if (self::allow(implode("@", $data)))
                 {
-                    // get file path
-                    $file = deepScan($dir, $class.'.php');
-
-                    if (strlen($file) > 0 && is_file($file))
+                    // manage handler
+                    foreach($this->paths as $k => $dir)
                     {
-                        // include auth file
-                        include_once($file);
+                        // get file path
+                        $file = deepScan($dir, $class.'.php');
 
-                        $allow = null;
-                        $controller = null;
-                        $allowAllExcept = null;
-
-
-                        $class = basename($class);
-
-                        if (strpos($class, 'Guard') === false)
+                        if (strlen($file) > 0 && is_file($file))
                         {
-                            $class .= '.Guard';
-                        }
+                            // include auth file
+                            include_once($file);
 
-                        $class = ucwords(str_replace(".", ' ', $class));
-                        $class = preg_replace('/[\s]{1,}/', '', $class);
+                            $allow = null;
+                            $controller = null;
+                            $allowAllExcept = null;
 
-                        if (class_exists($class))
-                        {
-                            if (!is_null($meth))
+
+                            $class = basename($class);
+
+                            if (strpos($class, 'Guard') === false)
                             {
-                                if (!isset(self::$allhandlers[$class]))
+                                $class .= '.Guard';
+                            }
+
+                            $class = ucwords(str_replace(".", ' ', $class));
+                            $class = preg_replace('/[\s]{1,}/', '', $class);
+
+                            if (class_exists($class))
+                            {
+                                if (!is_null($meth))
                                 {
-                                    // create instance
-                                    $const = [];
-                                    Bootloader::$instance->getParameters($class, '__construct', $const, $other);
-
-                                    $ref = new \ReflectionClass($class);
-
-                                    $instance = $ref->newInstanceArgs($const);
-
-                                    self::$allhandlers[$class] = $instance;
-                                }
-                                else
-                                {
-                                    $instance =& self::$allhandlers[$class];
-                                }
-
-                                if (property_exists($instance, 'allow'))
-                                {
-                                    $allow = $instance->allow;
-                                }
-
-                                if (property_exists($instance, 'allowAllExcept'))
-                                {
-                                    $allowAllExcept = $instance->allowAllExcept;
-                                }
-
-                                $continue = true;
-
-                                if (!is_null($controller))
-                                {
-                                    $all = explode(',', $controller);
-                                    foreach($all as $i => $pa)
+                                    if (!isset(self::$allhandlers[$class]))
                                     {
-                                        if (trim($pa) == trim($this->routes[0]))
-                                        {
-                                            $continue = true;
-                                        }
-                                        else
-                                        {
-                                            $continue = false;
-                                        }
-                                    }
-                                }
+                                        // create instance
+                                        $const = [];
+                                        Bootloader::$instance->getParameters($class, '__construct', $const, $other);
 
-                                if (!is_null($allowAllExcept))
-                                {
-                                    if (is_array($allowAllExcept))
-                                    {
-                                        $url = $this->routes;
-                                        foreach ($allowAllExcept as $i => $exe)
-                                        {
-                                            $len = count(explode('/', $exe));
-                                            $extr = array_splice($url, 0, $len);
-                                            $extr = implode('/', $extr);
-                                            $url = $this->routes;
+                                        $ref = new \ReflectionClass($class);
 
-                                            $quote = preg_quote($extr, '/');
+                                        $instance = $ref->newInstanceArgs($const);
 
-                                            if (preg_match("/($quote)/i", $exe))
-                                            {
-                                                $continue = true;
-                                                break;
-                                            }
-                                            else
-                                            {
-                                                $continue = false;
-                                            }
-                                        }
-                                    }
-                                }
-
-                                if (!is_null($allow))
-                                {
-                                    if (is_array($allow))
-                                    {
-                                        $url = $this->routes;
-
-                                        foreach ($allow as $i => $exe)
-                                        {
-                                            $len = count(explode('/', $exe));
-                                            $extr = array_splice($url, 0, $len);
-                                            $extr = implode('/', $extr);
-
-                                            $url = $this->routes;
-
-                                            $quote = preg_quote($extr, '/');
-
-                                            if (preg_match("/($quote)/i", $exe))
-                                            {
-                                                $continue = false;
-                                                break;
-                                            }
-                                        }
-                                    }
-                                }
-
-                                if ($continue)
-                                {
-                                    if (method_exists($instance, $meth))
-                                    {
-                                        Bootloader::$instance->getParameters($instance, $meth, $const, $other);
-
-                                        // make reference
-                                        $args = [];
-
-                                        foreach ($const as $index => $value)
-                                        {
-                                            if ($value != null)
-                                            {
-                                                $args[] = &$const[$index];
-                                            }
-                                        }
-
-                                        $return = call_user_func_array([$instance, $meth], $args);
-
-                                        // update
                                         self::$allhandlers[$class] = $instance;
-
-                                        $dataReceived[$meth] = $return;
                                     }
                                     else
                                     {
-                                        $this->failed[] = "Method '$meth' doesn't exists in Class '$class'";
+                                        $instance =& self::$allhandlers[$class];
                                     }
-                                }
-                            }
-                            else
-                            {
-                                $ref = new \ReflectionClass($class);
-
-                                if ($ref->isInstantiable())
-                                {
-                                    // create instance
-                                    $const = [];
-                                    Bootloader::$instance->getParameters($class, '__construct', $const, $other);
-
-                                    $instance = $ref->newInstanceArgs($const);
-
 
                                     if (property_exists($instance, 'allow'))
                                     {
@@ -375,43 +257,167 @@ class Guards
 
                                     if ($continue)
                                     {
-                                        self::$allhandlers[$class] = $instance;
-                                        return $instance;
-                                    }
-                                    else
-                                    {
-                                        $this->disallow = true;
-                                    }
+                                        if (method_exists($instance, $meth))
+                                        {
+                                            Bootloader::$instance->getParameters($instance, $meth, $const, $other);
 
-                                    return $this;
+                                            // make reference
+                                            $args = [];
+
+                                            foreach ($const as $index => $value)
+                                            {
+                                                if ($value != null)
+                                                {
+                                                    $args[] = &$const[$index];
+                                                }
+                                            }
+
+                                            $return = call_user_func_array([$instance, $meth], $args);
+
+                                            // update
+                                            self::$allhandlers[$class] = $instance;
+
+                                            $dataReceived[$meth] = $return;
+                                        }
+                                        else
+                                        {
+                                            $this->failed[] = "Method '$meth' doesn't exists in Class '$class'";
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    $ref = new \ReflectionClass($class);
+
+                                    if ($ref->isInstantiable())
+                                    {
+                                        // create instance
+                                        $const = [];
+                                        Bootloader::$instance->getParameters($class, '__construct', $const, $other);
+
+                                        $instance = $ref->newInstanceArgs($const);
+
+
+                                        if (property_exists($instance, 'allow'))
+                                        {
+                                            $allow = $instance->allow;
+                                        }
+
+                                        if (property_exists($instance, 'allowAllExcept'))
+                                        {
+                                            $allowAllExcept = $instance->allowAllExcept;
+                                        }
+
+                                        $continue = true;
+
+                                        if (!is_null($controller))
+                                        {
+                                            $all = explode(',', $controller);
+                                            foreach($all as $i => $pa)
+                                            {
+                                                if (trim($pa) == trim($this->routes[0]))
+                                                {
+                                                    $continue = true;
+                                                }
+                                                else
+                                                {
+                                                    $continue = false;
+                                                }
+                                            }
+                                        }
+
+                                        if (!is_null($allowAllExcept))
+                                        {
+                                            if (is_array($allowAllExcept))
+                                            {
+                                                $url = $this->routes;
+                                                foreach ($allowAllExcept as $i => $exe)
+                                                {
+                                                    $len = count(explode('/', $exe));
+                                                    $extr = array_splice($url, 0, $len);
+                                                    $extr = implode('/', $extr);
+                                                    $url = $this->routes;
+
+                                                    $quote = preg_quote($extr, '/');
+
+                                                    if (preg_match("/($quote)/i", $exe))
+                                                    {
+                                                        $continue = true;
+                                                        break;
+                                                    }
+                                                    else
+                                                    {
+                                                        $continue = false;
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        if (!is_null($allow))
+                                        {
+                                            if (is_array($allow))
+                                            {
+                                                $url = $this->routes;
+
+                                                foreach ($allow as $i => $exe)
+                                                {
+                                                    $len = count(explode('/', $exe));
+                                                    $extr = array_splice($url, 0, $len);
+                                                    $extr = implode('/', $extr);
+
+                                                    $url = $this->routes;
+
+                                                    $quote = preg_quote($extr, '/');
+
+                                                    if (preg_match("/($quote)/i", $exe))
+                                                    {
+                                                        $continue = false;
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        if ($continue)
+                                        {
+                                            self::$allhandlers[$class] = $instance;
+                                            return $instance;
+                                        }
+                                        else
+                                        {
+                                            $this->disallow = true;
+                                        }
+
+                                        return $this;
+
+                                    }
 
                                 }
-
                             }
+                            else
+                            {
+                                $this->failed[] = "Class '{$class}' doesn't exists in $file";
+                            }
+
                         }
                         else
                         {
-                            $this->failed[] = "Class '{$class}' doesn't exists in $file";
+                            $this->failed[] = 'Guard handler '. $dir . $class .' not found!';
                         }
 
+                        // reset paths
+                        $this->paths = [];
+
                     }
-                    else
+
+                    if (count($dataReceived) > 0)
                     {
-                        $this->failed[] = 'Guard handler '. $dir . $class .' not found!';
-                    }
-
-                    // reset paths
-                    $this->paths = [];
-
-                }
-
-                if (count($dataReceived) > 0)
-                {
-                    foreach ($dataReceived as $meth => $sent)
-                    {
-                        if (!is_null($sent))
+                        foreach ($dataReceived as $meth => $sent)
                         {
-                            return $sent;
+                            if (!is_null($sent))
+                            {
+                                return $sent;
+                            }
                         }
                     }
                 }
@@ -429,6 +435,53 @@ class Guards
         }
 
         return $this;
+    }
+
+    // allow handler
+    public static function allow()
+    {
+        $allow = true;
+
+        // get list of 'allows'
+        $allows = func_get_args();
+
+        // get ignore list
+        $ignoreList = self::$ignoreList;
+
+        foreach ($allows as $handler)
+        {
+            foreach ($ignoreList as $ignore)
+            {
+                if ($ignore == $handler)
+                {
+                    $allow = false;
+                    break;
+                }
+                else
+                {
+                    // find in handler
+                    if (strpos($handler, $ignore) !== false)
+                    {
+                        $allow = false;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return $allow;
+    }
+
+    // ignore handler
+    public static function ignore()
+    {
+        // get all ignore list
+        $ignoreList = func_get_args(); 
+
+        array_map(function($class)
+        {
+            self::$ignoreList[] = $class;
+        }, $ignoreList);
     }
 
     public static function handler($name)
@@ -480,6 +533,37 @@ class Guards
 
     public function __call($meth, $args)
     {
+        // check if class exists
+        $guardFile = PATH_TO_UTILITY . 'Guards/' . $meth . '.php';
+
+        if (file_exists($guardFile))
+        {
+            $className = ucfirst($meth) . 'Guard';
+
+            if (!isset(self::$loadedGuardFiles[$className]))
+            {
+                self::$loadedGuardFiles[$className] = $this; // 
+
+                // load class
+                include_once $guardFile;
+
+                if (class_exists($className))
+                {
+                    // create instance
+                    $const = [];
+                    Bootloader::$instance->getParameters($className, '__construct', $const, $args);
+
+                    $ref = new \ReflectionClass($className);
+
+                    $instance = $ref->newInstanceArgs($const);
+
+                    self::$loadedGuardFiles[$className] = $instance;
+                }
+            }
+
+            return self::$loadedGuardFiles[$className];
+        }
+
         if ($this->disallow)
         {
             return false;
@@ -503,6 +587,12 @@ class Guards
         self::$configuration[$this->tableAuthID] = $configuration;
 
         return $this;
+    }
+
+    // has method 
+    public function hasMethod(string $methodName)
+    {
+        return isset(self::$loadedConfiguration[$this->tableAuthID][$methodName]) ? self::$loadedConfiguration[$this->tableAuthID][$methodName] : false;
     }
 
     private function getMethodValue(string $method)

@@ -1,0 +1,62 @@
+<div class="card">
+	<div class="card-header">
+		<h3 class="card-title">Partners list</h3>
+	</div>
+
+	<div class="card-body">
+		<table id="example1" class="table table-bordered table-striped">
+			<thead>
+			<tr>
+			  <th>Business Name</th>
+			  <th>Contact Phone</th>
+			  <th>Contact Address</th>
+			  <th>Contact Email</th>
+			  <th>Status</th>
+			  <th>Action</th>
+			</tr>
+			</thead>
+
+			<tbody>
+				{$partners = $this->query->getAllPartners(); $json = [];}
+				@fetch ($partners as 'partner')
+					<tr>
+						<td>{$partner->business_name}</td>
+						<td>{$partner->contact_phone}</td>
+						<td>{$partner->contact_address}</td>
+						<td>{$partner->contact_email}</td>
+						<td>
+							@if ($partner->verified == 0)
+								<span class="badge badge-warning">not verified</span>
+							@elseif ($partner->verified == 2)
+								<span class="badge badge-danger">declined</span>
+							@else
+								<span class="badge badge-success">verified</span>
+							@endif
+						</td>
+						<td>
+							{$info = $partner->from('users_information', 'userid')->get();}
+
+							@php
+								$json[$partner->userid] = [
+									'business' => $partner->row(),
+									'info' => $info->row()
+								];
+							@endphp	
+
+							<button class="badge badge-info" data-toggle="modal" data-userid="{$partner->userid}" data-target="#modal-{$partner->verified == 0 ? 'notverified' : 'verified'}"><i class="fa fa-eye"></i> View</button>
+						</td>
+					</tr>
+				@endfetch
+			</tbody>
+
+		</table>
+	</div>
+</div>
+
+{dropbox('json_data', $json);}
+
+@partial('partners-modal');
+
+<script type="text/deffered">
+	$('#example1').DataTable();
+</script>

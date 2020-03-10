@@ -22,11 +22,15 @@
 						<?php } ?>
 					</select>
 				</div>
-
-			<?php } else { ?>
-
+			<?php } elseif (isset($this->props->type) && $this->props->type == 'textarea') { ?>
 				<div class="input-group mb-3">
-					<input  type="<?=(isset($this->props->type) ? $this->props->type : 'text')?>" name="<?=$this->props->name?>" class="form-control" placeholder="<?=$this->props->children?>"  value="<?=((isset($this->props->value) && strlen($this->props->value) > 0 ? $this->props->value : $this->getVal($this->props->name)))?>" required="">
+					<textarea class="form-control" name="<?=$this->props->name?>" placeholder="<?=$this->props->children?>" :=""><?=(isset($this->props->value) && strlen($this->props->value) > 0 ? $this->props->value : $this->getVal($this->props->name))?></textarea>
+				</div>
+				<span class="has-error" style="position:relative; top:-10px;"><?=$this->getError($this->props->name)?></span>
+			<?php } else { ?>
+				<div class="input-group mb-3">
+					<?php $required = isset($this->props->required) && $this->props->required == 'no' ? '' : 'required';?>
+					<input  type="<?=(isset($this->props->type) ? $this->props->type : 'text')?>" name="<?=$this->props->name?>" data-accept="<?=isset($this->props->accept) ? $this->props->accept : '*'?>" class="form-control" placeholder="<?=$this->props->children?>"  value="<?=((isset($this->props->value) && strlen($this->props->value) > 0 ? $this->props->value : $this->getVal($this->props->name)))?>" required="">
 					<div class="input-group-append">
 						<div class="input-group-text">
 							<span class="fas <?=$this->props->icon?>"></span>
@@ -75,6 +79,6 @@
 
 	public static function ___cacheData()
 	{
-	  return "dd0580e2e8242b6ad4b7ea5e2069a33c";
+	  return "cd7af62113c8941e47bba340a1c4ea6f";
 	}
 	}

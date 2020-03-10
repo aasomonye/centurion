@@ -1,0 +1,29 @@
+<?php $facilities = (\Moorexa\Bootloader::$currentClass)->query->getAllRoomFacilities();?>
+<div class="row facility-room-list" data-add-index="class" id="facility-room-list">
+<?php
+$facilities = $facilities;if ($facilities->rows > 0){
+$facilities->reset();while ($facility = $facilities->obj())
+{ ?>
+    <?php if($facility->parentid == 0) { ?>
+        <div class="col-md-6">
+            <h5>
+                <label for="parent-room-<?=$facility->property_facilityid?>" style="font-weight: normal;" data-add-index="for">
+                    <input type="checkbox" id="parent-room-<?=$facility->property_facilityid?>" data-add-index="id" data-checkbox-trigger="<?=$facility->property_facilityid?>" data-parent-trigger="facility-room-list" data-add-rowid="true" name="room[facility][<?=$facility->property_facilityid?>]"/> <?=ucfirst($facility->facility)?>
+                </label>
+            </h5>
+            <ul>
+                <?php $children = (\Moorexa\Bootloader::$currentClass)->query->getAllChildrenFacilities($facility->property_facilityid);?>
+                <?php
+$children = $children;if ($children->rows > 0){
+$children->reset();while ($child = $children->obj())
+{ ?>
+                    <li>
+                        <label for="child-room-<?=$child->property_facilityid?>" data-add-index="for" style="font-weight: normal;">
+                            <input type="checkbox" id="child-room-<?=$child->property_facilityid?>" data-add-index="id" data-checkbox-child="<?=$facility->property_facilityid?>"  name="room[facility][<?=$facility->property_facilityid?>][<?=$child->property_facilityid?>]" data-add-rowid="true"/> <?=ucfirst($child->facility)?>
+                        </label>
+                    </li>
+                <?php }} ?>
+            </ul>
+        </div>
+    <?php } ?>
+<?php }} ?>

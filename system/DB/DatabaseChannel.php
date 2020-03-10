@@ -1,5 +1,6 @@
 <?php
 namespace system\DB;
+use Moorexa\DB;
 
 class DatabaseChannel
 {

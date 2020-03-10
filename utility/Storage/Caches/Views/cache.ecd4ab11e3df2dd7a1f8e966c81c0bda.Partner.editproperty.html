@@ -1,0 +1,205 @@
+<form action="" method="POST" enctype="multipart/form-data">
+	<?=\Moorexa\Rexa::runDirective(true,'csrf')?>
+	<?php $info = json_decode($listinginfo->listing_information);?>
+	<main class="card">
+		<section class="card-header">
+			<h3 class="card-title">Property information</h3>
+		</section>
+	
+		<section class="card-body">
+			<div class="row">
+				<div class="col-12">
+					<div class="post">
+	
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="">Property Address</label>
+								<?php
+	$ecdcdcaefbbacd = $info->property_address;
+$edbdbbacc= <<<EOT
+
+									<FormField name="property_address" icon="fa-book" value="$ecdcdcaefbbacd">eg. property address</FormField>
+								
+EOT;
+	echo \Hyphe\Engine::ParseTags($edbdbbacc, './component/Directives/');
+	?>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="">Property Type</label>
+								<div class="input-group mb-3">
+									<select name="property_type" class="form-control select2" required>
+										<option value="">Please select</option>
+										<?php
+$property_types = \Moorexa\DB::sql('SELECT * FROM '.(\Moorexa\DB::getTableName('property_types')).' ');if ($property_types->rows > 0){
+while ($type = $property_types->obj())
+{ ?>
+										<?php $selected = $info->property_type == $type->property_typeid ? 'selected' : '';?>
+										<option value="<?=$type->property_typeid?>" <?=$selected?>><?=ucfirst($type->propertytype)?></option>
+										<?php }} ?>
+									</select>
+									<div class="input-group-append">
+										<div class="input-group-text">
+											<span class="fas fa-building"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<label>About Property</label>
+							<?php
+	$cfebdbcdefebd = $info->about_property;
+$bdbbfceafadabbe= <<<EOT
+
+								<FormField name="about_property" type="textarea" icon="fa-comment" value="$cfebdbcdefebd">Property description</FormField>
+							
+EOT;
+	echo \Hyphe\Engine::ParseTags($bdbbfceafadabbe, './component/Directives/');
+	?>
+						</div>
+					</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<main class="card">
+		<section class="card-header">
+			<h3 class="card-title">Cover Image</h3>
+		</section>
+
+		<section class="card-body">
+			<input class="form-control" name="cover_image" type="file" accept="image/*">
+		</section>
+	</main>
+
+	<main class="card">
+		<section class="card-header card-header-flex">
+			<h3 class="card-title">Property Rules</h3> 
+		</section>
+	
+		<section class="card-body">
+			<div class="row">
+				<div class="col-5 col-sm-3">
+				  <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
+					<?php $parent = (\Moorexa\Bootloader::$currentClass)->query->getPropertyRuleParent(); $index = 0; $parentInfo = [];?>
+	
+					<?php
+$parent = $parent;if ($parent->rows > 0){
+$parent->reset();while ($row = $parent->obj())
+{ ?>
+						<a class="nav-link <?=$index == 0 ? 'active' : ''?>" id="vert-tabs-<?=$index?>-tab" data-toggle="pill" href="#vert-tabs-<?=$index?>" role="tab" aria-controls="vert-tabs-<?=$index?>" aria-selected="false"><?=ucwords($row->property_rule_title)?></a>
+						<?php $parentInfo[$index] = ['haschild' => (\Moorexa\Bootloader::$currentClass)->query->propertyListHasChild($row->property_ruleid), 'id' => $row->property_ruleid];?>
+						<?php $index++;?>
+					<?php }} ?>
+	
+				  </div>
+				</div>
+				<div class="col-7 col-sm-9">
+				  <div class="tab-content" id="vert-tabs-tabContent">
+					<?php $rules = toArray($info->property_rule);?>
+					
+					<?php for ($identity = 0; $identity < $index; $identity++) { ?>
+						<div class="tab-pane text-left fade <?=$identity == 0 ? 'active show' : ''?>" id="vert-tabs-<?=$identity?>" role="tabpanel" aria-labelledby="vert-tabs-<?=$identity?>-tab">
+							<?php if($parentInfo[$identity]['haschild']) { ?>
+								<?php $val = (\Moorexa\Bootloader::$currentClass)->query->getPropertyListVal($parentInfo[$identity]['id']);?>
+								<?php $child = (\Moorexa\Bootloader::$currentClass)->query->getPropertyRuleChildren($parentInfo[$identity]['id']);?>
+								<div class="row">
+									<?php
+$child = $child;if ($child->rows > 0){
+$child->reset();while ($row = $child->obj())
+{ ?>
+										<!-- check box -->
+										<?php $childRuleChecked = isset($rules[$val->property_rule_title][$row->property_ruleid]) ? 'checked' : '';?>
+										<div class="col-md-4">
+											<label for="checkbox-<?=$row->property_ruleid?>" style="font-weight: normal;">
+											<input type="checkbox" <?=$childRuleChecked?> id="checkbox-<?=$row->property_ruleid?>" name="property_rule[<?=$val->property_rule_title?>][<?=$row->property_ruleid?>]"/> <span> <?=ucfirst($row->property_rule_title)?></span>
+											</label>
+										</div>
+									<?php }} ?>
+								</div>
+							<?php } else { ?>
+								<?=\Moorexa\Rexa::runDirective(true,'partial','property-rule-with-id-'.$parentInfo[$identity]['id'], ['id' => $parentInfo[$identity]['id'], 'info' => $info])?>
+							<?php } ?>
+						</div>
+					<?php } ?>
+				  </div>
+				</div>
+			</div>
+		</section>
+	</main>
+
+
+	<main class="card">
+		<section class="card-header">
+			<h3 class="card-title">Property Images</h3>
+		</section>
+
+		<section class="card-body">
+			<?=\Moorexa\Rexa::runDirective(true,'partial','file-upload-element', ['name' => 'property_images'])?>
+			<?php 
+ // PHP starts here 
+
+				$fileImage = [];
+				foreach ($images as $image) :
+					$fileImage[] = basename($image);
+				endforeach;
+			
+ // PHP ends here 
+ ?>
+			<input type="hidden" name="property_images_copy" value="<?=implode(',', $fileImage)?>"/>
+		</section>
+	</main>
+
+	
+
+	<main class="card">
+		<section class="card-header card-header-flex">
+			<h3 class="card-title">Property Facilities</h3>
+		</section>
+	
+		<section class="card-body">
+			<?php $facilities = (\Moorexa\Bootloader::$currentClass)->query->getAllParentFacilities();?>
+			<?php $rowFacility = toArray($info->facility);?>
+
+			<div class="row facility-list">
+				<?php
+$facilities = $facilities;if ($facilities->rows > 0){
+$facilities->reset();while ($facility = $facilities->obj())
+{ ?>
+					<div class="col-md-3">
+						<h5>
+							<label for="parent-<?=$facility->property_facilityid?>" style="font-weight: normal;">
+								<?php $parentChecked = isset($rowFacility[$facility->property_facilityid]) ? 'checked' : '';?>
+								<input type="checkbox" <?=$parentChecked?> id="parent-<?=$facility->property_facilityid?>" data-checkbox-trigger="<?=$facility->property_facilityid?>" data-parent-trigger="facility-list" name="facility[<?=$facility->property_facilityid?>]"/> <?=ucfirst($facility->facility)?>
+							</label>
+						</h5>
+						<ul>
+							<?php $children = (\Moorexa\Bootloader::$currentClass)->query->getAllChildrenFacilities($facility->property_facilityid);?>
+							<?php
+$children = $children;if ($children->rows > 0){
+$children->reset();while ($child = $children->obj())
+{ ?>
+								<li>
+									<?php $childChecked = isset($rowFacility[$facility->property_facilityid][$child->property_facilityid]) ? 'checked' : '';?>
+									<label for="child-<?=$child->property_facilityid?>" style="font-weight: normal;">
+										<input type="checkbox" <?=$childChecked?> id="child-<?=$child->property_facilityid?>" data-checkbox-child="<?=$facility->property_facilityid?>"  name="facility[<?=$facility->property_facilityid?>][<?=$child->property_facilityid?>]"/> <?=ucfirst($child->facility)?>
+									</label>
+								</li>
+							<?php }} ?>
+						</ul>
+					</div>
+				<?php }} ?>
+			</div>
+		</section>
+	</main>
+
+	<button class="btn btn-success" type="submit">Update</button>
+</form>
+
+<br>
+<br>

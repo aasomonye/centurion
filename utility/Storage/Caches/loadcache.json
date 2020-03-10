@@ -190,5 +190,157 @@
     ".\/platform\/web\/\/Dashboard\/Views\/profile.html": {
         "hash": "12113a2564bfbe215f2ccb5b3183858f",
         "path": "utility\/Storage\/Caches\/Views\/cache.f45082e125461c8117a3f29012d83774.Dashboard.profile.html"
+    },
+    ".\/src\/web\/\/App\/Views\/home.html": {
+        "hash": "cd9604434c2c9daaf0ef5a3e85762d91",
+        "path": "utility\/Storage\/Caches\/Views\/cache.d5d1bd7a5c1ac4d6941d09b0fb4bcb89.App.home.html"
+    },
+    ".\/src\/web\/\/PageError\/Views\/error404.html": {
+        "hash": "555f1898854a76a876b47003ddfd6e79",
+        "path": "utility\/Storage\/Caches\/Views\/cache.e84963cc03c6bdce703f0d7196bc4484.PageError.error404.html"
+    },
+    ".\/src\/web\/\/App\/Views\/account\/login.html": {
+        "hash": "347f9706cc6a0b2d893de28bb35f95de",
+        "path": "utility\/Storage\/Caches\/Views\/cache.a0a8863f945ca20f8cc9a139b23eeda3.App.login.html"
+    },
+    ".\/src\/web\/\/Dashboard\/Custom\/header.html": {
+        "hash": "1e6b23439aa5d368f8e53c62cfa22dc9",
+        "path": "utility\/Storage\/Caches\/Headers\/cache.ccae52fd21223aa22ed31217ff04bbea.Dashboard.header.html"
+    },
+    ".\/src\/web\/\/Dashboard\/Views\/home.html": {
+        "hash": "d41d8cd98f00b204e9800998ecf8427e",
+        "path": "utility\/Storage\/Caches\/Views\/cache.59e68fef09456ef1c36cc9d3e49e676f.Dashboard.home.html"
+    },
+    ".\/src\/web\/\/Dashboard\/Custom\/footer.html": {
+        "hash": "2e856fcbedd114305735ec23f41315b1",
+        "path": "utility\/Storage\/Caches\/Footers\/cache.1e950198d0f5710c9b590c63c519088e.Dashboard.footer.html"
+    },
+    ".\/src\/web\/\/Admin\/Views\/users.html": {
+        "hash": "613efdd396ffa64fab51c29d29e49f8e",
+        "path": "utility\/Storage\/Caches\/Views\/cache.1ae7e025c8923285356765b80162c7ad.Admin.users.html"
+    },
+    ".\/src\/web\/\/Admin\/Views\/dashboard.html": {
+        "hash": "d41d8cd98f00b204e9800998ecf8427e",
+        "path": "utility\/Storage\/Caches\/Views\/cache.390f5feb240e8582d4b740f1cc7653c1.Admin.dashboard.html"
+    },
+    ".\/src\/web\/\/Dashboard\/Views\/profile.html": {
+        "hash": "12113a2564bfbe215f2ccb5b3183858f",
+        "path": "utility\/Storage\/Caches\/Views\/cache.77d28a2f123f21c2621b26aa507fd51b.Dashboard.profile.html"
+    },
+    ".\/src\/web\/\/Customer\/Views\/dashboard.html": {
+        "hash": "d41d8cd98f00b204e9800998ecf8427e",
+        "path": "utility\/Storage\/Caches\/Views\/cache.3112df8a8ce24a6010a63fc70cd7a8a6.Customer.dashboard.html"
+    },
+    ".\/src\/web\/\/Customer\/Views\/becomeapartner.html": {
+        "hash": "49a56469a216c6f2e90aa9b488814ae7",
+        "path": "utility\/Storage\/Caches\/Views\/cache.47c8ef0c433aa803e001efe88530e407.Customer.becomeapartner.html"
+    },
+    ".\/src\/web\/\/Admin\/Views\/partners.html": {
+        "hash": "0cb4403247b2dc34cf437e4b3ccd80fa",
+        "path": "utility\/Storage\/Caches\/Views\/cache.bb1aecfc65be9a373213ee8bb062ba49.Admin.partners.html"
+    },
+    ".\/src\/web\/\/Partner\/Views\/dashboard.html": {
+        "hash": "90d295cc824d0bbcf6decb3261a61ffa",
+        "path": "utility\/Storage\/Caches\/Views\/cache.c223bcb00c117d4fe247b43f209f7c81.Partner.dashboard.html"
+    },
+    ".\/src\/web\/\/Partner\/Views\/partner\/listing\/property.html": {
+        "hash": "26550275e30f6156ec4eede53223ccfa",
+        "path": "utility\/Storage\/Caches\/Views\/cache.5dbf5f401021681b5449522a71ef3bb2.Partner.property.html"
+    },
+    ".\/src\/web\/\/Partner\/Views\/partner\/listing\/cars.html": {
+        "hash": "58514210b17c3db678d6465f3450b4b9",
+        "path": "utility\/Storage\/Caches\/Views\/cache.1fc2d1168c7aabc3d2ab4480b76c6aa3.Partner.cars.html"
+    },
+    ".\/src\/web\/\/Partner\/Views\/partner\/listing.html": {
+        "hash": "28c7ef6549523d99d58d5b4411c68dd3",
+        "path": "utility\/Storage\/Caches\/Views\/cache.db943b8e6ba39adf81e1508de5891ef1.Partner.listing.html"
+    },
+    ".\/src\/web\/\/Partner\/Views\/partner\/listing\/property\/list.html": {
+        "hash": "4f9a3eec4abf9278ac6a1182f84733d7",
+        "path": "utility\/Storage\/Caches\/Views\/cache.17cd94251702856604206c307e07ff51.Partner.list.html"
+    },
+    ".\/src\/web\/\/Partner\/Views\/home.html": {
+        "hash": "b370ba5c1f05bd94666cbbb468a8d5cf",
+        "path": "utility\/Storage\/Caches\/Views\/cache.0c1eda24fc0bc85a280fef3900b0873b.Partner.home.html"
+    },
+    ".\/src\/web\/\/Partner\/Views\/partner\/listing\/propertyListing\/edit.html": {
+        "hash": "2a0929f5b5ecc8c3328e8adc07fa37a2",
+        "path": "utility\/Storage\/Caches\/Views\/cache.7ac449fe2d21c38c5984b33f1cc9efda.Partner.edit.html"
+    },
+    ".\/src\/web\/\/Partner\/Views\/partner\/listing\/property\/Listing\/edit.html": {
+        "hash": "f53a85ca1665d1015632c61ad2f0c43b",
+        "path": "utility\/Storage\/Caches\/Views\/cache.4fc355b36237687f7146740fe68bd847.Partner.edit.html"
+    },
+    ".\/src\/web\/\/Partner\/Views\/partner\/listing\/property\/edit.html": {
+        "hash": "530e6d5c6eea36c6f240692b98b8650b",
+        "path": "utility\/Storage\/Caches\/Views\/cache.61e8262e16ed0c254e1890a52211aa38.Partner.edit.html"
+    },
+    ".\/src\/web\/\/Admin\/Views\/listing.html": {
+        "hash": "6a19a11749f539706b395c9675c7f65e",
+        "path": "utility\/Storage\/Caches\/Views\/cache.1d60bfc0a5d7d0cce7c48e10a74804cb.Admin.listing.html"
+    },
+    ".\/src\/web\/\/Admin\/Views\/admin\/listing\/property.html": {
+        "hash": "4e7be259660dc2bd30be77ad6f04ba73",
+        "path": "utility\/Storage\/Caches\/Views\/cache.cf27ee43fdd3ce13742833fd43811434.Admin.property.html"
+    },
+    ".\/src\/web\/\/App\/Views\/account\/register.html": {
+        "hash": "56fecac76e7717ae96f674271c485cdc",
+        "path": "utility\/Storage\/Caches\/Views\/cache.066ced6e91f342c11b4b6756ba55fae3.App.register.html"
+    },
+    ".\/src\/web\/\/Dashboard\/Views\/completeregistration.html": {
+        "hash": "022a3dbc8af5d228660530dd564207d9",
+        "path": "utility\/Storage\/Caches\/Views\/cache.88cdc5b1f2998558b10494cf187f9f80.Dashboard.completeregistration.html"
+    },
+    ".\/src\/web\/\/Partner\/Views\/rooms.html": {
+        "hash": "d41d8cd98f00b204e9800998ecf8427e",
+        "path": "utility\/Storage\/Caches\/Views\/cache.9e1d25401e1374a6fb9a9d2cd9ff616b.Partner.rooms.html"
+    },
+    ".\/src\/web\/\/Partner\/Views\/partner\/rooms\/add.html": {
+        "hash": "0461ece5cc89a7592ab0d6f5a085091d",
+        "path": "utility\/Storage\/Caches\/Views\/cache.5e5350ed70140001280a12885e3beda4.Partner.add.html"
+    },
+    ".\/src\/web\/\/Partner\/Views\/partner\/rooms.html": {
+        "hash": "1c2e3dc7c6a11f704362c6bd95850c19",
+        "path": "utility\/Storage\/Caches\/Views\/cache.23102b2e0efe4710abb0ebee2d731234.Partner.rooms.html"
+    },
+    ".\/src\/web\/\/App\/Views\/carrental.html": {
+        "hash": "b1b164ded1552c3690cddd31542bc828",
+        "path": "utility\/Storage\/Caches\/Views\/cache.c84ea34f3db52c30e6b3b0bbeaffcb1a.App.carrental.html"
+    },
+    ".\/src\/web\/\/Partner\/Views\/editproperty.html": {
+        "hash": "5728c731242cf17347ed6298c2420c64",
+        "path": "utility\/Storage\/Caches\/Views\/cache.ecd4ab11e3df2dd7a1f8e966c81c0bda.Partner.editproperty.html"
+    },
+    ".\/src\/web\/\/Admin\/Views\/admin\/listing.html": {
+        "hash": "a1c4b53e7e6d43b27a6e8d98463e0b76",
+        "path": "utility\/Storage\/Caches\/Views\/cache.3d7fe5ad9942dd779507ecf4014be638.Admin.listing.html"
+    },
+    ".\/src\/web\/\/App\/Views\/account\/resetpassword.html": {
+        "hash": "d1595bd91620ecc0ba50f93e97e4d55a",
+        "path": "utility\/Storage\/Caches\/Views\/cache.1d3b46b5c6859e629c1ab1c92252e062.App.resetpassword.html"
+    },
+    ".\/src\/web\/\/App\/Views\/property.html": {
+        "hash": "d41d8cd98f00b204e9800998ecf8427e",
+        "path": "utility\/Storage\/Caches\/Views\/cache.b357b00e5982001e2215f725c7c7d11a.App.property.html"
+    },
+    ".\/src\/web\/\/App\/Views\/contact.html": {
+        "hash": "45fa34fa4c16920d071ea7bfbcfaff20",
+        "path": "utility\/Storage\/Caches\/Views\/cache.ee89f6bd157aa7749bdb7bb918f0f5ad.App.contact.html"
+    },
+    ".\/src\/web\/\/Partner\/Views\/userroles.html": {
+        "hash": "49fc8fa73a0a74022825f60c7c1fd7b2",
+        "path": "utility\/Storage\/Caches\/Views\/cache.25a23c5dbebda766daff05d9a8f805c3.Partner.userroles.html"
+    },
+    ".\/src\/web\/\/Partner\/Views\/userroles\/add.html": {
+        "hash": "606a688acc52502eba772650c35f4a8f",
+        "path": "utility\/Storage\/Caches\/Views\/cache.63f87160e7d20b5e31428e3ee089883c.Partner.add.html"
+    },
+    ".\/src\/web\/\/Partner\/Views\/propertyfloors.html": {
+        "hash": "d0754315d95147cd47994d851aa19bd6",
+        "path": "utility\/Storage\/Caches\/Views\/cache.286d3f03453e410ebf4f9541860705f4.Partner.propertyfloors.html"
+    },
+    ".\/src\/web\/\/Partner\/Views\/propertyfloors\/add.html": {
+        "hash": "8fe3ffdc8118e7472a5438e169ed0461",
+        "path": "utility\/Storage\/Caches\/Views\/cache.c0f5e7f3b7a6526326e57e5a0e3c3a0d.Partner.add.html"
     }
 }

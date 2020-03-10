@@ -29,7 +29,7 @@ SysPath::root('components', 'component');
 /**
  * extablish base path for platform directory
  */
-SysPath::root('platform', 'platform');
+SysPath::root('platform', 'src');
 
 /**
  * add path for folders in the components directory

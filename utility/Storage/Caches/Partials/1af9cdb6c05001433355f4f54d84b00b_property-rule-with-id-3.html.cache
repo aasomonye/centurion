@@ -1,0 +1,16 @@
+<?php $propertyVal = (\Moorexa\Bootloader::$currentClass)->query->getPropertyListVal($id);?>
+<?php $cancellation_policy = isset($info) ? $info->cancellation_policy : '';?>
+
+<div class="post">
+    <label>Please enter your property cancellation policy</label>
+    <?php
+	$becdcdddbfcb = $cancellation_policy;
+	$fbdddaccdddf = $propertyVal->property_rule;
+$baebaeecfaeccbfd= <<<EOT
+
+        <FormField name="cancellation_policy" value="$becdcdddbfcb" type="textarea" icon="fa-comment">$fbdddaccdddf</FormField>
+    
+EOT;
+	echo \Hyphe\Engine::ParseTags($baebaeecfaeccbfd, './component/Directives/');
+	?>
+</div>

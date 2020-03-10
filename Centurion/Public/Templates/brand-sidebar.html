@@ -17,6 +17,6 @@
     </div>
     <div class="info">
     {$user = Guards::user();}
-      <a href="#" class="d-block">{ucwords($user->firstname . ' ' . $user->lastname)}</a>
+      <a $href="dashboard/profile" class="d-block">{ucwords($user->firstname . ' ' . $user->lastname)}</a>
     </div>
   </div>

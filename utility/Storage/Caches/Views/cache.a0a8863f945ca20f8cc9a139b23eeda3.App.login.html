@@ -1,0 +1,42 @@
+<?=\Moorexa\Rexa::runDirective(true,'partial','auth-header', ['__css' => $__css])?>
+
+<?php
+	$ecdababfffeaec = url("reset-password");
+	$fdbeeceaccdfdecceeae = url("register");
+$bedfefbeaeafd= <<<EOT
+
+    <authWrapper button="Sign In" 
+    caption="Please proceed with your login details."
+    inject="nav-link" exportparts="authButton" excludeparts="socialSignup">
+
+        <FormField name="email_address" type="email" icon="fa-envelope">Email Address</FormField>
+        <FormField name="password" type="password" icon="fa-lock">Password</FormField>
+
+        <div class="row">
+            <div class="col-8">
+                <div class="icheck-primary">
+                    <input type="checkbox" id="remember" name="remember">
+                    <label for="remember">
+                        Remember Me
+                    </label>
+                </div>
+            </div>
+            exportparts.authButton
+      </div>
+
+      <nav-link>
+        <p class="mb-1">
+            <a href="$ecdababfffeaec">I forgot my password</a>
+          </p>
+          <p class="mb-0">
+            <a href="$fdbeeceaccdfdecceeae" class="text-center">Register a new membership</a>
+          </p>
+      </nav-link>
+
+    </authWrapper>
+
+EOT;
+	echo \Hyphe\Engine::ParseTags($bedfefbeaeafd, './component/Directives/');
+	?>
+
+<?=\Moorexa\Rexa::runDirective(true,'partial','auth-footer', ['__js' => $__js])?>

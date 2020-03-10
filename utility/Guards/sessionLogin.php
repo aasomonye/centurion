@@ -19,7 +19,59 @@ class SessionLoginGuard extends Guards
     public function hasSessionToken()
     {
         // perform redirection
-        $redirect = true;
+        $isloggedin = $this->isAuthenticated($authentication);
+
+        if ($isloggedin)
+        {
+            Guards::setID($authentication->userid)->setMethod(
+            [
+                'logout' => function() use ($authentication)
+                {
+                    // remove token and cookie
+                    $authentication->update([
+                        'session_token' => '',
+                        'remember_me_cookie' => ''
+                    ]);
+
+                    // manage last login
+                    $authentication->from('login_tracker', 'authenticationid')->update(['isloggedin' => 0]);
+
+                    // remove cookie
+                    if (cookie()->has('remember_me_cookie'))
+                    {
+                        // drop it
+                        cookie()->drop('remember_me_cookie');
+                    }
+
+                    // redirect user to login page
+                    $this->redir('login', 'Your logout was successful.');
+                },
+                'user' => 'users',
+                'info' => 'users_information',
+                'isLoggedin' => true,
+                'account' => function()
+                {
+                    // get user information
+                    $user = Guards::user();
+                    return $user->from('accounts', 'accountid')->get();
+                }
+            ]
+            ); 
+
+            // load diretives for accounts
+            $this->loadDirectives();
+        }
+        
+        if ($isloggedin === false)
+        {
+            $this->redir('login', 'Session expired. Please login again.');
+        }
+    }
+
+    // is authenticated
+    public function isAuthenticated(&$authentication=null)
+    {
+        $isloggedin = false; // user not loggedin
 
         if (session()->has('session.token', $token))
         {
@@ -28,10 +80,12 @@ class SessionLoginGuard extends Guards
 
             if ($authentication->rows > 0)
             {
-                $redirect = false;
+                $isloggedin = true;
             }
 
-            if ($redirect)
+            $cookieValue = null;
+
+            if ($isloggedin === false)
             {
                 if (cookie()->has('remember_me_cookie', $cookieValue))
                 {
@@ -39,58 +93,13 @@ class SessionLoginGuard extends Guards
 
                     if ($hasCookie->rows > 0)
                     {
-                        $redirect = false;
+                        $isloggedin = true;
                     }
                 }
             }
-
-            if (!$redirect)
-            {
-                Guards::setID($authentication->userid)->setMethod(
-                    [
-                        'logout' => function() use ($authentication)
-                        {
-                            // remove token and cookie
-                            $authentication->update([
-                                'session_token' => '',
-                                'remember_me_cookie' => ''
-                            ]);
-
-                            // manage last login
-                            $authentication->from('login_tracker', 'authenticationid')->update(['isloggedin' => 0]);
-
-                            // remove cookie
-                            if (cookie()->has('remember_me_cookie'))
-                            {
-                                // drop it
-                                cookie()->drop('remember_me_cookie');
-                            }
-
-                            // redirect user to login page
-                            $this->redir('login', 'Your logout was successful.');
-                        },
-                        'user' => 'users',
-                        'info' => 'users_information',
-                        'isLoggedin' => true,
-                        'account' => function()
-                        {
-                            // get user information
-                            $user = Guards::user();
-                            return $user->from('accounts', 'accountid')->get();
-                        }
-                    ]
-                );
-
-                // load diretives for accounts
-                $this->loadDirectives();
-            }
         }
 
-
-        if ($redirect)
-        {
-            $this->redir('login', 'Session expired. Please login again.');
-        }
+        return $isloggedin;
     }
 
     private function loadDirectives()

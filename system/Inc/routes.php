@@ -374,7 +374,11 @@ class Route
 				// call method
                 $const = [];
 				Bootloader::$instance->getParameters($handler, $method, $const);
-				BootMgr::methodGotCalled($request, call_user_func_array([$handler, $method], $const));
+				
+				if (\Guards::allow($request))
+				{
+					BootMgr::methodGotCalled($request, call_user_func_array([$handler, $method], $const));
+				}
 			}
 		}
 
@@ -566,6 +570,9 @@ class Route
 				// created parameters
 				$newParams = [];
 
+				// add object to parameters
+				array_push($parameters, self::$instance);
+
 				// get names
 				array_walk($params, function(\ReflectionParameter $param, $index) use (&$newParams, $parameters)
 				{
@@ -611,6 +618,8 @@ class Route
 					// success
 					// matched!
 					self::$instance->is_match = true;
+					// add route object to newparams
+					array_push($newParams, self::$instance);
 					// call callback now
 					self::getParameters($callback, $const, $newParams);
 					$data = call_user_func_array($callback, $const);
@@ -1574,30 +1583,22 @@ class Route
 	// track page routes
 	public static function track()
 	{
-		$url = Bootloader::$helper['location.url'];
-		$cont = Bootloader::$helper['active_c'];
+		$helper = Bootloader::$helper;
+		$url 	= isset($helper['location.url']) ? $helper['location.url'] : [];
+		$cont 	= isset($helper['active_c']) ? $helper['active_c'] : null;
 
-		if (strtolower($url[0]) == strtolower($cont))
+		if ($cont != null)
 		{
-			$url = array_splice($url, 1);
-		}
+			if (strtolower($url[0]) == strtolower($cont))
+			{
+				$url = array_splice($url, 1);
+			}
 
-		$url = implode('/', $url);
-		$tracker = [];
-		session()->has('link.tracker', $tracker);
+			$url = implode('/', $url);
+			$tracker = [];
+			session()->has('link.tracker', $tracker);
 
-		if (!isset($tracker[$url]))
-		{
-			$tracker[$url] = [
-				'controller' => $cont,
-				'link' => $url
-			];
-		}
-		else
-		{
-			$keys = array_keys($tracker);
-			$first = $keys[0];
-			if ($first == $url)
+			if (!isset($tracker[$url]))
 			{
 				$tracker = [];
 				$tracker[$url] = [
@@ -1605,26 +1606,42 @@ class Route
 					'link' => $url
 				];
 			}
-		}
+			else
+			{
+				$keys = array_keys($tracker);
+				$first = $keys[0];
+				if ($first == $url)
+				{
+					$tracker = [];
+					$tracker[$url] = [
+						'controller' => $cont,
+						'link' => $url
+					];
+				}
+			}
 
-		// get last 2;
-		$tracker = array_splice($tracker, -2, 2);
-		session()->set('link.tracker', $tracker);
+			// get last 2;
+			$tracker = array_splice($tracker, -2, 2);
+			session()->set('link.tracker', $tracker);
+		}
 	}
 
 	// get previous page
 	public static function previous()
-	{
+	{	
 		if (session()->has('link.tracker', $tracker))
 		{
-			if (count($tracker) > 1)
+			if (count($tracker) > 0)
 			{
 				$keys = array_keys($tracker);
-				$firstKey = $keys[0];
-				return (object) $tracker[$firstKey];	
+				$lastKey = end($keys);
+				return (object) $tracker[$lastKey];	
 			}
 		}
 
-		return (object) ['controller' => Bootloader::$helper['active_c'], 'link' => '/'];
+		$helper = Bootloader::$helper;
+		$controller = isset($helper['active_c']) ? $helper['active_c'] : config('router.default.controller');
+
+		return (object) ['controller' => $controller, 'link' => '/'];
 	}
 }

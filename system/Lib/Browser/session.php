@@ -18,6 +18,27 @@ class Session extends Hash
         $this->session_vars = $_SESSION;
     }
 
+    // get session data
+    public function getSession($sessionKey = null)
+    {
+        $this->domain = is_null($this->domain) ? url() : $this->domain;
+        $session = isset($_SESSION[$this->domain]) ? $_SESSION[$this->domain] : [];
+
+        if (is_string($session))
+        {
+            $unserialized = unserialize($session);
+
+            if (!is_null($sessionKey) && is_array($unserialized))
+            {
+                return $unserialized[$sessionKey];
+            }
+            
+            return $unserialized;
+        }
+
+        return $session;
+    }
+
     // get session
     final public function get($key)
     {   
@@ -30,7 +51,7 @@ class Session extends Hash
         {
             $key = $this->getKey($key);
 
-            $val = $_SESSION[$key];
+            $val = $this->getSession($key);
             $val = $this->_hashVal($val);
 
             $val = unserialize($val);
@@ -88,10 +109,14 @@ class Session extends Hash
         {
             $val = serialize(['___session__data' => $val]);
         }
-            
-        $hashed = $this->_hash($val);
 
-        $_SESSION[$this->getKey($key)] = $hashed;
+        $hashed = $this->_hash($val);
+        $domainSession = $this->getSession();
+
+        $domainSession[$this->getKey($key)] = $hashed;
+
+
+        $_SESSION[$this->domain] = serialize($domainSession);
         
         return true;
     }
@@ -104,8 +129,10 @@ class Session extends Hash
             $this->domain = url();
         }
 
-        $sess = $_SESSION;
+
+        $sess = $this->getSession();
         $all = [];
+
 
         foreach ($sess as $key => $val)
         {
@@ -113,17 +140,14 @@ class Session extends Hash
 
             $hash = $this->getKey($keyv);
 
-            if (isset($_SESSION[$hash]))
+            $val = $this->_hashVal($val);
+
+            if (is_serialized($val))
             {
-                $val = $this->_hashVal($val);
-
-                if (is_serialized($val))
-                {
-                    $val = unserialize($val);	
-                }
-
-                $all[$keyv] = $val;
+                $val = unserialize($val);	
             }
+
+            $all[$keyv] = $val;
         }
 
         return $all;
@@ -147,7 +171,7 @@ class Session extends Hash
 
         if (is_string($name))
         {
-            return substr(hash('sha256', $this->domain . '/session/' . $name . '/key/' . $key), 0, 10) . '_' . $name;
+            return substr(hash('sha256', '/session/' . $name . '/key/' . $key), 0, 10) . '_' . $name;
         }
 
         return false;
@@ -156,11 +180,12 @@ class Session extends Hash
     // session has key?
     final public function has($key, &$val=null)
     {
-        if (isset($_SESSION[$this->getKey($key)]))
-        {
-            $key = $this->getKey($key);
+        $session = $this->getSession();
+        $key = $this->getKey($key);
 
-            $val = $_SESSION[$key];
+        if (isset($session[$key]))
+        {
+            $val = $session[$key];
             $val = $this->_hashVal($val);
 
             $val = unserialize($val);
@@ -205,14 +230,21 @@ class Session extends Hash
         }
 
         $keys = func_get_args();
+        $session = $this->getSession();
+
         foreach ($keys as $key => $v)
         {
             $key = $this->getKey($v);
 
-            if (isset($_SESSION[$key]))
+            if (isset($session[$key]))
             {
-                unset($_SESSION[$key]);
+                unset($session[$key]);
             }
+        }
+
+        if (is_array($session))
+        {
+            $_SESSION[$this->domain] = serialize($session);
         }
 
         return true;
@@ -225,15 +257,7 @@ class Session extends Hash
 
         if (count($all) > 0)
         {   
-            foreach ($all as $key => $val)
-            {
-                $key = $this->getKey($key);
-
-                if (isset($_SESSION[$key]))
-                {
-                    unset($_SESSION[$key]);
-                }
-            }
+            $_SESSION[$this->domain] = serialize([]);
 
             return true;
         }
@@ -258,6 +282,7 @@ class Session extends Hash
         if ($this->session_key !== false)
         {
             $v = $this->get($this->session_key);
+
             if ($val == $v)
             {
                 return true;

@@ -1,0 +1,80 @@
+<section class="card">
+    <section class="card-header card-header-flex">
+        <h3 class="card-title">Properties Listed by centurion partners</h3>
+    </section>
+    <section class="card-body">
+        <div class="table-responsive">
+            <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+				  <th>Partner</th>
+				  <th>Location</th>
+                  <th>Property</th>
+				  <th>Property Type</th>
+				  <th>Listing Type</th>
+                  <th>Rooms</th>
+                  <th>Bookings</th>
+				  <th>Status</th>
+				  <th></th>
+                </tr>
+                </thead>
+
+                <tbody>
+					{$properties = $this->query->getAllPartnerPropertyListing();}
+					
+                    @fetch ($properties as 'property')
+                    <tr>
+						{$info = json_decode($property->listing_information);}
+						{$business = $property->from('business_information', 'userid')->get();}
+						{$booking = $this->query->getListBookings($property->listingid);}
+
+						{$status = '';}
+
+                        @php
+
+                            switch ($property->approved)
+                            {
+                                case 1:
+                                    $status = 'approved';
+                                break;
+                                
+                                case 2:
+                                    $status = 'suspended';
+                                break;
+
+                                case 3:
+                                    $status = 'closed';
+                                break;
+
+                                default:
+                                    $status = 'pending';
+                            }
+
+						@endphp
+						
+						<td>{ucwords($business->business_name)}</td>
+						<td>{$business->contact_address}</td>
+                        <td><a $action="admin/property/view/$property->listingid" style="text-decoration: underline; color: #28a745;">{ucfirst($info->property_name)}</a></td>
+						<td>{$this->query->getPropertyTypeById($info->property_type)}</td>
+						<td>{ucfirst($property->listing_type)}</td>
+                        <td>{count($info->property_room_title)}</td>
+                        <td>{$booking->rows}</td>
+						<td><span php-if::class="$status == 'approved' ? 'badge badge-success' : ($status == 'suspended' ? 'badge badge-danger' : 'badge badge-warning')">{strtoupper($status)}</span></td>
+						<td>
+							<a php-if="$status == 'pending'" href="?approve={$property->listingid}" class="badge badge-success btn-flat">APPROVE</a>
+							<a php-if="$status == 'approved'" $action="admin/property/view/$property->listingid" class="badge badge-primary btn-flat">VIEW</a>
+							<a php-if="$status == 'approved' || $status == 'bookable'" href="?suspend={$property->listingid}" class="badge badge-danger btn-flat">SUSPEND</a>
+							<a php-if="$status == 'suspended'" href="?bookable={$property->listingid}" class="badge badge-success btn-flat">BOOKABLE</a>
+						</td>
+                    </tr>
+					@endfetch
+					
+                </tbody>
+            </table>
+        </div>
+    </section>
+</section>
+
+<script type="text/deffered">
+    $('#example1').DataTable();
+</script>

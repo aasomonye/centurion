@@ -18,7 +18,7 @@ class InputData
     protected $__rules__backup = [];
 
     // errors occured
-    private $errors = ['GET' => [], 'POST' => []];
+    public $errors = ['GET' => [], 'POST' => []];
 
     // flag request
     public $flagRequest = 'NONE';
@@ -670,21 +670,42 @@ class InputData
                 }
                 else
                 {
-                    $rule = $args[0];
-
-                    if ($rule[0] == '@')
+                    if (isset($args[0]))
                     {
-                        $tag = substr($rule, 1);
-                        if (isset($this->flags[$tag]))
+                        $rule = $args[0];
+
+                        if ($rule[0] == '@')
                         {
-                            $rule = $this->flags[$tag];
+                            $tag = substr($rule, 1);
+                            if (isset($this->flags[$tag]))
+                            {
+                                $rule = $this->flags[$tag];
+                            }
+                        }
+
+                        $this->rules[$key] = [
+                            'default' => isset($args[1]) ? $args[1] : null,
+                            'rule' => $rule
+                        ];
+
+                        if (isset($args[1]))
+                        {
+                            // apply rule
+                            if (!is_null($rule) && strlen($rule) > 1)
+                            {
+                                $validator = Plugins::validator([$key => $args[1]]);
+
+                                $error = [];
+
+                                $isValid = $validator->validate([$key => $rule], $error);
+
+                                if (!$isValid)
+                                {
+                                    $this->model->errors[$_SERVER['REQUEST_METHOD']][$key] = array_values($error);
+                                }
+                            }
                         }
                     }
-
-                    $this->rules[$key] = [
-                        'default' => isset($args[1]) ? $args[1] : null,
-                        'rule' => $rule
-                    ];
                 }
 
                 return $this;
@@ -756,11 +777,15 @@ class InputData
 
                 $url = \ApiManager::$getUrl;
 
-                if (!is_null($object))
-                {
-                    array_unshift($url, $object);
-                }
+                $args = func_get_args();
 
+                // start from 1
+                $args = array_splice($args, 1);
+                
+                // merge array
+                $url = array_merge($url, $args);
+
+                // move rule to first index
                 array_unshift($url, $createRules);
 
                 // get parameters
@@ -776,8 +801,11 @@ class InputData
                 // pull from storage
                 self::pullFromStorage($createRules);
 
-                // push object
-                $objNew->pushObject($object, $createRules->rules);
+                if (is_object($object) && (get_class($object) == DBPromise::class || get_class($object) == 'stdClasss'))
+                {
+                    // push object
+                    $objNew->pushObject($object, $createRules->rules);
+                }
 
                 // save rules.
                 $objNew->__rules__ = $createRules->rules;
@@ -791,6 +819,7 @@ class InputData
                     // listen for http_request
                     $objNew->listenForHttpRequest();
                 }
+                
 
                 self::$useRulesCreated[$name.'/'.$class] = $objNew;
             }
@@ -865,6 +894,16 @@ class InputData
                 }
             }
         }
+    }
+
+
+    // set value
+    public function setVal(string $ruleKey, $ruleData)
+    {
+        // set value
+        $this->__rules__[$ruleKey]['value'] = $ruleData;
+        // remove from error array
+        unset($this->errors['POST'][$ruleKey], $this->errors['GET'][$ruleKey]);
     }
 
     // pull from storage

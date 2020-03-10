@@ -78,12 +78,12 @@ class Assist
             'optional commands' => [
                 'new hy <component> -<path>'
             ],
-            'usage' => 
-            [
-                'php assist new hy <component>' => 'Generate/Overwrite and save to ./chs/',
-                'php assist new hy <component> -<path>' => 'Generate/Overwrite and save to <path>',
-                'php assist new hy <component>,<component> -<path>' => 'Generate/Overwrite and save to <path>'
-            ],
+            'usage' =>
+                [
+                    'php assist new hy <component>' => 'Generate/Overwrite and save to ./chs/',
+                    'php assist new hy <component> -<path>' => 'Generate/Overwrite and save to <path>',
+                    'php assist new hy <component>,<component> -<path>' => 'Generate/Overwrite and save to <path>'
+                ],
 
             'component naming style' => [
                 'component-body' => 'becomes ComponentBody',
@@ -97,12 +97,12 @@ class Assist
             'optional commands' => [
                 'new guard <name> -<path>'
             ],
-            'usage' => 
-            [
-                'php assist new guard <name>' => 'Generate/Overwrite and save to ./utility/Guards/',
-                'php assist new guard <name> -<path>' => 'Generate/Overwrite and save to <path>',
-                'php assist new guard <name>,<name> -<path>' => 'Generate/Overwrite and save to <path>'
-            ],
+            'usage' =>
+                [
+                    'php assist new guard <name>' => 'Generate/Overwrite and save to ./utility/Guards/',
+                    'php assist new guard <name> -<path>' => 'Generate/Overwrite and save to <path>',
+                    'php assist new guard <name>,<name> -<path>' => 'Generate/Overwrite and save to <path>'
+                ],
 
             'guard naming style' => [
                 'name' => 'becomes NameGuard',
@@ -641,7 +641,8 @@ class Assist
                 '-prod' => 'Migrate to production database',
                 '-drop' => 'Drop tables',
                 '-options'  => 'Run table options',
-                '--force' => 'Force Migration'
+                '--force' => 'Force Migration',
+                '--nocache' => 'Ignore migrating saved cached'
             ],
             'usage' => [
                 'php assist migrate',
@@ -649,6 +650,7 @@ class Assist
                 'php assist migrate -prod',
                 'php assist migrate -drop -tables=users',
                 'php assist migrate -drop',
+                'php assist migrate --nocache',
                 'php assist migrate -prod -tables=users,account',
                 'php assist migrate -options -tables=users,account',
                 'php assist migrate -tables=account,users',
@@ -674,7 +676,7 @@ class Assist
     public static $optionMapping = [
         '-h' => 'commandHelp'
     ];
-    
+
     // database query cache path
     protected static $queryCachePath = null;
 
@@ -749,25 +751,25 @@ class Assist
     // handle backups
     public static function backup()
     {
-       fwrite(STDOUT, "\0337");
-       self::out("\033[1m"."\nBackup\n");
+        fwrite(STDOUT, "\0337");
+        self::out("\033[1m"."\nBackup\n");
 
-       $dir = self::$assistPath . 'lab/Backup/';
+        $dir = self::$assistPath . 'lab/Backup/';
 
-       if (!is_dir($dir))
-       {
-           // create dir
-           self::sleep("Creating directory.");
-           mkdir($dir, 0777);
-           self::sleep("Backup folder added to lab. Path => ". $dir);
-       }
+        if (!is_dir($dir))
+        {
+            // create dir
+            self::sleep("Creating directory.");
+            mkdir($dir, 0777);
+            self::sleep("Backup folder added to lab. Path => ". $dir);
+        }
 
-       self::out("Starting backup..");
+        self::out("Starting backup..");
 
-       $i = 0;
+        $i = 0;
 
-       $complete = false;
-       $files = [];
+        $complete = false;
+        $files = [];
 
         $zip = new ZipArchive();
 
@@ -811,7 +813,7 @@ class Assist
                 fwrite(STDOUT, "\033[32m"."[". str_repeat('#', $step). str_repeat('.', 10 - $step) ."]"."\033[0m");
                 fwrite(STDOUT, "{$i}% complete");
                 fwrite(STDOUT, "\0338");
-                
+
                 if ($close == false)
                 {
                     usleep(100000);
@@ -826,9 +828,9 @@ class Assist
             fwrite(STDOUT, PHP_EOL);
         }
 
-       self::out("Backup zip file created >> "."\033[32m". $zipfile ."\n");
+        self::out("Backup zip file created >> "."\033[32m". $zipfile ."\n");
     }
-    
+
     // restore backup
     public static function restore($args)
     {
@@ -858,7 +860,7 @@ class Assist
                         break;
                     }
                 }
-                
+
                 if ($file == null)
                 {
                     $file = count($files) > 0 ? end($files) : $dir;
@@ -890,7 +892,7 @@ class Assist
                             fwrite(STDOUT, "\033[32m"."[". str_repeat('#', $step). str_repeat('.', 10 - $step) ."]"."\033[0m");
                             fwrite(STDOUT, "{$i}% complete");
                             fwrite(STDOUT, "\0338");
-                            
+
                             if ($close == false)
                             {
                                 usleep(100000);
@@ -914,7 +916,7 @@ class Assist
             {
                 self::out("\033[31m"."No backup found to restore\n");
             }
-        }   
+        }
         else
         {
             self::out("\033[31m"."No backup found to restore\n");
@@ -929,12 +931,12 @@ class Assist
         fwrite(STDOUT, $text . PHP_EOL);
         usleep(100000);
     }
-    
+
     // help method
     public static function help()
     {
         $ass = new Assist;
-        
+
         $text = 'czo5MTQ6Ijsiczo4OTY6Ik5qZE9hd3FjY21nY2dhdkJXVzRkY3RYdWl2azJ2Q2VhRVdXbDBSS04rbGx3dkZ3dE1oRjRWTVRYK3BGOGtJRXZMOHlEeFVYYVBKa2Z1WmxOemsxa2pGSmlDQVd6Y0dmMCtOS0FKc2Jqc1N0c2luWHRST05BSnlEOG1qUVRJWUVSZHNFdHlSOGdGQ3hISUt1Mk5WdTZBamVIcUpnUGJRWnN5b25jTytLRk9tcTJnMTYwZ1IzY1AyR2NCV2tGVzBvQ3lIWDRsdUkxSE9kVUN4SkIwcCtSek85TlZOcWpBZUNoZzRxRXJuS0FuakpNSHFhaWtwYU5lN282dDJJa2x2YmhDY2xUYVFXcm15ejV4b1NhSlN5cVF4VmRkR2pZUEt3aytFN2hkdjkrY1RJelBZVXVqcU5LQ2xZZ2ZRY0pYdUtJcTM1QS8va05RcGRjOFlCR0N0eWo5UXFOTFpzUUFaQWVxcGdTWlhsZG9EQllWOFhyMHQ1bk9NMWR1VFNOK1pueTlKd0xzSWlBZWpGS0ZpVk1IQWFXNTJBc21BODdWTzA2c0gvbGQ1d3A2WVNtUWE3ZncwOWNsSlRQZ05xdW5xS01PYWhhMWJjQjAvWjd3c0NianJOTzBkYndKZW1DdVVDaE9MWVY0TWhYUmpsQkV2T0J2L1VNL0dVNHpPN21KdWU0RC9aV0lnckRqLzd3ME1VL1pVSXNvcmZ2RDdWWW8vK1ZKakJRZ1dFdC93Z3haeDF3cG9RdS92c2FybjR1OGZ1NnJ5bHFkc21FNWZMV0g0WVg0anlnam4vOWJMVE1lbldKajlMeWRmdEZCSDNPc2ljSCtFYUdOUVVlOWFWNWhjSCtXZENIRkxjcUg5Z0wzUHJCSldwS2Foa3RGQTUvZ3VXd0VHaS9sTms3Tklsb0JPbWZGVWhSYlVsZm92V2dMWWRySnZWUXdGcmx0SkFnWnl6THhDMzdxcU5yZUEvemtqUzlnTVRQUUZjdU4rZStFN0hOcFpNNm9ESCtTY1I5M3E1YzVVczFyRXVvTEIwRFJmTTI2MW9TMWR6eGFxWEd6Q05yanlnMHF0OEZpVXY5Zmx2em9QQVZ5QmVVZldCWXZ6WUtqTERUMEJJaVBnNENVMHpkcndJYXpCVHVPSTVFdWlpVTZIMm5XYngrWEN3TVBEVFZ5QUZPOTZPUThJQm44algxIjsiOjUwOTpzIjs=';
 
         fwrite(STDOUT, $ass->ansii('save'));
@@ -968,7 +970,7 @@ class Assist
         {
             $code = $ass->ansii('reset');
         }
-        
+
         fwrite(STDOUT, $code . $text . $ass->ansii() . PHP_EOL);
     }
 
@@ -978,12 +980,12 @@ class Assist
         $ass = new Assist;
 
         $text = 'czo5MTQ6Ijsiczo4OTY6Ik5qZE9hd3FjY21nY2dhdkJXVzRkY3RYdWl2azJ2Q2VhRVdXbDBSS04rbGx3dkZ3dE1oRjRWTVRYK3BGOGtJRXZMOHlEeFVYYVBKa2Z1WmxOemsxa2pGSmlDQVd6Y0dmMCtOS0FKc2Jqc1N0c2luWHRST05BSnlEOG1qUVRJWUVSZHNFdHlSOGdGQ3hISUt1Mk5WdTZBamVIcUpnUGJRWnN5b25jTytLRk9tcTJnMTYwZ1IzY1AyR2NCV2tGVzBvQ3lIWDRsdUkxSE9kVUN4SkIwcCtSek85TlZOcWpBZUNoZzRxRXJuS0FuakpNSHFhaWtwYU5lN282dDJJa2x2YmhDY2xUYVFXcm15ejV4b1NhSlN5cVF4VmRkR2pZUEt3aytFN2hkdjkrY1RJelBZVXVqcU5LQ2xZZ2ZRY0pYdUtJcTM1QS8va05RcGRjOFlCR0N0eWo5UXFOTFpzUUFaQWVxcGdTWlhsZG9EQllWOFhyMHQ1bk9NMWR1VFNOK1pueTlKd0xzSWlBZWpGS0ZpVk1IQWFXNTJBc21BODdWTzA2c0gvbGQ1d3A2WVNtUWE3ZncwOWNsSlRQZ05xdW5xS01PYWhhMWJjQjAvWjd3c0NianJOTzBkYndKZW1DdVVDaE9MWVY0TWhYUmpsQkV2T0J2L1VNL0dVNHpPN21KdWU0RC9aV0lnckRqLzd3ME1VL1pVSXNvcmZ2RDdWWW8vK1ZKakJRZ1dFdC93Z3haeDF3cG9RdS92c2FybjR1OGZ1NnJ5bHFkc21FNWZMV0g0WVg0anlnam4vOWJMVE1lbldKajlMeWRmdEZCSDNPc2ljSCtFYUdOUVVlOWFWNWhjSCtXZENIRkxjcUg5Z0wzUHJCSldwS2Foa3RGQTUvZ3VXd0VHaS9sTms3Tklsb0JPbWZGVWhSYlVsZm92V2dMWWRySnZWUXdGcmx0SkFnWnl6THhDMzdxcU5yZUEvemtqUzlnTVRQUUZjdU4rZStFN0hOcFpNNm9ESCtTY1I5M3E1YzVVczFyRXVvTEIwRFJmTTI2MW9TMWR6eGFxWEd6Q05yanlnMHF0OEZpVXY5Zmx2em9QQVZ5QmVVZldCWXZ6WUtqTERUMEJJaVBnNENVMHpkcndJYXpCVHVPSTVFdWlpVTZIMm5XYngrWEN3TVBEVFZ5QUZPOTZPUThJQm44algxIjsiOjUwOTpzIjs=';
-        
+
         fwrite(STDOUT, $ass->ansii('green') . decryptAssist($text). $ass->ansii(). PHP_EOL);
         self::out($ass->ansii('bold')."History");
-        
+
         $history = "\nMoorexa started off as a personal framework late 2016 formally 'PIHYPE' by Ifeanyi Amadi for building web apps as a freelancer. He wanted enough flexibility in PHP and freedom to build without worries so he open sourced Pihype, see repo (https://github.com/xchriscode/pihype) and in 2017 he decided to make it a whole lot better and ready for enterprise apps for PHP Geeks around the world.\n\nBefore Moorexa, he had experimented with several framework architectures and interfaced with PHP developers to know what works for them and to build a strong secure system that's ready for any web application in record time.\n\nPihype was finally renamed to Moorexa and became bigger with more power. On the 23rd of April 2018 it was released for Beta Testing and had over 220 downloads and was later removed August 26th, 2018 in preperation for a stable release.\n\nMoorexa was built out of pihype for amazing possibilities on any skill level. Means beginners can build secure apps with little effort and proffessionals can just whisper and 'whoola' we have a app. \n\n";
-        
+
         self::out(wordwrap($history, 50));
 
         self::out($ass->ansii('bold')."About");
@@ -996,7 +998,7 @@ class Assist
         self::listen("Try another command, ");
         return 0;
     }
-    
+
     // clean application
     public static function clean($other)
     {
@@ -1026,7 +1028,7 @@ class Assist
                     $rootFiles[] = $x;
                 }
             }
-            
+
 
             self::sleep("({$totalDirs}) top directories found with ({$files}) files");
 
@@ -1091,7 +1093,7 @@ class Assist
                                 }
 
                                 $zip->close();
-                                
+
                             }
                         }
                     }
@@ -1101,13 +1103,13 @@ class Assist
                 fwrite(STDOUT, PHP_EOL);
 
                 self::out($ass->ansii('clean').$ass->ansii('green')."Finishing up..\n");
-                
+
                 if (($status - 1) == $files)
                 {
                     self::__rmdirs($rootDirs);
 
                     $zip = new ZipArchive();
-                    
+
                     if ($zip->open($starter))
                     {
                         $zip->extractTo(self::$assistPath);
@@ -1121,7 +1123,7 @@ class Assist
                             fwrite(STDOUT, $ass->ansii('green')."[". str_repeat('#', $step). str_repeat('.', 10 - $step) ."]".$ass->ansii());
                             fwrite(STDOUT, "{$i}% complete");
                             fwrite(STDOUT, $ass->ansii('return'));
-                            
+
                             if ($close == false)
                             {
                                 usleep(100000);
@@ -1149,7 +1151,7 @@ class Assist
                         }
                     }
                 }
-                
+
             }
             else
             {
@@ -1163,7 +1165,7 @@ class Assist
 
         return 0;
     }
-    
+
     // sub function for clean
     private static function __rmdirs($dirs, $parent = [])
     {
@@ -1218,7 +1220,7 @@ class Assist
             }
         }
     }
-    
+
     // sub function for clean
     private static function __cleandir($dir, $id, $filecount, &$rootFiles, &$status)
     {
@@ -1249,7 +1251,7 @@ class Assist
 
 
         if ($continue)
-        {   
+        {
             $ass = new Assist;
 
             if (count($flatten) > 0)
@@ -1260,7 +1262,7 @@ class Assist
                     fwrite(STDOUT, "({$track}/{$filecount}) Complete.");
                     fwrite(STDOUT, $ass->ansii('return'));
 
-                    
+
                     if (basename($path) != 'assist' && basename($path) != 'composer' && basename($path) != 'starter.zip')
                     {
                         unlink($path);
@@ -1290,7 +1292,7 @@ class Assist
                 self::__cleandir($dir, $id, $filecount, $rootFiles, $status);
             }
         }
-        
+
         return $complete;
     }
 
@@ -1351,7 +1353,7 @@ class Assist
             }
         }
     }
-    
+
     // invalid command
     public static function invalid($line, $class = 'assist', $commands = [])
     {
@@ -1384,30 +1386,30 @@ class Assist
             $command = isset($arg[0]) ? trim(strtolower($arg[0])) : null;
 
             self::out($ass->ansii('bold')."\ngenerate {$command}\n");
-  
+
             $char = range('A','Z');
             shuffle($char);
             $char2 = range('a','z');
             shuffle($char2);
-            
+
             $num = range(1,1000);
             shuffle($num);
 
-            
+
             $start = mt_rand(1,5);
             $end = mt_rand(5,10);
 
             $string = implode("",array_splice($char, $start, $end)).'-'.implode("", array_splice($char2, $start, $end));
             $string = strtoupper(str_shuffle($string));
-            
-            
+
+
             $sep = mt_rand($end, 800);
             $number = implode($sep, array_splice($num, $start, $end));
 
-            
+
             $string = str_shuffle($string.'-'.$number);
             $string = hash('sha256', $string);
-            
+
             if (function_exists('password_hash'))
             {
                 $string = password_hash(sha1(time().date('Y-m-d g:i:s').'kegen-'.$string), PASSWORD_BCRYPT);
@@ -1416,9 +1418,9 @@ class Assist
             {
                 $string = crypt(sha1(time().date('Y-m-d g:i:s').'kegen-'.$string), CRYPT_BLOWFISH);
             }
-                
+
             $key = sha1(hash('sha256', $string));
-            
+
             $content = file_get_contents(self::$assistPath . 'kernel/config.php');
 
             switch ($command)
@@ -1431,7 +1433,7 @@ class Assist
                     $content = str_replace($line, $new, $content);
                     file_put_contents(self::$assistPath . 'kernel/config.php', $content);
                     self::out("New Security Key ($key) generated ". $ass->ansii('green')."successfully.");
-                break;
+                    break;
 
                 case 'assist_token':
                 case 'assist-token':
@@ -1444,7 +1446,7 @@ class Assist
                     $content = str_replace($line, $new, $content);
                     file_put_contents(self::$assistPath . 'kernel/config.php', $content);
                     self::out("New Assist CLI Token ($key) generated ". $ass->ansii('green')."successfully.");
-                break;
+                    break;
 
                 case 'csrf-key':
                     $start = strstr($content, "'csrf_salt'");
@@ -1454,7 +1456,7 @@ class Assist
                     $content = str_replace($line, $new, $content);
                     file_put_contents(self::$assistPath . 'kernel/config.php', $content);
                     self::out("New CSRF Key ($key) generated ". $ass->ansii('green')."successfully.");
-                break;
+                    break;
 
                 default:
                     self::out($ass->ansii('red')."Command '$command' not a valid command. try (key or csrf-key)");
@@ -1463,7 +1465,7 @@ class Assist
             self::out(PHP_EOL);
         }
     }
-    
+
     // generate quick help
     public static function generateQuickHelp( $structure,  $command)
     {
@@ -1507,19 +1509,19 @@ class Assist
 
                     if (is_string($i))
                     {
-                        self::out($ass->ansii('bold').$i." : ".$ass->ansii('reset').$inf."\n"); 
+                        self::out($ass->ansii('bold').$i." : ".$ass->ansii('reset').$inf."\n");
                     }
                     else
                     {
-                        self::out("- ".$inf."\n"); 
+                        self::out("- ".$inf."\n");
                     }
-                      
+
                 }
             }
         }
         fwrite(STDOUT, "\n");
     }
-    
+
     // check if request has an option tag
     public static function hasOption($stdin, &$option, &$command)
     {
@@ -1539,7 +1541,7 @@ class Assist
                     // get command used
                     $newArray = array_splice($new, 0, 2);
                     $command = trim(implode(' ', $newArray));
-                    
+
                     if (isset(self::${$goto}[$command]))
                     {
                         $option = self::${$goto}[$command];
@@ -1559,7 +1561,7 @@ class Assist
 
         return $has;
     }
-    
+
     // call static
     public static function __callStatic($method, $args)
     {
@@ -1591,7 +1593,7 @@ class Assist
         $path = preg_replace("/^($quote)/", '', $path);
         return $path;
     }
-    
+
     // creates new page, model, packages, headers, footers etc.
 
     /** @noinspection PhpUndefinedConstantInspection */
@@ -1652,9 +1654,9 @@ class Assist
 
                                 fwrite(STDOUT, PHP_EOL);
                                 fwrite(STDOUT, $ass->ansii('bold').$ass->ansii('green')."Generating '{$page}' files..\n".PHP_EOL);
-                
+
                                 $helper = self::$assistPath . PATH_TO_PUBLIC . 'helper/';
-                
+
                                 $check .= '/';
                                 $copy = $arg;
                                 $other = array_slice($copy, 1);
@@ -1676,7 +1678,7 @@ class Assist
                                             {
                                                 case '-view':
                                                     $view = $val;
-                                                break;
+                                                    break;
                                             }
                                         }
                                         else
@@ -1688,7 +1690,7 @@ class Assist
                                         }
                                     }
                                 }
-                
+
                                 $file[] = ['main.php', $check, decryptAssist($controller)];
                                 $file[] = [$view.'Provider.php', $check . 'Providers/', decryptAssist($viewprovider)];
                                 $file[] = ['provider.php', $check, decryptAssist($provider)];
@@ -1698,13 +1700,13 @@ class Assist
                                 $file[] = [$page .'.js', $check .'Static/'];
                                 $file[] = [$page .'.css', $check .'Static/'];
                                 $file[] = ['.re', $check .'Partials/'];
-                
+
                                 foreach ($file as $i => $arr)
                                 {
                                     if (isset($arr[2]))
                                     {
                                         $cont = $arr[2];
-                
+
                                         $cont = str_replace('%className', ucfirst($page), $cont);
                                         $cont = str_replace('%cntr', ucfirst($page), $cont);
                                         $cont = str_replace('$ucall', ucfirst($page), $cont);
@@ -1712,7 +1714,7 @@ class Assist
                                         $cont = str_replace('$lcase', strtolower($page), $cont);
                                         $cont = str_replace('%viewUpper', ucfirst($view), $cont);
                                         $cont = str_replace('%view', $view, $cont);
-                                        
+
                                         $path = $arr[1]. '/' . $arr[0];
                                         $fh = fopen($path, 'w+');
                                         fwrite($fh, $cont);
@@ -1724,12 +1726,12 @@ class Assist
                                         $fh = fopen($path, 'w+');
                                         fclose($fh);
                                     }
-                                    
+
                                     $path = ltrim($path, self::$assistPath);
                                     $path = preg_replace('/[\/]{2}/','/',$path);
 
                                     self::out($ass->ansii('line').$path.$ass->ansii('reset').$ass->ansii('green')." generated!");
-                                    
+
                                     usleep(100000);
                                 }
 
@@ -1747,7 +1749,7 @@ class Assist
                                     file_put_contents($configPath, $xml);
                                 }
                             }
-                            
+
                         }
                         else
                         {
@@ -1755,7 +1757,7 @@ class Assist
                         }
                     }
 
-                break;
+                    break;
 
                 case 'hy':
                     $dir = self::getFullPath(self::$directivePath);
@@ -1773,19 +1775,19 @@ class Assist
                             $first = substr($hy, 0, $space);
                         }
                         else
-                        {   
+                        {
                             $hy = lcfirst($hy);
                             $spl = preg_split('/[A-Z]/', $hy);
                             if (count($spl) > 1)
                             {
                                 $first = $spl[0];
-                                
+
                             }
                             else
                             {
                                 $first = $hy;
                             }
-                            
+
                         }
 
                         if (strpos($hy, ' ') !== false)
@@ -1800,7 +1802,7 @@ class Assist
                         $_hy = $hy;
 
 
-                        
+
                         $path = isset($arg[2]) ? $arg[2] : null;
 
                         if (!is_null($path) && $path[0] == '-')
@@ -1820,8 +1822,8 @@ class Assist
 
                             @mkdir($dir);
                         }
-                        
-                        
+
+
                         if (is_dir($dir))
                         {
                             if ($dir != self::$assistPath . self::removeBasePath(self::$directivePath))
@@ -1832,13 +1834,13 @@ class Assist
                                 {
                                     $dir = rtrim($dir, '/') . '/' . self::removeBasePath(self::$directivePath);
                                 }
-                                else 
+                                else
                                 {
                                     $dir .= '/';
                                 }
                             }
 
-                            
+
 
                             if (is_dir($dir))
                             {
@@ -1920,12 +1922,12 @@ class Assist
                         {
                             self::out($ass->ansii('red').$message."\n");
                         }
-                        
-                        
+
+
                     }
 
                     self::out(PHP_EOL);
-                break;
+                    break;
 
                 case 'guard':
                     $dir = self::$assistPath . PATH_TO_GUARDS;
@@ -1945,18 +1947,18 @@ class Assist
                             $first = substr($guard, 0, $space);
                         }
                         else
-                        {   
+                        {
                             $spl = preg_split('/[A-Z]/', $guard);
                             if (count($spl) > 1)
                             {
                                 $first = $spl[0];
-                                
+
                             }
                             else
                             {
                                 $first = $guard;
                             }
-                            
+
                         }
 
                         $guard = xucwords($guard);
@@ -2026,7 +2028,7 @@ class Assist
                     }
 
                     self::out(PHP_EOL);
-                break;
+                    break;
 
                 case 'model':
                     $path = $arg[1];
@@ -2054,7 +2056,7 @@ class Assist
                         {
                             $model = 'czo1OTQ6Ijsiczo1NzY6IkJEU2dWV0c0MmpkMUZNZlZBcTR3bEhWMGVsamNJa29LRWlaYXc2OTBqSUZzcmxTUXoxWCsyaXdvVmdpb0ZqUW9VcDd2aXNleXVsQTdRdXVtTE1nenZvNU9qdEF4b05IVk02Uk41SUNrcHpobWYrMzQxT2xPc2FjR21Ec3BQUldTbU1RbHl5b0h0emM0MkthOVNDY2xKYlJLSlhSQ3hvVVp3TVdqVVIzc1VUVDhIUVFMQzJGbUpBK2lieFBzUmw4UlNBVkxUVEd0M0pSR1YzTWsvVThtUjNLdE1HY3kxTVBoUi93Nms4RmZxbm4wNU9ZQlZxbXRWTWtLemdNS1drcW9XbjNSNE0ybDMrc3NRRmNwV3pTa0dzTmRlVVBHNmhUS1BxNit0T3R2NnFzd1prM1ZyeHlGdVRsQnduUElwOXFaZmM3OHNOWC91VndtSTRLQnE2djhhQmU0c2ptNlJxejgwL01SSDZBNkkwdDlCVEs2dngxVC9LUjVjWGdWSzhMc29Yd01JYmpIMFMram1JdHkwQ2swTUozckdGSmtwNW1iVndpZDlORDlPZ1lFS3BhNDZtY1prUUYvNzE4N2hjWEpnQ1hBM0ttVkFFVWY2QlhUNmtHbWpsK3ZoNGFyTWtONVp0U2orNThhdXF5V29PYWJDS3Z5T0RlZUptUVE1L0gyb0htZVlmelhUeE1EY3RRRWMxUzlSNDVYcjVEWSs1RmhYb084YmJrK1NkWGIwL2dNR0FicjFvUUlqQmRmbFlIRiI7Ijo1ODU6cyI7';
                             $method = 'czo0NjY6Ijsiczo0NDg6Ik9PNWtobkZYQzIydHRhdElOeFNCUlN0MlZabzh1QS9nak84ZHQxREJpVWhnY3dDbTNIMVFZWlBKRExIaWVYc0lYSmNCSStrNXdzWUszOUxSL3RGSW9NYTk1NkRBdHhOeTYrN0MxNldlejFTLy9wU3hOeERkUFpxeUVWUFhNY05UTEc1cExXSGEvaUNYYXZFM1p5ODFjL0lxanhBOFdVVkhtOXNPVXYyTXNsRzUyNEpRQUVIalBLdk96ek9mTXBZeFRQcC9UNW80S3VGbEZsTzgvN1VZMGtDbzZKcWtBMnArMXlPQTR6TnVYMGFNU1FyNGhMa3NFcFk3WHJ5bTBERFAwNlNrWXBLVVQrcGQwaXIzSG5iS3lSWVJEZXVyeWdYUk5XSjRTYjRPNDgyZkdYMVZFREcySEZ2MzZoRDFHdklyV0ZhTFFFSFplaExSQ3Y2N2dPamllcDRTQ3FNS1MxQ0hQcTdPaEZxcVFIZnlmVDU5WlVLZXZqS2k0Qmc5djhycmNwT3ZxUEtWRnYzdWJJOHVvUmVzQjNXalhKZTR0VkRTNUtBZVBLRDhVK2krL0tCbE15UE5GcU1tdFh0SURpNCsiOyI6NzU0OnMiOw==';
-                            
+
                             $modelName = $break[1];
                             $modelName = trim(preg_replace("/[^a-zA-Z0-9\s_-]/",'', $modelName));
                             $modelName = preg_replace('/\s{1,}/','',ucwords(preg_replace('/[-]/',' ', $modelName)));
@@ -2081,7 +2083,7 @@ class Assist
 
                             if ($continue && !in_array($modelName, $private))
                             {
-                                
+
                                 $doc_c = decryptAssist($model);
                                 $doc_c = str_replace('%name', $modelName, $doc_c);
                                 $addview = false;
@@ -2106,14 +2108,14 @@ class Assist
 
                                                     $doc_c = preg_replace("/($quote)/", $with, $doc_c);
 
-                                                break;
+                                                    break;
 
                                                 case '-switchdb':
                                                     $quote = preg_quote('public $switchdb = "";');
                                                     $with = 'public $switchdb = "'.$val.'";';
 
                                                     $doc_c = preg_replace("/($quote)/", $with, $doc_c);
-                                                break;
+                                                    break;
                                             }
                                         }
                                         else
@@ -2139,7 +2141,7 @@ class Assist
                                         $doc_m = str_replace('%view', strtolower($modelName), $doc_m);
                                         $doc_m = str_replace('%page', $controller, $doc_m);
                                         $doc_m = str_replace('%path', ltrim($modelPath, self::$assistPath), $doc_m);
-                                        
+
                                         $content = file_get_contents($main);
                                         $end = strrpos($content, '}');
                                         $content = substr_replace($content, "\n".$doc_m."\n}\n// END class", $end-1);
@@ -2148,7 +2150,7 @@ class Assist
                                     }
                                 }
 
-                                $cls = null;    
+                                $cls = null;
 
                                 $fh = fopen($modelPath, 'w+');
                                 fwrite($fh, $doc_c);
@@ -2160,8 +2162,8 @@ class Assist
                                 self::out($ass->ansii('green'). "\nComplete..\n");
                                 $doc_c = null;
                                 $doc = null;
-                                
-                                
+
+
                             }
                             else
                             {
@@ -2173,7 +2175,7 @@ class Assist
                                 {
                                     self::out($ass->ansii('red'). "Operation canceled.\n");
                                 }
-                                
+
                             }
                         }
                         else
@@ -2182,7 +2184,7 @@ class Assist
                         }
                     }
 
-                break;
+                    break;
 
                 case 'vp':
                     $path = $arg[1];
@@ -2233,12 +2235,12 @@ class Assist
 
                             if ($continue)
                             {
-                                
+
                                 $doc_c = decryptAssist($viewprovider);
                                 $doc_c = str_replace('%className', ucfirst($controller), $doc_c);
                                 $doc_c = str_replace('%viewUpper', ucfirst($providerName), $doc_c);
                                 $doc_c = str_replace('%view', $providerName, $doc_c);
-                                
+
                                 $fh = fopen($providerPath, 'w+');
                                 fwrite($fh, $doc_c);
                                 fclose($fh);
@@ -2249,8 +2251,8 @@ class Assist
                                 self::out($ass->ansii('green'). "\nComplete..\n");
                                 $doc_c = null;
                                 $doc = null;
-                                
-                                
+
+
                             }
                             else
                             {
@@ -2263,7 +2265,7 @@ class Assist
                         }
                     }
 
-                break;
+                    break;
 
                 case 'apip':
                 case 'api:provider':
@@ -2273,7 +2275,7 @@ class Assist
 
                     foreach ($exp as $i => $path)
                     {
-                       
+
                         $break = explode('/', $path);
                         $handler = $break[0];
 
@@ -2309,7 +2311,7 @@ class Assist
                                     $continue = true;
                                 }
 
-                                
+
                                 if ($continue)
                                 {
                                     $uc = ucfirst($handler);
@@ -2330,7 +2332,7 @@ class Assist
                                     {
                                         $doc_c = str_replace($mask, $rep, $doc_c);
                                     }
-                                    
+
                                     $fh = fopen($providerPath, 'w+');
                                     fwrite($fh, $doc_c);
                                     fclose($fh);
@@ -2341,14 +2343,14 @@ class Assist
                                     self::out($ass->ansii('green'). "\nComplete..\n");
                                     $doc_c = null;
                                     $doc = null;
-                                    
-                                    
+
+
                                 }
                                 else
                                 {
                                     self::out($ass->ansii('red'). "Operation canceled.\n");
                                 }
-                                
+
                             }
                             else
                             {
@@ -2362,7 +2364,7 @@ class Assist
                         }
                     }
 
-                break;
+                    break;
 
                 case 'apim':
                 case 'api:model':
@@ -2372,7 +2374,7 @@ class Assist
 
                     foreach ($exp as $i => $path)
                     {
-                       
+
                         $break = explode('/', $path);
                         $handler = $break[0];
 
@@ -2405,7 +2407,7 @@ class Assist
                                 $continue = true;
                             }
 
-                            
+
                             if ($continue)
                             {
                                 $uc = ucfirst($handler);
@@ -2422,7 +2424,7 @@ class Assist
                                 {
                                     $doc_c = str_replace($mask, $rep, $doc_c);
                                 }
-                                
+
                                 $fh = fopen($modelPath, 'w+');
                                 fwrite($fh, $doc_c);
                                 fclose($fh);
@@ -2432,14 +2434,14 @@ class Assist
                                 self::out($ass->ansii('green'). "\nComplete..\n");
                                 $doc_c = null;
                                 $doc = null;
-                                
+
                             }
                             else
                             {
                                 self::out($ass->ansii('red'). "Operation canceled.\n");
                             }
-                                
-                            
+
+
                         }
                         else
                         {
@@ -2447,7 +2449,7 @@ class Assist
                         }
                     }
 
-                break;
+                    break;
 
                 case 'route':
                     $path = $arg[1];
@@ -2513,13 +2515,13 @@ class Assist
                                     $continue = true;
                                 }
                             }
-                            
-                            
+
+
                             $private = ['render', 'redir'];
 
                             if ($continue && !in_array($methodName, $private))
                             {
-                                
+
                                 $other = array_slice($arg, 2);
 
                                 if (count($other) > 0)
@@ -2534,7 +2536,7 @@ class Assist
                                         {
                                             case '-render':
                                                 $method = str_replace('@render', $val, $method);
-                                            break;
+                                                break;
                                         }
                                     }
                                 }
@@ -2563,9 +2565,9 @@ class Assist
                                 {
                                     self::out($ass->ansii('red'). "Operation canceled.\n");
                                 }
-                                
+
                             }
-                            
+
                         }
                         else
                         {
@@ -2575,10 +2577,10 @@ class Assist
 
                     self::out(PHP_EOL);
 
-                break;
+                    break;
 
                 case 'event':
-                    
+
                     $req = explode(',', $arg[1]);
                     $created = [];
 
@@ -2610,7 +2612,7 @@ class Assist
                                 $namespace = preg_replace("/\s*/", '', $namespace);
 
                                 $template = str_replace("namespace Events;", 'namespace '.$namespace.';', $template);
-                                
+
                                 mkdir($dir);
                             }
 
@@ -2620,7 +2622,7 @@ class Assist
                         $file = $root . $name . '.php';
                         $continue = true;
 
-                        
+
                         if (file_exists($file))
                         {
                             fwrite(STDOUT, "Event '$name' exists, should we overwrite? (y/n)");
@@ -2643,17 +2645,17 @@ class Assist
                             $template = str_replace('{ucase}', $ucf, $template);
                             fwrite($fh, $template);
                             fclose($fh);
-                            $created[$ucf] = $root; 
+                            $created[$ucf] = $root;
                         }
                         else
                         {
                             self::out($ass->ansii('red')."Operation Canceled\n");
                         }
-                        
+
 
                     }
 
-                    
+
                     if (count($created) > 0)
                     {
                         foreach ($created as $name => $file)
@@ -2661,11 +2663,11 @@ class Assist
                             self::out("Event '$name' generated in '$file' ".$ass->ansii('green')."successfully!\n");
                         }
                     }
-                    
+
 
                     self::out(PHP_EOL);
 
-                break;
+                    break;
 
                 case 'api':
                     $request = $arg[1];
@@ -2679,7 +2681,7 @@ class Assist
 
                         $dir = self::getFullPath(self::$apiPath) . $request;
 
-                        
+
                         if (!is_dir($dir))
                         {
                             $uc = ucfirst($request);
@@ -2732,14 +2734,14 @@ class Assist
 
                                             $temp = preg_replace("/($quote)/", $with, $temp);
 
-                                        break;
+                                            break;
 
                                         case '-switchdb':
                                             $quote = preg_quote('public $switchdb = null;');
                                             $with = 'public $switchdb = "'.$val.'";';
 
                                             $temp = preg_replace("/($quote)/", $with, $temp);
-                                        break;
+                                            break;
                                     }
                                 }
                             }
@@ -2791,8 +2793,8 @@ class Assist
                             self::out($ass->ansii('red'). "'$request' exists in api directory. Operation failed.");
                         }
                     }
-                    
-                break;
+
+                    break;
 
                 case 'middleware':
                     $req = explode(',', $arg[1]);
@@ -2851,7 +2853,7 @@ class Assist
                             $template = str_replace('{ucase}', $ucf, $template);
                             fwrite($fh, $template);
                             fclose($fh);
-                            $created[$ucf] = $root; 
+                            $created[$ucf] = $root;
                         }
                         else
                         {
@@ -2870,10 +2872,10 @@ class Assist
 
                     self::out(PHP_EOL);
 
-                break;
+                    break;
 
                 case 'table':
-                    
+
                     $dir = self::getFullPath(self::$tablePath);
 
                     $exp = explode(',', $arg[1]);
@@ -2932,7 +2934,7 @@ class Assist
                             $template = str_replace($name.'id', lcfirst($name) . 'id', $template);
                             $template = str_replace("'$name'", "'".lcfirst($name)."'", $template);
 
-                            
+
                             $continue = true;
 
                             if (file_exists($file) && !$force)
@@ -2966,7 +2968,7 @@ class Assist
                     {
                         // get schema from sql file
                         $schemaContent = file_get_contents($schema);
-                        // empty var 
+                        // empty var
                         $tables = [];
                         $tableQueries = [];
 
@@ -2976,7 +2978,7 @@ class Assist
                             foreach ($exp as $table)
                             {
                                 preg_match_all("/(CREATE TABLE ([^\s|\(]+)?)([\s]*)[\(]([\s\S]+?)([\)];)/i", $schemaContent, $matches);
-                                
+
                                 if (count($matches[0]) > 0)
                                 {
                                     foreach ($matches[2] as $index => $tableName)
@@ -2991,13 +2993,13 @@ class Assist
                                     }
                                 }
                             }
-                        }    
-                        else 
+                        }
+                        else
                         {
-                            
+
                             // find all create table queries
                             preg_match_all('/(CREATE TABLE ([^\s|\(]+)?)([\s]*)[\(]([\s\S]+?)([\)];)/i', $schemaContent, $matches);
-                            
+
                             if (count($matches[0]) > 0)
                             {
                                 foreach ($matches[2] as $index => $table)
@@ -3041,7 +3043,7 @@ class Assist
                                 $class = str_replace('@tableStatement', '"'.$query."\n\t\t".'"', $class);
                                 $class = str_replace('@tableName', $table, $class);
                                 $class = str_replace('@table', $name, $class);
-                               
+
                                 // find other queries
                                 $otherQueries = [];
 
@@ -3100,8 +3102,8 @@ class Assist
                                 }
 
                                 $class = str_replace('@otherQueries', implode("\n\t\t", $otherQueries), $class);
-                                
-                                // check if table exists 
+
+                                // check if table exists
                                 $continue = true;
 
                                 if (file_exists($tablePath) && !$force)
@@ -3126,7 +3128,7 @@ class Assist
                                 }
                                 else
                                 {
-                                    self::out($ass->ansii('red').'Skipped'.$ass->ansii('reset')." '$table'!");    
+                                    self::out($ass->ansii('red').'Skipped'.$ass->ansii('reset')." '$table'!");
                                 }
                             }
 
@@ -3137,7 +3139,7 @@ class Assist
                             self::out($ass->ansii('red')."Operation Canceled. It's possible that no tables were found in sql file or specified tables wasn't found.\n");
                         }
                     }
-                break;
+                    break;
 
                 case 'clihelper':
                 case 'cli':
@@ -3202,8 +3204,8 @@ class Assist
                             break;
                         }
                     }
-                    
-                break;
+
+                    break;
 
                 case 'provider':
                     $req = explode(',', $arg[1]);
@@ -3226,7 +3228,7 @@ class Assist
                             {
                                 case '-namespace':
                                     $namespace = ucwords($val);
-                                break;
+                                    break;
                             }
                         }
                     }
@@ -3287,7 +3289,7 @@ class Assist
                             $template = str_replace('Providers\\', 'Providers', $template);
                             fwrite($fh, $template);
                             fclose($fh);
-                            $created[$ucf] = $root; 
+                            $created[$ucf] = $root;
                         }
                         else
                         {
@@ -3305,11 +3307,11 @@ class Assist
                     }
 
                     self::out(PHP_EOL);
-                break;
+                    break;
             }
         }
     }
-    
+
     // Can add database configuration, clean database config file, set defaults.
     public static function database($arg)
     {
@@ -3335,14 +3337,14 @@ class Assist
                         $dir = self::getFullPath(PATH_TO_CONFIG . 'database.php');
                         file_put_contents($dir, $text);
                         self::sleep($dir.$ass->ansii('green')." cleaned up!\n".$ass->ansii('reset'));
-                        
+
                     }
                     else
                     {
                         // jump out
                         self::out($ass->ansii('red')."Operation cancelled successfully.");
                     }
-                break;
+                    break;
 
                 // add config
                 case 'add':
@@ -3350,10 +3352,10 @@ class Assist
 
                     $connect = isset($arg[1]) ? $arg[1] : null;
 
-                    // check if already added 
+                    // check if already added
                     $config = Moorexa\DatabaseHandler::connectionConfig($connect);
 
-                    
+
                     if ($config === false)
                     {
                         self::out($ass->ansii('line')."We just need a few information.\n");
@@ -3405,8 +3407,8 @@ class Assist
                         $config .= "\t\t'port'      => '',\n";
                         $config .= "\t\t'handler'   => 'pdo',\n";
                         $config .= "\t\t'prefix'    => '{$prefix}',\n";
-		                $config .= "\t\t'attributes'=> true,\n";
-		                $config .= "\t\t'production'=> [\n";
+                        $config .= "\t\t'attributes'=> true,\n";
+                        $config .= "\t\t'production'=> [\n";
                         $config .= "\t\t\t'driver'  =>   '{$driver}',\n";
                         $config .= "\t\t\t'host'    =>   '',\n";
                         $config .= "\t\t\t'user'    =>   '',\n";
@@ -3421,7 +3423,7 @@ class Assist
                         $dir = self::getFullPath(PATH_TO_LAB . 'Dbms/'.$connect.'.php');
 
                         $template = 'czoxOTA6IjsiczoxNzI6Ij1Fd1ExNlFwQ3JSazE1eUc1ckVScEtwYWJxRlYxRDRML1JnODMycGQrZTJTWGhuZXhCV1VKa1Y5S0pGKy80OHZnYXVuOXlrYkVEZFBNR09Ud0NRcUdWV3puM2R2bVRrUnFUeC9iR241aHdiSkJEaDdjNmVEN1ozTUxLcmV2U3Y3QlZmcGNQK1paV3RsWVN2SlRjS1RTRFUwakxFdFJjbHdva3RoQ1BHdUZ2cFYiOyI6MTgxOnMiOw==';
-                                        
+
                         if (!file_exists($dir))
                         {
                             $dbclass = ucwords(preg_replace('/[-]/', ' ', $connect));
@@ -3431,7 +3433,7 @@ class Assist
                             $template = decryptAssist($template);
                             $template = str_replace('@database-name', $dbclass, $template);
                             $template = str_replace('@database', $connect, $template);
-                            
+
                             $fh = fopen($dir, 'w+');
                             fwrite($fh, $template);
                             fclose($fh);
@@ -3481,7 +3483,7 @@ class Assist
                                             }
                                         }
 
-                                    break;
+                                        break;
                                 }
                             }
                         }
@@ -3499,14 +3501,14 @@ class Assist
                     }
 
                     fwrite(STDOUT, $ass->ansii('reset'));
-                    
-                break;
+
+                    break;
 
                 // create database
                 case 'create':
 
                     try{
-                        
+
                         $name = preg_replace('/[^a-zA-Z0-9_-]/','',$arg[1]);
                         $driver = "mysql";
                         $host = 'localhost';
@@ -3527,19 +3529,19 @@ class Assist
                                 {
                                     case '-driver':
                                         $driver = $val;
-                                    break;
+                                        break;
 
                                     case '-user':
                                         $user = $val;
-                                    break;
+                                        break;
 
                                     case '-pass':
                                         $pass = $val;
-                                    break;
+                                        break;
 
                                     case '-host':
                                         $host = $val;
-                                    break;
+                                        break;
                                 }
                             }
                         }
@@ -3600,13 +3602,13 @@ class Assist
                                 usleep(100000);
                             }
 
-                            
+
 
                             fwrite(STDOUT, "Trying to establish connection.");
                             usleep(200000);
 
                             $pdo = new PDO("{$driver}:host={$host}".$socks, $user, $pass);
-                            
+
                             if ($pdo)
                             {
                                 fwrite(STDOUT, $ass->ansii('green'). " done!" . $ass->ansii('reset') . "\n");
@@ -3627,7 +3629,7 @@ class Assist
 
 
                                 $c_db = $db->fetchAll(PDO::FETCH_ASSOC);
-                                
+
                                 if (count($c_db) > 0)
                                 {
                                     $found = false;
@@ -3692,27 +3694,27 @@ class Assist
                         {
                             self::out($ass->ansii('red'). "We currently do not support '$driver' driver.");
                         }
-                        
+
                     }
                     catch(PDOException $e)
                     {
                         self::out($ass->ansii('red'). "\n".$e->getMessage());
-                        
+
                         if (preg_match('/(access denied)/i', $e->getMessage()))
                         {
                             self::out($ass->ansii('line')."\nQuick fix\n");
                             self::out("You should try including -user=username and -pass=password to request\n");
                         }
                     }
-                    
 
-                break;
+
+                    break;
 
                 // destroy database
                 case 'destroy':
 
                     try{
-                        
+
                         $connect = isset($arg[1]) ? $arg[1] : null;
                         $name = preg_replace('/[^a-zA-Z0-9_-]/','',$connect);
                         $driver = "mysql";
@@ -3734,19 +3736,19 @@ class Assist
                                 {
                                     case '-driver':
                                         $driver = $val;
-                                    break;
+                                        break;
 
                                     case '-user':
                                         $user = $val;
-                                    break;
+                                        break;
 
                                     case '-pass':
                                         $pass = $val;
-                                    break;
+                                        break;
 
                                     case '-host':
                                         $host = $val;
-                                    break;
+                                        break;
                                 }
                             }
                         }
@@ -3811,7 +3813,7 @@ class Assist
                             usleep(200000);
 
                             $pdo = new PDO("{$driver}:host={$host}".$socks, $user, $pass);
-                            
+
                             if ($pdo)
                             {
                                 fwrite(STDOUT, $ass->ansii('green'). " done!" . $ass->ansii('reset') . "\n");
@@ -3837,7 +3839,7 @@ class Assist
 
 
                                     $c_db = $db->fetchAll(PDO::FETCH_ASSOC);
-                                    
+
                                     if (count($c_db) > 0)
                                     {
                                         $found = false;
@@ -3896,27 +3898,27 @@ class Assist
                         {
                             self::out($ass->ansii('red'). "We currently do not support '$driver' driver.");
                         }
-                        
+
                     }
                     catch(PDOException $e)
                     {
                         self::out($ass->ansii('red'). "\n".$e->getMessage());
-                        
+
                         if (preg_match('/(access denied)/i', $e->getMessage()))
                         {
                             self::out($ass->ansii('line')."\nQuick fix\n");
                             self::out("You should try including -user=username and -pass=password to request\n");
                         }
                     }
-                    
 
-                break;
+
+                    break;
 
                 // reset database
                 case 'reset':
 
                     try{
-                        
+
                         $name = preg_replace('/[^a-zA-Z0-9_-]/','',is_avail(1, $arg));
                         $driver = "mysql";
                         $host = 'localhost';
@@ -3939,23 +3941,23 @@ class Assist
                                 {
                                     case '-driver':
                                         $driver = $val;
-                                    break;
+                                        break;
 
                                     case '-user':
                                         $user = $val;
-                                    break;
+                                        break;
 
                                     case '-pass':
                                         $pass = $val;
-                                    break;
+                                        break;
 
                                     case '-host':
                                         $host = $val;
-                                    break;
+                                        break;
 
                                     case '-keep':
                                         $keep = explode(',', $val);
-                                    break;
+                                        break;
                                 }
                             }
                         }
@@ -4020,7 +4022,7 @@ class Assist
                             usleep(200000);
 
                             $pdo = new PDO("{$driver}:host={$host};dbname={$name}".$socks, $user, $pass);
-                            
+
                             if ($pdo)
                             {
                                 fwrite(STDOUT, $ass->ansii('green'). " done!" . $ass->ansii('reset') . "\n");
@@ -4041,7 +4043,7 @@ class Assist
 
 
                                 $tables = $db->fetchAll(PDO::FETCH_ASSOC);
-                                
+
 
                                 if (count($tables) > 0)
                                 {
@@ -4110,34 +4112,34 @@ class Assist
                         {
                             self::out($ass->ansii('red'). "We currently do not support '$driver' driver.");
                         }
-                        
+
                     }
                     catch(PDOException $e)
                     {
                         self::out($ass->ansii('red'). "\n".$e->getMessage());
-                        
+
                         if (preg_match('/(access denied)/i', $e->getMessage()))
                         {
                             self::out($ass->ansii('line')."\nQuick fix\n");
                             self::out("You should try including -user=username and -pass=password to request\n");
                         }
                     }
-                    
 
-                break;
+
+                    break;
 
                 // empty database tables
                 case 'empty':
 
                     try{
-                        
+
                         $name = preg_replace('/[^a-zA-Z0-9_-]/','',is_avail(1, $arg));
                         $driver = "mysql";
                         $host = 'localhost';
                         $user = 'root';
                         $pass = '';
                         $keep = [];
-                        
+
                         $other = array_slice($arg, 2);
 
                         if (count($other) > 0)
@@ -4152,23 +4154,23 @@ class Assist
                                 {
                                     case '-driver':
                                         $driver = $val;
-                                    break;
+                                        break;
 
                                     case '-user':
                                         $user = $val;
-                                    break;
+                                        break;
 
                                     case '-pass':
                                         $pass = $val;
-                                    break;
+                                        break;
 
                                     case '-host':
                                         $host = $val;
-                                    break;
+                                        break;
 
                                     case '-keep':
                                         $keep = explode(',', $val);
-                                    break;
+                                        break;
                                 }
                             }
                         }
@@ -4232,7 +4234,7 @@ class Assist
                             usleep(200000);
 
                             $pdo = new PDO("{$driver}:host={$host};dbname={$name}".$socks, $user, $pass);
-                            
+
                             if ($pdo)
                             {
                                 fwrite(STDOUT, $ass->ansii('green'). " done!" . $ass->ansii('reset') . "\n");
@@ -4253,7 +4255,7 @@ class Assist
 
 
                                 $tables = $db->fetchAll(PDO::FETCH_ASSOC);
-                                
+
 
                                 if (count($tables) > 0)
                                 {
@@ -4323,31 +4325,31 @@ class Assist
                         {
                             self::out($ass->ansii('red'). "We currently do not support '$driver' driver.");
                         }
-                        
+
                     }
                     catch(PDOException $e)
                     {
                         self::out($ass->ansii('red'). "\n".$e->getMessage());
-                        
+
                         if (preg_match('/(access denied)/i', $e->getMessage()))
                         {
                             self::out($ass->ansii('line')."\nQuick fix\n");
                             self::out("You should try including -user=username and -pass=password to request\n");
                         }
                     }
-                    
 
-                break;
+
+                    break;
 
                 case 'test':
-                    
-                break;
+
+                    break;
 
                 default:
                     try
                     {
                         $commands = ['empty', 'generate', 'drop'];
-                        
+
                         if (count($arg) > 2)
                         {
                             $table = isset($arg[1]) ? $arg[1] : null;
@@ -4378,23 +4380,23 @@ class Assist
                                     {
                                         case '-driver':
                                             $driver = $val;
-                                        break;
+                                            break;
 
                                         case '-user':
                                             $user = $val;
-                                        break;
+                                            break;
 
                                         case '-pass':
                                             $pass = $val;
-                                        break;
+                                            break;
 
                                         case '-host':
                                             $host = $val;
-                                        break;
+                                            break;
 
                                         case '-total':
                                             $total = intval($val);
-                                        break;
+                                            break;
 
                                         default:
                                             $replace[$opt] = $val;
@@ -4454,7 +4456,7 @@ class Assist
                                         self::sleep("Using '{$driver}' driver.\n");
 
                                         $socks = null;
-                                        
+
                                         if (!$ass->iswin())
                                         {
                                             // get socket
@@ -4483,7 +4485,7 @@ class Assist
                                                 fwrite(STDOUT, $ass->ansii('red'). " failed!" . $ass->ansii('reset') . "\n");
                                                 self::sleep("Couldn't find unix socket for '$driver'");
                                             }
-                                            
+
                                             usleep(100000);
                                         }
 
@@ -4503,7 +4505,7 @@ class Assist
                                     $dropUsed = false;
 
                                     if ($pdo)
-                                    {   
+                                    {
                                         if ($freash)
                                         {
                                             fwrite(STDOUT, $ass->ansii('green'). " done!" . $ass->ansii('reset') . "\n");
@@ -4549,7 +4551,7 @@ class Assist
                                                     {
                                                         self::sleep("Table droped, empty table ".$ass->ansii('red')."failed!\n");
                                                     }
-                                                break;
+                                                    break;
 
                                                 case 'drop':
                                                     $drop = $pdo->query($query['drop'].$table);
@@ -4565,7 +4567,7 @@ class Assist
                                                     {
                                                         self::sleep("Drop {$name}.{$table} ".$ass->ansii('red')."failed!\n".$ass->ansii('reset'));
                                                     }
-                                                break;
+                                                    break;
 
                                                 case 'generate':
                                                     if (!$dropUsed)
@@ -4577,7 +4579,7 @@ class Assist
                                                     {
                                                         self::sleep("Table droped, generate dummy data ".$ass->ansii('red')."failed!\n");
                                                     }
-                                                break;
+                                                    break;
                                             }
                                         }
 
@@ -4602,7 +4604,7 @@ class Assist
                         {
                             $other = array_slice($arg, 1);
                             $continue = false;
-                            
+
                             if (count($other) > 0)
                             {
                                 $dbfile = self::getFullPath(PATH_TO_CONFIG . 'database.php');
@@ -4664,23 +4666,23 @@ class Assist
                                                 self::out(PHP_EOL);
                                             }
 
-                                        break;
+                                            break;
                                     }
                                 }
                             }
-                            
+
 
                             if (!$continue)
                             {
                                 self::out($ass->ansii('red'). "\nOperation ended.. run php assist database -h for guide.. \n".PHP_EOL);
                             }
-                            
+
                         }
                     }
                     catch(PDOException $e)
                     {
                         self::out($ass->ansii('red'). "\n".$e->getMessage());
-                        
+
                         if (preg_match('/(access denied)/i', $e->getMessage()))
                         {
                             self::out($ass->ansii('line')."\nQuick fix\n");
@@ -4690,13 +4692,13 @@ class Assist
             }
         }
     }
-    
+
     // generate data
     private static function _generate($range, $pdo, $column, $table, $replace)
-	{
+    {
         $ass = new Assist();
 
-		if (is_array($range))
+        if (is_array($range))
         {
             $from = intval($range[0]);
             $to = intval($range[1]);
@@ -4711,35 +4713,35 @@ class Assist
 
                 if ($query !== false)
                 {
-                     $continue = false;
+                    $continue = false;
 
-                     $structure = [];
+                    $structure = [];
 
-                     $data = $query->fetchAll(PDO::FETCH_ASSOC);
-                     foreach ($data as $i => $arr)
-                     {
-                         if (is_array($arr))
-                         {
-                             $field = $column['field'];
-                             $type = $column['type'];
-                             $key = $column['key'];
+                    $data = $query->fetchAll(PDO::FETCH_ASSOC);
+                    foreach ($data as $i => $arr)
+                    {
+                        if (is_array($arr))
+                        {
+                            $field = $column['field'];
+                            $type = $column['type'];
+                            $key = $column['key'];
 
-                             // now push into structure
-                             $length = (int) preg_replace('/[\D]/', '', $arr[$type]);
+                            // now push into structure
+                            $length = (int) preg_replace('/[\D]/', '', $arr[$type]);
 
-                             $type = preg_replace('/[\W|\d]/', '', $arr[$type]);
+                            $type = preg_replace('/[\W|\d]/', '', $arr[$type]);
 
-                             $field = $arr[$field];
+                            $field = $arr[$field];
 
-                             if ($arr[$key] != 'PRI')
-                             {
+                            if ($arr[$key] != 'PRI')
+                            {
                                 $structure[$field] = [$type, $length];
-                             }
-                         }
-                     }
+                            }
+                        }
+                    }
 
-                     if (count($structure) > 0)
-                     {
+                    if (count($structure) > 0)
+                    {
                         $data = [];
 
                         $dummy = 'Lorem dummy dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
@@ -4761,7 +4763,7 @@ class Assist
                                 $x = substr(md5($r), 0, strlen('dolor'));
 
                                 if ($type == 'char')
-                                {	
+                                {
                                     $rand = substr($word, 0, $length);
                                     $rand = str_replace('dolor', $x, $rand);
                                     $val = $rand[0];
@@ -4846,34 +4848,34 @@ class Assist
                                     $x++;
                                 }
                                 $pdo->commit();
-                                
+
                             }
                             catch(PDOException $e)
                             {
-                                
+
                             }
                             fwrite(STDOUT, $ass->ansii('return'));
                             usleep(100000);
-                            
-                            
+
+
                         }
-                        
+
                         $x -= 1;
                         fwrite(STDOUT, "({$x}/{$total}) row{$s} auto ".$ass->ansii('green')."generated!\n".$ass->ansii('reset'));
-                     }
-                     else
-                     {
+                    }
+                    else
+                    {
                         self::out("Couldn't define '$table' structure. Operation ".$ass->ansii('red')."failed!");
-                     }
+                    }
                 }
                 else
                 {
                     self::out("Generate {$to} dummy data ".$ass->ansii('red')."failed!");
-                }  
-            } 
+                }
+            }
         }
     }
-    
+
     protected static function readline()
     {
         if (PHP_OS == "WINNT")
@@ -4885,7 +4887,7 @@ class Assist
             return trim(readline());
         }
     }
-    
+
     // database table
     public static function table($arg)
     {
@@ -4909,7 +4911,7 @@ class Assist
                 case 'add':
 
                     $default = Moorexa\DatabaseHandler::$default;
-                                
+
                     $other = array_slice($arg, 2);
 
                     $migrate = false;
@@ -4934,11 +4936,11 @@ class Assist
                             {
                                 case '-database':
                                     $default = $val;
-                                break;
+                                    break;
 
                                 case '-migrate':
                                     $migrate = true;
-                                break;
+                                    break;
                             }
                         }
                     }
@@ -4967,14 +4969,14 @@ class Assist
                                 $continue = true;
                             }
                         }
-                        
+
                         if ($continue)
                         {
                             self::out($ass->ansii('green')."Define table structure: run assist table add -h\n");
 
                             fwrite(STDOUT, $ass->ansii('green'). "> ". $ass->ansii('reset'));
                             $lines = [];
-                            
+
                             while($line = self::readline())
                             {
                                 if ($line == 'save')
@@ -5014,7 +5016,7 @@ class Assist
                                     if ($config !== false)
                                     {
                                         // check if database file can be found in dbms folder
-                                        
+
                                         $template = 'czoxOTA6IjsiczoxNzI6Ij1Fd1ExNlFwQ3JSazE1eUc1ckVScEtwYWJxRlYxRDRML1JnODMycGQrZTJTWGhuZXhCV1VKa1Y5S0pGKy80OHZnYXVuOXlrYkVEZFBNR09Ud0NRcUdWV3puM2R2bVRrUnFUeC9iR241aHdiSkJEaDdjNmVEN1ozTUxLcmV2U3Y3QlZmcGNQK1paV3RsWVN2SlRjS1RTRFUwakxFdFJjbHdva3RoQ1BHdUZ2cFYiOyI6MTgxOnMiOw==';
                                         $run = false;
 
@@ -5024,10 +5026,10 @@ class Assist
                                             $template = decryptAssist($template);
                                             $template = str_replace('@database-name', $dbclass, $template);
                                             $template = str_replace('@database', $default, $template);
-                                            
+
                                             $last = strrpos($template, '}');
                                             $template = substr_replace($template, $text . "\n}\n", $last);
-                                            
+
                                             $fh = fopen($dir, 'w+');
                                             fwrite($fh, $template);
                                             fclose($fh);
@@ -5049,10 +5051,10 @@ class Assist
                                         if ($migrate === true)
                                         {
                                             self::sleep($ass->ansii('line')."\nRunning Migration.\n".$ass->ansii('reset'));
-                                            
+
                                             self::runMigration([$table], $default);
                                         }
-                                        
+
                                     }
                                     else
                                     {
@@ -5077,24 +5079,24 @@ class Assist
                         {
                             self::out($ass->ansii('red')."Operation ended. Table '$table' exist in $dir..");
                         }
-                        
-                        
+
+
                     }
                     else
                     {
-                        self::out($ass->ansii('red')."Operation ended. Database configuration not found..");   
+                        self::out($ass->ansii('red')."Operation ended. Database configuration not found..");
                     }
 
                     self::out(PHP_EOL);
-                break;
+                    break;
 
-                
+
                 // drops a table
                 case 'drop':
 
                     $default = Moorexa\DatabaseHandler::$default;
-                    
-                    
+
+
                     $other = array_slice($arg, 2);
 
                     if (count($other) > 0)
@@ -5117,20 +5119,20 @@ class Assist
                             {
                                 case '-database':
                                     $default = $val;
-                                break;
+                                    break;
                             }
                         }
                     }
 
-                    
+
                     $config = Moorexa\DatabaseHandler::connectionConfig($default);
 
                     $dir = self::getFullPath(PATH_TO_LAB . 'Dbms/'.$default.'.php');
-                    
+
                     $dbclass = ucwords(preg_replace('/[-]/', ' ', $default));
                     $dbclass = preg_replace('/[\s]/','',$dbclass);
-                    
-                    
+
+
                     if ($config !== false)
                     {
                         $continue = false;
@@ -5151,7 +5153,7 @@ class Assist
                             $hasfile = false;
                         }
 
-                        
+
                         if ($continue)
                         {
                             fwrite(STDOUT, 'Are you sure you want to DROP '.$table.' (y/n)? ');
@@ -5186,7 +5188,7 @@ class Assist
                                     $body = trim(implode('',$body));
 
                                     $migration = self::getFullPath(PATH_TO_LAB . "Sql/{$struct->driver}/".$struct->databaseSource.'.sql');
-                                    
+
                                     // save and run
                                     $struct->save;
 
@@ -5200,7 +5202,7 @@ class Assist
                                     {
                                         self::out($ass->ansii('red').$e->getMessage());
                                     }
-                                
+
                                     if (count($struct->sqljob)==0)
                                     {
                                         $fh = fopen($migration, 'a+');
@@ -5286,7 +5288,7 @@ class Assist
                                     try
                                     {
                                         $run = Moorexa\DB::sql("DROP TABLE {$table}");
-                                        
+
                                         if ($run->ok)
                                         {
                                             self::out("\nTable '$table' dropped ".$ass->ansii('green')."successfully!");
@@ -5310,25 +5312,25 @@ class Assist
                             {
                                 self::out($ass->ansii('red')."Operation ended. Table '$table' does not exist..");
                             }
-                            
+
                         }
                     }
                     else
                     {
-                        self::out($ass->ansii('red')."Operation ended. Database configuration not found..");   
+                        self::out($ass->ansii('red')."Operation ended. Database configuration not found..");
                     }
 
                     self::out(PHP_EOL);
-                    
 
-                break;
-                
-                
+
+                    break;
+
+
                 // empty a table
                 case 'empty':
 
                     $default = Moorexa\DatabaseHandler::$default;
-                                    
+
                     $other = array_slice($arg, 2);
 
                     if (count($other) > 0)
@@ -5351,7 +5353,7 @@ class Assist
                             {
                                 case '-database':
                                     $default = $val;
-                                break;
+                                    break;
                             }
                         }
                     }
@@ -5375,9 +5377,9 @@ class Assist
                                 $sqlString = "TRUNCATE {$table}";
 
                                 $migration = self::getFullPath(PATH_TO_LAB . "Sql/{$driver}/".$databaseSource.'.sql');
-                                 
+
                                 $sql = $sqlString;
-                                
+
                                 try
                                 {
                                     Moorexa\DB::apply($default);
@@ -5412,7 +5414,7 @@ class Assist
 
                                     self::out($ass->ansii('red').$e->getMessage());
                                 }
-                                  
+
 
 
                             }
@@ -5424,52 +5426,52 @@ class Assist
                     }
                     else
                     {
-                        self::out($ass->ansii('red')."Operation ended. Database configuration not found..");   
+                        self::out($ass->ansii('red')."Operation ended. Database configuration not found..");
                     }
 
                     self::out(PHP_EOL);
 
-                break;
+                    break;
 
                 // show table records
                 case 'show':
                     self::sqlOperation($arg, $table, 'select');
-                break;
+                    break;
 
                 // describe table
                 case 'describe':
                     self::sqlOperation($arg, $table, 'describe');
-                break;
+                    break;
 
                 // get table rows
                 case 'rows':
                     self::sqlOperation($arg, $table, 'rows');
-                break;
+                    break;
 
                 // insert to table
                 case 'insert':
                     self::sqlOperation($arg, $table, 'insert');
-                break;
+                    break;
 
                 // update table
                 case 'update':
                     self::sqlOperation($arg, $table, 'update');
-                break;
+                    break;
 
                 // update table
                 case 'delete':
                     self::sqlOperation($arg, $table, 'delete');
-                break;
+                    break;
 
                 // show all tables
                 case 'all':
                     self::sqlOperation($arg, null, 'all');
-                break;
-                
+                    break;
+
             }
         }
     }
-    
+
     public static function sqlOperation($arg, $table, $action)
     {
         $__arg = $arg;
@@ -5509,7 +5511,7 @@ class Assist
         $default = Moorexa\DatabaseHandler::$default;
 
         $copy = $arg;
-                                    
+
         $other = array_slice($copy, 1);
 
         $driver = '';
@@ -5542,15 +5544,15 @@ class Assist
                 {
                     case '-database':
                         $default = $val;
-                    break;
+                        break;
 
                     case '-driver':
                         $driver = $val;
-                    break;
+                        break;
 
                     case '-column':
                         $column = $val;
-                    break;
+                        break;
 
                     case '-set':
                         $start = array_slice($other, ($i+1));
@@ -5564,11 +5566,11 @@ class Assist
                                 unset($other[$x+1]);
                                 break;
                             }
-                            
+
                             if ($ln == '-where=' || $ln == '-where')
                             {
                                 $start1 = array_slice($other, ($x+1));
-                                
+
                                 foreach($start1 as $y => $lnx)
                                 {
                                     if ($lnx == '-end')
@@ -5629,13 +5631,13 @@ class Assist
                                     }
                                 }
 
-                                
+
                                 $statement .= $ln.' ';
                                 unset($other[$x+1]);
                             }
                         }
                         $set = ' '.$statement;
-                    break;
+                        break;
 
                     case '-where':
                         $start = array_slice($other, ($i+1));
@@ -5674,7 +5676,7 @@ class Assist
                             }
                         }
                         $where = 'WHERE '.$statement;
-                    break;
+                        break;
 
                     case '-orderby':
                         $start = array_slice($other, ($i+1));
@@ -5693,7 +5695,7 @@ class Assist
                             }
                         }
                         $where .= ' ORDER BY '.$statement;
-                    break;
+                        break;
 
                     case '-limit':
                         $start = array_slice($other, ($i+1));
@@ -5712,11 +5714,11 @@ class Assist
                             }
                         }
                         $where .= ' LIMIT '.$statement;
-                    break;
+                        break;
 
                 }
             }
-        }   
+        }
 
         if (!empty($statement1) && $action != 'all')
         {
@@ -5793,7 +5795,7 @@ class Assist
                         $keys = array_keys($keys);
 
                         $column = $keys;
-                     
+
                         $run->reset();
 
                         $tbl = new Console_Table();
@@ -5833,11 +5835,11 @@ class Assist
                             $arr[0] = $row[0];
                             $run = Moorexa\DB::sql("SELECT * FROM {$row[0]}");
                             $arr[1] = $run->rows;
-                            
+
                             $tbl->addRow($arr);
                             $rows++;
                         }
-                        
+
                         $run->rows = $rows;
 
                         self::out($tbl->getTable());
@@ -5868,17 +5870,17 @@ class Assist
                     self::out('0 rows returned..');
                 }
             }
-            
+
         }
         else
         {
-            self::out($ass->ansii('red')."Operation ended. Database configuration not found..");   
+            self::out($ass->ansii('red')."Operation ended. Database configuration not found..");
         }
 
         self::out(PHP_EOL);
     }
 
-    // tables migrate 
+    // tables migrate
     private static function tablesMigrate($tables, $directory, $debug, $database, $drop, $options, $other)
     {
         $ass = new Assist();
@@ -5916,7 +5918,7 @@ class Assist
 
                     // get namespace
                     $content = file_get_contents($file);
-                    
+
                     // no namespace
                     $tableName = $table;
 
@@ -6010,7 +6012,7 @@ class Assist
                         $struct = new Moorexa\Structure();
                         $struct->databaseSource = $connectwith;
                         $struct->driver = Moorexa\DatabaseHandler::connectionConfig($connectwith, 'driver');
-                        
+
                         $migration = self::getFullPath(PATH_TO_LAB . "Sql/".ucfirst($struct->driver)."/".$struct->databaseSource.'.sql');
 
                         $struct->tableName = $tableName;
@@ -6037,7 +6039,7 @@ class Assist
                             {
                                 $struct->drop(function($exec, $record) use ($ins, $bl){
                                     $const = [];
-                                    $bl->getParameters($ins, 'down', $const, [$exec, $record]); 
+                                    $bl->getParameters($ins, 'down', $const, [$exec, $record]);
                                     call_user_func_array([$ins, 'down'], $const);
                                 });
                             }
@@ -6049,7 +6051,7 @@ class Assist
                             {
                                 $struct->options(function($option) use ($ins, $bl){
                                     $const = [];
-                                    $bl->getParameters($ins, 'option', $const, [$option]);  
+                                    $bl->getParameters($ins, 'option', $const, [$option]);
                                     call_user_func_array([$ins, 'option'], $const);
                                 });
                             }
@@ -6068,13 +6070,13 @@ class Assist
 
                         if (!$drop && !$options)
                         {
-                            
+
                             if ($ref->hasMethod('up'))
                             {
                                 $const = [];
 
-                                $bl->getParameters($ins, 'up', $const, [$struct]); 
-                            
+                                $bl->getParameters($ins, 'up', $const, [$struct]);
+
                                 call_user_func_array([$ins, 'up'], $const);
 
                                 $tableName = $struct->table != null ? $struct->table : $tableName;
@@ -6101,8 +6103,8 @@ class Assist
                                 $const = [];
                                 $status = 'waiting';
                                 $ins->table = $tableObject;
-                                $bl->getParameters($ins, 'promise', $const, [$status, $tableObject]); 
-                                call_user_func_array([$ins, 'promise'], $const); 
+                                $bl->getParameters($ins, 'promise', $const, [$status, $tableObject]);
+                                call_user_func_array([$ins, 'promise'], $const);
                             }
                         }
 
@@ -6115,7 +6117,7 @@ class Assist
 
                             $total = count($struct->sqljob);
                             $rows = 0;
-                            
+
                             if (count($struct->sqljob) > 0)
                             {
                                 foreach ($struct->sqljob as $i => $sql)
@@ -6125,7 +6127,7 @@ class Assist
                                         try
                                         {
                                             $run = Moorexa\DB::sql($sql);
-                                            
+
                                             $rows += $run->rows;
 
                                             if ($run->ok)
@@ -6165,7 +6167,7 @@ class Assist
                                         catch(Exception $e)
                                         {
                                             // roll back
-                                            
+
                                             $content = trim(file_get_contents($migration));
                                             $ending = strrpos($content, $sql . ";");
 
@@ -6195,7 +6197,7 @@ class Assist
 
                                 call_user_func($callback, 'complete', $db);
                             }
-                            
+
                             if (!$drop)
                             {
                                 if ($ref->hasMethod('promise'))
@@ -6205,9 +6207,9 @@ class Assist
                                     $ins->table = $tableObject;
                                     $ins->table->table = $struct->tableName;
                                     $tableObject->table = $struct->tableName;
-                                    
-                                    $bl->getParameters($ins, 'promise', $const, [$status, $tableObject]); 
-                                    call_user_func_array([$ins, 'promise'], $const); 
+
+                                    $bl->getParameters($ins, 'promise', $const, [$status, $tableObject]);
+                                    call_user_func_array([$ins, 'promise'], $const);
                                 }
                             }
 
@@ -6231,8 +6233,8 @@ class Assist
                                 {
                                     $const = [];
                                     $status = 'failed';
-                                    $bl->getParameters($ins, 'promise', $const, [$status, $tableObject]); 
-                                    call_user_func_array([$ins, 'promise'], $const); 
+                                    $bl->getParameters($ins, 'promise', $const, [$status, $tableObject]);
+                                    call_user_func_array([$ins, 'promise'], $const);
                                 }
 
                                 usleep(100000);
@@ -6244,7 +6246,7 @@ class Assist
                         }
 
                         $struct = null;
-                
+
                     }
                     else
                     {
@@ -6290,7 +6292,7 @@ class Assist
 
                 $package = new DeployProject();
                 $url = $package->remote_address;
-                
+
                 if (strlen($url) < 4)
                 {
                     $settings = new Moorexa\AppSettings();
@@ -6353,7 +6355,7 @@ class Assist
                         {
                             case '-database':
                                 $args[] = '-database';
-                            break;
+                                break;
 
                             case '-tables':
                                 if ($val !== false)
@@ -6364,7 +6366,7 @@ class Assist
                                 {
                                     $args[] = '-tables';
                                 }
-                            break;
+                                break;
 
                             case '-from':
                                 if (is_dir(self::$assistPath . $val))
@@ -6375,26 +6377,26 @@ class Assist
                                 {
                                     $args[] = '-from='.$val;
                                 }
-                            break;
+                                break;
 
                             case '-debug':
                                 $args[] = '-debug';
-                            break;
+                                break;
 
                             case '-drop':
                                 $args[] = '-drop';
-                            break;
+                                break;
 
                             case '-options':
                             case '-option':
                                 $args[] = '-option';
-                            break;
+                                break;
 
                             case '--force':
                             case '-force':
                                 $args[] = '-force';
-                            break;
-                        }   
+                                break;
+                        }
                     }
                 }
 
@@ -6408,17 +6410,17 @@ class Assist
                     curl_setopt($ch, CURLOPT_URL, $url.'/database/migrateProduction/'.implode('/', $args));
                     curl_setopt($ch, CURLOPT_POST, 1);
                     curl_setopt($ch, CURLOPT_HEADER, 0);
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
-                    curl_setopt($ch, CURLOPT_USERAGENT, $agent);   
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                    curl_setopt($ch, CURLOPT_USERAGENT, $agent);
                     curl_setopt($ch, CURLOPT_HTTPHEADER,array('Content-Type: multipart/form-data',
-                    "Assist-Cli-Token: ".Moorexa\Bootloader::$instance->boot('assist_token'),
-                    'Accept: text/html,'.$mime.',application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-                    'Accept-Language: en-US,en;q=0.5',
-                    'Cache-Control: max-age=0',
-                    'Connection: keep-alive',
-                    'Host: '.$host,
-                    'Upgrade-Insecure-Requests: 1',
-                    'User-Agent: '.$agent));   
+                        "Assist-Cli-Token: ".Moorexa\Bootloader::$instance->boot('assist_token'),
+                        'Accept: text/html,'.$mime.',application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                        'Accept-Language: en-US,en;q=0.5',
+                        'Cache-Control: max-age=0',
+                        'Connection: keep-alive',
+                        'Host: '.$host,
+                        'Upgrade-Insecure-Requests: 1',
+                        'User-Agent: '.$agent));
                     curl_setopt($ch, CURLOPT_TIMEOUT, 86400);
                     curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
 
@@ -6461,28 +6463,129 @@ class Assist
     // push migration
     private static function pushMigration($dbInstance, $driver, $table, &$success=0)
     {
-        if (!defined('RUN_MIGRATION'))
+        if (!defined('IGNORE_SAVECACHE'))
         {
-            define('RUN_MIGRATION', true);
-        }
-        
-        // get handler
-        $handler = Moorexa\DatabaseHandler::$connectWith;
+            if (!defined('RUN_MIGRATION'))
+            {
+                define('RUN_MIGRATION', true);
+            }
 
-        if (!is_null(self::$queryCachePath))
-        {
-            $dbInstance->queryCachePath = self::$queryCachePath;
+            // get handler
+            $handler = Moorexa\DatabaseHandler::$connectWith;
+
+            if (!is_null(self::$queryCachePath))
+            {
+                $dbInstance->queryCachePath = self::$queryCachePath;
+            }
+
+            // run query
+            $dbInstance->runSaveCacheStatements($table, $driver, $handler);
         }
+    }
+
+    // run production migration
+    private static function runProductionMigration($arg)
+    {
+        self::out(PHP_EOL);
+
+        // set your live url
+        $liveUrl = \Moorexa\UrlConfig::$prod_live_url;
         
-        // run query
-        $dbInstance->runSaveCacheStatements($table, $driver, $handler);
+        // get object
+        $ass = new Assist();
+
+        self::sleep('Running migration on production server');
+
+        if ($liveUrl != '')
+        {
+            // get tables
+            $tables = $arg;
+
+            // start connection
+            self::sleep($ass->ansii('green').'Connecting to'. $ass->ansii('reset').' '.$liveUrl);
+
+            // get assist token
+            $token = env('bootstrap', 'assist_token');
+
+            // no zema
+            $noZema = false;
+
+            // no default
+            $noDefault = false;
+
+            foreach ($tables as $index => $value)
+            {
+                switch(strtolower($value))
+                {
+                    case '-nodefault':
+                    case '-noglob':
+                    case '-noglobal':
+                        $noDefault = true;
+                        unset($tables[$index]);
+                    break;
+
+                    case '--prod':
+                    case '-prod':
+                        unset($tables[$index]);
+                    break;
+                }
+            }
+
+            $tables = implode(' ', $tables);
+            if (strlen($tables) > 2)
+            {
+                $tables = ' '.$tables;
+            }
+
+            // build url
+            $urls = [
+                'global' => "migrate".$tables
+            ];
+
+            $http = WekiWork\Http::createInstance();
+            
+            // run query
+            foreach ($urls as $scope => $command)
+            {
+                $continue = false;
+
+                switch ($scope)
+                {
+                    case 'global':
+                        if ($noDefault === false)
+                        {
+                            $continue = true;
+                        }
+                    break;
+                }
+
+                if ($continue)
+                {
+                    self::sleep($ass->ansii('green').'Staging Migration on '. $ass->ansii('reset').' '.$liveUrl.'?command='.$command);
+                    // execute query
+                    $response = $http->header("assist-cli-token: {$token}")->query(['command' => $command])->get($liveUrl);
+                    self::sleep($ass->ansii('green').'Running Migration for '.$scope.'..'. $ass->ansii('reset').' Receiving response from server...');
+                    self::sleep('=== Response ===');
+                    self::sleep($response->text);
+                }
+            }
+
+            self::out(PHP_EOL);
+            
+        }
+        else
+        {
+            self::out(PHP_EOL.$ass->ansii('red').'Could not proceed. LiveURL not configured in '. Moorexa\UrlConfig::class);
+        }
+
+        self::out(PHP_EOL);
     }
 
     // migration
     public static function migrate($arg)
     {
         $ass = new Assist();
-        $command = isset($arg[0]) ? trim(strtolower($arg[0])) : null; 
+        $command = isset($arg[0]) ? trim(strtolower($arg[0])) : null;
 
         $default = Moorexa\DatabaseHandler::$default;
         $tablesMigrate = true;
@@ -6499,7 +6602,7 @@ class Assist
         }
 
         $_command = isset($arg[0]) ? $arg[0] : null;
-                                
+
         $other = array_slice($arg, 0);
 
         $tables = [];
@@ -6542,7 +6645,15 @@ class Assist
                     case '-database':
                         $default = $val;
                         $database = $val;
-                    break;
+                        break;
+
+                    case '--nocache':
+                    case '-nocache':
+                        if (!defined('IGNORE_SAVECACHE'))
+                        {
+                            define('IGNORE_SAVECACHE', 1);
+                        }
+                        break;
 
                     case '-schema':
                     case '-schemas':
@@ -6551,7 +6662,7 @@ class Assist
                         {
                             $schemaList = explode(',', $val);
                         }
-                    break;
+                        break;
 
                     case '-tables':
                     case '-table':
@@ -6559,7 +6670,7 @@ class Assist
                         {
                             $tables = explode(',', $val);
                         }
-                    break;
+                        break;
 
                     case '-from':
                         if (is_dir(self::$assistPath . $val))
@@ -6572,40 +6683,45 @@ class Assist
                             $usingFrom = true;
                             $fromDir = $val;
                         }
-                    break;
+                        break;
 
                     case '-debug':
                         $debug = true;
-                    break;
+                        break;
 
                     case '-drop':
                         $drop = true;
-                    break;
+                        break;
 
                     case '-options':
                     case '-option':
                         $options = true;
-                    break;
+                        break;
 
                     case '-prod':
-                    case '-remote':
-                    case '-live':
+                    case '--prod':
                         \Moorexa\DatabaseHandler::$forceProductionMode = true;
-                    break;
+                        break;
 
                     case '--force':
                     case '-force':
                         \Moorexa\Structure::$forceSQL = true;
-                    break;
+                        break;
 
                     case '--prefix':
                     case '-prefix':
                         \Moorexa\DB::prefix($val);
-                    break;
-                }   
+                        break;
+                }
             }
         }
-        
+
+
+        if (\Moorexa\DatabaseHandler::$forceProductionMode)
+        {
+            return self::runProductionMigration($other);
+        }
+
 
         if ($tablesMigrate === false && $schema === false)
         {
@@ -6617,7 +6733,7 @@ class Assist
 
                 $dbclass = ucwords(preg_replace('/[-]/', ' ', $default));
                 $dbclass = preg_replace('/[\s]/','',$dbclass);
-                
+
                 $ref = new ReflectionClass($dbclass);
 
                 if (count($ref->getMethods()) == 0)
@@ -6713,7 +6829,7 @@ class Assist
                         {
                             // get all files inside directory
                             $dr = getAllFiles($s);
-                        
+
                             $single = reduce_array($dr);
 
                             // only return file with (.sql) extension
@@ -6724,7 +6840,7 @@ class Assist
                                     $ext = stripos(basename($file), '.sql');
 
                                     if ($ext !== false && $ext == strlen(basename($file))-4)
-                                    {   
+                                    {
                                         $schemaList[time().'_'.basename($file)] = file_get_contents($file);
                                     }
                                 }
@@ -6742,7 +6858,7 @@ class Assist
                         $ext = stripos(basename($s), '.sql');
 
                         if ($ext !== false && $ext == strlen(basename($s))-4)
-                        {   
+                        {
                             $newList[time().'_'.basename($s)] = file_get_contents($s);
                         }
                     }
@@ -6758,7 +6874,7 @@ class Assist
                                 {
                                     // get all files inside directory
                                     $dr = getAllFiles($s);
-                                
+
                                     $single = reduce_array($dr);
 
                                     // only return file with (.sql) extension
@@ -6769,7 +6885,7 @@ class Assist
                                             $ext = stripos(basename($file), '.sql');
 
                                             if ($ext !== false && $ext == strlen(basename($file))-4)
-                                            {   
+                                            {
                                                 $newList[time().'_'.basename($file)] = file_get_contents($file);
                                             }
                                         }
@@ -6841,7 +6957,7 @@ class Assist
                 {
                     preg_match('/(namespace )(.*?)[;]/i', $content, $namespace);
 
-                    
+
                 }
             }
 
@@ -6889,11 +7005,11 @@ class Assist
                 {
                     self::out($ass->ansii('bold')."Operation ended. Path empty!");
                 }
-                
+
             }
             else
             {
-                self::out($ass->ansii('bold')."\nOperation ended. Database configuration not found.."); 
+                self::out($ass->ansii('bold')."\nOperation ended. Database configuration not found..");
             }
         }
 
@@ -6973,9 +7089,9 @@ class Assist
 
                     // run migration
                     $run = Moorexa\DB::sql($sql, false);
-                    
+
                     $quaries[$key] = $run->rows;
-                    
+
 
                 }, $schemaList);
 
@@ -7054,11 +7170,11 @@ class Assist
                                         }
                                         $flip = array_flip($flip);
                                         $exclude = $flip;
-                                    break;
+                                        break;
 
                                     case '-remote':
                                         $remote = true;
-                                    break;
+                                        break;
                                 }
                             }
                             else
@@ -7111,7 +7227,7 @@ class Assist
 
                         @rmdir($path);
                     }
-                    
+
                     // create directory
                     @mkdir($path);
 
@@ -7157,45 +7273,45 @@ class Assist
                             switch(strtolower($opt))
                             {
                                 case '-note':
-                                  self::out("\nAdd a note to version {$version}, type ".$ass->ansii('bold')."-save".$ass->ansii('reset')." on a newline to save and continue.\n");
-                                  $word = [];
-                                  while ($line = fgets(STDIN))
-                                  {
-                                      $close = trim(strtolower($line));
+                                    self::out("\nAdd a note to version {$version}, type ".$ass->ansii('bold')."-save".$ass->ansii('reset')." on a newline to save and continue.\n");
+                                    $word = [];
+                                    while ($line = fgets(STDIN))
+                                    {
+                                        $close = trim(strtolower($line));
 
-                                      if ($close == '-save')
-                                      {
-                                          if (count($word) > 0)
-                                          {
-                                            foreach ($word as $i => $ln)
+                                        if ($close == '-save')
+                                        {
+                                            if (count($word) > 0)
                                             {
-                                                $word[$i] = trim($ln);
+                                                foreach ($word as $i => $ln)
+                                                {
+                                                    $word[$i] = trim($ln);
+                                                }
+                                                $word = implode("\n", $word);
+                                                $word = str_replace('-save', '', $word);
+                                                if ($remote === false)
+                                                {
+                                                    $notepath = $path . '/release-note.md';
+                                                }
+                                                else
+                                                {
+                                                    $notepath = self::$assistPath . 'release-note.md';
+                                                }
+                                                $date = "[".date('Y-m-d g:i:s a')."]\n";
+                                                $newword = $date . trim($word) . "\n";
+                                                $fo = fopen($notepath, 'a+');
+                                                fwrite($fo, $newword);
+                                                fclose($fo);
                                             }
-                                              $word = implode("\n", $word);
-                                              $word = str_replace('-save', '', $word);
-                                              if ($remote === false)
-                                              {
-                                                $notepath = $path . '/release-note.md';
-                                              }
-                                              else
-                                              {
-                                                $notepath = self::$assistPath . 'release-note.md';
-                                              }
-                                              $date = "[".date('Y-m-d g:i:s a')."]\n";
-                                              $newword = $date . trim($word) . "\n";
-                                              $fo = fopen($notepath, 'a+');
-                                              fwrite($fo, $newword);
-                                              fclose($fo);
-                                          }
-                                          break;
-                                      }
-                                      else
-                                      {
-                                          $word[] = $line;
-                                      }
-                                  }
-                                  self::out(PHP_EOL);
-                                break;
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            $word[] = $line;
+                                        }
+                                    }
+                                    self::out(PHP_EOL);
+                                    break;
                             }
                         }
                     }
@@ -7237,7 +7353,7 @@ class Assist
 
                         foreach ($dirs as $y => $f)
                         {
-                            $dr = getAllFiles($f);                                
+                            $dr = getAllFiles($f);
                             $single = reduce_array($dr);
 
                             if (count($single) > 0)
@@ -7301,7 +7417,7 @@ class Assist
                             // push
                             $url .= '?username='.$username.'&password='.$password.'&vcsmethod=push&sharedKey='.$sharedKey.'&note='.$note;
                             $upload = Moorexa\File::remoteUpload($zipfile, $url, 'pushFile');
-                            
+
                             // delete zip file
                             @unlink($zipfile);
 
@@ -7329,12 +7445,12 @@ class Assist
                             self::out($ass->ansii('red')."Operation canceled. Failed to establish connection with remote server. URL was null");
                         }
                     }
-                    
 
-                break;
+
+                    break;
 
                 case 'publish':
-                    
+
                     $ignore = ['-prod', '-dev', '-development', '-production', '-live'];
 
                     $remote = false;
@@ -7389,17 +7505,17 @@ class Assist
                                 case '-dev':
                                 case '-development':
                                     $mode = 'development';
-                                break;
+                                    break;
 
                                 case '-remote':
                                     $remote = true;
-                                break;
+                                    break;
 
                                 case '-live':
                                 case '-prod':
                                 case '-production':
                                     $mode = 'production';
-                                break;
+                                    break;
                             }
                         }
                     }
@@ -7424,41 +7540,41 @@ class Assist
                                 switch(strtolower($opt))
                                 {
                                     case '-note':
-                                    self::out("\nAdd a note to version {$action}, type ".$ass->ansii('bold')."-save".$ass->ansii('reset')." on a newline to save and continue.\n");
-                                    $word = [];
-                                    while ($line = fgets(STDIN))
-                                    {
-                                        $close = trim(strtolower($line));
+                                        self::out("\nAdd a note to version {$action}, type ".$ass->ansii('bold')."-save".$ass->ansii('reset')." on a newline to save and continue.\n");
+                                        $word = [];
+                                        while ($line = fgets(STDIN))
+                                        {
+                                            $close = trim(strtolower($line));
 
-                                        if ($close == '-save')
-                                        {
-                                            if (count($word) > 0)
+                                            if ($close == '-save')
                                             {
-                                                foreach ($word as $i => $ln)
+                                                if (count($word) > 0)
                                                 {
-                                                    $word[$i] = trim($ln);
+                                                    foreach ($word as $i => $ln)
+                                                    {
+                                                        $word[$i] = trim($ln);
+                                                    }
+                                                    $word = implode("\n", $word);
+                                                    $word = str_replace('-save', '', $word);
+
+                                                    $date = "[".date('Y-m-d g:i:s a')."]\n";
+                                                    $newword = $date . trim($word) . "\n";
+                                                    $note = $newword;
                                                 }
-                                                $word = implode("\n", $word);
-                                                $word = str_replace('-save', '', $word);
-                                                
-                                                $date = "[".date('Y-m-d g:i:s a')."]\n";
-                                                $newword = $date . trim($word) . "\n";
-                                                $note = $newword;
+                                                break;
                                             }
-                                            break;
+                                            else
+                                            {
+                                                $word[] = $line;
+                                            }
                                         }
-                                        else
-                                        {
-                                            $word[] = $line;
-                                        }
-                                    }
-                                    self::out(PHP_EOL);
-                                    break;
+                                        self::out(PHP_EOL);
+                                        break;
                                 }
                             }
                         }
                     }
-                    
+
                     if (!$remote)
                     {
                         $path = self::getFullPath(PATH_TO_VERSION . $action);
@@ -7522,7 +7638,7 @@ class Assist
                             self::out($ass->ansii('red')."Operation canceled. An error occured.");
                         }
                     }
-                break;
+                    break;
 
                 case 'rollback':
 
@@ -7553,18 +7669,18 @@ class Assist
                                 case '-development':
                                     $dev = true;
                                     $prod = false;
-                                break;
+                                    break;
 
                                 case '-live':
                                 case '-prod':
                                 case '-production':
                                     $prod = true;
                                     $dev = false;
-                                break;
+                                    break;
 
                                 case '-remote':
                                     $remote = true;
-                                break;
+                                    break;
                             }
                         }
                     }
@@ -7662,46 +7778,46 @@ class Assist
                                         switch(strtolower($opt))
                                         {
                                             case '-note':
-                                            self::out("\nAdd a note to version {$obj->set}, type ".$ass->ansii('bold')."-save".$ass->ansii('reset')." on a newline to save and continue.\n");
-                                            $word = [];
-                                            while ($line = fgets(STDIN))
-                                            {
-                                                $close = trim(strtolower($line));
-
-                                                if ($close == '-save')
+                                                self::out("\nAdd a note to version {$obj->set}, type ".$ass->ansii('bold')."-save".$ass->ansii('reset')." on a newline to save and continue.\n");
+                                                $word = [];
+                                                while ($line = fgets(STDIN))
                                                 {
-                                                    if (count($word) > 0)
+                                                    $close = trim(strtolower($line));
+
+                                                    if ($close == '-save')
                                                     {
-                                                        foreach ($word as $i => $ln)
+                                                        if (count($word) > 0)
                                                         {
-                                                            $word[$i] = trim($ln);
-                                                        }
-
-                                                        $word = implode("\n", $word);
-                                                        $word = str_replace('-save', '', $word);
-                                                        foreach ($paths as $i => $pa)
-                                                        {
-                                                            if (is_dir($pa))
+                                                            foreach ($word as $i => $ln)
                                                             {
-                                                                $notepath = $pa . '/release-note.md';
-                                                                $date = "[".date('Y-m-d g:i:s a')."]\n";
-                                                                $newword = $date . trim($word) . "\n";
-                                                                $fo = fopen($notepath, 'a+');
-                                                                fwrite($fo, $newword);
-                                                                fclose($fo);
+                                                                $word[$i] = trim($ln);
                                                             }
+
+                                                            $word = implode("\n", $word);
+                                                            $word = str_replace('-save', '', $word);
+                                                            foreach ($paths as $i => $pa)
+                                                            {
+                                                                if (is_dir($pa))
+                                                                {
+                                                                    $notepath = $pa . '/release-note.md';
+                                                                    $date = "[".date('Y-m-d g:i:s a')."]\n";
+                                                                    $newword = $date . trim($word) . "\n";
+                                                                    $fo = fopen($notepath, 'a+');
+                                                                    fwrite($fo, $newword);
+                                                                    fclose($fo);
+                                                                }
+                                                            }
+
                                                         }
-                                                        
+                                                        break;
                                                     }
-                                                    break;
+                                                    else
+                                                    {
+                                                        $word[] = $line;
+                                                    }
                                                 }
-                                                else
-                                                {
-                                                    $word[] = $line;
-                                                }
-                                            }
-                                            self::out(PHP_EOL);
-                                            break;
+                                                self::out(PHP_EOL);
+                                                break;
                                         }
                                     }
                                 }
@@ -7743,34 +7859,34 @@ class Assist
                                 switch(strtolower($opt))
                                 {
                                     case '-note':
-                                    self::out("\nAdd a note to rollback, type ".$ass->ansii('bold')."-save".$ass->ansii('reset')." on a newline to save and continue.\n");
-                                    $word = [];
-                                    while ($line = fgets(STDIN))
-                                    {
-                                        $close = trim(strtolower($line));
+                                        self::out("\nAdd a note to rollback, type ".$ass->ansii('bold')."-save".$ass->ansii('reset')." on a newline to save and continue.\n");
+                                        $word = [];
+                                        while ($line = fgets(STDIN))
+                                        {
+                                            $close = trim(strtolower($line));
 
-                                        if ($close == '-save')
-                                        {
-                                            if (count($word) > 0)
+                                            if ($close == '-save')
                                             {
-                                                foreach ($word as $i => $ln)
+                                                if (count($word) > 0)
                                                 {
-                                                    $word[$i] = trim($ln);
+                                                    foreach ($word as $i => $ln)
+                                                    {
+                                                        $word[$i] = trim($ln);
+                                                    }
+                                                    $word = implode("\n", $word);
+                                                    $word = str_replace('-save', '', $word);
+
+                                                    $note = trim($word) . "\n";
                                                 }
-                                                $word = implode("\n", $word);
-                                                $word = str_replace('-save', '', $word);
-                                                
-                                                $note = trim($word) . "\n";
+                                                break;
                                             }
-                                            break;
+                                            else
+                                            {
+                                                $word[] = $line;
+                                            }
                                         }
-                                        else
-                                        {
-                                            $word[] = $line;
-                                        }
-                                    }
-                                    self::out(PHP_EOL);
-                                    break;
+                                        self::out(PHP_EOL);
+                                        break;
                                 }
                             }
                         }
@@ -7816,7 +7932,7 @@ class Assist
                         }
                     }
 
-                break;
+                    break;
 
                 case 'set':
                     $replace = isset($arg[3]) ? $arg[3] : null;
@@ -7849,18 +7965,18 @@ class Assist
                                 case '-dev':
                                 case '-development':
                                     $_dev = true;
-                                break;
+                                    break;
 
                                 case '-live':
                                 case '-prod':
                                 case '-production':
                                     $_prod = true;
                                     $_dev = false;
-                                break;
+                                    break;
 
                                 case '-remote':
                                     $remote = true;
-                                break;
+                                    break;
                             }
                         }
                     }
@@ -7877,7 +7993,7 @@ class Assist
                             {
                                 @rename($rename, $with);
 
-                                // try update config.xml 
+                                // try update config.xml
                                 $xml = simplexml_load_file(self::$assistPath . 'config.xml');
                                 $prod = (array) $xml->versioning->production;
                                 $prod = $prod[0];
@@ -7895,7 +8011,7 @@ class Assist
                                     $xml->versioning->production = $replace;
                                     $prod = $replace;
                                 }
-                                
+
                                 if ($dev == $action && $_dev === true)
                                 {
                                     $xml->versioning->development = $replace;
@@ -7931,39 +8047,39 @@ class Assist
                                         switch(strtolower($opt))
                                         {
                                             case '-note':
-                                            self::out("\nAdd a note to version {$to}, type ".$ass->ansii('bold')."-save".$ass->ansii('reset')." on a newline to save and continue.\n");
-                                            $word = [];
-                                            while ($line = fgets(STDIN))
-                                            {
-                                                $close = trim(strtolower($line));
-
-                                                if ($close == '-save')
+                                                self::out("\nAdd a note to version {$to}, type ".$ass->ansii('bold')."-save".$ass->ansii('reset')." on a newline to save and continue.\n");
+                                                $word = [];
+                                                while ($line = fgets(STDIN))
                                                 {
-                                                    if (count($word) > 0)
+                                                    $close = trim(strtolower($line));
+
+                                                    if ($close == '-save')
                                                     {
-                                                        foreach ($word as $i => $ln)
+                                                        if (count($word) > 0)
                                                         {
-                                                            $word[$i] = trim($ln);
-                                                        }
+                                                            foreach ($word as $i => $ln)
+                                                            {
+                                                                $word[$i] = trim($ln);
+                                                            }
 
-                                                        $word = implode("\n", $word);
-                                                        $word = str_replace('-save', '', $word);
-                                                        $notepath = $with . '/release-note.md';
-                                                        $date = "[".date('Y-m-d g:i:s a')."]\n";
-                                                        $newword = $date . trim($word) . "\n";
-                                                        $fo = fopen($notepath, 'a+');
-                                                        fwrite($fo, $newword);
-                                                        fclose($fo);
+                                                            $word = implode("\n", $word);
+                                                            $word = str_replace('-save', '', $word);
+                                                            $notepath = $with . '/release-note.md';
+                                                            $date = "[".date('Y-m-d g:i:s a')."]\n";
+                                                            $newword = $date . trim($word) . "\n";
+                                                            $fo = fopen($notepath, 'a+');
+                                                            fwrite($fo, $newword);
+                                                            fclose($fo);
+                                                        }
+                                                        break;
                                                     }
-                                                    break;
+                                                    else
+                                                    {
+                                                        $word[] = $line;
+                                                    }
                                                 }
-                                                else
-                                                {
-                                                    $word[] = $line;
-                                                }
-                                            }
-                                            self::out(PHP_EOL);
-                                            break;
+                                                self::out(PHP_EOL);
+                                                break;
                                         }
                                     }
                                 }
@@ -8001,37 +8117,37 @@ class Assist
                                 switch(strtolower($opt))
                                 {
                                     case '-note':
-                                    self::out("\nAdd a note to version {$to}, type ".$ass->ansii('bold')."-save".$ass->ansii('reset')." on a newline to save and continue.\n");
-                                    $word = [];
-                                    while ($line = fgets(STDIN))
-                                    {
-                                        $close = trim(strtolower($line));
-
-                                        if ($close == '-save')
+                                        self::out("\nAdd a note to version {$to}, type ".$ass->ansii('bold')."-save".$ass->ansii('reset')." on a newline to save and continue.\n");
+                                        $word = [];
+                                        while ($line = fgets(STDIN))
                                         {
-                                            if (count($word) > 0)
+                                            $close = trim(strtolower($line));
+
+                                            if ($close == '-save')
                                             {
-                                                foreach ($word as $i => $ln)
+                                                if (count($word) > 0)
                                                 {
-                                                    $word[$i] = trim($ln);
-                                                }
+                                                    foreach ($word as $i => $ln)
+                                                    {
+                                                        $word[$i] = trim($ln);
+                                                    }
 
-                                                $word = implode("\n", $word);
-                                                $word = str_replace('-save', '', $word);
-                                                $notepath = $with . '/release-note.md';
-                                                $date = "[".date('Y-m-d g:i:s a')."]\n";
-                                                $note = $date . trim($word) . "\n";
-                                                
+                                                    $word = implode("\n", $word);
+                                                    $word = str_replace('-save', '', $word);
+                                                    $notepath = $with . '/release-note.md';
+                                                    $date = "[".date('Y-m-d g:i:s a')."]\n";
+                                                    $note = $date . trim($word) . "\n";
+
+                                                }
+                                                break;
                                             }
-                                            break;
+                                            else
+                                            {
+                                                $word[] = $line;
+                                            }
                                         }
-                                        else
-                                        {
-                                            $word[] = $line;
-                                        }
-                                    }
-                                    self::out(PHP_EOL);
-                                    break;
+                                        self::out(PHP_EOL);
+                                        break;
                                 }
                             }
                         }
@@ -8050,14 +8166,14 @@ class Assist
                         }
 
                         $template = decryptAssist('czo0MDI6IjsiczozODQ6IlJ2U2xDSlFrTkJsU1hnYjNYbVgxMEtWYWE0MmdUTGhvTHMwNUFqZkJFQVNwdnVNcFlvM3V2bDR3S25lZmlpeElHQi91em1QWHlESWY0K1BtK0RUUTRORDNlb0R4VUpFZURuV1hNVDNRaTdYbCt1eGlBbTdycndqZjJoOVFVOG1oMnpyUkhPYytiZkg1ZmhCRlVDZmdNdkg1WjExRVUrbzBUSmNReFZxaThZODkwY25GV0p2KzhMUkllSFhERWY1NjVBQ0YwdlJyVk02bDVQaWtlU21Wd1pORmUxVVc0L2pCWkpOSUc2bDdrOUFWZDRheHhyZ3FFY2MrOUhwUzZHZU1PUUpKaXZkaTYvRXlndXo1aDBLZ3FySDNFVmlVQ3F6OEk2MEFRcnJnME1BYzFRc3hlZG1HZ1NIZGNxb0NTVmxzb2JkYjZEK01GSk9wUzlHanVQZVpLQ3B2WDY3VS91RnhDWjQ5WDdleU4zSEExaHEzYm01NEYzTHRLd3QvbFVFdSI7IjozOTM6cyI7');
-                        
+
                         // publish
                         $url .= '?username='.$username.'&password='.$password.'&vcsmethod=set&sharedKey='.$sharedKey.'&mode=production&version='.$action.'&replace='.$replace.'&note='.$note;
 
                         $client = new \GuzzleHttp\Client();
                         $send = $client->request('POST', $url, [
                             'form_params' => [
-                               'template' => $template
+                                'template' => $template
                             ] ]);
                         $body = $send->getBody()->getContents();
 
@@ -8079,7 +8195,7 @@ class Assist
                             self::out($ass->ansii('red')."Operation canceled. An error occured.");
                         }
                     }
-                break;
+                    break;
 
                 case 'pull':
                     $remote = false;
@@ -8142,7 +8258,7 @@ class Assist
 
                                 foreach ($dirs as $y => $f)
                                 {
-                                    $dr = getAllFiles($f);                                
+                                    $dr = getAllFiles($f);
                                     $single = reduce_array($dr);
 
                                     if (count($single) > 0)
@@ -8196,14 +8312,14 @@ class Assist
                             // push
                             $id = uniqid();
                             $url .= '?username='.$username.'&password='.$password.'&vcsmethod=pull&sharedKey='.$sharedKey.'&version='.$action.'&id='.$id;
-                            
+
                             $client = new \GuzzleHttp\Client();
                             $send = $client->request('GET', $url . '&verify=true');
                             $body = $send->getBody()->getContents();
 
                             $data = json_decode($body);
-                
-                            
+
+
                             if (is_object($data))
                             {
                                 if (isset($data->success))
@@ -8262,7 +8378,7 @@ class Assist
                             {
                                 self::out($ass->ansii('red')."Operation canceled. An error occured.");
                             }
-                            
+
                         }
                         else
                         {
@@ -8270,7 +8386,7 @@ class Assist
                         }
                     }
 
-                break;
+                    break;
 
                 case 'peek':
                     $remote = false;
@@ -8347,13 +8463,13 @@ class Assist
                         {
                             // peek
                             $url .= '?username='.$username.'&password='.$password.'&vcsmethod=peek&sharedKey='.$sharedKey;
-                            
+
                             $client = new \GuzzleHttp\Client();
                             $send = $client->request('GET', $url);
                             $body = $send->getBody()->getContents();
 
                             $data = json_decode($body);
-                            
+
                             if (is_object($data))
                             {
                                 if (isset($data->success))
@@ -8363,7 +8479,7 @@ class Assist
                                     self::out('Development: '.$ass->ansii('green').'v'.$data->dev);
 
                                     $dir = $data->dir;
-                                    
+
                                     self::out("\n");
 
                                     $tbl = new Console_Table();
@@ -8389,14 +8505,14 @@ class Assist
                             {
                                 self::out($ass->ansii('red')."Operation canceled. An error occured.");
                             }
-                            
+
                         }
                         else
                         {
                             self::out($ass->ansii('red')."Operation canceled. Failed to establish connection with remote server. URL was null");
                         }
                     }
-                break;
+                    break;
             }
 
             self::out(PHP_EOL);
@@ -8444,11 +8560,11 @@ class Assist
 
                         $allfiles[] = $f;
                     }
-                    
+
                     elseif (is_dir($f) && basename($f) != 'backup' && !$this->exclude($f) && strpos($f, '.git') === false)
                     {
                         $dr = getAllFiles($f);
-                        
+
                         $single = reduce_array($dr);
 
                         if (count($single) > 0)
@@ -8482,7 +8598,7 @@ class Assist
                                 $allfiles[] = $d;
                             }
                         }
-                        
+
                     }
                 }
             }
@@ -8490,7 +8606,7 @@ class Assist
         elseif (is_file($dir) && !$this->exclude($dir) && strpos($dir, '.git') === false)
         {
             $zipfiles[] = $dir;
-            $log[$dir] = filemtime($dir);   
+            $log[$dir] = filemtime($dir);
             $allfiles[] = $dir;
         }
     }
@@ -8533,7 +8649,7 @@ class Assist
                 $this->getDeployZipFile($zipfiles, $haslognew, $log, $allfiles, $dir);
 
                 $allfiles = array_flip($allfiles);
-                
+
                 foreach ($log as $f => $mt)
                 {
                     if (!isset($allfiles[$f]))
@@ -8631,7 +8747,7 @@ class Assist
 
                     $package = new DeployProject();
                     $url = $package->remote_address;
-                    
+
                     if (strlen($url) < 4)
                     {
                         $settings = new Moorexa\UrlConfig();
@@ -8639,7 +8755,7 @@ class Assist
                     }
 
                     $hash = md5($url);
-            
+
                     $zipfile = self::getFullPath(PATH_TO_STORAGE . 'Tmp/Deploy'.time().'.zip');
 
                     $logfile = self::getFullPath(PATH_TO_STORAGE . 'Logs/Deploy/deploylog'.$hash.'.json');
@@ -8670,7 +8786,7 @@ class Assist
                                     $val = ltrim($val, '-');
                                     // ensure directory exists
                                     $dir = self::$assistPath . $val;
-                                
+
                                     if (is_dir($dir))
                                     {
                                         // save zip file.
@@ -8711,7 +8827,7 @@ class Assist
 
                                         // ensure directory or file exists
                                         $dir = self::$assistPath . $dr;
-                                    
+
                                         if (is_dir($dir) || file_exists($dir))
                                         {
                                             // save zip file.
@@ -8722,7 +8838,7 @@ class Assist
                             }
                         }
                     }
-                    
+
                     if (!file_exists($zipfile))
                     {
                         $ass->saveZipFile($zip, $zipfile, $logfile, $haslognew, $log, $other, $allfiles);
@@ -8733,7 +8849,7 @@ class Assist
                     if (file_exists($zipfile))
                     {
                         self::out($ass->ansii('green')."[POST]"." Autheticating with Remote Server\n");
-                        
+
                         if (filter_var($url, FILTER_VALIDATE_URL))
                         {
                             $url = rtrim($url, 'deploy.php');
@@ -8769,7 +8885,7 @@ class Assist
 
                             $post = array (
                                 $package->uploadName => $cfile
-                            );    
+                            );
 
                             $parse = parse_url($url);
                             $host = $parse['host'];
@@ -8780,17 +8896,17 @@ class Assist
                             curl_setopt($ch, CURLOPT_URL, $url);
                             curl_setopt($ch, CURLOPT_POST, 1);
                             curl_setopt($ch, CURLOPT_HEADER, 0);
-                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
-                            curl_setopt($ch, CURLOPT_USERAGENT, $agent);   
+                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                            curl_setopt($ch, CURLOPT_USERAGENT, $agent);
                             curl_setopt($ch, CURLOPT_HTTPHEADER,array('Content-Type: multipart/form-data',
-                            "{$package->requestHeader}: {$package->requestID}",
-                            'Accept: text/html,'.$mime.',application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-                            'Accept-Language: en-US,en;q=0.5',
-                            'Cache-Control: max-age=0',
-                            'Connection: keep-alive',
-                            'Host: '.$host,
-                            'Upgrade-Insecure-Requests: 1',
-                            'User-Agent: '.$agent));   
+                                "{$package->requestHeader}: {$package->requestID}",
+                                'Accept: text/html,'.$mime.',application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                                'Accept-Language: en-US,en;q=0.5',
+                                'Cache-Control: max-age=0',
+                                'Connection: keep-alive',
+                                'Host: '.$host,
+                                'Upgrade-Insecure-Requests: 1',
+                                'User-Agent: '.$agent));
                             curl_setopt($ch, CURLOPT_TIMEOUT, 86400);
                             curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
 
@@ -8798,13 +8914,13 @@ class Assist
                             $filesize = convertToReadableSize($size);
 
                             self::sleep($ass->ansii('green')."[POST]".$ass->ansii('reset')." Uploading ($filesize)..\n");
-                            $run = curl_exec($ch); 
+                            $run = curl_exec($ch);
 
                             if (curl_errno($ch)) {
 
                                 $msg = curl_error($ch);
                             }
-                            
+
                             // delete zip file
                             unlink($zipfile);
 
@@ -8858,7 +8974,7 @@ class Assist
                         }
                     }
 
-                break;
+                    break;
 
                 case 'rollback':
                     // validate address
@@ -8883,21 +8999,21 @@ class Assist
                         curl_setopt($ch, CURLOPT_URL, $url);
                         curl_setopt($ch, CURLOPT_POST, 1);
                         curl_setopt($ch, CURLOPT_HEADER, 0);
-                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
-                        curl_setopt($ch, CURLOPT_USERAGENT, $agent);   
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                        curl_setopt($ch, CURLOPT_USERAGENT, $agent);
                         curl_setopt($ch, CURLOPT_HTTPHEADER,array(
-                        "{$deploy->requestHeader}: {$deploy->requestID}",
-                        'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-                        'Accept-Language: en-US,en;q=0.5',
-                        'Cache-Control: max-age=0',
-                        'Connection: keep-alive',
-                        'Host: '.$host,
-                        'Upgrade-Insecure-Requests: 1',
-                        'User-Agent: '.$agent));   
+                            "{$deploy->requestHeader}: {$deploy->requestID}",
+                            'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                            'Accept-Language: en-US,en;q=0.5',
+                            'Cache-Control: max-age=0',
+                            'Connection: keep-alive',
+                            'Host: '.$host,
+                            'Upgrade-Insecure-Requests: 1',
+                            'User-Agent: '.$agent));
                         curl_setopt($ch, CURLOPT_TIMEOUT, 86400);
                         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post));
 
-                        $run = curl_exec($ch); 
+                        $run = curl_exec($ch);
 
                         if (curl_errno($ch))
                         {
@@ -8927,7 +9043,7 @@ class Assist
                     {
                         self::out($ass->ansii('red').'Invalid Remote Address ('.$address.')');
                     }
-                break;
+                    break;
             }
         }
         else
@@ -9017,7 +9133,7 @@ class Assist
         }
 
         $migration = self::getFullPath(PATH_TO_LAB . "Sql/".ucfirst($struct->driver)."/".$struct->databaseSource.'.sql');
-        
+
         foreach($tables as $i => $table)
         {
             if ($table == '__structure')
@@ -9051,7 +9167,7 @@ class Assist
                 $struct->queryInfo = [];
                 $struct->sqlString = "";
                 $struct->sqljob = [];
-                
+
                 $ref = new ReflectionMethod($dbms, $table);
 
                 if ($ref->isPublic())
@@ -9081,11 +9197,11 @@ class Assist
                 {
                     $notpublic[] = $table;
                 }
-                
+
                 $ref = null;
             }
 
-                     
+
             $now = 0;
 
             $sql = $struct->sqlString;
@@ -9179,13 +9295,13 @@ class Assist
                                         preg_match("/\w{1}/", $declaration, $char);
                                         $char = strpos($declaration, $char[0]);
                                         $space = substr($declaration, 0, $char);
-                                        
+
                                         // new declaration
                                         $newdec = $space . 'private function '. $table . substr($block, $startbrace);
 
                                         $content = file_get_contents($path);
                                         $content = str_replace($block, $newdec, $content);
-                                        
+
                                         file_put_contents($path, $content);
 
                                         $content = null;
@@ -9228,13 +9344,13 @@ class Assist
                                         preg_match("/\w{1}/", $declaration, $char);
                                         $char = strpos($declaration, $char[0]);
                                         $space = substr($declaration, 0, $char);
-                                        
+
                                         // new declaration
                                         $newdec = $space . 'public function '. $newTable . substr($block, $startbrace);
 
                                         $content = file_get_contents($path);
                                         $content = str_replace($block, $newdec, $content);
-                                        
+
                                         file_put_contents($path, $content);
 
                                         $content = null;
@@ -9249,7 +9365,7 @@ class Assist
                         catch(Exception $e)
                         {
                             // roll back
-                            
+
                             $content = trim(file_get_contents($migration));
                             $ending = strrpos($content, $sql . ";");
 
@@ -9279,7 +9395,7 @@ class Assist
 
             if ($now > 0 || $rows > 0 || \Moorexa\DB::$transactionCode == 200)
             {
-                if ($total > $now) 
+                if ($total > $now)
                 {
                     $now = $total;
                 }
@@ -9312,7 +9428,7 @@ class Assist
 
                 usleep(100000);
             }
-            
+
         }
     }
 
@@ -9330,11 +9446,11 @@ class Assist
     public static function cache($arg)
     {
         $ass = new Assist();
-        
+
         $command = isset($arg[0]) ? $arg[0] : null;
         $dir = isset($arg[1]) ? $arg[1] : null;
 
-        self::out($ass->ansii('bold')."\nCache $dir\n"); 
+        self::out($ass->ansii('bold')."\nCache $dir\n");
 
         if (!is_null($dir))
         {
@@ -9346,8 +9462,8 @@ class Assist
             case 'clean':
                 $files = getAllFiles(self::getFullPath(PATH_TO_STORAGE . 'Caches/'. $dir));
                 $reduce = reduce_array($files);
-                
-                
+
+
                 foreach ($reduce as $index => $path)
                 {
                     $extension = extension($path);
@@ -9364,7 +9480,7 @@ class Assist
                 }
 
                 self::out("Cache system cleared".$ass->ansii('green'). " successfully");
-            break;
+                break;
 
             default:
                 self::out($ass->ansii('red')."Invalid Cache command '$command'. Please try cache clear");
@@ -9412,16 +9528,16 @@ class Assist
 
             if ($ass->iswin())
             {
-                return pclose(popen( "start /B ". $cmd, "w")); 
+                return pclose(popen( "start /B ". $cmd, "w"));
             }
             else
             {
-                return shell_exec($cmd . " > /dev/null &"); 
+                return shell_exec($cmd . " > /dev/null &");
             }
         }
-       
+
         bgExec("php -S localhost:{$port} -c php.ini");
-        
+
         if (!$notab)
         {
             self::sleep("Opening ".$ass->ansii('green')."http://localhost:{$port}".$ass->ansii('reset')." on your browser..");
@@ -9430,9 +9546,9 @@ class Assist
         {
             self::sleep($ass->ansii('green')."http://localhost:{$port}".$ass->ansii('reset')." Serving on your browser..");
         }
-   
-       if (!$notab)
-       {
+
+        if (!$notab)
+        {
             if (!$ass->iswin())
             {
                 bgExec("open http://localhost:{$port}");
@@ -9441,11 +9557,11 @@ class Assist
             {
                 bgExec("start http://localhost:{$port}");
             }
-       }
+        }
 
-       self::out(PHP_EOL);
+        self::out(PHP_EOL);
 
-       $reached = false;
+        $reached = false;
 
         while($command = trim(fgets(STDIN)))
         {
@@ -9466,13 +9582,13 @@ class Assist
                     self::out($ass->ansii('green')."Server closed successfully...\n");
                     $reached = true;
                     return 0;
-                break;
+                    break;
 
                 default:
                     fwrite(STDOUT, "> ");
             }
         }
-        
+
         self::out(PHP_EOL);
 
         if ($reached === false)
@@ -9502,7 +9618,7 @@ class Assist
 
         self::out($ass->ansii('green')."Moorexa v0.0.1,".$ass->ansii('reset')." Release Date: ".date('F jS Y'));
         self::out($ass->ansii('green')."Assist Manager v{$version},".$ass->ansii('reset')." Release Date: ".date('F jS Y'));
-        
+
         $config = simplexml_load_file('config.xml');
         self::out($ass->ansii('green')."Production v".$config->versioning->production);
         self::out($ass->ansii('green')."Development v".$config->versioning->development);
@@ -9544,7 +9660,7 @@ class Assist
 
         foreach ($dirs as $y => $f)
         {
-            $dr = getAllFiles($f);                                
+            $dr = getAllFiles($f);
             $single = reduce_array($dr);
 
             if (count($single) > 0)
@@ -9571,7 +9687,7 @@ class Assist
 
                             if (preg_match('/[\/][\*]{2}([\s\S]*?)(\@package)/i', $content, $match))
                             {
-                                
+
                                 $data = $match[0];
                                 $begin = strstr($content, $data);
                                 $begin = substr($begin, strlen($data), 100);
@@ -9606,7 +9722,7 @@ class Assist
                                 $author  = !is_null($author) ? ' Author: '.$author : '';
 
                                 self::out($ass->ansii('green')."{$package}{$version},".$ass->ansii('reset').$author);
-                                
+
                             }
 
                             $content = null;
@@ -9615,7 +9731,7 @@ class Assist
                 }
             }
         }
-        
+
         $flatten = null;
         $path = null;
         $files = null;
@@ -9662,8 +9778,8 @@ class Assist
                             $xml = preg_replace("/(<controller>)([^<]+)(<\/controller>)/", $replace, $xml);
                             file_put_contents(self::getFullPath(PATH_TO_CONFIG . 'config.xml'), $xml);
                             self::out("\n'$page' set to default controller ".$ass->ansii('green')."successfully!".PHP_EOL);
-                        break;
-                    }   
+                            break;
+                    }
                 }
             }
 
@@ -9750,7 +9866,7 @@ class Assist
                     {
                         self::out($ass->ansii('red')."\nmain file not found in '$main'. Operation failed". PHP_EOL);
                     }
-                break;
+                    break;
             }
         }
         else
@@ -9820,7 +9936,7 @@ class Assist
 
         foreach ($dirs as $y => $f)
         {
-            $dr = getAllFiles($f);                                
+            $dr = getAllFiles($f);
             $single = reduce_array($dr);
 
             if (count($single) > 0)
@@ -9847,7 +9963,7 @@ class Assist
 
                             if (preg_match('/[\/][\*]{2}([\s\S]*?)(\@package)/i', $content, $match))
                             {
-                                
+
                                 $data = $match[0];
                                 $begin = strstr($content, $data);
                                 $begin = substr($begin, strlen($data), 100);
@@ -9873,7 +9989,7 @@ class Assist
 
                                     self::out($ass->ansii('green')."{$package},".$ass->ansii('reset').$author);
                                 }
-                                
+
                             }
 
                             $content = null;
@@ -9909,7 +10025,7 @@ class Assist
             foreach ($other as $i => $option)
             {
                 $others = array_splice($arg, $i);
-                
+
                 if (substr($option, 0,1) == '-')
                 {
                     foreach($others as $x => $v)
@@ -9963,7 +10079,7 @@ class Assist
                     }
 
                     file_put_contents(self::getFullPath(PATH_TO_CONFIG . 'config.xml'), $xv->saveXML());
-                    
+
                 }
                 else
                 {
@@ -9972,7 +10088,7 @@ class Assist
                         case 'reset':
                             fwrite(STDOUT, "Are you sure you want to reset config.xml (y/n) ? ");
                             $ans = strtolower(trim(fgets(STDIN)));
-                            
+
                             if ($ans == 'y')
                             {
                                 $dec = decryptAssist($config);
@@ -9983,10 +10099,10 @@ class Assist
                             {
                                 self::out($ass->ansii('red')."\nOperation canceled.");
                             }
-                        break;
+                            break;
                     }
                 }
-                
+
             }
 
             self::out("'config.xml' updated ".$ass->ansii('green')."successfully\n");
@@ -10047,7 +10163,7 @@ class Assist
                     {
                         $path = $match[0];
 
-                        // check if path 
+                        // check if path
                         $checkPath = self::$assistPath . PATH_TO_CSS . $path;
 
                         // file exists
@@ -10122,9 +10238,9 @@ class Assist
 
             // SHRIKE CSS
             $shrinked = $app->minifycss(file_get_contents($cssbundle), false, false);
-            // put 
-            file_put_contents($cssbundle, $shrinked); 
-            
+            // put
+            file_put_contents($cssbundle, $shrinked);
+
             self::out($ass->ansii('green')."\nCSS Optimized Successfully.");
         }
 
@@ -10140,9 +10256,9 @@ class Assist
 
             // SHRIKE JS
             $shrinked = $app->minifyjs(file_get_contents($jsbundle), true, true);
-            // put 
-            file_put_contents($jsbundle, $shrinked); 
-            
+            // put
+            file_put_contents($jsbundle, $shrinked);
+
             self::out($ass->ansii('green')."JS Optimized Successfully.");
         }
 
@@ -10213,7 +10329,7 @@ class Assist
                 $watch = json_decode(trim(file_get_contents($watchman)));
                 // convert to an array
                 $watch = toArray($watch);
-                
+
                 foreach ($dirs as $i => $dr)
                 {
                     if ($dr != '.' && $dr != '..')
@@ -10258,15 +10374,15 @@ class Assist
                                                 {
                                                     // block comment
                                                     $line = preg_replace('/^(\/\*){1}|(\*\/)$/', "\n", $line);
-                                           
+
                                                     $line = preg_replace("/([\s]+)[\*]\s*/", "\n", $line);
                                                     $line = preg_replace("/^([*]([^\s\S]*?)[\n])/", '', $line);
-                                                    
+
                                                     $content .= $line;
                                                 }
                                             }
 
-                                            
+
                                             // get doc-start
                                             $sidebarName = $doc[2];
                                             // get function declaration
@@ -10290,19 +10406,19 @@ class Assist
                                             {
                                                 case 'get':
                                                     $a_x = '<span class="label label-big label-success"> GET / '.$req.' </span>';
-                                                break;
+                                                    break;
 
                                                 case 'post':
                                                     $a_x = '<span class="label label-big label-primary"> POST / '.$req.' </span>';
-                                                break;
+                                                    break;
 
                                                 case 'put':
                                                     $a_x = '<span class="label label-big label-warning"> PUT / '.$req.' </span>';
-                                                break;
+                                                    break;
 
                                                 case 'delete':
                                                     $a_x = '<span class="label label-big label-danger"> DELETE / '.$req.' </span>';
-                                                break;
+                                                    break;
                                             }
 
                                             $content = $a_x . "\n" . $content;
@@ -10356,7 +10472,7 @@ class Assist
                         }
                     }
                 }
-            break;
+                break;
         }
 
     }
@@ -10426,7 +10542,7 @@ class Assist
                                                 // remove base
                                                 $basename = basename($filepath);
                                                 $cpath = rtrim($filepath, $basename);
-                                            
+
                                                 $cpath = substr($cpath, strlen($gdir)+1);
 
                                                 if (!is_dir($cpath))
@@ -10447,7 +10563,7 @@ class Assist
                                         {
                                             $basename = basename($da);
                                             $cpath = rtrim($da, $basename);
-                                            
+
                                             $cpath = substr($cpath, strlen($gdir)+1);
 
                                             copy($da, $cpath . $basename);
@@ -10482,13 +10598,13 @@ class Assist
                     self::out($ass->ansii('green'). $base .' installed successfully.');
                     unlink($path);
                 }
-            break;
+                break;
 
             // update
             case 'update':
                 self::sleep("Checking for system update..");
 
-            break;
+                break;
         }
 
         self::out("\n");
@@ -10562,7 +10678,7 @@ if (substr(php_sapi_name(), 0, 3) == 'cli' || defined('ASSIST_TOKEN'))
 
         // moorexa key
         $secret_iv = 'c0033768e0b8968fc58b50cdca6852c46e4eda39f9153643726b3a120cfb7b09';
-        
+
         // get key
         $key = hash('sha256', $key);
 
@@ -10601,7 +10717,7 @@ if (substr(php_sapi_name(), 0, 3) == 'cli' || defined('ASSIST_TOKEN'))
     {
         // secret key
         $key = 'Your encryption secret key';
-        
+
         // encryption method
         $method = "AES-256-CBC";
 
@@ -10610,7 +10726,7 @@ if (substr(php_sapi_name(), 0, 3) == 'cli' || defined('ASSIST_TOKEN'))
 
         // moorexa key
         $secret_iv = 'c0033768e0b8968fc58b50cdca6852c46e4eda39f9153643726b3a120cfb7b09';
-        
+
         // get key
         $key = hash('sha256', $key);
 
@@ -10662,13 +10778,13 @@ if (substr(php_sapi_name(), 0, 3) == 'cli' || defined('ASSIST_TOKEN'))
         {
             case '-h':
             case '-help':
-            $method = 'help';
-            break;
+                $method = 'help';
+                break;
 
             case '-v':
             case '-version':
-            $method = 'version';
-            break;
+                $method = 'version';
+                break;
         }
 
         // Assist manager for packages
@@ -10726,7 +10842,7 @@ if (substr(php_sapi_name(), 0, 3) == 'cli' || defined('ASSIST_TOKEN'))
                                             $commands = $ref->getStaticPropertyValue('commands');
                                             if (count($commands) > 0)
                                             {
-                                                Assist::$commands = $commands;   
+                                                Assist::$commands = $commands;
                                             }
                                         }
                                         else
@@ -10803,7 +10919,7 @@ if (substr(php_sapi_name(), 0, 3) == 'cli' || defined('ASSIST_TOKEN'))
                                         $commands = $ref->getStaticPropertyValue('commands');
                                         if (count($commands) > 0)
                                         {
-                                            Assist::$commands = $commands;   
+                                            Assist::$commands = $commands;
                                         }
                                     }
 

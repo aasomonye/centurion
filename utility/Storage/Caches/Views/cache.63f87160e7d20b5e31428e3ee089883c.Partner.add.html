@@ -1,0 +1,113 @@
+<form action="" method="POST" enctype="multipart/form-data">
+	<?=\Moorexa\Rexa::runDirective(true,'csrf')?>
+	<main class="card">
+		<section class="card-header">
+			<h3 class="card-title">Role information</h3>
+		</section>
+	
+		<section class="card-body">
+			<div class="row">
+				<div class="col-12">
+					<div class="post">
+	
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="">Role</label>
+								<?php
+	$abaaffbcfb= <<<EOT
+
+									<FormField name="userrole" icon="fa-door-open">eg. level 1 officer</FormField>
+								
+EOT;
+	echo \Hyphe\Engine::ParseTags($abaaffbcfb, './component/Directives/');
+	?>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="">Account Type</label>
+								<select name="accountid" data-target="get-navigationid" class="form-control" required>
+									<option value="">-- Select an account Type -- </option>
+									<?php
+$subaccounts = $subaccounts;if ($subaccounts->rows > 0){
+$subaccounts->reset();while ($account = $subaccounts->obj())
+{ ?>
+										<option value="<?=$account->accountid?>"><?=ucwords($account->account_name)?></option>
+									<?php }} ?>
+								</select>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						
+
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="">Role Description</label>
+								<?php
+	$cdcffce= <<<EOT
+
+									<FormField name="description" icon="fa-comment" type="textarea">A short description about this role</FormField>
+								
+EOT;
+	echo \Hyphe\Engine::ParseTags($cdcffce, './component/Directives/');
+	?>
+							</div>
+						</div>
+
+						<div class="col-md-12">
+							<label>Role Permission</label>
+							<div class="flex-wrapper">
+							<?php
+$userpermission = \Moorexa\DB::sql('SELECT * FROM '.(\Moorexa\DB::getTableName('userpermission')).' ');if ($userpermission->rows > 0){
+while ($permission = $userpermission->obj())
+{ ?>
+								<label class="flex-section" for="can_<?=$permission->userpermission?>" style="font-weight: normal; display: block;">
+									<input type="checkbox" id="can_<?=$permission->userpermission?>" name="can_<?=$permission->userpermission?>" checked/>
+									<span><?=ucwords($permission->userpermission)?></span>
+								</label>
+							<?php }} ?>
+							</div>
+						</div>
+					</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<main class="card">
+		<section class="card-header">
+			<h3 class="card-title">Allowed areas</h3>
+		</section>
+
+		<section class="card-body" data-target="navigation-body">
+			
+		</section>
+	</main>
+
+	<button class="btn btn-success" type="submit">Submit</button>
+</form>
+
+<br>
+<br>
+
+<?php $decode = json_decode((\Moorexa\Bootloader::$currentClass)->navigation);?>
+
+<?php foreach ($decode as $accountid => $account) { ?>
+<section data-target="navigation-<?=$accountid?>" style="display: none;">
+	<?php if(count($account) > 0) { ?>
+	<?php
+if (is_array($account) || is_object($account)){
+$foreachIndex = 0;foreach ($account as $row){
+$foreachIndex++;?>
+<label for="navigation-<?=$row->id?>"  style="font-weight:normal" class="col-md-3">
+		<input type="checkbox" id="navigation-<?=$row->id?>" name="navigation[<?=$row->id?>]" checked/> <span><?=ucwords($row->title)?></span> <br>
+		<small><?=$row->link?></small>
+	</label><?php }
+}?>
+	<?php } ?>
+</section>
+<?php } ?>

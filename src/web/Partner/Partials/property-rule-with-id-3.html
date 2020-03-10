@@ -1,0 +1,9 @@
+{$propertyVal = $this->query->getPropertyListVal($id);}
+{$cancellation_policy = isset($info) ? $info->cancellation_policy : '';}
+
+<div class="post">
+    <label>Please enter your property cancellation policy</label>
+    <hy>
+        <FormField name="cancellation_policy" value="{$cancellation_policy}" type="textarea" icon="fa-comment">{$propertyVal->property_rule}</FormField>
+    </hy>
+</div>

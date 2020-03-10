@@ -1,0 +1,31 @@
+{$propeties = $this->query->getPartnerPropertyListing();}
+<div class="row">
+	<div class="col-md-3 col-sm-6 col-12">
+	  <div class="info-box">
+		<span class="info-box-icon bg-info"><i class="fa fa-door-open"></i></span>
+
+		<div class="info-box-content">
+		  <span class="info-box-text">Properties</span>
+		  <span class="info-box-number">{$propeties->rows}</span>
+		</div>
+		<!-- /.info-box-content -->
+	  </div>
+	  <!-- /.info-box -->
+	</div>
+	<!-- /.col -->
+	<div class="col-md-3 col-sm-6 col-12">
+	  <div class="info-box">
+		<span class="info-box-icon bg-success"><i class="fa fa-car"></i></span>
+
+		<div class="info-box-content">
+		  <span class="info-box-text">Cars</span>
+		  <span class="info-box-number">0</span>
+		</div>
+		<!-- /.info-box-content -->
+	  </div>
+	  <!-- /.info-box -->
+	</div>
+	<!-- /.col -->
+</div>
+
+@partial('properties-listing');

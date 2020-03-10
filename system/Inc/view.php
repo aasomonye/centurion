@@ -818,9 +818,35 @@ class View extends Bootloader
 				$base = basename($viewpath);
 				$dir = rtrim($viewpath, $base);
 
-				if (!is_dir($dir))
+				// start from Views/
+				$start = strpos($dir, 'Views/');
+
+				if ($start !== false)
 				{
-					mkdir($dir);
+					$extractBefore = substr($dir, 0, $start) . 'Views/';
+					$extractAfter = substr($dir, $start + 6);
+					$extractAfter = rtrim($extractAfter, '/');
+					$extractAfterArray = explode('/', $extractAfter);
+					$breadcum = '';
+
+					foreach ($extractAfterArray as $folder)
+					{
+						if ($breadcum == '')
+						{
+							$breadcum .= $folder . '/';
+						}
+						else
+						{
+							$breadcum .= $folder . '/';
+						}
+
+						$dir = $extractBefore . $breadcum;
+						// make directory
+						if (!is_dir($dir))
+						{
+							mkdir($dir);
+						}
+					}
 				}
 
 				if (is_dir($dir))
@@ -1595,7 +1621,7 @@ class View extends Bootloader
 		else
 		{
 			// load options
-			$options = [$filename.'.html', ucfirst($filename). '.html'];
+			$options = [$filename.'.html', ucfirst($filename) . '.html'];
 			$namePath .= '.html';
 		}
 
@@ -1895,7 +1921,17 @@ class View extends Bootloader
 							
 						// current dir
 						$_p = $partialDirectory != null ? $partialDirectory : env('bootstrap', 'controller.basepath') . '/' . $controller . '/Partials/';
-						
+
+						// get basename
+						$nameBaseName = basename($nameCopy);
+
+						// remove base name from @var $nameCopy
+						$nameCopyClean = rtrim($nameCopy, $nameBaseName);
+
+						// check if @var $nameCopyClean is a directoty
+						if (is_dir($nameCopyClean)) { $_p = $nameCopyClean; $nameCopy = $nameBaseName; }
+
+						// is @var $_p a directory ?
 						if (is_dir($_p))
 						{
 							$throw = false;
@@ -2250,9 +2286,11 @@ class View extends Bootloader
 
 						$const = [];
 						Bootloader::$instance->getParameters($handler, $method, $const, $params);
-
-						call_user_func_array([$handler, $method], $const);
 						
+						if (\Guards::allow(implode('@', $data)))
+						{
+							call_user_func_array([$handler, $method], $const);
+						}
 					}
 					else
 					{
@@ -2268,8 +2306,11 @@ class View extends Bootloader
 					Bootloader::$instance->getParameters($class, '__construct', $const, $params);
 
 					$ref = new \ReflectionClass($class);
-										
-					$handler = $ref->newInstanceArgs($const);
+					
+					if (\Guards::allow(implode('@', $data)))
+					{
+						$handler = $ref->newInstanceArgs($const);
+					}
 				}
 
 			}

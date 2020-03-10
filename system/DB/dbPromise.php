@@ -31,6 +31,7 @@ class DBPromise
     private $identity;
     private $fetchClass = null;
     public  $allowSlashes = false;
+    private $usingJoin = false;
 
     // fetch methods..
     private static $fetchMethods = [
@@ -188,6 +189,36 @@ class DBPromise
         }
 
         return false;
+    }
+
+    // pick method
+    public function pick()
+    {
+        // get arguments
+        $arguments = func_get_args();
+
+        // check size of arguments
+        if (count($arguments) > 1)
+        {
+            $array = [];
+
+            // execute request
+            $executeRequest = $this->get();
+
+            foreach ($arguments as $argument)
+            {
+                $array[$argument] = $executeRequest->{$argument};
+            }
+
+            return $array;
+        }
+
+        if (count($arguments) == 1)
+        {
+            return $this->get()->{$arguments[0]};
+        }
+
+        return $this;
     }
 
     private function manageRequestMethod(string $method, string $column, array $arguments)
@@ -487,12 +518,20 @@ class DBPromise
     // from option
     public function from(string $tableName, $identity=null)
     {
-        // create a new db instance
-        $promise = new DBPromise;
+        if ($this->usingJoin === false)
+        {
+            // create a new db instance
+            $promise = new DBPromise;
 
-        $promise->table = DB::getTableName($tableName);
-        $promise->getPacked = $this->getPacked;
-        $promise->bindData = $this->bindData;
+            $promise->table = DB::getTableName($tableName);
+            $promise->getPacked = $this->getPacked;
+            $promise->bindData = $this->bindData;
+        }
+        else
+        {
+            $promise =& $this;
+            $promise->table = DB::getTableName($tableName);
+        }
 
         if ($identity !== null)
         {
@@ -566,45 +605,86 @@ class DBPromise
     }
 
     // run get
-    public function get($gid=null, $where=null)
+    public function get($rowid=null, $where=null)
     {
         // get row
         $row = $this->row();
+        $primary = '';
+        $primaryid = 0;
 
         if ($this->identity == null)
         {
             // get table info
-            $this->getTableInfo($pri);
+            $this->getTableInfo($primary);
         }
         else
         {
-            $pri = $this->identity;
+            $primary = $this->identity;
         }
 
-        if (is_null($row) && is_null($gid))
+        if (is_null($row) && is_null($rowid))
         {
-            if (isset($this->bindData[$pri]))
+            if (isset($this->bindData[$primary]))
             {
-                $gid = intval($this->bindData[$pri]);
+                $primaryid = intval($this->bindData[$primary]);
             }
         }
         elseif (!is_null($row))
         {
-            if (isset($row->{$pri}))
+            if (isset($row->{$primary}))
             {
-                $gid = is_null($gid) ? intval($row->{$pri}) : $gid;
+                $primaryid = $rowid;
+
+                if (is_null($rowid) or !is_int($rowid))
+                {
+                    $primaryid = $row->{$primary};
+                }
             }
         }
 
-        if (is_int($gid))
+        $rowid = is_null($rowid) ? intval($primaryid) : $rowid;
+
+        if (is_int($rowid))
         {
-            return DB::table($this->table)->get($pri . ' = ?', $gid);
+            $executeRequest = DB::table($this->table)->get($primary . ' = ?', $primaryid);
+
+            if ($this->usingJoin !== false)
+            {
+                if ($executeRequest->rows > 0)
+                {
+                    $packed = $executeRequest->getPacked;
+                    $this->usingJoin->getPacked = array_merge($this->usingJoin->getPacked, $packed);
+                }
+
+                $executeRequest = $this->usingJoin;
+            }
+
+            return $executeRequest;
         }
-        elseif (is_string($gid) || is_array($gid))
+        elseif (is_string($rowid) || is_array($rowid))
         {
             $args = func_get_args();
 
-            return call_user_func_array([DB::table($this->table), 'get'], $args)->go();
+            if (isset($args[0]) and is_string($args[0]))
+            {
+                $args[0] .= ' and ' . $primary . ' = ?';
+                array_push($args, $primaryid);
+            }
+
+            $executeRequest = call_user_func_array([DB::table($this->table), 'get'], $args)->go();
+
+            if ($this->usingJoin !== false)
+            {
+                if ($executeRequest->rows > 0)
+                {
+                    $packed = $executeRequest->getPacked;
+                    $this->usingJoin->getPacked = array_merge($this->usingJoin->getPacked, $packed);
+                }
+
+                $executeRequest = $this->usingJoin;
+            }
+
+            return $executeRequest;
         }
 
         return $this;
@@ -885,5 +965,38 @@ class DBPromise
     public function hasRow()
     {
         return call_user_func_array([$this, 'hasRows'], func_get_args());
+    }
+
+    // join method
+    public function join($object = null)
+    {
+        if ($object === null)
+        {
+            // get current instance 
+            $currentInstance =& $this;
+
+            // create a new instance
+            $newInstance = new DBPromise;
+            // set get packed
+            $newInstance->getPacked = $currentInstance->getPacked;
+            $newInstance->bindData = $currentInstance->bindData;
+            $newInstance->pdoInstance = $currentInstance->pdoInstance;
+            $newInstance->usingJoin = $currentInstance;
+        }
+        else
+        {
+            $newInstance = $this;
+
+            if (is_object($object) && get_class($object) == DBPromise::class)
+            {
+                if ($object->rows > 0)
+                {
+                    $packed = $object->getPacked;
+                    $newInstance->getPacked = array_merge($newInstance->getPacked, $packed);
+                }
+            }
+        }
+
+        return $newInstance;
     }
 }

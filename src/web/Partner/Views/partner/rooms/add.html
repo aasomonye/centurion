@@ -1,0 +1,111 @@
+<form action="" method="POST" enctype="multipart/form-data">
+	@csrf;
+	<main class="card">
+		<section class="card-header">
+			<h3 class="card-title">Room information</h3>
+		</section>
+	
+		<section class="card-body">
+			<div class="row">
+				<div class="col-12">
+					<div class="post">
+	
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="">Room Type</label>
+								<hy>
+									<FormField name="room_type" icon="fa-door-open">eg. standard room</FormField>
+								</hy>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="">Sleeps</label>
+								<hy>
+									<FormField name="sleeps" icon="fa-bed">Total bed</FormField>
+								</hy>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="">Room Rate</label>
+								
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text">₦</span>
+									</div>
+									<input type="number" name="room_price" class="form-control" required placeholder="0"/>
+									<div class="input-group-append'">
+										<span class="input-group-text">.00</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="accountNumber">Total Rooms</label>
+								<hy>
+									<FormField name="total_rooms" icon="fa-door-closed">Total Rooms</FormField>
+								</hy>
+							</div>
+						</div>
+
+						<div class="col-md-6">
+							<label>About Room</label>
+							<hy>
+								<FormField name="about_room" type="textarea" icon="fa-comment">Room description</FormField>
+							</hy>
+						</div>
+
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="accountNumber">Room Number</label>
+								<hy>
+									<FormField name="room_number" icon="fa-info">Room Number</FormField>
+								</hy>
+							</div>
+						</div>
+					</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+
+
+	<main class="card">
+		<section class="card-header">
+			<h3 class="card-title">Room Images</h3>
+		</section>
+
+		<section class="card-body">
+			@partial('file-upload-element', ['name' => 'room_images']);
+		</section>
+	</main>
+
+	<main class="card">
+		<section class="card-header card-header-flex">
+			<h3 class="card-title">Room Rules</h3> 
+		</section>
+	
+		<section class="card-body">
+			@partial('room-rules-section');
+		</section>
+	</main>
+
+	<main class="card">
+		<section class="card-header card-header-flex">
+			<h3 class="card-title">Room Facilities</h3>
+		</section>
+	
+		<section class="card-body">
+			@partial('room-facility-section');
+		</section>
+	</main>
+
+	<button class="btn btn-success" type="submit">Submit</button>
+</form>
+
+<br>
+<br>

@@ -1,0 +1,103 @@
+<section class="card">
+    <section class="card-header card-header-flex">
+        <h3 class="card-title">Properties Listed by centurion partners</h3>
+    </section>
+    <section class="card-body">
+        <div class="table-responsive">
+            <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+				  <th>Partner</th>
+				  <th>Location</th>
+                  <th>Property</th>
+				  <th>Property Type</th>
+				  <th>Listing Type</th>
+                  <th>Rooms</th>
+                  <th>Bookings</th>
+				  <th>Status</th>
+				  <th></th>
+                </tr>
+                </thead>
+
+                <tbody>
+					<?php $properties = (\Moorexa\Bootloader::$currentClass)->query->getAllPartnerPropertyListing();?>
+					
+                    <?php
+$properties = $properties;if ($properties->rows > 0){
+$properties->reset();while ($property = $properties->obj())
+{ ?>
+                    <tr>
+						<?php $info = json_decode($property->listing_information);?>
+						<?php $business = $property->from('business_information', 'userid')->get();?>
+						<?php $booking = (\Moorexa\Bootloader::$currentClass)->query->getListBookings($property->listingid);?>
+
+						<?php $status = '';?>
+
+                        <?php 
+ // PHP starts here 
+
+
+                            switch ($property->approved)
+                            {
+                                case 1:
+                                    $status = 'approved';
+                                break;
+                                
+                                case 2:
+                                    $status = 'suspended';
+                                break;
+
+                                case 3:
+                                    $status = 'closed';
+                                break;
+
+                                default:
+                                    $status = 'pending';
+                            }
+
+						
+ // PHP ends here 
+ ?>
+						
+						<td><?=ucwords($business->business_name)?></td>
+						<td><?=$business->contact_address?></td>
+                        <td><a href="<?=action("admin/property/view/$property->listingid")?>" style="text-decoration: underline; color: #28a745;"><?=ucfirst($info->property_name)?></a></td>
+						<td><?=(\Moorexa\Bootloader::$currentClass)->query->getPropertyTypeById($info->property_type)?></td>
+						<td><?=ucfirst($property->listing_type)?></td>
+                        <td><?=count($info->property_room_title)?></td>
+                        <td><?=$booking->rows?></td>
+						<td><span  class="<?=($status == 'approved' ? 'badge badge-success' : ($status == 'suspended' ? 'badge badge-danger' : 'badge badge-warning'))?>"><?=strtoupper($status)?></span></td>
+						<td>
+							<?php
+if($status == 'pending'){?>
+<a  href="?approve=<?=$property->listingid?>" class="badge badge-success btn-flat">APPROVE</a>
+<?php }
+?>
+							<?php
+if($status == 'approved'){?>
+<a  href="<?=action("admin/property/view/$property->listingid")?>" class="badge badge-primary btn-flat">VIEW</a>
+<?php }
+?>
+							<?php
+if($status == 'approved' || $status == 'bookable'){?>
+<a  href="?suspend=<?=$property->listingid?>" class="badge badge-danger btn-flat">SUSPEND</a>
+<?php }
+?>
+							<?php
+if($status == 'suspended'){?>
+<a  href="?bookable=<?=$property->listingid?>" class="badge badge-success btn-flat">BOOKABLE</a>
+<?php }
+?>
+						</td>
+                    </tr>
+					<?php }} ?>
+					
+                </tbody>
+            </table>
+        </div>
+    </section>
+</section>
+
+<script type="text/deffered">
+    $('#example1').DataTable();
+</script>

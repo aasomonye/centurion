@@ -1,0 +1,47 @@
+<div class="row">
+    <div class="col-5 col-sm-3">
+      <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
+        <?php $parent = (\Moorexa\Bootloader::$currentClass)->query->getAllRoomRules(); $index = 0; $parentInfo = [];?>
+
+        <?php
+$parent = $parent;if ($parent->rows > 0){
+$parent->reset();while ($row = $parent->obj())
+{ ?>
+            <?php if($row->parentid == 0) { ?>
+                <a class="nav-link <?=$index == 0 ? 'active' : ''?>" id="vert-tabs-room-<?=$index?>-tab" data-add-index="id" data-toggle="pill" href="#vert-tabs-room-<?=$index?>" role="tab" aria-controls="vert-tabs-room-<?=$index?>" aria-selected="false"><?=ucwords($row->property_rule_title)?></a>
+                <?php $parentInfo[$index] = ['haschild' => (\Moorexa\Bootloader::$currentClass)->query->propertyListHasChild($row->property_ruleid), 'id' => $row->property_ruleid];?>
+                <?php $index++;?>
+            <?php } ?>
+        <?php }} ?>
+
+      </div>
+    </div>
+    <div class="col-7 col-sm-9">
+        <div class="tab-content" id="vert-tabs-tabContent">
+            <?php for ($identity = 0; $identity < $index; $identity++) { ?>
+                <div class="tab-pane text-left fade <?=$identity == 0 ? 'active show' : ''?>" data-add-index="id" id="vert-tabs-room-<?=$identity?>" role="tabpanel" aria-labelledby="vert-tabs-room-<?=$identity?>-tab">
+                    <?php if($parentInfo[$identity]['haschild']) { ?>
+                        <?php $val = (\Moorexa\Bootloader::$currentClass)->query->getPropertyListVal($parentInfo[$identity]['id']);?>
+
+                        <?php $child = (\Moorexa\Bootloader::$currentClass)->query->getPropertyRuleChildren($parentInfo[$identity]['id']);?>
+                        <div class="row">
+                            <?php
+$child = $child;if ($child->rows > 0){
+$child->reset();while ($row = $child->obj())
+{ ?>
+                                <!-- check box -->
+                                <div class="col-md-4">
+                                    <label for="checkbox-x-<?=$row->property_ruleid?>" data-add-index="for" style="font-weight: normal;">
+                                    <input type="checkbox" id="checkbox-x-<?=$row->property_ruleid?>" data-add-index="id" data-add-rowid="true" name="room[property_rule][<?=$val->property_rule_title?>][<?=$row->property_ruleid?>]"/> <span> <?=ucfirst($row->property_rule_title)?></span>
+                                    </label>
+                                </div>
+                            <?php }} ?>
+                        </div>
+                    <?php } else { ?>
+                        <?=\Moorexa\Rexa::runDirective(true,'partial','property-rule-with-id-'.$parentInfo[$identity]['id'], ['id' => $parentInfo[$identity]['id']])?>
+                    <?php } ?>
+                </div>
+            <?php } ?>
+          </div>
+    </div>
+</div>
